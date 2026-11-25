@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>虎頭埤纜車</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: 一條纜車線貫穿全站——首頁捲動即搭乘，四時光線決定主視覺；其餘頁面以大圖與短句帶出「下車之後」 */
+:root{
+  --paper:#f4f5f2; --card:#ffffff; --ink:#0f1d24; --muted:#58686d; --line:#dbe1de; --soft:#e9ece8;
+  --lake:#21637a; --gold:#c08a2c; --forest:#3c6a4b; --brick:#9f4d33; --night:#0b161c;
+  --t1:#9f4d33; --t2:#21637a; --t3:#9a7431; --t4:#3c6a4b;
+  --accent:var(--lake);
+  --f-disp:"Barlow Condensed","Noto Sans TC","Noto Sans JP",system-ui,sans-serif;
+  --f-body:"Noto Sans TC","Noto Sans JP","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0d171c; --card:#132128; --ink:#e6edef; --muted:#9fb0b4; --line:#26363d; --soft:#18272e;
+  --lake:#6cb6cc; --gold:#e3b25a; --forest:#86bf96; --brick:#e28d6c; --night:#060d11;
+  --t1:#e28d6c; --t2:#6cb6cc; --t3:#dcb46a; --t4:#86bf96; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0d171c; --card:#132128; --ink:#e6edef; --muted:#9fb0b4; --line:#26363d; --soft:#18272e;
+  --lake:#6cb6cc; --gold:#e3b25a; --forest:#86bf96; --brick:#e28d6c; --night:#060d11;
+  --t1:#e28d6c; --t2:#6cb6cc; --t3:#dcb46a; --t4:#86bf96; color-scheme:dark}
+html[lang="ja"]{--f-body:"Noto Sans JP","Noto Sans TC",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75}
+h1,h2,h3,h4{margin:0;line-height:1.22;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%;display:block}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px}
+.num{font-family:var(--f-disp);font-variant-numeric:tabular-nums}
+.kicker{font-family:var(--f-disp);font-weight:600;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;white-space:nowrap}
+.brand svg{flex:none}
+.brand b{font-weight:900;font-size:19px;letter-spacing:.08em}
+.links{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+.links a{text-decoration:none;font-size:14px;padding:7px 11px;border-radius:999px;white-space:nowrap;color:var(--muted)}
+.links a:hover{color:var(--ink);background:var(--soft)}
+.links a[aria-current="page"]{color:var(--ink);font-weight:700}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.seg button{background:none;border:0;padding:5px 10px;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1205;text-decoration:none;font-weight:700;border-radius:999px;padding:9px 18px;border:0;cursor:pointer;white-space:nowrap}
+.cta.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.8)}
+.cta.ink{background:var(--ink);color:var(--paper)}
+.nav .cta{padding:7px 15px;font-size:14px}
+
+/* hero */
+.hero{position:relative;background:var(--night);color:#fff;overflow:hidden}
+.hero .bg{width:100%;height:clamp(460px,72vh,760px);object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,13,17,.15) 0%,rgba(6,13,17,0) 30%,rgba(6,13,17,.72) 100%)}
+.hero .cap{position:absolute;inset:auto 0 0 0;z-index:2;padding-block:40px}
+.hero h1{font-weight:900;font-size:clamp(52px,9.5vw,128px);letter-spacing:.08em;line-height:1.02}
+.hero .sub{font-size:clamp(17px,2vw,22px);margin-top:14px;color:#eef3f3;max-width:30em}
+.hero .line{font-family:var(--f-disp);font-weight:600;letter-spacing:.2em;text-transform:uppercase;font-size:14px;color:#d8e6e8;margin-bottom:14px}
+.hero .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.times{position:absolute;z-index:3;top:20px;right:20px;display:flex;gap:4px;background:rgba(6,13,17,.45);backdrop-filter:blur(8px);border-radius:999px;padding:4px}
+.times button{border:0;background:none;color:#dfe9ea;font-size:13px;padding:6px 12px;border-radius:999px;cursor:pointer}
+.times button[aria-pressed="true"]{background:#fff;color:#0f1d24;font-weight:700}
+.page-hero .bg{height:clamp(320px,52vh,560px)}
+img[src$="aerial.jpg"]{object-position:50% 82%}
+.page-hero h1{font-size:clamp(40px,7vw,88px)}
+.crumb{font-size:13px;color:#d4e0e2;margin-bottom:8px}
+.crumb a{color:#fff}
+
+section{padding-block:64px}
+.sec-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 28px;margin-bottom:28px}
+.sec-h h2{font-size:clamp(28px,3.8vw,46px);font-weight:900;margin-top:6px}
+.sec-h p{color:var(--muted);max-width:40em;margin-top:10px;font-size:17px}
+.more{font-size:15px;text-decoration:none;border-bottom:1.5px solid currentColor;color:var(--accent);white-space:nowrap}
+
+/* facts strip */
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-block:1px solid var(--line)}
+.strip div{background:var(--paper);padding:22px 20px}
+.strip b{display:block;font-family:var(--f-disp);font-weight:700;font-size:clamp(34px,4vw,50px);line-height:1}
+.strip b small{font-family:var(--f-body);font-size:.36em;font-weight:500;margin-left:5px;color:var(--muted)}
+.strip span{font-size:14px;color:var(--muted)}
+
+/* journey */
+.journey{background:var(--night);color:#e8eff0;padding:0}
+.jhead{padding-block:64px 24px}
+.jhead h2{font-size:clamp(28px,3.8vw,46px);font-weight:900;color:#fff;margin-top:6px}
+.jhead p{color:#a9bcbf;max-width:40em;margin-top:10px;font-size:17px}
+.jwrap{position:relative}
+.jsticky{position:sticky;top:62px;height:calc(100vh - 62px);display:grid;grid-template-rows:minmax(0,1fr) auto;overflow:hidden}
+.jimgs{position:relative}
+.jimgs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s}
+.jimgs img.on{opacity:1}
+.jimgs::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,13,17,.78) 0%,rgba(6,13,17,.2) 55%,rgba(6,13,17,0) 100%)}
+.jtext{position:absolute;z-index:2;left:0;right:0;top:50%;transform:translateY(-50%)}
+.jtext .k{font-family:var(--f-disp);font-weight:700;font-size:15px;letter-spacing:.2em;color:var(--gold)}
+.jtext h3{font-size:clamp(34px,5vw,64px);font-weight:900;color:#fff;margin-top:6px}
+.jtext p{max-width:26em;color:#e3ecec;font-size:18px;margin-top:12px}
+.jtext .stop{display:inline-flex;gap:8px;align-items:center;margin-top:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 16px;font-size:14px;color:#fff;text-decoration:none}
+.jbar{background:#0b161c;border-top:1px solid #1f3038;padding:16px 0 18px}
+.route{position:relative;height:56px}
+.route svg{width:100%;height:56px;display:block}
+.route text{font-family:var(--f-body);font-size:12px;fill:#a9bcbf}
+.route .st text{fill:#fff;font-weight:700;font-size:13px}
+.jsteps{position:relative;margin-top:calc(-100vh + 62px);pointer-events:none}
+.jsteps .s{height:100vh}
+.jfoot{display:flex;justify-content:space-between;font-size:13px;color:#8fa4a8;margin-top:4px}
+
+/* station cards */
+.stations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.scard{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:440px;border-radius:14px;overflow:hidden;color:#fff;text-decoration:none;background:var(--night)}
+.scard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,13,17,0) 35%,rgba(6,13,17,.85) 100%)}
+.scard .b{position:relative;z-index:1;padding:20px}
+.scard .c{font-family:var(--f-disp);font-weight:700;letter-spacing:.18em;font-size:14px;color:#fff;opacity:.85}
+.scard h3{font-size:28px;font-weight:900;margin-top:2px}
+.scard p{font-size:15px;color:#e5eded;margin-top:6px}
+.scard ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.scard li{font-size:12px;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:2px 10px}
+.scard .bar{position:absolute;left:0;right:0;top:0;height:5px;background:var(--sc);z-index:1}
+@media (prefers-reduced-motion:no-preference){.scard img{transition:transform .6s}.scard:hover img{transform:scale(1.04)}}
+
+/* split blocks */
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:44px;align-items:center}
+.split.rev>.media{order:2}
+.media img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;cursor:zoom-in}
+.prose{display:grid;gap:14px;max-width:34em}
+.prose h2{font-size:clamp(28px,3.4vw,42px);font-weight:900}
+.prose .lead{font-size:18px}
+.prose p{color:var(--muted)}
+.ticks{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:10px}
+.ticks li{padding-left:24px;position:relative}
+.ticks li::before{content:"";position:absolute;left:3px;top:10px;width:11px;height:6px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+
+/* 24h band */
+.allday{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.slot{position:relative;border-radius:14px;overflow:hidden;min-height:300px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,13,17,0) 30%,rgba(6,13,17,.82) 100%)}
+.slot>*:not(img){position:relative;z-index:1}
+.slot em{font-style:normal;font-family:var(--f-disp);font-weight:700;letter-spacing:.14em;font-size:14px;color:var(--gold)}
+.slot b{font-size:22px;font-weight:900}
+.slot span{font-size:14px;color:#e1eaea}
+
+/* gallery / tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.tile img{width:100%;aspect-ratio:3/2;object-fit:cover;cursor:zoom-in}
+.tile .b{padding:16px 18px 18px;display:grid;gap:6px}
+.tile h3{font-size:20px;font-weight:900}
+.tile p{font-size:15px;color:var(--muted)}
+.tile .tag{font-family:var(--f-disp);font-weight:600;font-size:13px;letter-spacing:.14em;color:var(--sc,var(--accent))}
+
+/* tickets */
+.tickets{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+.ttable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ttable th,.ttable td{padding:13px 16px;border-bottom:1px solid var(--line);text-align:left;font-size:15px;vertical-align:top}
+.ttable thead th{font-size:13px;color:var(--muted);font-weight:500;background:var(--soft)}
+.ttable td.p{font-family:var(--f-disp);font-weight:700;font-size:22px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ttable td small{display:block;color:var(--muted);font-size:13px}
+.ttable tr:last-child>*{border-bottom:0}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+.calc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px;position:sticky;top:80px}
+.calc h3{font-size:22px;font-weight:900}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px}
+.row label{font-size:15px}
+.row label small{display:block;color:var(--muted);font-size:12px}
+.step{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.step button{width:34px;height:34px;border:0;background:none;cursor:pointer;font-size:18px}
+.step output{min-width:28px;text-align:center;font-family:var(--f-disp);font-weight:700;font-size:18px}
+select{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 10px}
+.chk{display:flex;align-items:center;gap:10px;font-size:15px}
+.chk input{width:18px;height:18px;accent-color:var(--lake)}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:14px}
+.total b{font-family:var(--f-disp);font-weight:700;font-size:40px;line-height:1}
+.copied{font-size:13px;color:var(--forest);min-height:1.2em}
+
+/* planner */
+.planner{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:start}
+.qs{display:grid;gap:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.q b{display:block;font-size:16px;margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 15px;font-size:14px;cursor:pointer}
+.opts button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.card-out{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card-out .top{position:relative;height:180px}
+.card-out .top img{width:100%;height:100%;object-fit:cover}
+.card-out .top::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,13,17,0),rgba(6,13,17,.7))}
+.card-out .top h3{position:absolute;z-index:1;left:20px;bottom:16px;right:20px;color:#fff;font-size:26px;font-weight:900}
+.tl{list-style:none;margin:0;padding:20px 22px 6px;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:62px 16px minmax(0,1fr);gap:12px}
+.tl .t{font-family:var(--f-disp);font-weight:700;font-size:17px;text-align:right;padding-top:1px}
+.tl .ln{position:relative}
+.tl .ln::before{content:"";position:absolute;left:7px;top:0;bottom:0;border-left:2px solid var(--line)}
+.tl li:last-child .ln::before{bottom:auto;height:12px}
+.tl .ln::after{content:"";position:absolute;left:1px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--c,var(--accent));border:3px solid var(--card)}
+.tl .x{padding-bottom:18px}
+.tl .x b{display:block}
+.tl .x span{font-size:14px;color:var(--muted)}
+.tl .x em{font-style:normal;font-size:12px;font-weight:700;color:var(--c);margin-right:6px}
+.outfoot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:16px 22px 20px;border-top:1px solid var(--line)}
+.outfoot .sum b{font-family:var(--f-disp);font-weight:700;font-size:28px}
+.outfoot .sum span{display:block;font-size:13px;color:var(--muted)}
+
+/* hotels compare */
+.hotels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.hotel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;border-top:5px solid var(--sc)}
+.hotel img{width:100%;aspect-ratio:16/9;object-fit:cover;cursor:zoom-in}
+.hotel .b{padding:20px 22px 22px;display:grid;gap:12px}
+.hotel h3{font-size:26px;font-weight:900}
+.hotel dl{display:grid;grid-template-columns:96px minmax(0,1fr);margin:0;border-top:1px solid var(--line)}
+.hotel dt,.hotel dd{margin:0;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hotel dt{color:var(--muted)}
+.price{display:flex;gap:22px;flex-wrap:wrap}
+.price div span{display:block;font-size:13px;color:var(--muted)}
+.price div b{font-family:var(--f-disp);font-weight:700;font-size:30px}
+.price div b small{font-family:var(--f-body);font-size:.45em;font-weight:500;color:var(--muted);margin-left:3px}
+
+/* info grid */
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ibox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;border-top:4px solid var(--c,var(--accent))}
+.ibox h3{font-size:19px;font-weight:900;margin-bottom:6px}
+.ibox p,.ibox li{font-size:15px;color:var(--muted)}
+.ibox ul{margin:0;padding-left:1.1em}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-family:var(--f-disp);font-size:22px;color:var(--accent)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{color:var(--muted);margin-top:8px}
+
+/* form */
+.form{display:grid;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.form label{display:grid;gap:4px;font-size:14px}
+.form input,.form select,.form textarea{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:9px 11px;font:inherit;color:inherit}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.banner{position:relative;border-radius:16px;overflow:hidden;color:#fff;min-height:360px;display:flex;align-items:flex-end}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,13,17,.8),rgba(6,13,17,.1))}
+.banner .b{position:relative;z-index:1;padding:34px;max-width:36em;display:grid;gap:12px}
+.banner h2{font-size:clamp(28px,3.6vw,44px);font-weight:900}
+.banner p{color:#e2eaea}
+
+.pager{display:flex;justify-content:space-between;gap:12px}
+.pager a{text-decoration:none;display:flex;flex-direction:column;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--card);flex:1;min-width:0}
+.pager a:last-child{text-align:right}
+.pager small{color:var(--muted);font-size:12px}
+
+.lb{position:fixed;inset:0;z-index:60;background:rgba(4,9,12,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px}
+.lb[hidden]{display:none}
+.lb img{max-width:100%;max-height:84vh;border-radius:8px}
+.lb p{color:#dfe7ea;margin-top:10px;font-size:14px;text-align:center}
+.lb button{position:absolute;top:14px;right:16px;background:#fff;color:#111;border:0;border-radius:999px;padding:6px 14px;cursor:pointer}
+
+footer{background:var(--night);color:#a9bcbf;padding-block:44px 54px;font-size:14px}
+footer .wrap{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px}
+footer b{color:#fff;display:block;margin-bottom:8px}
+footer a{color:#dbe6e8;text-decoration:none;display:block;padding:2px 0}
+footer small{display:block;margin-top:14px;font-size:12px;color:#7d9196}
+
+@media (max-width:1000px){
+  .stations,.allday{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .split,.tickets,.planner,.hotels{grid-template-columns:1fr}
+  .split.rev>.media{order:0}
+  .tiles,.info{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc{position:static}
+  .links{display:none}
+  footer .wrap{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .stations,.allday,.tiles,.info{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .route text{display:none}
+  .scard{min-height:360px}
+  .brand b{font-size:17px}
+  .nav .cta{display:none}
+  .times{top:auto;bottom:auto;right:12px;top:12px}
+  .times button{padding:5px 9px;font-size:12px}
+  .form .two{grid-template-columns:1fr}
+  footer .wrap{grid-template-columns:1fr}
+  .jtext p{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){.jimgs img{transition:none}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="主選單"><div class="wrap">
+  <a class="brand" href="#home" aria-label="虎頭埤纜車 首頁"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><path d="M1 6 Q17 13 33 4" fill="none" stroke="var(--gold)" stroke-width="2.4"/><path d="M1 9 Q17 16 33 7" fill="none" stroke="var(--lake)" stroke-width="2.4"/><rect x="12" y="13" width="11" height="8" rx="3" fill="var(--ink)"/></svg><b id="brandName">虎頭埤纜車</b></a>
+  <div class="links" id="links"></div>
+  <div class="seg" role="group" aria-label="Language" id="langs"><button type="button" data-lang="zh">中</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="ja">日</button></div>
+  <a class="cta" href="#ride" id="navCta"></a>
+</div></nav>
+<main id="app"></main>
+<footer><div class="wrap" id="foot"></div></footer>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true"><button id="lbx" type="button">×</button><img id="lbi" alt=""><p id="lbc"></p></div>
+
+<script>
+/* ================= 文案（中／英／日） ================= */
+const T={
+zh:{
+ nav:[['ride','搭纜車'],['stations','四站'],['stay','住宿'],['eat','吃逛'],['events','婚宴會議'],['plan','行程配方'],['visit','交通']],
+ cta:'票價與購票', brand:'虎頭埤纜車',
+ times:{dawn:'晨曦',day:'白日',dusk:'夕陽',night:'夜色'},
+ hero:{
+  dawn:['越湖，入林。','湖霧還沒散，纜車已經在湖面上。'],
+  day:['越湖，入林。','臺灣第一座水庫，第一次從空中看見。'],
+  dusk:['越湖，入林。','把夕陽留在湖面，把晚餐排在山城。'],
+  night:['虎埤泛月，','從天上看。全年 24 小時，夜裡也有車。']},
+ heroLine:'臺南新化・虎頭埤', heroBtn1:'看票價', heroBtn2:'排一趟行程',
+ strip:[['4','站','城、湖、山、林'],['5','段風景','湖面到森林，全程不換車'],['24','小時','全天候隨需發車'],['1846','年','臺灣第一座水庫，虎頭埤']],
+ jk:'The Ride', jh:'往下捲，就是搭一趟纜車', jp:'從新化之門出發，越過虎頭埤湖面，經過北岸湖灣與丘陵林冠，爬上山肩，最後緩緩降進新化林場。中途在湖濱與山城可以下車，再上車。',
+ spans:[
+  ['01　湖面','出站就在湖上','車廂離開光舟，整片虎頭埤就在腳下。湖裡沒有任何支柱，只有兩條鋼弦和水面。','t2','在湖濱旅館下車'],
+  ['02　北岸湖灣','與對向列車交會','經過北岸丘陵上的門架，越過湖灣，湖濱旅館的退台客房一層層出現在窗外。','t2','在湖濱旅館下車'],
+  ['03　丘陵林冠','林冠就在窗下','離開湖岸轉進丘陵，樹梢從車窗下方滑過，前方是山城站的摺板屋頂。','t3','在湖濱山城下車'],
+  ['04　山肩','全線最高的一段','從山城爬升到山肩上的門架，回頭整座湖與新化市區都在身後。','t4','繼續前往新化林場'],
+  ['05　森林','安靜地降進森林','全線最長的一段，越過林場上空緩緩下行，停在林冠高度的終點站。','t4','在新化林場下車']],
+ jstops:['新化之門','湖濱旅館','湖濱山城','新化林場'], jfoot:['出發','全程約 6 分鐘，不換車'],
+ stk:'Four Stations', sth:'四站，四種下車的理由', stp:'每一站都和一座建築共構：商店街、湖景旅館、山城度假旅館、林場驛站。',
+ adk:'All Day', adh:'一座不打烊的纜車', adp:'全天候隨需發車：在車站叫車就發車，不用等時刻表。挑一個時段上車，看到的是不同的虎頭埤。',
+ slots:[['日出','湖霧與第一道光','日出時段票'],['白日','湖面、林冠與山城','一般票'],['夕陽','湖面被染成金色','夕陽時段票'],['夜色','虎埤泛月與光舟燈籠','夜景時段票']],
+ plk:'Trip Builder', plh:'行程配方', plp:'選停留時間、同行的人和想做的事，幫你排好一張可以直接照著走的行程卡。',
+ q:[['停留多久',[['2h','2 小時'],['half','半天'],['day','一整天'],['stay','兩天一夜']]],['跟誰一起',[['family','帶小孩'],['couple','兩個人'],['elder','陪長輩'],['friends','朋友']]],['最想做的事',[['food','吃逛'],['lake','看湖'],['forest','走森林'],['resort','度假放鬆']]]],
+ plOut:'你的行程', plCost:'每人票價估算', plRoom:'住宿另計，一晚每房', plCopy:'複製行程', copied:'已複製到剪貼簿', copy:'複製',
+ tkk:'Tickets', tkh:'票價', tkp:'全線來回票當天可以在湖濱、山城中途下車再上車。',
+ tkHead:['票種','全票','優待票'],
+ tk:[['全線來回','當日可中途上下車',480,240],['全線單程','新化之門 ↔ 新化林場',280,140],['相鄰兩站單程','例：新化之門 ↔ 湖濱旅館',150,75]],
+ addHead:'加購', adds:[['slot','日出／夕陽／夜景時段','每人，指定時段搭乘',150],['fast','快速通關','每人',150],['photo','空中攝影','每組，車上拍攝並提供數位檔',300],['cabin','包廂車廂','每節，最多 6 人專屬一節',1200]],
+ tkNote:'優待票：6～12 歲兒童、65 歲以上長者、身心障礙者及陪同者一人。6 歲以下免費（須由購票成人陪同）。停車每次 50 元。票價為新臺幣，含稅。',
+ calcH:'票價試算', calcType:'票種', adult:'全票', reduced:'優待票', child:'6 歲以下', perPax:'人', calcTotal:'合計', calcCopy:'複製訂購明細', calcPark:'停車（每次）',
+ rideInfo:[['營運時間','全年 24 小時，全天候隨需發車。在車站叫車即發車，不設固定時刻表；人多時連續派車，每列 1～5 節。'],['車廂','每節 6 個座位，全部坐著搭乘；也可改為 4 座加 1 個輪椅位。每列 1～5 節。'],['無障礙','月台地板與車廂齊平，輪椅、嬰兒車、行李箱直接推進車廂；月台門與車門同步開關。'],['天候','一般天候正常運轉；強風時降速並改預約分時搭乘；颱風、地震時停止發車，線上列車全部開回車站。'],['安全','全自動駕駛，控制中心全程監看。車廂各自有電池，停電時也能自行開回車站。'],['車廂怎麼走','兩條預力鋼弦並排架在湖面與林冠之上，車輪在鋼弦頂面滾動，車廂在鋼弦下方。停站時車頂自動對接充電。']],
+ faq:[['需要先訂票嗎？','平日可現場購票；假日、日出與夕陽時段建議先預訂。包廂車廂需預約。'],['可以帶寵物嗎？','可攜帶裝於寵物推車或提籠內的寵物搭乘。'],['下雨也能搭嗎？','可以，車廂與月台都有遮蔽。強風或颱風時會調整或停止營運，請留意車站公告。'],['夜裡真的有車嗎？','有。纜車 24 小時隨需發車，夜裡在車站叫車一樣會發車，適合住在湖濱、山城的旅客。'],['全線來回票可以分兩天用嗎？','全線來回票限當日使用；住宿方案另含住宿期間的搭乘。']],
+ rideH:'搭纜車', rideSub:'四站之間，24 小時隨需發車。', infoH:'搭乘須知', faqH:'常見問題',
+ st:{
+  t1:{n:'新化之門站',en:'Xinhua Gate',tag:'出閘門，就在街上',lead:'全線起點。木構網殼的「光舟」浮在廣場上方，出了閘門就站在南北兩條階梯商店街的店面之間，一路逛下五段台階回到地面。',chips:['階梯商店街','在地小吃','虎埤水鏡','天空步道'],
+   things:[['階梯商店街','南北兩條街各五段台階，72 家店面，一側台階一側店。','t1-street.jpg'],['新化在地味','原本在虎頭埤做生意的 36 戶老店全數回到新街，地面層就找得到。','t1-food.jpg'],['虎埤水鏡','光舟下方淺淺一層水，天光和夜燈都倒映在腳邊；活動時排乾變成廣場。','aerial.jpg']],
+   more:'天空步道在光舟頂上，可以俯瞰整座虎頭埤與商店街的綠屋頂。'},
+  t2:{n:'湖濱旅館站',en:'Lakeside Hotel',tag:'下了車，就在湖景客房門口',lead:'車站和 100 間湖景客房共構一棟。住客從月台搭電梯就回到房間，不必走出建築。',chips:['湖景客房','住客池庭','百年猢猻樹','湖畔婚禮'],
+   things:[['100 間湖景客房','2 樓到 6 樓每層 20 間，每一間都面向湖。','t2-room.jpg'],['住客池庭','面湖的泳池與池庭，只開放給住客。','t2-pool.jpg'],['到達庭的猢猻樹','迴車道中央保留一棵百年猢猻樹，抵達時第一眼就看見。','t2-r4.jpg']],
+   more:'公共湖岸步道環繞半島，不住宿也能沿湖散步。'},
+  t3:{n:'湖濱山城站',en:'Lakeside Hill',tag:'下車走幾步，就到旅館大廳',lead:'全線最大的度假旅館。轉乘大廳和月台同一層，300 間客房分在四翼，雲端餐廳、宴會廳、XR 樂園都在同一座建築裡。',chips:['300 間客房','雲端餐廳','XR 沉浸式樂園','宴會與婚禮'],
+   things:[['雲端餐廳','跨在兩側月台之上的餐廳，晚餐時看著湖面暗下來。','t3-dining.jpg'],['XR 沉浸式樂園','室內的沉浸式樂園，下雨天帶小孩也有地方去。','t3-xr.jpg'],['無柱宴會廳','長跨度無柱宴會廳與玻璃婚禮堂，婚宴、尾牙、年會都辦得了。','t3-banquet.jpg']],
+   more:'面湖平台與湖側泳池，適合待上一整個下午。'},
+  t4:{n:'新化林場站',en:'Xinhua Forest Farm',tag:'終點在林冠的高度',lead:'全線終點。月台架高在林冠的高度，地面留給森林、步道與林場驛站。',chips:['森林步道','林場驛站','林冠平台','森林療癒'],
+   things:[['森林步道','從車站地面出發，平緩林緣到林道坡段都有，長輩和小孩都走得了。','t4-trail.jpg'],['林間平台','驛站中間層的開放平台，在樹冠之間喝一杯咖啡。','t4-deck.jpg'],['林場驛站','三層驛站：地面層休息與輕食、林間平台、最上層的林冠展示層。','t4-r3.jpg']],
+   more:'森林療癒課程有半日與一日兩種，由森林療癒師帶領。'}},
+ next:'下一站', prev:'上一站', back:'回首頁', thingsH:'下車之後', viewsH:'車站實景',
+ stayH:'住在纜車上', stayP:'兩間旅館都和車站共構，住客從月台直接回房，住宿期間搭乘與停車都含在方案內。',
+ hotels:[{k:'t2',n:'湖濱旅館',img:'t2-r1.jpg',sum:'精品湖景旅館，安靜、私密。',d:[['客房','100 間，全部面湖'],['設施','住客池庭與泳池、湖岸步道、湖畔小型婚禮'],['車站','屋頂月台，搭電梯直達客房層'],['適合','兩人小旅行、紀念日、湖畔婚禮']],p:['5,200','7,500']},
+         {k:'t3',n:'山城旅館',img:'t3-r3.jpg',sum:'全家與團體都適合的度假旅館。',d:[['客房','300 間，分四翼'],['設施','雲端餐廳、XR 沉浸式樂園、SPA、湖側泳池、宴會廳'],['車站','轉乘大廳與月台同層，下車即報到'],['適合','家庭出遊、企業會議、婚宴']],p:['4,300','6,200']}],
+ weekday:'平日', weekend:'假日', from:'元起／晚', pkg:'住宿方案含：每位住客全線來回搭乘、住宿期間停車。',
+ eatH:'吃逛新化之門', eatP:'兩條階梯商店街，從月台一路逛到地面。',
+ eatStory:['老店回來了','虎頭埤原本的 36 戶店家，全數搬回新的商店街地面層，用一樣的手藝做一樣的味道。南北兩街共 72 家店面，台階上還有 20 個攤車位。'],
+ eatTiles:[['南階梯街','咖啡、甜點與伴手禮，邊走邊吃。','t1-street.jpg'],['北階梯街','餐廳與小吃，適合坐下來吃一頓。','t1-food.jpg'],['虎埤水鏡廣場','光舟下的淺水廣場，晚上最好看。','aerial.jpg']],
+ evH:'婚宴・會議・團體', evP:'湖畔草地的小婚禮、山城的大型宴會、平日的企業會議與獎勵旅遊，纜車就是賓客的接駁。',
+ ev:[['湖畔小型婚禮','湖濱旅館草地證婚與宴客，約 10 桌。','t2-wedding.jpg'],['無柱宴會廳','山城旅館大型婚宴、尾牙與年會。','t3-banquet.jpg'],['玻璃婚禮堂','山城旅館的玻璃證婚堂，白天與夜晚各有風景。','t3-r1.jpg'],['企業會議與獎勵旅遊','會議室 8 間，搭配纜車包廂與森林行程。','t3-dining.jpg']],
+ formH:'詢問檔期', fType:'類型', fTypes:['湖畔小型婚禮','宴會廳婚宴','企業會議','團體旅遊'], fDate:'希望日期', fPax:'人數', fName:'聯絡人', fNote:'需求說明', fBtn:'整理成詢問內容', fOut:'以下內容已整理好，可直接貼到 email 或訊息中：',
+ visH:'交通', visP:'從新化之門站上車，建議把車停在這裡。',
+ vis:[['自行開車','停在新化之門站停車場，每次 50 元，再搭纜車進湖濱、山城與林場。','var(--t1)'],['高鐵','高鐵臺南站有接駁車往返新化之門站。','var(--t2)'],['臺鐵','臺鐵新市站有接駁車往返新化之門站。','var(--t3)'],['住宿旅客','湖濱旅館與山城旅館設有停車場；住宿期間停車含在方案內。','var(--t4)']],
+ visOpen:['啟航時程','2033 年 1 月新化之門、湖濱旅館、湖濱山城、新化林場四站同步啟航，全線直通。'],
+ foot:{about:'虎頭埤纜車', aboutP:'臺南市新化區虎頭埤。四站之間全年 24 小時隨需發車。', h1:'探索', h2:'服務', small:'圖片為實景模擬與情境示意。'}
+},
+en:{
+ nav:[['ride','Ride'],['stations','Stations'],['stay','Stay'],['eat','Eat & Shop'],['events','Events'],['plan','Plan a Trip'],['visit','Getting Here']],
+ cta:'Tickets', brand:'Hutoupi Cable Car',
+ times:{dawn:'Dawn',day:'Day',dusk:'Sunset',night:'Night'},
+ hero:{
+  dawn:['Over the lake, into the forest.','The mist is still on the water. The cars are already running.'],
+  day:['Over the lake, into the forest.','Taiwan’s first reservoir, seen from the air for the first time.'],
+  dusk:['Over the lake, into the forest.','Leave the sunset on the lake. Have dinner on the hill.'],
+  night:['Moonlight on Hutoupi,','seen from above. Open 24 hours, all year.']},
+ heroLine:'Xinhua, Tainan · Hutoupi', heroBtn1:'See fares', heroBtn2:'Plan a trip',
+ strip:[['4','stations','Gate, lake, hill, forest'],['5','views','Lake to forest, no transfers'],['24','hours','On demand, day and night'],['1846','','Taiwan’s first reservoir']],
+ jk:'The Ride', jh:'Scroll down. You’re on board.', jp:'Leave from Xinhua Gate, glide over Hutoupi lake, pass the north bay and the hill canopy, climb to the ridge and drift down into Xinhua Forest Farm. Hop off at the lake or the hill and hop back on.',
+ spans:[
+  ['01  The Lake','Straight out over the water','The car leaves the Light Ark and the whole lake opens below. No pillars in the water, just two steel strings and the surface.','t2','Get off at Lakeside Hotel'],
+  ['02  North Bay','Passing the other car','Past the frame on the north-shore hill and across the bay, the hotel’s terraced rooms appear floor by floor.','t2','Get off at Lakeside Hotel'],
+  ['03  Hill Canopy','Treetops under the window','Away from the shore, the treetops slide past under the window. Ahead, the folded roof of the hill station.','t3','Get off at Lakeside Hill'],
+  ['04  The Ridge','The highest stretch','Climb to the frame on the ridge. Behind you, the lake and the town of Xinhua.','t4','Ride on to the Forest Farm'],
+  ['05  The Forest','Down into the trees','The longest, quietest stretch, descending over the forest to a station at canopy height.','t4','Get off at Xinhua Forest Farm']],
+ jstops:['Xinhua Gate','Lakeside Hotel','Lakeside Hill','Forest Farm'], jfoot:['Depart','About 6 minutes end to end, no transfers'],
+ stk:'Four Stations', sth:'Four stations, four reasons to get off', stp:'Every station shares its building with something to do: a shopping street, a lake-view hotel, a hill resort, a forest lodge.',
+ adk:'All Day', adh:'A cable car that never closes', adp:'Cars on demand, day and night: call one at the station, no timetable. Pick a time and see a different Hutoupi.',
+ slots:[['Sunrise','Mist and first light','Sunrise slot'],['Daytime','Lake, canopy and hills','Standard ticket'],['Sunset','A golden lake','Sunset slot'],['Night','Moon on the lake, a glowing Ark','Night slot']],
+ plk:'Trip Builder', plh:'Build your trip', plp:'Tell us how long, who’s coming and what you like. We’ll lay out a trip card you can follow.',
+ q:[['How long',[['2h','2 hours'],['half','Half day'],['day','Full day'],['stay','Overnight']]],['Who’s coming',[['family','With kids'],['couple','Just two'],['elder','With parents'],['friends','Friends']]],['What you like',[['food','Food & shops'],['lake','The lake'],['forest','Forest walks'],['resort','Relaxing']]]],
+ plOut:'Your trip', plCost:'Fare per person (est.)', plRoom:'Room extra, per night from', plCopy:'Copy trip', copied:'Copied', copy:'Copy',
+ tkk:'Tickets', tkh:'Fares', tkp:'A full-line return lets you hop off at the lake and the hill on the same day.',
+ tkHead:['Ticket','Adult','Reduced'],
+ tk:[['Full line return','Hop on and off, same day',480,240],['Full line one-way','Xinhua Gate ↔ Forest Farm',280,140],['One stop, one-way','e.g. Xinhua Gate ↔ Lakeside Hotel',150,75]],
+ addHead:'Add-ons', adds:[['slot','Sunrise / sunset / night slot','Per person, timed departure',150],['fast','Fast lane','Per person',150],['photo','In-flight photos','Per group, digital files',300],['cabin','Private cabin','Per car, up to 6 people',1200]],
+ tkNote:'Reduced: children 6–12, seniors 65+, people with disabilities plus one companion. Under 6 free with a paying adult. Parking NT$50 per entry. Prices in NT$, tax included.',
+ calcH:'Fare calculator', calcType:'Ticket', adult:'Adult', reduced:'Reduced', child:'Under 6', perPax:'', calcTotal:'Total', calcCopy:'Copy order details', calcPark:'Parking (per entry)',
+ rideInfo:[['Hours','24 hours, all year, on demand. Call a car at the station and it departs; there is no fixed timetable. At busy times cars run back to back, 1–5 cars per train.'],['Cars','6 seats per car, everyone seated; or 4 seats plus a wheelchair space. 1–5 cars per train.'],['Step-free','Platforms are level with the car floor. Wheelchairs, strollers and luggage roll straight in. Platform doors open with the car doors.'],['Weather','Normal service in normal weather. In strong wind, slower running and timed boarding. Service stops for typhoons and earthquakes and all cars return to stations.'],['Safety','Fully automatic, watched from the control center. Each car has its own battery and can return to a station in a power cut.'],['How it moves','Two pre-tensioned steel strings run side by side over the lake and trees. Wheels roll on top of the strings; the car rides below. Cars charge at every stop.']],
+ faq:[['Do I need to book?','Weekdays, buy at the station. Weekends and sunrise or sunset slots, book ahead. Private cabins need a booking.'],['Can I bring a pet?','Yes, in a pet stroller or carrier.'],['Does it run in the rain?','Yes, cars and platforms are covered. Service is adjusted or stopped in strong wind or typhoons.'],['Are there really cars at night?','Yes. The cable car runs on demand 24 hours a day. Call a car at the station at any hour.'],['Can a return ticket span two days?','Return tickets are valid on the day of purchase. Hotel packages include rides during your stay.']],
+ rideH:'Ride', rideSub:'Four stations, on demand 24 hours a day.', infoH:'Good to know', faqH:'FAQ',
+ st:{
+  t1:{n:'Xinhua Gate',en:'Station T1',tag:'Step through the gate, onto the street',lead:'Where the line begins. A timber gridshell, the Light Ark, floats over the plaza. Walk out of the gate and you are between the shops of two stepped streets, five terraces down to the ground.',chips:['Stepped streets','Local food','Water Mirror','Sky Walk'],
+   things:[['Stepped shopping streets','Two streets, five terraces each, 72 shopfronts.','t1-street.jpg'],['Xinhua flavors','All 36 original Hutoupi shops moved back into the new street.','t1-food.jpg'],['The Water Mirror','A shallow pool under the Ark that reflects sky and lamps; drained for events.','aerial.jpg']],
+   more:'The Sky Walk on top of the Ark looks over the lake and the green roofs.'},
+  t2:{n:'Lakeside Hotel',en:'Station T2',tag:'Get off at your room’s front door',lead:'The station and a 100-room lake-view hotel share one building. Guests ride the lift from the platform to their floor.',chips:['Lake-view rooms','Guest pool','Century baobab','Lakeside weddings'],
+   things:[['100 lake-view rooms','20 rooms on each of floors 2–6, every one facing the lake.','t2-room.jpg'],['Guest pool court','A lake-facing pool for hotel guests only.','t2-pool.jpg'],['The baobab','A hundred-year-old baobab in the arrival court.','t2-r4.jpg']],
+   more:'A public lakeside path circles the peninsula.'},
+  t3:{n:'Lakeside Hill',en:'Station T3',tag:'A few steps to the lobby',lead:'The largest resort on the line. The station hall and platforms are on one level; 300 rooms in four wings, with a sky restaurant, banquet hall and XR park under one roof.',chips:['300 rooms','Sky restaurant','XR park','Banquets'],
+   things:[['Sky restaurant','A restaurant bridging the platforms; watch the lake go dark at dinner.','t3-dining.jpg'],['XR immersive park','An indoor immersive park for rainy days with kids.','t3-xr.jpg'],['Column-free banquet hall','Long-span hall and a glass chapel for weddings and company events.','t3-banquet.jpg']],
+   more:'A lakeside terrace and pool for a slow afternoon.'},
+  t4:{n:'Xinhua Forest Farm',en:'Station T4',tag:'The last stop is in the treetops',lead:'The end of the line. The platform sits at canopy height; the ground stays for the forest, trails and the lodge.',chips:['Forest trails','Forest lodge','Canopy deck','Forest therapy'],
+   things:[['Forest trails','Gentle edges to steeper forest roads, from right below the station.','t4-trail.jpg'],['Canopy deck','Coffee among the treetops on the lodge’s middle level.','t4-deck.jpg'],['Forest lodge','Three levels: café, forest deck and the canopy gallery.','t4-r3.jpg']],
+   more:'Half-day and full-day forest therapy sessions with certified guides.'}},
+ next:'Next', prev:'Previous', back:'Home', thingsH:'After you get off', viewsH:'Station views',
+ stayH:'Sleep on the line', stayP:'Both hotels share their buildings with stations. Packages include rides and parking during your stay.',
+ hotels:[{k:'t2',n:'Lakeside Hotel',img:'t2-r1.jpg',sum:'A quiet boutique hotel on the water.',d:[['Rooms','100, all lake-view'],['Facilities','Guest pool court, lakeside path, small weddings'],['Station','Rooftop platform, lift to your floor'],['Best for','Couples, anniversaries, lakeside weddings']],p:['5,200','7,500']},
+         {k:'t3',n:'Hill Resort',img:'t3-r3.jpg',sum:'A resort for families and groups.',d:[['Rooms','300 in four wings'],['Facilities','Sky restaurant, XR park, spa, pool, banquet hall'],['Station','Lobby on the platform level'],['Best for','Families, meetings, weddings']],p:['4,300','6,200']}],
+ weekday:'Weekday', weekend:'Weekend', from:'NT$ / night, from', pkg:'Packages include a full-line return ride per guest and parking during your stay.',
+ eatH:'Eat & shop at Xinhua Gate', eatP:'Two stepped streets from the platform down to the plaza.',
+ eatStory:['The old shops came back','All 36 shops that once traded at Hutoupi moved back into the new street, same hands, same recipes. 72 shopfronts in total, plus 20 cart spaces on the terraces.'],
+ eatTiles:[['South street','Coffee, sweets and gifts to eat on the go.','t1-street.jpg'],['North street','Restaurants and local dishes to sit down for.','t1-food.jpg'],['Water Mirror plaza','The shallow pool under the Ark, best at night.','aerial.jpg']],
+ evH:'Weddings, meetings, groups', evP:'A small wedding on the lakeside lawn, a big banquet on the hill, company meetings on weekdays. The cable car is your guests’ shuttle.',
+ ev:[['Lakeside wedding','Ceremony and dinner on the Lakeside Hotel lawn, about 10 tables.','t2-wedding.jpg'],['Column-free banquet hall','Large weddings and year-end parties at the Hill Resort.','t3-banquet.jpg'],['Glass chapel','A glass ceremony hall, by day or by night.','t3-r1.jpg'],['Meetings & incentives','8 meeting rooms, private cabins and forest programs.','t3-dining.jpg']],
+ formH:'Ask about dates', fType:'Type', fTypes:['Lakeside wedding','Banquet wedding','Company meeting','Group tour'], fDate:'Preferred date', fPax:'Guests', fName:'Contact name', fNote:'Details', fBtn:'Prepare my inquiry', fOut:'Your inquiry, ready to paste into an email or message:',
+ visH:'Getting here', visP:'Board at Xinhua Gate and leave your car there.',
+ vis:[['By car','Park at Xinhua Gate, NT$50 per entry, and ride to the lake, hill and forest.','var(--t1)'],['High Speed Rail','Shuttle between THSR Tainan Station and Xinhua Gate.','var(--t2)'],['Railway','Shuttle between TRA Xinshi Station and Xinhua Gate.','var(--t3)'],['Hotel guests','Parking at both hotels, included in packages.','var(--t4)']],
+ visOpen:['Opening','January 2033: all four stations open together, from Xinhua Gate to Xinhua Forest Farm.'],
+ foot:{about:'Hutoupi Cable Car', aboutP:'Hutoupi, Xinhua District, Tainan. On demand 24 hours, all year.', h1:'Explore', h2:'Help', small:'Images are visualizations.'}
+},
+ja:{
+ nav:[['ride','乗車案内'],['stations','4つの駅'],['stay','宿泊'],['eat','グルメ'],['events','ウェディング'],['plan','旅のプラン'],['visit','アクセス']],
+ cta:'料金・チケット', brand:'虎頭埤ケーブルカー',
+ times:{dawn:'夜明け',day:'昼',dusk:'夕日',night:'夜'},
+ hero:{
+  dawn:['湖を越えて、森へ。','湖の霧が晴れる前から、ケーブルカーは動いています。'],
+  day:['湖を越えて、森へ。','台湾最初のダム湖を、はじめて空から。'],
+  dusk:['湖を越えて、森へ。','夕日は湖に、夕食は丘の上で。'],
+  night:['虎埤の月を、','空から。年中24時間、夜も運行。']},
+ heroLine:'台南・新化・虎頭埤', heroBtn1:'料金を見る', heroBtn2:'旅をつくる',
+ strip:[['4','駅','街・湖・丘・森'],['5','つの景色','湖から森まで乗り換えなし'],['24','時間','終日オンデマンド運行'],['1846','年','台湾最初のダム湖']],
+ jk:'The Ride', jh:'スクロールすると、乗車がはじまります', jp:'新化之門を出発し、虎頭埤の湖面、北岸の入り江、丘の樹冠を越え、尾根を上って新化林場へ。湖畔と丘の駅で途中下車もできます。',
+ spans:[
+  ['01　湖面','駅を出ると、もう湖の上','車両が光舟を離れると、湖が足もとに広がります。湖の中に支柱は一本もありません。','t2','湖畔ホテル駅で降りる'],
+  ['02　北岸の入り江','対向車とすれ違う','北岸の丘の門型フレームを過ぎ、湖畔ホテルの段々の客室が見えてきます。','t2','湖畔ホテル駅で降りる'],
+  ['03　丘の樹冠','窓の下は木々のこずえ','湖岸を離れると、窓の下を樹冠が流れていきます。','t3','湖畔山城駅で降りる'],
+  ['04　尾根','いちばん高い区間','尾根の門型フレームまで上ると、湖と新化の街が背後に広がります。','t4','新化林場へ向かう'],
+  ['05　森','静かに森へ','最長の区間。林場の上をゆっくり下り、樹冠の高さの終点に着きます。','t4','新化林場駅で降りる']],
+ jstops:['新化之門','湖畔ホテル','湖畔山城','新化林場'], jfoot:['出発','全線約6分、乗り換えなし'],
+ stk:'Four Stations', sth:'4つの駅、4つの降りる理由', stp:'どの駅も建物と一体です。階段の商店街、湖景ホテル、丘のリゾート、森のロッジ。',
+ adk:'All Day', adh:'眠らないケーブルカー', adp:'昼も夜もオンデマンド運行。駅で呼べば発車し、時刻表はありません。時間を選べば、違う虎頭埤に出会えます。',
+ slots:[['日の出','湖霧と最初の光','日の出時間帯券'],['昼','湖と樹冠と丘','普通券'],['夕日','金色に染まる湖','夕日時間帯券'],['夜','湖の月と光舟の灯り','夜景時間帯券']],
+ plk:'Trip Builder', plh:'旅のプラン', plp:'滞在時間、同行者、やりたいことを選ぶと、そのまま使える旅程カードをつくります。',
+ q:[['滞在時間',[['2h','2時間'],['half','半日'],['day','1日'],['stay','1泊2日']]],['だれと',[['family','子ども連れ'],['couple','ふたりで'],['elder','両親と'],['friends','友人と']]],['したいこと',[['food','食べ歩き'],['lake','湖を見る'],['forest','森を歩く'],['resort','のんびり']]]],
+ plOut:'あなたの旅程', plCost:'1人あたり運賃（目安）', plRoom:'宿泊は別料金、1室1泊', plCopy:'旅程をコピー', copied:'コピーしました', copy:'コピー',
+ tkk:'Tickets', tkh:'料金', tkp:'全線往復券は当日中、湖畔と山城で途中下車できます。',
+ tkHead:['券種','大人','割引'],
+ tk:[['全線往復','当日途中下車可',480,240],['全線片道','新化之門 ↔ 新化林場',280,140],['隣接駅片道','例：新化之門 ↔ 湖畔ホテル',150,75]],
+ addHead:'オプション', adds:[['slot','日の出／夕日／夜景時間帯','1人、指定便',150],['fast','優先乗車','1人',150],['photo','空中撮影','1組、データ提供',300],['cabin','貸切車両','1両、最大6名',1200]],
+ tkNote:'割引：6〜12歳、65歳以上、障がいのある方と付添1名。6歳未満は無料（大人の同伴が必要）。駐車場は1回50元。料金は新台湾ドル、税込。',
+ calcH:'料金シミュレーション', calcType:'券種', adult:'大人', reduced:'割引', child:'6歳未満', perPax:'名', calcTotal:'合計', calcCopy:'内容をコピー', calcPark:'駐車場（1回）',
+ rideInfo:[['運行時間','年中24時間、終日オンデマンド運行。駅で呼び出すと発車し、固定の時刻表はありません。混雑時は連続運行、1編成1〜5両。'],['車両','1両6席、全員着席。4席＋車いす1台にも変更可。1編成1〜5両。'],['バリアフリー','ホームと床が同じ高さ。車いす、ベビーカー、スーツケースもそのまま乗車できます。'],['天候','強風時は減速し時間指定乗車。台風・地震時は運休し、全車両が駅に戻ります。'],['安全','全自動運転、制御センターが常時監視。停電時も各車両のバッテリーで駅に戻れます。'],['しくみ','2本の鋼弦が湖と森の上に並び、車輪が鋼弦の上を転がり、車両はその下に。停車中に自動充電します。']],
+ faq:[['予約は必要？','平日は駅で購入できます。休日や日の出・夕日の時間帯は予約がおすすめです。'],['ペットは？','ペットカートかキャリーに入れれば乗車できます。'],['雨の日は？','車両もホームも屋根付きです。強風や台風時は運行を調整・休止します。'],['夜も本当に走る？','はい。24時間オンデマンド運行で、夜も駅で呼び出すと発車します。'],['往復券は2日に分けて使える？','往復券は当日限りです。宿泊プランには滞在中の乗車が含まれます。']],
+ rideH:'乗車案内', rideSub:'4つの駅を、24時間オンデマンドで。', infoH:'ご利用案内', faqH:'よくある質問',
+ st:{
+  t1:{n:'新化之門駅',en:'Station T1',tag:'改札を出ると、もう商店街',lead:'路線の起点。木造グリッドシェルの「光舟」が広場の上に浮かび、改札を出ると南北2本の階段商店街の店先に立っています。',chips:['階段商店街','地元グルメ','水鏡広場','スカイウォーク'],
+   things:[['階段商店街','南北2本、それぞれ5段のテラス、72店舗。','t1-street.jpg'],['新化の味','もとの36軒がすべて新しい商店街に戻りました。','t1-food.jpg'],['虎埤の水鏡','光舟の下の浅い水盤。夜の灯りが映ります。','aerial.jpg']],
+   more:'光舟の屋上スカイウォークから湖を見渡せます。'},
+  t2:{n:'湖畔ホテル駅',en:'Station T2',tag:'降りたら、湖景の客室',lead:'駅と100室の湖景ホテルが一体の建物。ホームからエレベーターで客室階へ。',chips:['湖景客室','宿泊者プール','百年のバオバブ','湖畔ウェディング'],
+   things:[['湖景の100室','2〜6階に各20室、すべて湖向き。','t2-room.jpg'],['宿泊者専用プール','湖に面したプールと中庭。','t2-pool.jpg'],['バオバブの木','到着の車寄せに百年のバオバブ。','t2-r4.jpg']],
+   more:'公共の湖岸遊歩道が半島をめぐります。'},
+  t3:{n:'湖畔山城駅',en:'Station T3',tag:'数歩でロビー',lead:'路線最大のリゾート。駅のホールとホームが同じ階、300室の四つのウイングにスカイレストラン、宴会場、XRパーク。',chips:['300室','スカイレストラン','XRパーク','宴会'],
+   things:[['スカイレストラン','ホームをまたぐレストランで、暮れていく湖を。','t3-dining.jpg'],['XR没入型パーク','雨の日も子どもと楽しめる屋内パーク。','t3-xr.jpg'],['柱のない宴会場','大空間の宴会場とガラスのチャペル。','t3-banquet.jpg']],
+   more:'湖に面したテラスとプール。'},
+  t4:{n:'新化林場駅',en:'Station T4',tag:'終点は樹冠の高さ',lead:'路線の終点。ホームは樹冠の高さにあり、地上は森と遊歩道とロッジのために。',chips:['森の遊歩道','林場ロッジ','樹冠デッキ','森林セラピー'],
+   things:[['森の遊歩道','駅の足もとから、ゆるやかな林縁から林道まで。','t4-trail.jpg'],['樹冠デッキ','ロッジ中層のデッキで、木々に囲まれてコーヒーを。','t4-deck.jpg'],['林場ロッジ','3層：カフェ、森のデッキ、樹冠ギャラリー。','t4-r3.jpg']],
+   more:'森林セラピーは半日・1日コース。'}},
+ next:'次の駅', prev:'前の駅', back:'トップへ', thingsH:'降りたら', viewsH:'駅の様子',
+ stayH:'ケーブルカーに泊まる', stayP:'2つのホテルは駅と一体。宿泊プランに滞在中の乗車と駐車が含まれます。',
+ hotels:[{k:'t2',n:'湖畔ホテル',img:'t2-r1.jpg',sum:'静かな湖畔のブティックホテル。',d:[['客室','100室、全室湖向き'],['施設','宿泊者プール、湖岸遊歩道、湖畔ウェディング'],['駅','屋上ホーム、エレベーターで客室階へ'],['おすすめ','ふたり旅、記念日、湖畔ウェディング']],p:['5,200','7,500']},
+         {k:'t3',n:'山城リゾート',img:'t3-r3.jpg',sum:'家族や団体向けのリゾート。',d:[['客室','300室、4ウイング'],['施設','スカイレストラン、XRパーク、スパ、プール、宴会場'],['駅','ホームと同じ階でチェックイン'],['おすすめ','家族旅行、会議、ウェディング']],p:['4,300','6,200']}],
+ weekday:'平日', weekend:'休日', from:'元〜／泊', pkg:'宿泊プランには、全線往復乗車と滞在中の駐車が含まれます。',
+ eatH:'新化之門で食べ歩き', eatP:'ホームから広場まで、2本の階段商店街。',
+ eatStory:['老舗が帰ってきた','虎頭埤にあった36軒の店は、すべて新しい商店街の地上階に戻りました。全72店舗、テラスには屋台20区画。'],
+ eatTiles:[['南の階段街','コーヒー、スイーツ、おみやげ。','t1-street.jpg'],['北の階段街','レストランと地元の味。','t1-food.jpg'],['水鏡広場','光舟の下の水盤、夜がきれい。','aerial.jpg']],
+ evH:'ウェディング・会議・団体', evP:'湖畔の芝生の小さな結婚式、丘の大宴会、平日の企業会議。ケーブルカーがゲストの送迎です。',
+ ev:[['湖畔ウェディング','湖畔ホテルの芝生で挙式と会食、約10卓。','t2-wedding.jpg'],['柱のない宴会場','山城リゾートの大宴会、忘年会。','t3-banquet.jpg'],['ガラスのチャペル','昼も夜も美しいガラスの式場。','t3-r1.jpg'],['会議・インセンティブ','会議室8室、貸切車両と森のプログラム。','t3-dining.jpg']],
+ formH:'空き状況のお問い合わせ', fType:'種類', fTypes:['湖畔ウェディング','宴会場ウェディング','企業会議','団体旅行'], fDate:'希望日', fPax:'人数', fName:'ご担当者', fNote:'ご要望', fBtn:'問い合わせ文をつくる', fOut:'メールやメッセージにそのまま貼り付けられます：',
+ visH:'アクセス', visP:'新化之門駅から乗車し、車はここに。',
+ vis:[['車で','新化之門駅の駐車場（1回50元）に停めて乗車。','var(--t1)'],['新幹線','高鉄台南駅から新化之門駅へシャトル。','var(--t2)'],['在来線','台鉄新市駅から新化之門駅へシャトル。','var(--t3)'],['宿泊のお客様','両ホテルに駐車場、プランに含まれます。','var(--t4)']],
+ visOpen:['開業予定','2033年1月、新化之門から新化林場まで4駅同時開業。'],
+ foot:{about:'虎頭埤ケーブルカー', aboutP:'台南市新化区・虎頭埤。年中24時間オンデマンド運行。', h1:'見る', h2:'サポート', small:'画像はイメージです。'}
+}};
+
+/* ================= 狀態 ================= */
+const ST_ORDER=['t1','t2','t3','t4'];
+const HERO_IMG={dawn:'dawn.jpg',day:'aerial.jpg',dusk:'t2-pool.jpg',night:'night.jpg'};
+const SPAN_IMG=['aerial.jpg','t2-r2.jpg','t3-r1.jpg','t4-r4.jpg','t4-r1.jpg'];
+const ST_IMG={t1:['aerial.jpg'],t2:['t2-r1.jpg','t2-r2.jpg','t2-r3.jpg','t2-r4.jpg'],t3:['t3-r1.jpg','t3-r2.jpg','t3-r3.jpg','t3-r4.jpg'],t4:['t4-r1.jpg','t4-r2.jpg','t4-r3.jpg','t4-r4.jpg']};
+const CARD_IMG={t1:'t1-street.jpg',t2:'t2-r1.jpg',t3:'t3-r3.jpg',t4:'t4-r1.jpg'};
+let lang='zh', time=autoTime(), plan={len:'half',who:'family',like:'lake'}, calc={type:0,adult:2,reduced:0,child:0,adds:{},park:0};
+try{const s=localStorage.getItem('htp-lang'); if(s&&T[s]) lang=s;}catch(e){}
+function autoTime(){const h=new Date().getHours(); return h>=5&&h<8?'dawn':h>=8&&h<16?'day':h>=16&&h<19?'dusk':'night';}
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const L=()=>T[lang];
+const fmt=n=>n.toLocaleString('en-US');
+const img=(f,alt,cls)=>`<img src="img/${f}" alt="${alt}" data-zoom loading="lazy"${cls?` class="${cls}"`:''}>`;
+
+/* ================= 共用區塊 ================= */
+function heroHome(){
+  const t=L(), h=t.hero[time];
+  return `<header class="hero"><img class="bg" src="img/${HERO_IMG[time]}" alt="${h[0]}">
+  <div class="times" role="group" aria-label="四時">${Object.keys(t.times).map(k=>`<button type="button" data-time="${k}" aria-pressed="${k===time}">${t.times[k]}</button>`).join('')}</div>
+  <div class="cap"><div class="wrap"><div class="line">${t.heroLine}</div><h1>${h[0]}</h1><p class="sub">${h[1]}</p>
+  <div class="acts"><a class="cta" href="#ride">${t.heroBtn1}</a><a class="cta ghost" href="#plan">${t.heroBtn2}</a></div></div></div></header>`;
+}
+function pageHero(f,title,sub,crumb){
+  return `<header class="hero page-hero"><img class="bg" src="img/${f}" alt="${title}"><div class="cap"><div class="wrap">${crumb?`<p class="crumb"><a href="#home">${L().brand}</a>　/　${crumb}</p>`:''}<h1>${title}</h1><p class="sub">${sub}</p></div></div></header>`;
+}
+function stationCards(){
+  const t=L();
+  return `<div class="stations">${ST_ORDER.map((id,i)=>{const s=t.st[id];return `<a class="scard" href="#${id}" style="--sc:var(--${id})"><img src="img/${CARD_IMG[id]}" alt="${s.n}" loading="lazy"><span class="bar"></span><div class="b"><span class="c">T${i+1}</span><h3>${s.n}</h3><p>${s.tag}</p><ul>${s.chips.map(c=>`<li>${c}</li>`).join('')}</ul></div></a>`;}).join('')}</div>`;
+}
+function journey(){
+  const t=L();
+  const X=[60,300,520,690,850,1080], st=[0,2,3,5];
+  const pts=X.map((x,i)=>`${x},${[30,38,24,26,14,32][i]}`);
+  return `<section class="journey" id="journey"><div class="wrap jhead"><span class="kicker" style="color:var(--gold)">${t.jk}</span><h2>${t.jh}</h2><p>${t.jp}</p></div>
+  <div class="jwrap"><div class="jsticky">
+    <div class="jimgs">${SPAN_IMG.map((f,i)=>`<img src="img/${f}" alt="${t.spans[i][1]}"${i===0?' class="on"':''}>`).join('')}
+      <div class="jtext"><div class="wrap" id="jtext"></div></div></div>
+    <div class="jbar"><div class="wrap"><div class="route"><svg viewBox="0 0 1140 56" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="${pts.join(' ')}" fill="none" stroke="#2b3f47" stroke-width="3"/>
+      <polyline id="rprog" points="${pts.join(' ')}" fill="none" stroke="var(--gold)" stroke-width="3" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+      ${[1,4].map(i=>`<line x1="${X[i]}" y1="${pts[i].split(',')[1]}" x2="${X[i]}" y2="54" stroke="#3b5058" stroke-width="2"/>`).join('')}
+      ${st.map((i,k)=>`<g class="st"><circle cx="${X[i]}" cy="${pts[i].split(',')[1]}" r="7" fill="var(--${ST_ORDER[k]})" stroke="#0b161c" stroke-width="3"/><text x="${X[i]}" y="${+pts[i].split(',')[1]+22}" text-anchor="${k===0?'start':k===3?'end':'middle'}">${t.jstops[k]}</text></g>`).join('')}
+      <circle id="rcar" cx="${X[0]}" cy="30" r="5" fill="#fff"/></svg></div>
+      <div class="jfoot"><span>${t.jfoot[0]}</span><span>${t.jfoot[1]}</span></div></div></div>
+  </div><div class="jsteps">${t.spans.map((s,i)=>`<div class="s" data-i="${i}"></div>`).join('')}</div></div></section>`;
+}
+function spanText(i){
+  const s=L().spans[i];
+  return `<span class="k">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p><a class="stop" href="#${s[3]}">${s[4]} →</a>`;
+}
+function allDay(){
+  const t=L(), im=['dawn.jpg','t3-r4.jpg','t2-pool.jpg','night.jpg'];
+  return `<section><div class="wrap"><div class="sec-h"><div><span class="kicker">${t.adk}</span><h2>${t.adh}</h2><p>${t.adp}</p></div><a class="more" href="#ride">${t.cta}</a></div>
+  <div class="allday">${t.slots.map((s,i)=>`<div class="slot"><img src="img/${im[i]}" alt="${s[1]}" loading="lazy"><em>${s[0]}</em><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div></div></section>`;
+}
+
+/* ================= 行程配方 ================= */
+const ACT={
+ t1_st:{s:'t1',zh:['逛階梯商店街','從台階頂端一路吃下來'],en:['Stepped streets','Eat your way down the terraces'],ja:['階段商店街','テラスを食べ歩き']},
+ t1_sky:{s:'t1',zh:['光舟天空步道','先在高處看一眼整座湖'],en:['Sky Walk','See the whole lake from the Ark'],ja:['スカイウォーク','光舟の上から湖を一望']},
+ t1_mir:{s:'t1',zh:['虎埤水鏡廣場','晚上燈亮了最好看'],en:['Water Mirror','Best once the lamps are on'],ja:['水鏡広場','灯りがついたら見ごろ']},
+ ride1:{s:'ride',zh:['搭纜車越湖','坐在面湖那一側'],en:['Ride over the lake','Sit on the lake side'],ja:['湖を越える','湖側の席がおすすめ']},
+ t2_walk:{s:'t2',zh:['湖岸步道','沿著半島走一圈'],en:['Lakeside path','A loop around the peninsula'],ja:['湖岸遊歩道','半島をひとまわり']},
+ t2_in:{s:'t2',zh:['入住湖濱旅館','從月台搭電梯直接回房'],en:['Check in, Lakeside Hotel','Lift straight from the platform'],ja:['湖畔ホテルにチェックイン','ホームから客室へ直行']},
+ t2_pool:{s:'t2',zh:['住客池庭','湖景泳池待到傍晚'],en:['Pool court','Stay until the evening light'],ja:['プール','夕方までのんびり']},
+ t3_din:{s:'t3',zh:['雲端餐廳','看著湖面暗下來吃晚餐'],en:['Sky restaurant','Dinner as the lake goes dark'],ja:['スカイレストラン','暮れる湖を見ながら夕食']},
+ t3_lunch:{s:'t3',zh:['雲端餐廳午餐','跨在月台上方的餐廳'],en:['Lunch, sky restaurant','Above the platforms'],ja:['スカイレストランでランチ','ホームの上のレストラン']},
+ t3_xr:{s:'t3',zh:['XR 沉浸式樂園','小孩最期待的一站'],en:['XR immersive park','The kids’ favorite'],ja:['XRパーク','子どもに人気']},
+ t3_spa:{s:'t3',zh:['SPA','訓練完全身放鬆'],en:['Spa','Unwind properly'],ja:['スパ','ゆっくり休む']},
+ t3_in:{s:'t3',zh:['入住山城旅館','下車即報到'],en:['Check in, Hill Resort','Lobby on the platform level'],ja:['山城リゾートにチェックイン','ホームでそのまま']},
+ t4_trail:{s:'t4',zh:['森林步道','依體力選平緩或林道坡段'],en:['Forest trail','Gentle or steeper, your pick'],ja:['森の遊歩道','体力に合わせて']},
+ t4_deck:{s:'t4',zh:['林間平台咖啡','在樹冠之間坐一下'],en:['Canopy deck coffee','Sit among the treetops'],ja:['樹冠デッキでコーヒー','木々に囲まれて']},
+ t4_ther:{s:'t4',zh:['森林療癒課程','半日課程，由療癒師帶領'],en:['Forest therapy','Half-day, guided'],ja:['森林セラピー','半日コース']},
+ back:{s:'ride',zh:['搭纜車回新化之門','全線來回票一路用到底'],en:['Ride back to Xinhua Gate','Same return ticket'],ja:['新化之門へ戻る','往復券でそのまま']},
+ night:{s:'ride',zh:['夜景時段搭乘','虎埤泛月，從天上看'],en:['Night slot ride','Moonlight on the lake'],ja:['夜景の便','湖の月を空から']},
+ dawn:{s:'ride',zh:['日出時段搭乘','湖霧還沒散的清晨'],en:['Sunrise slot ride','Through the morning mist'],ja:['日の出の便','霧の残る朝の湖を']}
+};
+function buildPlan(){
+  const {len,who,like}=plan; let seq=[];
+  const pick={food:['t1_st','t3_lunch'],lake:['t1_sky','t2_walk'],forest:['t4_trail','t4_deck'],resort:['t2_pool','t3_spa']}[like];
+  const forestAct=who==='elder'?'t4_deck':(like==='forest'?'t4_trail':'t4_deck');
+  if(len==='2h'){ seq=[['10:00','t1_sky'],['10:30','ride1'],['10:45',like==='forest'?'t4_deck':like==='food'?'t1_st':'t2_walk'],['11:40','back']]; if(like==='food') seq=[['10:00','ride1'],['10:15','t2_walk'],['11:00','back'],['11:15','t1_st']]; }
+  else if(len==='half'){ seq=[['13:00','t1_st'],['14:00','ride1'],['14:15','t2_walk'],['15:00',who==='family'?'t3_xr':'t3_lunch'],['16:15',forestAct],['17:15','back'],['17:40','t1_mir']]; if(like==='forest') seq.splice(3,1); }
+  else if(len==='day'){ seq=[['09:30','t1_sky'],['10:00','ride1'],['10:15','t2_walk'],['11:30',like==='forest'?'t4_trail':'t4_deck'],['13:00','t3_lunch'],['14:30',who==='family'?'t3_xr':like==='resort'?'t3_spa':'t4_ther'],['17:00','back'],['17:30','t1_st'],['19:00','t1_mir']]; if(who==='couple'||like==='lake') seq.splice(7,0,['18:00','night']); }
+  else { const hotel=(who==='couple'||like==='lake'||like==='resort')?'t2_in':'t3_in';
+    seq=[['14:00','t1_st'],['15:30','ride1'],['16:00',hotel],['17:00',hotel==='t2_in'?'t2_pool':(who==='family'?'t3_xr':'t3_spa')],['18:30','t3_din'],['20:30','night'],['05:40','dawn'],['07:30',forestAct],['10:00','t4_ther'],['12:00','back']]; }
+  if(who==='family'&&!seq.some(s=>s[1]==='t3_xr')&&len!=='2h') seq.splice(Math.min(3,seq.length-1),0,['','t3_xr']);
+  // 票價估算
+  const reducedP=who==='elder'?'480 / 240':'480';
+  const slot=seq.some(s=>s[1]==='night'||s[1]==='dawn')?(seq.filter(s=>s[1]==='night'||s[1]==='dawn').length*150):0;
+  return {seq,cost:480+slot,slot,elder:who==='elder',room:len==='stay'?(seq.some(s=>s[1]==='t2_in')?'5,200':'4,300'):null};
+}
+const COL={t1:'var(--t1)',t2:'var(--t2)',t3:'var(--t3)',t4:'var(--t4)',ride:'var(--gold)'};
+const SNAME=()=>({t1:L().st.t1.n,t2:L().st.t2.n,t3:L().st.t3.n,t4:L().st.t4.n,ride:{zh:'纜車',en:'Cable car',ja:'ケーブルカー'}[lang]});
+function planOut(){
+  const t=L(), p=buildPlan(), nm=SNAME();
+  const heroImg={food:'t1-street.jpg',lake:'aerial.jpg',forest:'t4-trail.jpg',resort:'t2-pool.jpg'}[plan.like];
+  const title=t.q[0][1].find(o=>o[0]===plan.len)[1]+'・'+t.q[1][1].find(o=>o[0]===plan.who)[1]+'・'+t.q[2][1].find(o=>o[0]===plan.like)[1];
+  let day2=false;
+  const items=p.seq.map(([tm,k],i)=>{const a=ACT[k][lang]; let pre=''; if(plan.len==='stay'&&tm==='05:40'&&!day2){day2=true;pre={zh:'第二天',en:'Day 2',ja:'2日目'}[lang]+' ';}
+    return `<li style="--c:${COL[ACT[k].s]}"><span class="t">${tm}</span><span class="ln"></span><div class="x"><b>${a[0]}</b><span><em>${pre}${nm[ACT[k].s]}</em>${a[1]}</span></div></li>`;}).join('');
+  const costTxt=p.elder?`${fmt(p.cost)} / ${fmt(240+p.slot)}`:fmt(p.cost);
+  return `<div class="card-out"><div class="top"><img src="img/${heroImg}" alt=""><h3>${t.plOut}：${title}</h3></div><ol class="tl">${items}</ol>
+  <div class="outfoot"><div class="sum"><span>${t.plCost}</span><b>NT$ ${costTxt}</b>${p.room?`<span>${t.plRoom} NT$ ${p.room}</span>`:''}</div><div><button class="cta ink" type="button" id="copyPlan">${t.plCopy}</button><div class="copied" id="planMsg" aria-live="polite"></div></div></div></div>`;
+}
+function planner(){
+  const t=L(), keys=['len','who','like'];
+  return `<div class="planner"><div class="qs">${t.q.map((q,i)=>`<div class="q"><b>${q[0]}</b><div class="opts" data-q="${keys[i]}">${q[1].map(o=>`<button type="button" data-v="${o[0]}" aria-pressed="${plan[keys[i]]===o[0]}">${o[1]}</button>`).join('')}</div></div>`).join('')}</div><div id="planOut">${planOut()}</div></div>`;
+}
+
+/* ================= 票價試算 ================= */
+function calcTotal(){
+  const t=L(), tk=t.tk[calc.type];
+  const pax=calc.adult+calc.reduced;
+  let sum=calc.adult*tk[2]+calc.reduced*tk[3];
+  t.adds.forEach(a=>{if(calc.adds[a[0]]){sum+= a[0]==='cabin'?a[3]*Math.max(1,Math.ceil((pax+calc.child)/6)) : a[0]==='photo'?a[3] : a[3]*pax;}});
+  sum+=calc.park*50;
+  return sum;
+}
+function calcBox(){
+  const t=L();
+  const stepper=(k,label,sub)=>`<div class="row"><label>${label}${sub?`<small>${sub}</small>`:''}</label><div class="step"><button type="button" data-step="${k}" data-d="-1" aria-label="−">−</button><output id="o_${k}">${calc[k]}</output><button type="button" data-step="${k}" data-d="1" aria-label="+">+</button></div></div>`;
+  return `<div class="calc"><h3>${t.calcH}</h3>
+   <div class="row"><label for="ctype">${t.calcType}</label><select id="ctype">${t.tk.map((x,i)=>`<option value="${i}"${i===calc.type?' selected':''}>${x[0]}</option>`).join('')}</select></div>
+   ${stepper('adult',t.adult)}${stepper('reduced',t.reduced)}${stepper('child',t.child)}
+   ${t.adds.map(a=>`<label class="chk"><input type="checkbox" data-add="${a[0]}"${calc.adds[a[0]]?' checked':''}> ${a[1]} <span class="num" style="margin-left:auto">+${fmt(a[3])}</span></label>`).join('')}
+   ${stepper('park',t.calcPark)}
+   <div class="total"><span>${t.calcTotal}</span><b>NT$ <span id="ctotal">${fmt(calcTotal())}</span></b></div>
+   <button class="cta" type="button" id="copyCalc">${t.calcCopy}</button><div class="copied" id="calcMsg" aria-live="polite"></div></div>`;
+}
+
+/* ================= 頁面 ================= */
+function home(){
+  const t=L();
+  return heroHome()+`<div class="strip">${t.strip.map(s=>`<div><b>${s[0]}<small>${s[1]}</small></b><span>${s[2]}</span></div>`).join('')}</div>`
+  +journey()
+  +`<section id="stationsSec"><div class="wrap"><div class="sec-h"><div><span class="kicker">${t.stk}</span><h2>${t.sth}</h2><p>${t.stp}</p></div></div>${stationCards()}</div></section>`
+  +allDay()
+  +`<section><div class="wrap"><div class="sec-h"><div><span class="kicker">${t.plk}</span><h2>${t.plh}</h2><p>${t.plp}</p></div></div>${planner()}</div></section>`
+  +`<section><div class="wrap"><div class="hotels">${t.hotels.map(hotelCard).join('')}</div><p class="note">${t.pkg}</p></div></section>`
+  +`<section><div class="wrap"><div class="banner"><img src="img/t2-wedding.jpg" alt="${t.ev[0][0]}" loading="lazy"><div class="b"><span class="kicker" style="color:var(--gold)">Events</span><h2>${t.evH}</h2><p>${t.evP}</p><a class="cta" href="#events" style="justify-self:start">${t.formH}</a></div></div></div></section>`;
+}
+function hotelCard(h){
+  const t=L();
+  return `<article class="hotel" style="--sc:var(--${h.k})">${img(h.img,h.n)}<div class="b"><h3>${h.n}</h3><p style="color:var(--muted)">${h.sum}</p><dl>${h.d.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('')}</dl>
+  <div class="price"><div><span>${t.weekday}</span><b>${h.p[0]}<small>${t.from}</small></b></div><div><span>${t.weekend}</span><b>${h.p[1]}<small>${t.from}</small></b></div></div>
+  <a class="more" href="#${h.k}" style="justify-self:start">${t.st[h.k].n} →</a></div></article>`;
+}
+function station(id){
+  const t=L(), s=t.st[id], i=ST_ORDER.indexOf(id), pv=ST_ORDER[i-1], nx=ST_ORDER[i+1];
+  const heroF={t1:'aerial.jpg',t2:'t2-r1.jpg',t3:'t3-r1.jpg',t4:'t4-r1.jpg'}[id];
+  return `<div style="--accent:var(--${id})">`+pageHero(heroF,s.n,s.tag,`T${i+1}`)+
+  `<section><div class="wrap"><div class="split"><div class="media">${img(heroF===CARD_IMG[id]?ST_IMG[id][1]||heroF:CARD_IMG[id],s.n)}</div><div class="prose"><span class="kicker">T${i+1}・${s.en}</span><h2>${s.tag}</h2><p class="lead">${s.lead}</p><ul class="ticks">${s.chips.map(c=>`<li>${c}</li>`).join('')}</ul></div></div></div></section>
+  <section><div class="wrap"><div class="sec-h"><div><span class="kicker">After you get off</span><h2>${t.thingsH}</h2><p>${s.more}</p></div></div>
+  <div class="tiles" style="--sc:var(--${id})">${s.things.map(x=>`<article class="tile">${img(x[2],x[0])}<div class="b"><span class="tag">T${i+1}</span><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('')}</div></div></section>
+  ${ST_IMG[id].length>1?`<section><div class="wrap"><div class="sec-h"><div><span class="kicker">Views</span><h2>${t.viewsH}</h2></div></div><div class="tiles" style="grid-template-columns:repeat(2,minmax(0,1fr))">${ST_IMG[id].map(f=>`<div class="tile">${img(f,s.n)}</div>`).join('')}</div></div></section>`:''}
+  <section><div class="wrap"><div class="pager">${pv?`<a href="#${pv}"><small>← ${t.prev}</small><b>${t.st[pv].n}</b></a>`:`<a href="#home"><small>←</small><b>${t.back}</b></a>`}${nx?`<a href="#${nx}"><small>${t.next} →</small><b>${t.st[nx].n}</b></a>`:`<a href="#ride"><small>→</small><b>${t.cta}</b></a>`}</div></div></section></div>`;
+}
+function ride(){
+  const t=L();
+  return pageHero('t2-r3.jpg',t.rideH,t.rideSub,t.rideH)+
+  `<section><div class="wrap"><div class="sec-h"><div><span class="kicker">${t.tkk}</span><h2>${t.tkh}</h2><p>${t.tkp}</p></div></div>
+  <div class="tickets"><div><table class="ttable"><thead><tr><th>${t.tkHead[0]}</th><th style="text-align:right">${t.tkHead[1]}</th><th style="text-align:right">${t.tkHead[2]}</th></tr></thead><tbody>
+  ${t.tk.map(x=>`<tr><td><b>${x[0]}</b><small>${x[1]}</small></td><td class="p">${fmt(x[2])}</td><td class="p">${fmt(x[3])}</td></tr>`).join('')}</tbody></table>
+  <table class="ttable" style="margin-top:16px"><thead><tr><th colspan="2">${t.addHead}</th></tr></thead><tbody>${t.adds.map(a=>`<tr><td><b>${a[1]}</b><small>${a[2]}</small></td><td class="p">${fmt(a[3])}</td></tr>`).join('')}</tbody></table>
+  <p class="note">${t.tkNote}</p></div>${calcBox()}</div></div></section>
+  <section><div class="wrap"><div class="sec-h"><div><span class="kicker">Good to know</span><h2>${t.infoH}</h2></div></div><div class="info">${t.rideInfo.map((r,i)=>`<div class="ibox" style="--c:var(--${ST_ORDER[i%4]})"><h3>${r[0]}</h3><p>${r[1]}</p></div>`).join('')}</div></div></section>
+  <section><div class="wrap"><div class="split"><div class="prose"><span class="kicker">FAQ</span><h2>${t.faqH}</h2></div><div class="faq">${t.faq.map((f,i)=>`<details${i===0?' open':''}><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('')}</div></div></div></section>`;
+}
+function stations(){
+  const t=L();
+  return pageHero('aerial.jpg',t.sth,t.stp,t.nav[1][1])+`<section><div class="wrap">${stationCards()}</div></section>`+journey();
+}
+function stay(){
+  const t=L();
+  return pageHero('t2-room.jpg',t.stayH,t.stayP,t.nav[2][1])+`<section><div class="wrap"><div class="hotels">${t.hotels.map(hotelCard).join('')}</div><p class="note">${t.pkg}</p></div></section>`+allDay();
+}
+function eat(){
+  const t=L();
+  return pageHero('t1-street.jpg',t.eatH,t.eatP,t.nav[3][1])+
+  `<section><div class="wrap"><div class="split"><div class="media">${img('t1-food.jpg',t.eatStory[0])}</div><div class="prose"><span class="kicker" style="color:var(--t1)">Xinhua Gate</span><h2>${t.eatStory[0]}</h2><p class="lead">${t.eatStory[1]}</p><a class="more" href="#t1" style="justify-self:start">${t.st.t1.n} →</a></div></div></div></section>
+  <section><div class="wrap"><div class="tiles" style="--sc:var(--t1)">${t.eatTiles.map(x=>`<article class="tile">${img(x[2],x[0])}<div class="b"><span class="tag">T1</span><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('')}</div></div></section>`;
+}
+function events(){
+  const t=L();
+  return pageHero('t3-banquet.jpg',t.evH,t.evP,t.nav[4][1])+
+  `<section><div class="wrap"><div class="tiles" style="grid-template-columns:repeat(2,minmax(0,1fr))">${t.ev.map((x,i)=>`<article class="tile">${img(x[2],x[0])}<div class="b"><span class="tag" style="color:var(--${i===0?'t2':'t3'})">${i===0?t.hotels[0].n:t.hotels[1].n}</span><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('')}</div></div></section>
+  <section><div class="wrap"><div class="split"><div class="prose"><span class="kicker">Inquiry</span><h2>${t.formH}</h2><p>${t.evP}</p></div>
+  <form class="form" id="evForm"><label for="fType">${t.fType}<select id="fType">${t.fTypes.map(x=>`<option>${x}</option>`).join('')}</select></label>
+  <div class="two"><label for="fDate">${t.fDate}<input id="fDate" type="date"></label><label for="fPax">${t.fPax}<input id="fPax" type="number" min="1" value="80"></label></div>
+  <label for="fName">${t.fName}<input id="fName" type="text"></label><label for="fNote">${t.fNote}<textarea id="fNote" rows="3"></textarea></label>
+  <button class="cta ink" type="submit" style="justify-self:start">${t.fBtn}</button><div id="fOut"></div></form></div></div></section>`;
+}
+function planPage(){
+  const t=L();
+  return pageHero('t4-trail.jpg',t.plh,t.plp,t.nav[5][1])+`<section><div class="wrap">${planner()}</div></section>`;
+}
+function visit(){
+  const t=L();
+  return pageHero('aerial.jpg',t.visH,t.visP,t.nav[6][1])+
+  `<section><div class="wrap"><div class="info" style="grid-template-columns:repeat(2,minmax(0,1fr))">${t.vis.map(v=>`<div class="ibox" style="--c:${v[2]}"><h3>${v[0]}</h3><p>${v[1]}</p></div>`).join('')}</div>
+  <div class="ibox" style="margin-top:16px;--c:var(--gold)"><h3>${t.visOpen[0]}</h3><p>${t.visOpen[1]}</p></div></div></section>`;
+}
+
+/* ================= 路由與互動 ================= */
+const ROUTES={home,ride,stations,stay,eat,events,plan:planPage,visit,t1:()=>station('t1'),t2:()=>station('t2'),t3:()=>station('t3'),t4:()=>station('t4')};
+function render(keepScroll){
+  const t=L(); let h=(location.hash||'#home').slice(1); if(!ROUTES[h]) h='home';
+  document.documentElement.lang={zh:'zh-Hant',en:'en',ja:'ja'}[lang];
+  $('#brandName').textContent=t.brand; $('#navCta').textContent=t.cta;
+  $$('#langs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  const cur=h.startsWith('t')&&h.length===2?'stations':h;
+  $('#links').innerHTML=t.nav.map(n=>`<a href="#${n[0]}"${n[0]===cur?' aria-current="page"':''}>${n[1]}</a>`).join('');
+  $('#app').innerHTML=ROUTES[h]();
+  $('#foot').innerHTML=`<div><b>${t.foot.about}</b><p>${t.foot.aboutP}</p><small>${t.foot.small}</small></div><div><b>${t.foot.h1}</b>${ST_ORDER.map(id=>`<a href="#${id}">${t.st[id].n}</a>`).join('')}<a href="#stay">${t.nav[2][1]}</a><a href="#eat">${t.nav[3][1]}</a></div><div><b>${t.foot.h2}</b><a href="#ride">${t.cta}</a><a href="#plan">${t.nav[5][1]}</a><a href="#events">${t.nav[4][1]}</a><a href="#visit">${t.nav[6][1]}</a></div>`;
+  document.title=h==='home'?t.brand:(t.nav.find(n=>n[0]===cur)?.[1]||t.st[h]?.n||'')+'｜'+t.brand;
+  if(!keepScroll) window.scrollTo(0,0);
+  setupJourney();
+}
+let jObs=null;
+function setupJourney(){
+  if(jObs){jObs.disconnect();jObs=null;}
+  const box=$('#jtext'); if(!box) return;
+  box.innerHTML=spanText(0);
+  jObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=+e.target.dataset.i;
+    $$('.jimgs img').forEach((im,k)=>im.classList.toggle('on',k===i)); box.innerHTML=spanText(i);}})},{rootMargin:'-45% 0px -45% 0px'});
+  $$('.jsteps .s').forEach(s=>jObs.observe(s));
+  onScroll();
+}
+function onScroll(){
+  const w=$('.jwrap'); if(!w) return;
+  const r=w.getBoundingClientRect(), total=r.height-innerHeight;
+  const f=Math.min(1,Math.max(0,-r.top/Math.max(1,total)));
+  const p=$('#rprog'); if(p) p.setAttribute('stroke-dashoffset',String(100-f*100));
+  const pl=$('#rprog'); const car=$('#rcar');
+  if(pl&&car&&pl.getTotalLength){const L0=pl.getTotalLength(), pt=pl.getPointAtLength(L0*f); car.setAttribute('cx',pt.x); car.setAttribute('cy',pt.y);}
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('hashchange',()=>render());
+function copy(text,msgSel){
+  const ok=()=>{const m=$(msgSel); if(m) m.textContent=L().copied;};
+  try{navigator.clipboard.writeText(text).then(ok,()=>fallback());}catch(e){fallback();}
+  function fallback(){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}ta.remove();}
+}
+document.addEventListener('click',e=>{
+  const lb=e.target.closest('#langs button'); if(lb){lang=lb.dataset.lang; try{localStorage.setItem('htp-lang',lang)}catch(_){} render(true); return;}
+  const tb=e.target.closest('[data-time]'); if(tb){time=tb.dataset.time; const hero=$('.hero'); if(hero){hero.outerHTML=heroHome();} return;}
+  const ob=e.target.closest('.opts button'); if(ob){plan[ob.parentElement.dataset.q]=ob.dataset.v; ob.parentElement.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b===ob)); $('#planOut').innerHTML=planOut(); return;}
+  if(e.target.closest('#copyPlan')){const txt=[...$$('#planOut .tl li')].map(li=>li.querySelector('.t').textContent+'  '+li.querySelector('b').textContent+'｜'+li.querySelector('.x span').textContent).join('\n'); copy($('#planOut h3').textContent+'\n'+txt,'#planMsg'); return;}
+  const sb=e.target.closest('[data-step]'); if(sb){const k=sb.dataset.step; calc[k]=Math.max(0,Math.min(40,calc[k]+(+sb.dataset.d))); $('#o_'+k).textContent=calc[k]; $('#ctotal').textContent=fmt(calcTotal()); return;}
+  if(e.target.closest('#copyCalc')){const t=L(), tk=t.tk[calc.type]; const lines=[`${tk[0]}：${t.adult} ${calc.adult}、${t.reduced} ${calc.reduced}、${t.child} ${calc.child}`]; t.adds.forEach(a=>{if(calc.adds[a[0]])lines.push(a[1]);}); if(calc.park) lines.push(`${t.calcPark} × ${calc.park}`); lines.push(`${t.calcTotal} NT$ ${fmt(calcTotal())}`); copy(lines.join('\n'),'#calcMsg'); return;}
+  const z=e.target.closest('img[data-zoom]'); if(z){$('#lbi').src=z.src;$('#lbi').alt=z.alt;$('#lbc').textContent=z.alt;$('#lb').hidden=false;return;}
+  if(e.target.closest('#lb')) $('#lb').hidden=true;
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='ctype'){calc.type=+e.target.value; $('#ctotal').textContent=fmt(calcTotal());}
+  if(e.target.dataset.add){calc.adds[e.target.dataset.add]=e.target.checked; $('#ctotal').textContent=fmt(calcTotal());}
+});
+document.addEventListener('submit',e=>{
+  if(e.target.id!=='evForm') return; e.preventDefault(); const t=L();
+  const txt=`${t.fType}：${$('#fType').value}\n${t.fDate}：${$('#fDate').value||'—'}\n${t.fPax}：${$('#fPax').value}\n${t.fName}：${$('#fName').value||'—'}\n${t.fNote}：${$('#fNote').value||'—'}`;
+  $('#fOut').innerHTML=`<p class="note">${t.fOut}</p><pre style="white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:12px;font:inherit;font-size:14px;margin:6px 0 0">${txt.replace(/</g,'&lt;')}</pre><button class="cta" type="button" id="copyForm" style="margin-top:8px">${t.copy}</button><div class="copied" id="formMsg"></div>`;
+  $('#copyForm').onclick=()=>copy(txt,'#formMsg');
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') $('#lb').hidden=true;});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,835 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>虎頭埤纜車 全天候隨需發車 營運動態模擬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f5f2; --panel:#ffffff; --ink:#1d2a33; --sub:#5d6b75; --line:#d9dee2;
+  --A:#1f6fb2; --B:#d9822b; --water:#cfe3ef; --ground:#e7e1d3; --ok:#2f8f5b; --warn:#c0392b; --accent:#0f4c5c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;font-size:14px;line-height:1.5}
+header{background:var(--accent);color:#fff;padding:16px 24px 14px;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+header .tt{flex:1;min-width:280px}
+header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:.5px}
+header h1 .od{background:#f2c14e;color:#3b2a00;padding:1px 10px;border-radius:4px;margin:0 6px}
+header p{margin:4px 0 0;font-size:13px;opacity:.88}
+.lang{background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff;border-radius:16px;padding:5px 14px;cursor:pointer;font:inherit;font-size:13px}
+.lang:hover{background:rgba(255,255,255,.15)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.bar label{color:var(--sub);font-size:13px;margin-right:4px}
+.bar select,.bar button{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 8px;color:var(--ink);cursor:pointer}
+.bar button.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.bar button.on{background:#e6f0f3;border-color:var(--accent)}
+.bar input[type=range]{vertical-align:middle;width:120px}
+.grp{display:flex;align-items:center;gap:4px}
+.clock{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-left:auto}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;padding:14px 24px}
+@media(max-width:1100px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.card h2{font-size:14px;margin:0 0 6px;font-weight:700;color:var(--accent);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h2 small{font-weight:400;color:var(--sub);font-size:12px}
+canvas{display:block;width:100%}
+.mode{border-radius:6px;padding:8px 10px;font-weight:700;margin-bottom:8px}
+.mode.day{background:#e8f3ec;color:#1f5f3b}
+.mode.night{background:#e7eaf4;color:#2c3a6b}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi div{background:#f7f8f6;border-radius:6px;padding:6px 8px}
+.kpi b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--sub)}
+.kpi .full{grid-column:1/3}
+.trains{width:100%;border-collapse:collapse;font-size:12.5px}
+.trains td,.trains th{padding:3px 4px;border-bottom:1px solid #eef0f1;text-align:left;font-variant-numeric:tabular-nums}
+.trains th{color:var(--sub);font-weight:500}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.log{height:220px;overflow:auto;font-size:12px;font-variant-numeric:tabular-nums}
+.log div{padding:2px 0;border-bottom:1px dashed #eef0f1}
+.log .tm{color:var(--sub);margin-right:6px}
+.log .mt{color:#2c3a6b;font-weight:500}
+table.pt{width:100%;border-collapse:collapse;font-size:13px}
+table.pt th,table.pt td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+table.pt th{background:#eef3f4;font-weight:500}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 24px 24px}
+@media(max-width:1100px){.rules{grid-template-columns:1fr}}
+.rules ol{margin:4px 0 0;padding-left:20px}
+.rules li{margin:3px 0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:4px}
+.src{font-size:12px;color:var(--sub);padding:0 24px 24px}
+</style>
+<header>
+  <div class="tt">
+    <h1 id="ttl"></h1>
+    <p id="subt"></p>
+  </div>
+  <button class="lang" id="langBtn">English</button>
+</header>
+
+<div class="bar">
+  <div class="grp"><label data-i="ctlPhase"></label>
+    <select id="selPhase"><option value="2" data-i="phase2"></option><option value="1" data-i="phase1"></option></select></div>
+  <div class="grp"><label data-i="ctlScen"></label>
+    <select id="selScen"><option value="avg" data-i="scAvg"></option><option value="peak" data-i="scPeak"></option><option value="cap" data-i="scCap"></option></select></div>
+  <div class="grp"><label data-i="ctlMult"></label><input type="range" id="rngMult" min="0.2" max="8" step="0.1" value="1"><b id="txtMult" style="min-width:42px">×1.0</b></div>
+  <div class="grp"><label data-i="ctlSpeed"></label>
+    <select id="selSpeed"><option>1</option><option>10</option><option selected>30</option><option>60</option><option>120</option><option>300</option></select><span>×</span></div>
+  <div class="grp"><label data-i="ctlJump"></label>
+    <button data-j="07:50">07:50</button><button data-j="12:00">12:00</button><button data-j="21:50">21:50</button><button data-j="02:50">02:50</button></div>
+  <div class="grp"><button class="pri" id="btnRun"></button><button id="btnReset" data-i="reset"></button></div>
+  <div class="clock" id="clock">08:00:00</div>
+</div>
+
+<div class="wrap">
+  <main>
+    <div class="card">
+      <h2><span data-i="cv1"></span><small data-i="cv1s"></small></h2>
+      <canvas id="cvLine" height="470"></canvas>
+      <div class="legend" id="lg1"></div>
+    </div>
+    <div class="card">
+      <h2><span data-i="cv2"></span><small data-i="cv2s"></small></h2>
+      <canvas id="cvTS" height="300"></canvas>
+    </div>
+    <div class="card">
+      <h2><span data-i="cv3"></span><small data-i="cv3s"></small></h2>
+      <canvas id="cvHr" height="190"></canvas>
+    </div>
+  </main>
+  <aside>
+    <div class="card">
+      <div class="mode day" id="modeBox"></div>
+      <div class="kpi">
+        <div><b id="kWait">0</b><span data-i="kWait"></span></div>
+        <div><b id="kMaxW">0 s</b><span data-i="kMaxW"></span></div>
+        <div><b id="kAvgW">—</b><span data-i="kAvgW"></span></div>
+        <div><b id="kCeil">342 s</b><span data-i="kCeil"></span></div>
+        <div class="full"><b id="kRate">—</b><span data-i="kRate"></span></div>
+        <div><b id="kFlowE">0</b><span data-i="kFlowE"></span></div>
+        <div><b id="kFlowW">0</b><span data-i="kFlowW"></span></div>
+        <div><b id="kCapE">0</b><span data-i="kCapE"></span></div>
+        <div><b id="kCapW">0</b><span data-i="kCapW"></span></div>
+        <div><b id="kTot">0</b><span data-i="kTot"></span></div>
+        <div><b id="kCars">0</b><span data-i="kCars"></span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 data-i="trTitle"></h2>
+      <table class="trains"><thead><tr><th data-i="thTrain"></th><th data-i="thState"></th><th data-i="thCars"></th><th data-i="thPax"></th><th data-i="thSpd"></th></tr></thead><tbody id="trBody"></tbody></table>
+    </div>
+    <div class="card">
+      <h2 data-i="logTitle"></h2>
+      <div class="log" id="log"></div>
+    </div>
+  </aside>
+</div>
+
+<div class="rules">
+  <div class="card">
+    <h2 data-i="ruTitle"></h2>
+    <ol id="rules"></ol>
+  </div>
+  <div class="card">
+    <h2 data-i="ptTitle"></h2>
+    <table class="pt" id="ptab"></table>
+  </div>
+</div>
+<div class="src" id="src"></div>
+
+<script>
+"use strict";
+/* ================= 語言 ================= */
+const I18N={
+zh:{
+ ttl:'虎頭埤纜車　24 小時全天候<span class="od">隨需發車</span>營運動態模擬',
+ subt:'弦線纜車系統｜A、B 兩線獨立往返｜每列 1～5 車、每車 6 人｜乘客叫車即發車，不設固定時刻表，由 T1 行控中心（OCC）依候乘人數派車',
+ ctlPhase:'營運階段', phase2:'全線直通 T1–T4', phase1:'第一階段 T1–T3',
+ ctlScen:'情境', scAvg:'年平均日（75 萬人次／年）', scPeak:'假日尖峰日', scCap:'運能檢核：連續派車',
+ ctlMult:'需求倍率', ctlSpeed:'模擬速度', ctlJump:'跳至', run:'暫停', pause:'繼續', reset:'重設',
+ cv1:'路線縱斷與兩線即時位置', cv1s:'縱斷為示意，垂直比例放大；列長依車數放大顯示',
+ cv2:'時空圖（最近 45 分鐘）', cv2s:'橫軸里程、縱軸時間（上方為現在）',
+ cv3:'逐時叫車人次與平均候車', cv3s:'當日 00–24 時',
+ kWait:'候車中人數', kMaxW:'目前最長候車', kAvgW:'近 1 小時平均候車', kCeil:'目前隨需候車上限',
+ kRate:'隨需發車達成率（候車在上限內之人次 ÷ 叫車人次，目標 98.0%）',
+ kFlowE:'近 1 小時東行運量（人）', kFlowW:'近 1 小時西行運量（人）',
+ kCapE:'近 1 小時東行提供座位', kCapW:'近 1 小時西行提供座位', kTot:'累計載客人次', kCars:'營運中車輛數',
+ trTitle:'各列狀態', thTrain:'列', thState:'狀態', thCars:'車數', thPax:'乘客', thSpd:'速度',
+ logTitle:'行控中心派車紀錄',
+ stIdle:'待命', stRun:'運行', stDwell:'停站', stMaint:'維修時段', stPark:'存車',
+ at:'於', east:'東行', west:'西行', car:'車',
+ dayMode:'日間 08:00–22:00｜兩線待命，客量高時每線最多兩列連續派車',
+ dayMode1:'日間 08:00–22:00｜兩線待命，每線一列',
+ nightA:'夜間｜A 線維修時段 22:00–03:00，B 線一列服務全線',
+ nightB:'夜間｜B 線維修時段 03:00–08:00，A 線一列服務全線',
+ evDep:(p)=>`${p.tr} ${p.cars} 車自 ${p.st} ${p.dir}發車（${p.why}）`,
+ whyCall:(p)=>`叫車：${p.st} ${p.dir} ${p.n} 人`, whyFetch:(p)=>`前往 ${p.st} 接載 ${p.n} 人`, whyCont:()=>'連續派車',
+ evMs:(p)=>`${p.line} 線進入維修時段，停止受理派車`, evMe:(p)=>`${p.line} 線維修時段結束，恢復待命`,
+ evRe:(p)=>`${p.tr} 於 ${p.st} 編組變更 ${p.a}→${p.b} 車`,
+ lgA:'A 線', lgB:'B 線', lgW:'虎頭埤水域（示意）', lgQ:'站內數字：▶東行／◀西行候車人數；圓點為候車旅客（綠＜60% 上限、黃、紅＝逾上限）；車廂白點＝已坐座位',
+ hrCalls:'叫車人次', hrWait:'平均候車（s）',
+ ruTitle:'營運規則（模擬採用）',
+ rules:[
+  '24 小時全年營運、全天候<b>隨需發車</b>：乘客叫車即發車，不設固定時刻表；OCC 劃位至最早到站之列。',
+  'A、B 兩線各自獨立往返全線，全線不設轉轍及渡線；T2、T3 中途停靠 30 s，旅客不換車；端站折返 60 s。',
+  '日間 08:00–22:00 兩線待命；客量高時，OCC 依候乘人數連續派車，每線最多兩列同向追蹤（最短追蹤 58 s，T1、T4 前後雙車位）。',
+  '夜間一線維修、另一線一列服務全線：A 線維修 22:00–03:00，B 線維修 03:00–08:00；維修線停止受理派車，運行中之列完成該趟後存車。',
+  '彈性編組：安全以列固定、運能以車調整，每列 1～5 車；編組變更限端站、全列乘客下車後辦理。',
+  '同一線兩列不得對向同時運行；同向後列不推拉前列。',
+  '行駛速度：主線 40 km/h、門架段 30 km/h、T2／T3 站內曲線 18 km/h、T3 東承托座 34 km/h，加減速度 1.0 m/s²；站間行駛時間依定案值，剩餘時間計為運轉餘裕。'],
+ ptTitle:'定案運轉參數',
+ ptHead:['項目','第一階段 T1–T3','全線直通 T1–T4'],
+ ptRows:[
+  ['路線長','1,095.2 m','1,874.6 m'],
+  ['單程（含中途停站）','160.5 s','282.1 s'],
+  ['每線一列往返循環','441.0 s','684.2 s'],
+  ['每線兩列共同循環','—','806.0 s'],
+  ['單方向運能（兩線）','98.0～489.8 人／小時','一列 63.1～315.7；兩列 321.6～536.0 人／小時'],
+  ['隨需候車上限（兩線待命）','220.5 s','342 s'],
+  ['隨需候車上限（一線維修）','381 s','624 s'],
+  ['夜間單方向運能','244.9 人／小時','157.8 人／小時'],
+  ['車隊','12 輛（營運 10＋備用 2）','22 輛（營運 20＋備用 2）']],
+ src:'資料依據：投資計畫書第四章營運計畫（全天候隨需發車）、第三章 3.3 纜車系統、介面控制值 FACTS V3.1。需求以年 75 萬人次、逐時分布推估；起訖分布為模擬設定。',
+ tsNow:'現在', min:'分', stNames:['新化之門站','湖濱旅館站','湖濱山城站','新化林場站'],
+ ph2Only:'第二階段'
+},
+en:{
+ ttl:'Hutoupi Cable Car — 24-Hour <span class="od">On-Demand Dispatch</span> Operations Simulation',
+ subt:'String cable car system | Lines A and B shuttle independently | 1–5 cars per consist, 6 seats per car | No timetable: a call dispatches a car; the OCC at T1 dispatches by the number waiting',
+ ctlPhase:'Phase', phase2:'Full line T1–T4', phase1:'Phase 1 T1–T3',
+ ctlScen:'Scenario', scAvg:'Average day (750,000/yr)', scPeak:'Holiday peak day', scCap:'Capacity check: continuous dispatch',
+ ctlMult:'Demand ×', ctlSpeed:'Speed', ctlJump:'Jump to', run:'Pause', pause:'Run', reset:'Reset',
+ cv1:'Profile and live positions on both lines', cv1s:'Schematic profile, vertical scale exaggerated; consist length enlarged',
+ cv2:'Time–distance diagram (last 45 min)', cv2s:'x: chainage, y: time (now at top)',
+ cv3:'Calls per hour and average wait', cv3s:'Today 00–24 h',
+ kWait:'Passengers waiting', kMaxW:'Longest current wait', kAvgW:'Avg wait, last hour', kCeil:'Current on-demand wait ceiling',
+ kRate:'On-demand dispatch achievement (boardings within ceiling ÷ calls; target 98.0%)',
+ kFlowE:'Eastbound riders, last hour', kFlowW:'Westbound riders, last hour',
+ kCapE:'Eastbound seats offered, last hour', kCapW:'Westbound seats offered, last hour', kTot:'Total riders', kCars:'Cars in service',
+ trTitle:'Consists', thTrain:'Consist', thState:'State', thCars:'Cars', thPax:'Riders', thSpd:'Speed',
+ logTitle:'OCC dispatch log',
+ stIdle:'Standby', stRun:'Running', stDwell:'At station', stMaint:'Maintenance', stPark:'Stored',
+ at:'at', east:'eastbound', west:'westbound', car:'cars',
+ dayMode:'Day 08:00–22:00 | both lines on standby; up to two consists per line when demand is high',
+ dayMode1:'Day 08:00–22:00 | both lines on standby, one consist per line',
+ nightA:'Night | Line A maintenance 22:00–03:00; one consist on Line B serves the whole line',
+ nightB:'Night | Line B maintenance 03:00–08:00; one consist on Line A serves the whole line',
+ evDep:(p)=>`${p.tr} departs ${p.st} ${p.dir} with ${p.cars} cars (${p.why})`,
+ whyCall:(p)=>`call: ${p.n} waiting at ${p.st} ${p.dir}`, whyFetch:(p)=>`to pick up ${p.n} at ${p.st}`, whyCont:()=>'continuous dispatch',
+ evMs:(p)=>`Line ${p.line} enters maintenance window; dispatch suspended`, evMe:(p)=>`Line ${p.line} maintenance ends; back on standby`,
+ evRe:(p)=>`${p.tr} re-formed at ${p.st}: ${p.a}→${p.b} cars`,
+ lgA:'Line A', lgB:'Line B', lgW:'Hutoupi reservoir (schematic)', lgQ:'Station figures: ▶ eastbound / ◀ westbound waiting; dots are waiting riders (green < 60% of ceiling, amber, red = over ceiling); white dots in cars = occupied seats',
+ hrCalls:'Calls', hrWait:'Avg wait (s)',
+ ruTitle:'Operating rules (as simulated)',
+ rules:[
+  'Open 24 hours, all year, with <b>on-demand dispatch</b> at all hours: a call dispatches a car, with no timetable; the OCC assigns each rider to the first consist to arrive.',
+  'Lines A and B each shuttle over the whole line with no switches or crossovers; 30 s stops at T2 and T3 with no transfer; 60 s turnaround at the end stations.',
+  'Day 08:00–22:00: both lines on standby; when demand is high the OCC dispatches continuously, up to two consists per line in the same direction (58 s minimum following time; front and rear berths at T1 and T4).',
+  'Night: one line in maintenance, one consist on the other line serves the whole line — Line A 22:00–03:00, Line B 03:00–08:00. The line in maintenance takes no dispatch; a running consist completes its trip and is stored.',
+  'Flexible formation: safety is fixed per consist, capacity is set by cars, 1–5 cars per consist; re-formation only at end stations with the consist empty.',
+  'Two consists on one line never run toward each other; a following consist never pushes or pulls the one ahead.',
+  'Speeds: 40 km/h main line, 30 km/h at gantries, 18 km/h on T2/T3 station curves, 34 km/h on the T3 east support; 1.0 m/s² acceleration and braking. Inter-station times follow the adopted values; any remainder is held as running margin.'],
+ ptTitle:'Adopted operating parameters',
+ ptHead:['Item','Phase 1 T1–T3','Full line T1–T4'],
+ ptRows:[
+  ['Line length','1,095.2 m','1,874.6 m'],
+  ['One way incl. intermediate stops','160.5 s','282.1 s'],
+  ['Round trip, one consist per line','441.0 s','684.2 s'],
+  ['Common cycle, two consists per line','—','806.0 s'],
+  ['Capacity per direction (both lines)','98.0–489.8 pphpd','one consist 63.1–315.7; two 321.6–536.0 pphpd'],
+  ['Wait ceiling, both lines on standby','220.5 s','342 s'],
+  ['Wait ceiling, one line in maintenance','381 s','624 s'],
+  ['Night capacity per direction','244.9 pphpd','157.8 pphpd'],
+  ['Fleet','12 cars (10 in service + 2 spare)','22 cars (20 in service + 2 spare)']],
+ src:'Sources: Investment Plan Chapter 4 Operations Plan (24-hour on-demand dispatch), Chapter 3 §3.3 Cable Car System, interface control values FACTS V3.1. Demand from 750,000 trips/year with an hourly profile; origin–destination split is a simulation setting.',
+ tsNow:'now', min:'min', stNames:['Xinhua Gate','Lakeside Hotel','Lakeside Hill Town','Xinhua Forest Farm'],
+ ph2Only:'Phase 2'
+}};
+let LANG='zh';
+const T=k=>I18N[LANG][k];
+
+/* ================= 定案參數 ================= */
+const CONT_RATE=100, A_ACC=1.0, DWELL=30, TURN=60, TURN_PAIR=62.9, FOLLOW=58, SEATS=6;
+const ST=[{id:'T1',ch:0,el:52.60},{id:'T2',ch:796.0,el:68.60},{id:'T3',ch:1095.2,el:69.00},{id:'T4',ch:1874.6,el:66.00}];
+const SUPP=[{id:'P1',ch:446.0,el:67.70},{id:'P2',ch:1424.7,el:85.70}];
+// 站間行駛時間（定案值：T1–T3 單程行駛 130.5 s、全線 222.1 s）
+const LEG_OFF={'0-1':89.4,'1-2':41.1,'2-3':91.6};
+const CEIL={1:{two:220.5,one:381},2:{two:342.1,one:624.2}};
+// 縱斷節點（弦線頂）與跨中下垂（示意）
+const NODES=[[0,52.60],[446.0,67.70],[796.0,68.60],[1095.2,69.00],[1424.7,85.70],[1874.6,66.00]];
+const SAGS=[6.0,3.7,2.71,3.28,6.13];
+const GROUND=[[-90,32.5],[0,32.5],[25,30.6],[425,30.6],[446,44.0],[468,30.6],[745,30.6],[770,37.5],[796,40.0],[860,55],[912,62.4],[990,50],[1095.2,43.0],[1180,47],[1300,60],[1424.7,69.9],[1468,61.5],[1560,58],[1700,52],[1874.6,46.85],[1960,46]];
+// 逐時需求分布（%）
+const HSHARE=[0.3,0.2,0.2,0.2,0.2,0.3,0.8,1.8,4.0,6.5,8.5,9.0,8.6,8.6,9.0,8.8,8.0,6.6,5.0,3.8,3.0,2.2,1.2,0.6];
+const HSUM=HSHARE.reduce((a,b)=>a+b,0);
+const DAILY=750000/365;
+
+function vlim(s){
+  let v=40;
+  if(s<10) v=Math.min(v,30);
+  if(Math.abs(s-446)<35||Math.abs(s-1424.7)<35) v=Math.min(v,30);
+  if(s>796&&s<808) v=Math.min(v,18);
+  if(s>1095.2&&s<1126.3) v=Math.min(v,18); else if(s>=1126.3&&s<1145) v=Math.min(v,34);
+  if(s>1864) v=Math.min(v,30);
+  return v/3.6;
+}
+function buildLeg(a,b){
+  const sA=ST[a].ch,sB=ST[b].ch,L=Math.abs(sB-sA),n=Math.ceil(L/0.5),d=L/n,sg=Math.sign(sB-sA);
+  const v=new Float64Array(n+1),t=new Float64Array(n+1);
+  for(let i=1;i<=n;i++) v[i]=Math.min(vlim(sA+sg*i*d),Math.sqrt(v[i-1]*v[i-1]+2*A_ACC*d));
+  v[n]=0; for(let i=n-1;i>=0;i--) v[i]=Math.min(v[i],Math.sqrt(v[i+1]*v[i+1]+2*A_ACC*d));
+  v[0]=0;
+  for(let i=1;i<=n;i++) t[i]=t[i-1]+2*d/Math.max(v[i-1]+v[i],1e-6);
+  const key=a<b?`${a}-${b}`:`${b}-${a}`,To=LEG_OFF[key],Tk=t[n];
+  let f=1,hold=0; if(Tk>To){f=To/Tk;} else hold=To-Tk;
+  for(let i=0;i<=n;i++) t[i]*=f;
+  return {a,b,sA,sB,sg,n,d,v,t,f,move:t[n],hold,official:To,kin:Tk};
+}
+function legPos(L,tau){
+  if(tau<=0) return {s:L.sA,v:0}; if(tau>=L.move) return {s:L.sB,v:0};
+  let lo=0,hi=L.n; while(hi-lo>1){const m=(lo+hi)>>1; if(L.t[m]<=tau) lo=m; else hi=m;}
+  const r=(tau-L.t[lo])/(L.t[hi]-L.t[lo]||1);
+  return {s:L.sA+L.sg*(lo+r)*L.d, v:(L.v[lo]+(L.v[hi]-L.v[lo])*r)/L.f};
+}
+const LEGS={}; for(const [a,b] of [[0,1],[1,2],[2,3]]){LEGS[`${a}>${b}`]=buildLeg(a,b);LEGS[`${b}>${a}`]=buildLeg(b,a);}
+
+let PH=2, LAST=3;
+let TRIP={}; // dir -> {segs,total,arr[],dep[]}
+function buildTrips(){
+  LAST=PH===2?3:2;
+  for(const d of [1,-1]){
+    const seq=[]; if(d>0) for(let i=0;i<=LAST;i++) seq.push(i); else for(let i=LAST;i>=0;i--) seq.push(i);
+    const segs=[],arr=[],dep=[]; let t=0; arr[seq[0]]=0; dep[seq[0]]=0;
+    for(let i=0;i<seq.length-1;i++){
+      const L=LEGS[`${seq[i]}>${seq[i+1]}`];
+      segs.push({type:'move',L,t0:t,dur:L.move}); t+=L.move; arr[seq[i+1]]=t;
+      const mid=i<seq.length-2; const dw=L.hold+(mid?DWELL:0);
+      segs.push({type:'dwell',st:seq[i+1],t0:t,dur:dw,mid}); t+=dw; dep[seq[i+1]]=t;
+    }
+    TRIP[d]={segs,total:t,arr,dep,seq};
+  }
+}
+const timeTo=(d,s)=>TRIP[d].arr[s];
+
+/* ================= 狀態 ================= */
+let now=8*3600, running=true, SPEED=30, MULT=1, SCEN='avg';
+let trains=[], lines={}, Q=[], stats, events=[], lastMaint=null, accGen=0, accDisp=0, accHist=0;
+function mkTrain(line,idx,term,berth){
+  return {id:line+idx,line,idx,state:'idle',term,berth,dirOut:term===0?1:-1,dir:term===0?1:-1,arrivedAt:-1e9,
+    cars:3,pax:[],trip:null,tripStart:0,seg:0,lastDep:-1e9,hist:[],pos:ST[term].ch,v:0};
+}
+function reset(t0){
+  buildTrips();
+  now=t0; trains=[]; lines={};
+  const tA=0,tB=LAST;
+  for(const [L,term] of [['A',tA],['B',tB]]){
+    const arr=[mkTrain(L,1,term,'inner')];
+    if(PH===2) arr.push(mkTrain(L,2,term,'exit'));
+    lines[L]={trains:arr,active:arr[0],lastDep:-1e9,lastDepTerm:-1};
+    trains.push(...arr);
+  }
+  Q=ST.map(()=>({e:[],w:[]}));
+  stats={recent:[],calls:0,ok:0,board:[],seat:[],tot:0,hrCalls:new Array(24).fill(0),hrWaitSum:new Array(24).fill(0),hrBoard:new Array(24).fill(0),day:Math.floor(now/86400)};
+  events=[]; lastMaint=maintLine(); accGen=accDisp=accHist=0;
+  renderStatic();
+}
+/* ================= 時段 ================= */
+const hourOf=t=>((t%86400)+86400)%86400/3600;
+function isNight(t=now){const h=hourOf(t);return h>=22||h<8;}
+function maintLine(t=now){const h=hourOf(t);if(h>=22||h<3)return 'A';if(h<8)return 'B';return null;}
+const lineAvail=L=>maintLine()!==L;
+const allow2=L=>PH===2&&!isNight()&&lineAvail(L);
+const curCeil=()=>isNight()?CEIL[PH].one:CEIL[PH].two;
+const other=tr=>lines[tr.line].trains.find(x=>x!==tr);
+
+/* ================= 需求 ================= */
+function lambdaNow(){ // 人／秒（全網）
+  const h=Math.floor(hourOf(now));
+  return DAILY*MULT*(HSHARE[h]/HSUM)/3600*(PH===1?0.82:1);
+}
+function poisson(l){if(l<=0)return 0;if(l>30)return Math.max(0,Math.round(l+Math.sqrt(l)*gauss()));let L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random();}while(p>L);return k-1;}
+function gauss(){return Math.sqrt(-2*Math.log(Math.random()||1e-9))*Math.cos(2*Math.PI*Math.random());}
+function pickW(w){const s=w.reduce((a,b)=>a+b,0);let r=Math.random()*s;for(let i=0;i<w.length;i++){r-=w[i];if(r<=0)return i;}return w.length-1;}
+function genPax(dt){
+  const n=poisson(lambdaNow()*dt), h=hourOf(now);
+  for(let k=0;k<n;k++){
+    let wo,wd;
+    if(h<12){wo=[0.50,0.15,0.20,0.15];wd=[0.12,0.22,0.30,0.36];}
+    else if(h<15){wo=[0.32,0.20,0.24,0.24];wd=[0.30,0.20,0.25,0.25];}
+    else {wo=[0.18,0.20,0.30,0.32];wd=[0.50,0.18,0.20,0.12];}
+    wo=wo.slice(0,LAST+1); wd=wd.slice(0,LAST+1);
+    const o=pickW(wo); const w2=wd.map((x,i)=>i===o?0:x); const de=pickW(w2);
+    const p={t0:now,o,de,ceil:curCeil()};
+    (de>o?Q[o].e:Q[o].w).push(p);
+    stats.calls++; stats.hrCalls[Math.floor(h)]++; stats.recent.push(now);
+  }
+}
+/* ================= 列車運行 ================= */
+const cap=tr=>tr.cars*SEATS;
+const qOf=(s,d)=>d>0?Q[s].e:Q[s].w;
+function board(tr,s){
+  const q=qOf(s,tr.dir); let free=cap(tr)-tr.pax.length; const n0=tr.pax.length;
+  while(free>0&&q.length){const p=q.shift();const w=now-p.t0;tr.pax.push(p);free--;
+    stats.board.push({t:now,d:tr.dir,w,ok:w<=p.ceil+0.5,s,o:p.o}); stats.tot++; if(w<=p.ceil+0.5) stats.ok++;
+    const h=Math.floor(hourOf(p.t0)); stats.hrWaitSum[h]+=w; stats.hrBoard[h]++;}
+  if(tr.pax.length>n0) fxAdd({k:'brd',line:tr.line,st:s,n:tr.pax.length-n0});
+}
+function alight(tr,s){tr.pax=tr.pax.filter(p=>p.de!==s);}
+function turnOf(tr){
+  const o=other(tr);
+  if(o&&o.state==='idle'&&o.term===tr.term&&Math.abs(o.arrivedAt-tr.arrivedAt)<=120&&tr.berth==='exit') return TURN_PAIR;
+  return TURN;
+}
+function canDepart(tr){
+  if(tr.state!=='idle') return false;
+  const loaded=tr.pax.length>0; // 已有乘客之列完成該趟服務
+  if(!lineAvail(tr.line)&&!loaded) return false;
+  if(now<tr.arrivedAt+turnOf(tr)) return false;
+  if(!allow2(tr.line)&&lines[tr.line].active!==tr&&!loaded) return false;
+  const o=other(tr);
+  if(o){
+    if(o.state==='trip'&&o.dir!==tr.dirOut) return false;
+    if(o.state==='trip'&&o.dir===tr.dirOut&&now-o.lastDep<FOLLOW) return false;
+    if(o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner') return false;
+  }
+  return true;
+}
+function decideCars(tr){
+  if(SCEN==='cap') return 5;
+  const d=tr.dirOut; let need=0; for(let s=0;s<=LAST;s++) need+=qOf(s,d).length;
+  need+=0.5*lambdaNow()*TRIP[d].total;
+  let c=Math.ceil(need*1.3/SEATS); if(need>=3) c=Math.max(c,2); if(allow2(tr.line)&&need>30) c=5;
+  return Math.max(1,Math.min(5,c));
+}
+function depart(tr,why){
+  const nc=Math.max(decideCars(tr),Math.ceil(tr.pax.length/SEATS));
+  if(nc!==tr.cars) addEv('evRe',{tr:tr.id,st:ST[tr.term].id,a:tr.cars,b:nc});
+  if(!/58|following|追蹤/.test(why)){lines[tr.line].lastDep=now;lines[tr.line].lastDepTerm=tr.term;}
+  tr.cars=nc; tr.dir=tr.dirOut; tr.state='trip'; tr.trip=TRIP[tr.dir]; tr.tripStart=now; tr.seg=0; tr.lastDep=now; tr.berth=null;
+  board(tr,tr.term);
+  stats.seat.push({t:now,d:tr.dir,n:cap(tr)});
+  fxAdd({k:'dep',line:tr.line,st:tr.term});
+  addEv('evDep',{tr:tr.id,cars:tr.cars,st:ST[tr.term].id,dir:tr.dir>0?'east':'west',why});
+}
+function finishTrip(tr){
+  const end=tr.dir>0?LAST:0; alight(tr,end);
+  const o=other(tr);
+  tr.state='idle'; tr.term=end; tr.dirOut=-tr.dir; tr.arrivedAt=now; tr.pos=ST[end].ch; tr.v=0;
+  const innerTaken=o&&o.state==='idle'&&o.term===end&&o.berth==='inner';
+  tr.berth=innerTaken?'exit':'inner';
+}
+function stepTrain(tr){
+  if(tr.state!=='trip') return;
+  const tau=now-tr.tripStart, S=tr.trip.segs;
+  while(tr.seg<S.length&&tau>=S[tr.seg].t0+S[tr.seg].dur){
+    const g=S[tr.seg];
+    if(g.type==='move'){ const nx=S[tr.seg+1]; alight(tr,nx.st); if(nx.mid) board(tr,nx.st); }
+    else if(g.mid) board(tr,g.st);
+    tr.seg++;
+  }
+  if(tr.seg>=S.length){finishTrip(tr);return;}
+  const g=S[tr.seg];
+  if(g.type==='move'){const r=legPos(g.L,tau-g.t0);tr.pos=r.s;tr.v=r.v;}
+  else {tr.pos=ST[g.st].ch;tr.v=0;}
+}
+/* ================= 行控中心派車 ================= */
+function eta(tr,s,d){
+  const tt=TRIP[d].total;
+  if(tr.state==='trip'){
+    const rem=tr.tripStart+tr.trip.total-now;
+    if(tr.dir===d){
+      const dp=tr.trip.dep[s]; if(dp!==undefined&&now<=tr.tripStart+dp) return Math.max(0,tr.tripStart+tr.trip.arr[s]-now);
+      return rem+TURN+TRIP[-d].total+TURN+timeTo(d,s);
+    }
+    return rem+TURN+timeTo(d,s);
+  }
+  const ready=Math.max(0,tr.arrivedAt+TURN-now);
+  let e=tr.dirOut===d?ready+timeTo(d,s):ready+TRIP[tr.dirOut].total+TURN+timeTo(d,s);
+  const o=other(tr);
+  if(o&&o.state==='trip'&&o.dir!==tr.dirOut) e+=o.tripStart+o.trip.total-now;
+  return e;
+}
+function freeAhead(d){ // 各站可用座位（已在途、同方向）
+  const order=[];for(let s=0;s<=LAST;s++)order.push(s); if(d<0)order.reverse();
+  const trs=trains.filter(t=>t.state==='trip'&&t.dir===d).map(t=>({t,f:cap(t)-t.pax.length,ts:t.tripStart,tp:t.trip}))
+    .concat(trains.filter(t=>t.state==='idle'&&t.pax.length&&t.dirOut===d).map(t=>({t,f:cap(t)-t.pax.length,ts:Math.max(now,t.arrivedAt+TURN),tp:TRIP[d]})));
+  const un=[];
+  for(const s of order){
+    if((d>0&&s===LAST)||(d<0&&s===0)) continue;
+    let w=qOf(s,d).length; if(!w) continue;
+    for(const x of trs){
+      const dp=x.tp.dep[s]; if(dp===undefined||now>x.ts+dp) continue;
+      x.f+=x.t.pax.filter(p=>p.de===s).length;
+      const k=Math.min(w,Math.max(0,x.f)); w-=k; x.f-=k;
+    }
+    if(w>0) un.push({s,d,w,old:qOf(s,d)[0].t0});
+  }
+  return un;
+}
+function dispatch(){
+  // 單列模式：存車列擋住出口時互換
+  for(const L of ['A','B']){
+    const ln=lines[L]; const o=ln.trains.find(x=>x!==ln.active);
+    if(o&&ln.active.state==='idle'&&o.state==='idle'&&o.term===ln.active.term&&o.berth==='exit') ln.active=o;
+    if(o&&ln.active.state==='idle'&&o.state==='trip'&&!allow2(L)) ln.active=o;
+  }
+  // 端站待命列開門受理：候車乘客即時上車
+  for(let s=0;s<=LAST;s++){ if(s!==0&&s!==LAST) continue; const d=s===0?1:-1; if(!qOf(s,d).length) continue;
+    const tr=boardingTrain(s); if(tr) board2(tr,s,d); }
+  // 後車位載客列被前車位空列擋住：前車位列先行發車讓出車位
+  for(const tr of trains){ if(tr.state!=='idle'||!tr.pax.length) continue; const o=other(tr);
+    if(o&&o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner'&&now>=o.arrivedAt+TURN){ o.pax.length||depart(o,LANG==='zh'?'讓出前車位':'clear front berth'); } }
+  // 已有乘客之待命列：折返完成即發車
+  for(const tr of trains){ if(tr.state==='idle'&&tr.pax.length&&canDepart(tr)) depart(tr,T('whyCall')({st:ST[tr.term].id,dir:T(tr.dirOut>0?'east':'west'),n:tr.pax.length})); }
+  if(SCEN==='cap'){
+    for(const tr of trains) if(canDepart(tr)) depart(tr,T('whyCont')());
+    return;
+  }
+  // 客量高：兩線反相連續派車（兩線相隔半循環）
+  const cont=!isNight()&&stats.recent.length*4>=CONT_RATE;
+  if(cont){
+    const half=TRIP[1].total+TURN;
+    for(const L of ['A','B']){ const tr=lines[L].active; if(!lineAvail(L)||!canDepart(tr)) continue;
+      const ol=lines[L==='A'?'B':'A']; let hold=0;
+      if(lineAvail(ol.active.line)&&ol.lastDepTerm===tr.term&&now-ol.lastDep<half) hold=ol.lastDep+half-8;
+      if(now>=hold) depart(tr,T('whyCont')()); }
+  }
+  let un=freeAhead(1).concat(freeAhead(-1)).sort((a,b)=>a.old-b.old);
+  if(!un.length){ rebalance(); return; }
+  const chosen=new Map(), capRem=new Map();
+  const rem=(tr,d)=>{const k=tr.id+d; if(!capRem.has(k)) capRem.set(k,5*SEATS-((tr.state==='trip'&&tr.dir===d)?tr.pax.length:0)); return capRem.get(k);};
+  for(const pass of [1,2]){
+    for(const g of un){
+      while(g.w>0){
+        let best=null,be=Infinity;
+        for(const tr of trains){
+          if(!lineAvail(tr.line)) continue;
+          const isAct=lines[tr.line].active===tr;
+          if(pass===1&&(!isAct||cont)) continue;
+          if(pass===2&&(isAct||!allow2(tr.line))) continue;
+          if(rem(tr,g.d)<=0) continue;
+          if(tr.state==='idle'){const o=other(tr);if(o&&o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner')continue;}
+          let e=eta(tr,g.s,g.d); if(tr.state==='idle'&&!chosen.has(tr)) e+=10;
+          if(e<be){be=e;best=tr;}
+        }
+        if(!best) break;
+        const take=Math.min(g.w,rem(best,g.d)); g.w-=take; capRem.set(best.id+g.d,rem(best,g.d)-take);
+        if(best.state==='idle'&&!chosen.has(best)) chosen.set(best,{s:g.s,d:g.d,n:qOf(g.s,g.d).length});
+      }
+    }
+  }
+  for(const [tr,g] of chosen){
+    if(!canDepart(tr)) continue;
+    const dn=g.d>0?'east':'west';
+    const why=tr.dirOut===g.d?T('whyCall')({st:ST[g.s].id,dir:T(dn),n:g.n}):T('whyFetch')({st:ST[g.s].id,n:g.n});
+    depart(tr,why);
+  }
+}
+function eligible(tr){ return tr.state==='idle'&&lineAvail(tr.line)&&(allow2(tr.line)||lines[tr.line].active===tr); }
+function boardingTrain(s){ // 端站可受理上車之待命列（未被擋住者；行控指定列優先）
+  const ok=trains.filter(t=>eligible(t)&&t.term===s).filter(t=>{const o=other(t);return !(o&&o.state==='idle'&&o.term===s&&o.berth==='exit'&&t.berth==='inner');});
+  ok.sort((a,b)=>(b.pax.length-a.pax.length)||((lines[b.line].active===b)-(lines[a.line].active===a))||(a.arrivedAt-b.arrivedAt));
+  return ok[0]||null;
+}
+function board2(tr,s,d){ tr.dir=d; const save=tr.cars; tr.cars=5; board(tr,s); tr.cars=save; if(tr.pax.length>cap(tr)) tr.cars=Math.min(5,Math.ceil(tr.pax.length/SEATS)); }
+function rebalance(){ // 日間待命：兩線分置兩端站
+  if(isNight()||SCEN==='cap') return;
+  const a=lines.A.active,b=lines.B.active; if(!lineAvail('A')||!lineAvail('B')) return;
+  const endOf=t=>t.state==='idle'?t.term:(t.dir>0?LAST:0);
+  if(endOf(a)!==endOf(b)) return;
+  const idle=[a,b].filter(t=>t.state==='idle'&&canDepart(t)).sort((x,y)=>x.arrivedAt-y.arrivedAt);
+  if(idle.length) depart(idle[0],LANG==='zh'?'回送待命':'reposition to standby');
+}
+/* ================= 主迴圈 ================= */
+function addEv(k,p){events.unshift({t:now,k,p});if(events.length>60)events.pop();}
+function simStep(dt){
+  now+=dt;
+  const d=Math.floor(now/86400); if(d!==stats.day){stats.day=d;stats.hrCalls.fill(0);stats.hrWaitSum.fill(0);stats.hrBoard.fill(0);}
+  const m=maintLine(); if(m!==lastMaint){ if(lastMaint) addEv('evMe',{line:lastMaint}); if(m) addEv('evMs',{line:m}); lastMaint=m; }
+  for(const tr of trains) stepTrain(tr);
+  accGen+=dt; if(accGen>=1){genPax(accGen);accGen=0;}
+  accDisp+=dt; if(accDisp>=1){dispatch();accDisp=0;}
+  accHist+=dt; if(accHist>=4){accHist=0;for(const tr of trains){tr.hist.push([now,tr.pos]);while(tr.hist.length&&tr.hist[0][0]<now-2800)tr.hist.shift();}}
+  while(stats.recent.length&&stats.recent[0]<now-900) stats.recent.shift();
+  if(stats.board.length&&stats.board[0].t<now-3600) stats.board=stats.board.filter(x=>x.t>=now-3600);
+  if(stats.seat.length&&stats.seat[0].t<now-3600) stats.seat=stats.seat.filter(x=>x.t>=now-3600);
+}
+let lastT=performance.now(), uiAcc=0;
+function frame(ts){
+  const real=Math.min(0.1,(ts-lastT)/1000); lastT=ts;
+  if(running){ let sim=real*SPEED; while(sim>0){const dt=Math.min(0.5,sim);simStep(dt);sim-=dt;} }
+  drawLine(); drawTS();
+  uiAcc+=real; if(uiAcc>0.25){uiAcc=0;updateUI();drawHr();}
+  requestAnimationFrame(frame);
+}
+/* ================= 繪圖 ================= */
+function fit(cv){const r=window.devicePixelRatio||1,w=cv.clientWidth;if(!cv.dataset.h)cv.dataset.h=cv.getAttribute('height');const h=+cv.dataset.h;if(cv.width!==Math.round(w*r)){cv.width=Math.round(w*r);cv.height=Math.round(h*r);cv.style.height=h+'px';}const c=cv.getContext('2d');c.setTransform(r,0,0,r,0,0);return {c,w,h};}
+const CHMIN=-150,CHMAX=2050;
+function stringEl(ch){
+  for(let i=0;i<NODES.length-1;i++){const [a,ea]=NODES[i],[b,eb]=NODES[i+1];if(ch>=a&&ch<=b){const u=(ch-a)/(b-a);return ea+(eb-ea)*u-4*SAGS[i]*u*(1-u);}}
+  return ch<0?NODES[0][1]:NODES[NODES.length-1][1];
+}
+function groundEl(ch){for(let i=0;i<GROUND.length-1;i++){const [a,ea]=GROUND[i],[b,eb]=GROUND[i+1];if(ch>=a&&ch<=b)return ea+(eb-ea)*(ch-a)/(b-a);}return 46;}
+const COL={A:'#1f6fb2',B:'#d9822b'};
+function berthPos(tr){
+  if(tr.state!=='idle') return tr.pos;
+  const base=ST[tr.term].ch; if(PH===1&&tr.term===2) return base;
+  const out=tr.term===0?-1:1; return tr.berth==='inner'?base+out*36:base+out*2;
+}
+/* ================= 視覺效果 ================= */
+const FX=[];
+function fxAdd(o){o.rt=performance.now();FX.push(o);if(FX.length>120)FX.shift();}
+function hex2rgb(h){h=h.replace('#','');return [0,2,4].map(i=>parseInt(h.substr(i,2),16));}
+function mix(a,b,u){const A=hex2rgb(a),B=hex2rgb(b);return 'rgb('+A.map((x,i)=>Math.round(x+(B[i]-x)*u)).join(',')+')';}
+const SKY=[[0,'#0a1330','#1c2b55'],[4.6,'#0d1838','#28365f'],[5.5,'#3b3f72','#e59a6d'],[6.4,'#7fb2dd','#f6d2a0'],[8,'#7db8e6','#d9ecf6'],[16.2,'#86bfe7','#e3f0f6'],[17.6,'#6f8fc4','#f3c08a'],[18.4,'#3a3a6e','#e0855e'],[19.3,'#14204a','#3a3d6c'],[24,'#0a1330','#1c2b55']];
+function skyAt(h){for(let i=0;i<SKY.length-1;i++){const a=SKY[i],b=SKY[i+1];if(h>=a[0]&&h<=b[0]){const u=(h-a[0])/(b[0]-a[0]);return [mix(a[1],b[1],u),mix(a[2],b[2],u)];}}return [SKY[0][1],SKY[0][2]];}
+function darkAt(h){if(h<5||h>19.6)return 1;if(h<6.6)return 1-(h-5)/1.6;if(h>17.8)return (h-17.8)/1.8;return 0;}
+let _seed=7;const rnd=()=>(_seed=(_seed*16807)%2147483647)/2147483647;
+const STARS=Array.from({length:90},()=>({x:rnd(),y:rnd()*0.8,r:rnd()*1.2+0.3,p:rnd()*6.28}));
+const TREES=[];for(let ch=-80;ch<1960;ch+=14+rnd()*16){
+  if((ch>18&&ch<432)||(ch>461&&ch<752))continue; if(ST.some(s=>Math.abs(s.ch-ch)<(s.id==='T1'||s.id==='T4'?70:26)))continue;
+  if(Math.abs(ch-446)<12||Math.abs(ch-1424.7)<12)continue; TREES.push({ch,s:5+rnd()*6,k:rnd()});}
+function rrect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function waitCol(w,ceil){return w>ceil?'#c0392b':w>ceil*0.6?'#d99a1e':'#2f8f5b';}
+function idleX(tr,X){const len=tr.cars*11;const out=tr.term===0?-1:1;
+  if(PH===1&&tr.term===2) return X(ST[2].ch)+(len/2+38);
+  return X(ST[tr.term].ch)+out*(len/2+38);}
+const innerOff=tr=>(tr.state==='idle'&&tr.berth==='inner'&&!(PH===1&&tr.term===2))?(tr.line==='A'?-18:18):0;
+function drawLine(){
+  const {c,w,h}=fit(document.getElementById('cvLine'));
+  const rt=performance.now()/1000, hr=hourOf(now), dk=darkAt(hr);
+  c.clearRect(0,0,w,h); c.font='12px "Noto Sans TC",sans-serif';
+  const pl=46,pr=18,X=ch=>pl+(ch-CHMIN)/(CHMAX-CHMIN)*(w-pl-pr);
+  const y0=18,y1=196,E0=26,E1=92,Y=el=>y1-(el-E0)/(E1-E0)*(y1-y0);
+  const top=4, bot=y1+6;
+  // ── 天空 ──
+  const [sT,sB]=skyAt(hr); let g=c.createLinearGradient(0,top,0,bot); g.addColorStop(0,sT); g.addColorStop(1,sB);
+  c.save(); rrect(c,pl,top,w-pl-pr,bot-top,8); c.clip(); c.fillStyle=g; c.fillRect(pl,top,w-pl-pr,bot-top);
+  if(dk>0){for(const s of STARS){c.globalAlpha=dk*(0.45+0.55*Math.abs(Math.sin(rt*0.8+s.p)));c.fillStyle='#fff';c.beginPath();c.arc(pl+s.x*(w-pl-pr),top+s.y*(y1-top)*0.75,s.r,0,6.28);c.fill();}c.globalAlpha=1;}
+  // 太陽／月亮
+  const arc=(u,col,r,glow)=>{const x=pl+(0.06+0.88*u)*(w-pl-pr),y=top+8+(1-Math.sin(Math.PI*u))*(y1-top)*0.55+r;
+    const gg=c.createRadialGradient(x,y,0,x,y,r*glow);gg.addColorStop(0,col);gg.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=gg;c.beginPath();c.arc(x,y,r*glow,0,6.28);c.fill();
+    c.fillStyle=col;c.beginPath();c.arc(x,y,r,0,6.28);c.fill();return [x,y];};
+  if(hr>=5.6&&hr<=18.8) arc((hr-5.6)/13.2,'rgba(255,236,170,0.95)',11,3.2);
+  else { const u=((hr<12?hr+24:hr)-18.8)/10.8; const [mx,my]=arc(u,'rgba(240,242,255,0.95)',9,2.4); c.fillStyle=sT;c.beginPath();c.arc(mx+4,my-3,8,0,6.28);c.fill(); }
+  // 遠山
+  c.fillStyle=mix('#a9bfcf','#1d2845',dk);c.globalAlpha=0.55;c.beginPath();c.moveTo(pl,y1);
+  for(let x=pl;x<=w-pr;x+=8){c.lineTo(x,Y(46+9*Math.sin(x*0.011)+6*Math.sin(x*0.027+1.3)));}c.lineTo(w-pr,y1);c.closePath();c.fill();c.globalAlpha=1;
+  // 高程格線
+  c.strokeStyle=dk>0.5?'rgba(255,255,255,.10)':'rgba(255,255,255,.45)';c.lineWidth=1;
+  for(let e=30;e<=90;e+=10){c.beginPath();c.moveTo(pl,Y(e));c.lineTo(w-pr,Y(e));c.stroke();}
+  // 水域（漣漪、倒影）
+  for(const [a,b] of [[25,425],[468,745]]){const xa=X(a),xb=X(b),yw=Y(30.6);
+    const wg=c.createLinearGradient(0,yw,0,bot);wg.addColorStop(0,mix('#9cc8e2','#2a3b62',dk));wg.addColorStop(1,mix('#4e8fb8','#101a33',dk));
+    c.fillStyle=wg;c.fillRect(xa,yw,xb-xa,bot-yw);
+    c.strokeStyle=dk>0.5?'rgba(255,230,160,.25)':'rgba(255,255,255,.55)';c.lineWidth=1;
+    for(let k=0;k<5;k++){const yy=yw+2+k*((bot-yw-3)/5);c.beginPath();
+      for(let x=xa;x<=xb;x+=3){const v=Math.sin(x*0.09+rt*1.6+k*1.7)*0.9;x===xa?c.moveTo(x,yy+v):c.lineTo(x,yy+v);}c.globalAlpha=0.35+0.15*Math.sin(rt+k);c.stroke();}
+    c.globalAlpha=1;}
+  // 地面
+  c.beginPath();c.moveTo(X(GROUND[0][0]),bot);for(const [ch,e] of GROUND)c.lineTo(X(ch),Y(e));c.lineTo(X(GROUND[GROUND.length-1][0]),bot);c.closePath();
+  g=c.createLinearGradient(0,Y(70),0,bot);g.addColorStop(0,mix('#b9c99a','#28362c',dk));g.addColorStop(1,mix('#e3dac4','#1c2230',dk));
+  c.fillStyle=g;c.fill();c.strokeStyle=mix('#8fa070','#3b4a3e',dk);c.lineWidth=1.2;c.stroke();
+  for(const [a,b] of [[25,425],[468,745]]){c.fillStyle=mix('#9cc8e2','#2a3b62',dk);c.fillRect(X(a),Y(30.6)-0.5,X(b)-X(a),1.5);}
+  // 樹木
+  for(const t of TREES){const x=X(t.ch),gy=Y(groundEl(t.ch)),sw=Math.sin(rt*1.3+t.k*6)*0.8;
+    c.strokeStyle=mix('#6b5a43','#2a2a2a',dk);c.lineWidth=1;c.beginPath();c.moveTo(x,gy);c.lineTo(x,gy-t.s*0.6);c.stroke();
+    c.fillStyle=mix(t.k>0.5?'#5c8f4a':'#4a7d44','#1f3527',dk*0.85);c.beginPath();c.arc(x+sw,gy-t.s*0.9,t.s*0.55,0,6.28);c.fill();}
+  // 第二階段區段（第一階段時淡化）
+  if(PH===1){c.fillStyle='rgba(240,240,240,.55)';c.fillRect(X(1105.2),top,X(CHMAX)-X(1105.2),bot-top);c.fillStyle='#5d6b75';c.font='bold 12px "Noto Sans TC",sans-serif';c.fillText(T('ph2Only'),X(1480),y0+14);c.font='12px "Noto Sans TC",sans-serif';}
+  // 門架（A 字形桁架）
+  for(const p of SUPP){const xg=X(p.ch),yg=Y(groundEl(p.ch)),yt=Y(p.el+1.5);c.strokeStyle=mix('#4b565e','#aab4bd',dk);c.lineWidth=2;
+    c.beginPath();c.moveTo(xg-7,yg);c.lineTo(xg,yt);c.lineTo(xg+7,yg);c.stroke();c.lineWidth=0.8;
+    for(let k=1;k<5;k++){const u=k/5,yy=yg+(yt-yg)*u,hw=7*(1-u);c.beginPath();c.moveTo(xg-hw,yy);c.lineTo(xg+hw,yy);c.stroke();}
+    if(dk>0.3){c.fillStyle=`rgba(255,60,60,${0.5+0.5*Math.sin(rt*3)})`;c.beginPath();c.arc(xg,yt-3,2,0,6.28);c.fill();}
+    c.fillStyle=dk>0.5?'#c7d0d6':'#59646c';c.fillText(p.id,xg+6,Y(p.el+4));}
+  // 站體
+  for(let i=0;i<4;i++){const s=ST[i];const x=X(s.ch),gy=Y(groundEl(s.ch));const dis=PH===1&&i===3;
+    const ww=i===0||i===3?X(s.ch+60)-X(s.ch):X(s.ch+30)-X(s.ch);const bx=i===0?x-ww:i===3?x:x-ww/2,by=Y(s.el+4);
+    c.fillStyle=dis?'#e5e7e8':mix('#d5dde1','#3c4656',dk);c.fillRect(bx,by,ww,gy-by);
+    c.fillStyle=dis?'#cfd3d5':mix('#0f4c5c','#0b2a33',dk*0.6);c.beginPath();c.moveTo(bx-3,by);c.lineTo(bx+ww/2,by-6);c.lineTo(bx+ww+3,by);c.closePath();c.fill();
+    for(let yy=by+5;yy<gy-4;yy+=7)for(let xx=bx+3;xx<bx+ww-4;xx+=6){c.fillStyle=dis?'#d8dcde':dk>0.4?`rgba(255,214,120,${0.55+0.35*Math.sin(xx*7+yy)})`:'rgba(255,255,255,.65)';c.fillRect(xx,yy,3,3);}
+    c.fillStyle=dk>0.5?'#fff':'#1d2a33';c.font='bold 12px "Noto Sans TC",sans-serif';c.textAlign='center';c.fillText(s.id,bx+ww/2,by-9);c.textAlign='left';c.font='12px "Noto Sans TC",sans-serif';}
+  // 弦線（雙索）
+  for(const [col,lw,off] of [[mix('#26323a','#b5c0c9',dk),2.2,0],[mix('#26323a','#b5c0c9',dk),1,3]]){c.strokeStyle=col;c.lineWidth=lw;c.beginPath();
+    for(let ch=-100;ch<=1960;ch+=4){const yy=Y(ch<0||ch>1874.6?(ch<0?52.6:66.0):stringEl(ch))+off;ch===-100?c.moveTo(X(ch),yy):c.lineTo(X(ch),yy);}c.stroke();}
+  // 縱斷上列車（隨坡度傾斜、懸吊車廂、夜間車燈）
+  const elAt=p=>p<0?52.6:p>1874.6?66:stringEl(p);
+  for(const tr of trains){const p=berthPos(tr);const x=X(p),y=Y(elAt(p));
+    const ang=Math.atan2(Y(elAt(p+6))-Y(elAt(p-6)),X(p+6)-X(p-6));
+    const cw=Math.max(6,5.68*3.2*(w-pl-pr)/(CHMAX-CHMIN)),len=tr.cars*(cw+1.5),hang=tr.line==='B'?12:5;
+    c.save();c.translate(x,y);c.rotate(ang);c.globalAlpha=lineAvail(tr.line)?1:.4;
+    if(dk>0.3&&tr.state==='trip'){const d=tr.dir;const hg=c.createLinearGradient(d*len/2,0,d*(len/2+40),0);hg.addColorStop(0,`rgba(255,240,180,${0.55*dk})`);hg.addColorStop(1,'rgba(255,240,180,0)');
+      c.fillStyle=hg;c.beginPath();c.moveTo(d*len/2,hang+3);c.lineTo(d*(len/2+40),hang-6);c.lineTo(d*(len/2+40),hang+14);c.closePath();c.fill();}
+    for(let k=0;k<tr.cars;k++){const cx=-len/2+k*(cw+1.5);
+      c.strokeStyle=mix('#3b4750','#9aa6b0',dk);c.lineWidth=1;c.beginPath();c.moveTo(cx+cw/2,1);c.lineTo(cx+cw/2,hang);c.stroke();
+      c.fillStyle=COL[tr.line];rrect(c,cx,hang,cw,7,2);c.fill();
+      const occ=Math.max(0,Math.min(SEATS,tr.pax.length-k*SEATS));c.fillStyle=dk>0.3?`rgba(255,226,140,${0.4+0.6*occ/SEATS})`:'rgba(255,255,255,.75)';c.fillRect(cx+1,hang+1.5,cw-2,2.2);}
+    c.restore();c.globalAlpha=1;}
+  c.restore();
+  c.fillStyle='#8a949b';c.font='12px "Noto Sans TC",sans-serif';for(let e=30;e<=90;e+=10)c.fillText('EL'+e,4,Y(e)+4);
+
+  // ===== 兩線示意 =====
+  const ya=272,yb=382, ceil=curCeil();
+  for(const [L,yy] of [['A',ya],['B',yb]]){
+    const off=!lineAvail(L), x0=X(-90), x1=X(ST[LAST].ch+(LAST===3?80:0));
+    c.strokeStyle=off?'#c5cacd':COL[L];c.lineWidth=2;c.setLineDash(off?[6,5]:[]);
+    for(const dy of [-2.5,2.5]){c.beginPath();c.moveTo(x0,yy+dy);c.lineTo(x1,yy+dy);c.stroke();}c.setLineDash([]);
+    if(!off){c.strokeStyle=COL[L];c.globalAlpha=0.25;c.lineWidth=1;for(let x=x0+((rt*30)%16);x<x1;x+=16){c.beginPath();c.moveTo(x,yy-2.5);c.lineTo(x,yy+2.5);c.stroke();}c.globalAlpha=1;}
+    else{c.fillStyle='rgba(192,57,43,.06)';c.fillRect(x0,yy-10,x1-x0,20);}
+    c.fillStyle=off?'#9aa3a8':COL[L];c.font='bold 13px "Noto Sans TC",sans-serif';
+    c.fillText((LANG==='zh'?L+' 線':'Line '+L)+(off?(LANG==='zh'?'（維修時段）':' (maintenance)'):''),X(300),L==='A'?yy-14:yy+24);
+    c.font='12px "Noto Sans TC",sans-serif';
+  }
+  for(let i=0;i<=LAST;i++){const x=X(ST[i].ch),bx=x-34,by=ya+14,bw=68,bh=yb-ya-28;
+    c.fillStyle='#f4f7f8';c.strokeStyle='#9fb0b8';c.lineWidth=1;rrect(c,bx,by,bw,bh,6);c.fill();c.stroke();
+    c.fillStyle='#1d2a33';c.font='bold 12px "Noto Sans TC",sans-serif';c.textAlign='center';c.fillText(ST[i].id,x,by+15);
+    c.font='11px "Noto Sans TC",sans-serif';c.fillStyle='#5d6b75';c.fillText(T('stNames')[i],x,by+29);
+    const ne=Q[i].e.length,nw=Q[i].w.length;
+    c.font='bold 12px "Noto Sans TC",sans-serif';c.fillStyle=ne?'#0f4c5c':'#b3bcc1';c.fillText('▶'+ne,x-16,by+45);
+    c.fillStyle=nw?'#0f4c5c':'#b3bcc1';c.fillText('◀'+nw,x+16,by+45);
+    // 候車旅客（顏色依候車時間：綠＜60% 上限＜黃＜上限＜紅）
+    for(const [arr,sx] of [[Q[i].e,bx+5],[Q[i].w,x+3]]){
+      const nShow=Math.min(arr.length,15);
+      for(let k=0;k<nShow;k++){const px=sx+(k%5)*5.6+2,py=by+53+Math.floor(k/5)*6;c.fillStyle=waitCol(now-arr[k].t0,arr[k].ceil);c.beginPath();c.arc(px,py,2.1,0,6.28);c.fill();}
+      if(arr.length>15){c.fillStyle='#5d6b75';c.font='9px sans-serif';c.fillText('+'+(arr.length-15),sx+14,by+bh-2);}
+    }
+    c.textAlign='left';c.font='12px "Noto Sans TC",sans-serif';}
+  for(const tr of trains){
+    const yy=(tr.line==='A'?ya:yb)+innerOff(tr), cw=10, len=tr.cars*(cw+1);
+    if(innerOff(tr)){c.strokeStyle='#c5cacd';c.lineWidth=1.5;const sx=idleX(tr,X);c.beginPath();c.moveTo(sx-len/2-8,yy);c.lineTo(sx+len/2+8,yy);c.stroke();}
+    let x=tr.state==='idle'?idleX(tr,X):X(tr.pos);
+    tr._sx=tr._sx===undefined?x:tr._sx+(x-tr._sx)*Math.min(1,0.35); x=tr._sx;
+    const av=lineAvail(tr.line), moving=tr.state==='trip'&&tr.v>0.3;
+    c.globalAlpha=av?1:.4;
+    if(moving){const d=tr.dir,tl=Math.min(60,tr.v*5);const tg=c.createLinearGradient(x-d*len/2,0,x-d*(len/2+tl),0);tg.addColorStop(0,COL[tr.line]+'66');tg.addColorStop(1,COL[tr.line]+'00');
+      c.fillStyle=tg;c.fillRect(Math.min(x-d*len/2,x-d*(len/2+tl)),yy-5,tl,10);}
+    const dwell=tr.state==='trip'&&tr.trip.segs[Math.min(tr.seg,tr.trip.segs.length-1)].type==='dwell';
+    if(dwell||(tr.state==='idle'&&tr.pax.length)){c.strokeStyle=`rgba(242,193,78,${0.6+0.4*Math.sin(rt*6)})`;c.lineWidth=2.5;rrect(c,x-len/2-3,yy-10,len+6,20,5);c.stroke();}
+    for(let k=0;k<tr.cars;k++){const cx=x-len/2+k*(cw+1);c.fillStyle=COL[tr.line];rrect(c,cx,yy-8,cw,16,2.5);c.fill();
+      const occ=Math.max(0,Math.min(SEATS,tr.pax.length-k*SEATS));
+      for(let sIdx=0;sIdx<SEATS;sIdx++){c.fillStyle=sIdx<occ?'#fff':'rgba(255,255,255,.28)';c.fillRect(cx+2+(sIdx%2)*3.6,yy-5.5+Math.floor(sIdx/2)*4,2.6,2.6);}}
+    c.fillStyle='#1d2a33';c.font='11px "Noto Sans TC",sans-serif';c.textAlign='center';
+    const lab=`${tr.id}·${tr.pax.length}/${cap(tr)}`;
+    const lyOff=(tr.idx===2&&tr.state==='trip')?(tr.line==='A'?-12:12):0;
+    const flip=tr.state==='idle'&&tr.berth==='exit'&&!innerOff(tr)&&trains.some(o=>o!==tr&&o.line===tr.line&&o.state==='idle'&&o.term===tr.term&&innerOff(o));
+    c.fillText(lab,x,(tr.line==='A'?(flip?yy+22:yy-14):(flip?yy-12:yy+24))+lyOff);
+    if(tr.state==='trip'){c.fillStyle=COL[tr.line];c.font='bold 12px sans-serif';c.fillText(tr.dir>0?'▸':'◂',x+tr.dir*(len/2+7),yy+4);}
+    c.textAlign='left';c.globalAlpha=1;
+  }
+  // 特效：發車波紋、上車人數浮字
+  const pn=performance.now();
+  for(let k=FX.length-1;k>=0;k--){const f=FX[k],age=(pn-f.rt)/1000;if(age>1.6){FX.splice(k,1);continue;}
+    const x=X(ST[f.st].ch),yy=f.line==='A'?ya:yb;
+    if(f.k==='dep'){c.strokeStyle=COL[f.line];c.globalAlpha=Math.max(0,1-age/1.2);c.lineWidth=2;c.beginPath();c.arc(x,yy,8+age*40,0,6.28);c.stroke();}
+    else if(f.k==='brd'){c.globalAlpha=Math.max(0,1-age/1.6);c.fillStyle='#2f8f5b';c.font='bold 13px "Noto Sans TC",sans-serif';c.textAlign='center';c.fillText('+'+f.n,x+(f.line==='A'?22:-22),yy+(f.line==='A'?-22:30)-age*16);c.textAlign='left';}
+    c.globalAlpha=1;}
+  // 里程尺
+  c.strokeStyle='#c8cfd3';c.lineWidth=1;c.beginPath();c.moveTo(X(0),h-16);c.lineTo(X(1874.6),h-16);c.stroke();c.fillStyle='#8a949b';c.font='11px "Noto Sans TC",sans-serif';
+  for(let k=0;k<=1800;k+=200){c.beginPath();c.moveTo(X(k),h-19);c.lineTo(X(k),h-13);c.stroke();c.fillText(k===0?'CH0':k.toLocaleString(),X(k)-10,h-2);}
+}
+function drawTS(){
+  const {c,w,h}=fit(document.getElementById('cvTS'));
+  c.clearRect(0,0,w,h);c.font='11px "Noto Sans TC",sans-serif';
+  const pl=46,pr=18,pt=14,pb=22,X=ch=>pl+(ch-CHMIN)/(CHMAX-CHMIN)*(w-pl-pr),WIN=2700,Y=t=>pt+(now-t)/WIN*(h-pt-pb);
+  // 維修／夜間時段陰影
+  for(let t=now-WIN;t<now;t+=60){const m=maintLine(t);if(!m)continue;c.fillStyle=m==='A'?'rgba(31,111,178,.07)':'rgba(217,130,43,.08)';c.fillRect(pl,Y(t+60),w-pl-pr,Y(t)-Y(t+60)+0.5);}
+  { let prev=maintLine(now-WIN); for(let t=now-WIN+60;t<=now;t+=60){const m=maintLine(t); if(m!==prev){c.fillStyle='#2c3a6b';c.fillText(m?(LANG==='zh'?`${m} 線維修開始`:`Line ${m} maint. starts`):(LANG==='zh'?'維修結束':'maint. ends'),w-pr-110,Y(t)-3);c.strokeStyle='#2c3a6b';c.setLineDash([3,3]);c.beginPath();c.moveTo(pl,Y(t));c.lineTo(w-pr,Y(t));c.stroke();c.setLineDash([]);} prev=m; } }
+  c.strokeStyle='#eef0f1';c.fillStyle='#8a949b';
+  for(let m=0;m<=45;m+=5){const y=Y(now-m*60);c.beginPath();c.moveTo(pl,y);c.lineTo(w-pr,y);c.stroke();c.fillText(m===0?T('tsNow'):'-'+m+T('min'),4,y+4);}
+  for(let i=0;i<=LAST;i++){const x=X(ST[i].ch);c.strokeStyle='#c9d3d8';c.beginPath();c.moveTo(x,pt);c.lineTo(x,h-pb);c.stroke();c.fillStyle='#1d2a33';c.fillText(ST[i].id,x-7,h-6);}
+  // 上車事件（點色依候車時間）
+  const ceil=curCeil();
+  for(const b of stats.board){const y=Y(b.t);if(y>h-pb)continue;c.fillStyle=waitCol(b.w,ceil);c.globalAlpha=0.55;c.beginPath();c.arc(X(ST[b.s].ch)+(b.d>0?4:-4),y,1.8,0,6.28);c.fill();}
+  c.globalAlpha=1;
+  for(const tr of trains){
+    if(tr.hist.length<2) continue;
+    c.strokeStyle=COL[tr.line];c.lineWidth=tr.idx===1?2:1.4;c.setLineDash(tr.idx===2?[5,3]:[]);
+    c.beginPath();let st=false;
+    for(const [t,p] of tr.hist){const y=Y(t);if(y>h-pb)continue;const x=X(p);if(!st){c.moveTo(x,y);st=true;}else c.lineTo(x,y);}
+    c.lineTo(X(berthPos(tr)),Y(now));c.stroke();c.setLineDash([]);
+    c.fillStyle=COL[tr.line];c.beginPath();c.arc(X(berthPos(tr)),Y(now),3.5,0,6.28);c.fill();
+  }
+}
+function drawHr(){
+  const {c,w,h}=fit(document.getElementById('cvHr'));
+  c.clearRect(0,0,w,h);c.font='11px "Noto Sans TC",sans-serif';
+  const pl=46,pr=46,pt=18,pb=22,bw=(w-pl-pr)/24;
+  const mx=Math.max(20,...stats.hrCalls)*1.15, wm=Math.max(CEIL[PH].one,...stats.hrBoard.map((b,i)=>b?stats.hrWaitSum[i]/b:0))*1.1;
+  c.fillStyle='rgba(30,40,80,.06)';
+  for(let i=0;i<24;i++){if(i>=22||i<8)c.fillRect(pl+i*bw,pt,bw,h-pt-pb);}
+  c.strokeStyle='#eef0f1';
+  for(let k=0;k<=4;k++){const y=pt+(h-pt-pb)*k/4;c.beginPath();c.moveTo(pl,y);c.lineTo(w-pr,y);c.stroke();
+    c.fillStyle='#8a949b';c.fillText(Math.round(mx*(1-k/4)),4,y+4);c.fillText(Math.round(wm*(1-k/4))+'s',w-pr+6,y+4);}
+  const curH=Math.floor(hourOf(now));
+  for(let i=0;i<24;i++){const v=stats.hrCalls[i],bh=(h-pt-pb)*v/mx;c.fillStyle=i===curH?'#0f4c5c':'#8fb3be';rrect(c,pl+i*bw+2,h-pb-bh,bw-4,Math.max(bh,0.1),Math.min(3,bh/2));c.fill();
+    if(i%2===0){c.fillStyle='#5d6b75';c.fillText(String(i).padStart(2,'0'),pl+i*bw+bw/2-6,h-6);}}
+  // 候車上限（日間兩線／夜間一線）
+  c.strokeStyle='#c0392b';c.setLineDash([4,3]);c.lineWidth=1.2;c.beginPath();
+  for(let i=0;i<=24;i++){const cl=(i>=22||i<8)?CEIL[PH].one:CEIL[PH].two,y=h-pb-(h-pt-pb)*cl/wm,x=pl+i*bw;i===0?c.moveTo(x,y):c.lineTo(x,y);if(i<24){const n=((i+1)>=22||(i+1)<8)?CEIL[PH].one:CEIL[PH].two;c.lineTo(x+bw,y);}}
+  c.stroke();c.setLineDash([]);
+  c.strokeStyle='#d9822b';c.lineWidth=2;c.beginPath();let st=false;const pts=[];
+  for(let i=0;i<24;i++){if(!stats.hrBoard[i])continue;const v=stats.hrWaitSum[i]/stats.hrBoard[i];const x=pl+i*bw+bw/2,y=h-pb-(h-pt-pb)*v/wm;pts.push([x,y]);if(!st){c.moveTo(x,y);st=true;}else c.lineTo(x,y);}
+  c.stroke();c.fillStyle='#d9822b';for(const [x,y] of pts){c.beginPath();c.arc(x,y,2.5,0,6.28);c.fill();}c.lineWidth=1;
+  c.fillStyle='#8fb3be';c.fillRect(pl,3,10,10);c.fillStyle='#5d6b75';c.fillText(T('hrCalls'),pl+14,12);
+  c.fillStyle='#d9822b';c.fillRect(pl+110,7,14,3);c.fillStyle='#5d6b75';c.fillText(T('hrWait'),pl+128,12);
+  c.strokeStyle='#c0392b';c.setLineDash([4,3]);c.beginPath();c.moveTo(pl+240,8.5);c.lineTo(pl+256,8.5);c.stroke();c.setLineDash([]);c.fillText(LANG==='zh'?'隨需候車上限':'Wait ceiling',pl+260,12);
+}
+/* ================= 介面 ================= */
+const fmtT=t=>{const s=Math.floor(((t%86400)+86400)%86400);return [Math.floor(s/3600),Math.floor(s/60)%60,s%60].map(x=>String(x).padStart(2,'0')).join(':');};
+const $=id=>document.getElementById(id);
+function updateUI(){
+  $('clock').textContent=fmtT(now);
+  const mb=$('modeBox'),m=maintLine();
+  mb.className='mode '+(m?'night':'day'); mb.textContent=m?(m==='A'?T('nightA'):T('nightB')):(PH===2?T('dayMode'):T('dayMode1'));
+  let nw=0,mw=0;for(const q of Q)for(const a of [q.e,q.w]){nw+=a.length;if(a.length)mw=Math.max(mw,now-a[0].t0);}
+  $('kWait').textContent=nw;$('kMaxW').textContent=Math.round(mw)+' s';
+  $('kMaxW').style.color=mw>curCeil()?'#c0392b':'';
+  const b=stats.board;$('kAvgW').textContent=b.length?Math.round(b.reduce((a,x)=>a+x.w,0)/b.length)+' s':'—';
+  $('kCeil').textContent=(isNight()?CEIL[PH].one:CEIL[PH].two).toFixed(PH===2?0:1)+' s';
+  const rate=stats.tot?stats.ok/stats.tot*100:null;
+  $('kRate').textContent=rate===null?'—':rate.toFixed(1)+' %';$('kRate').style.color=rate===null?'':rate>=98?'#2f8f5b':rate>=97?'#c08a00':'#c0392b';
+  $('kFlowE').textContent=b.filter(x=>x.d>0).length;$('kFlowW').textContent=b.filter(x=>x.d<0).length;
+  $('kCapE').textContent=stats.seat.filter(x=>x.d>0).reduce((a,x)=>a+x.n,0);$('kCapW').textContent=stats.seat.filter(x=>x.d<0).reduce((a,x)=>a+x.n,0);
+  $('kTot').textContent=stats.tot.toLocaleString();
+  $('kCars').textContent=trains.filter(t=>t.state==='trip').reduce((a,t)=>a+t.cars,0);
+  let rows='';
+  for(const tr of trains){
+    let st;
+    if(!lineAvail(tr.line)&&tr.state==='idle') st=T('stMaint');
+    else if(tr.state==='idle') st=(!allow2(tr.line)&&lines[tr.line].active!==tr)?T('stPark'):T('stIdle');
+    else {const g=tr.trip.segs[Math.min(tr.seg,tr.trip.segs.length-1)];st=g.type==='dwell'?T('stDwell'):T('stRun')+(tr.dir>0?' →':' ←');}
+    const where=tr.state==='idle'?' '+T('at')+' '+ST[tr.term].id:'';
+    rows+=`<tr><td><span class="dot" style="background:${COL[tr.line]}"></span>${tr.id}</td><td>${st}${where}</td><td>${tr.cars}</td><td>${tr.pax.length}/${cap(tr)}</td><td>${(tr.v*3.6).toFixed(0)} km/h</td></tr>`;
+  }
+  $('trBody').innerHTML=rows;
+  $('log').innerHTML=events.slice(0,40).map(e=>`<div><span class="tm">${fmtT(e.t)}</span><span class="${e.k==='evMs'||e.k==='evMe'?'mt':''}">${evText(e)}</span></div>`).join('');
+  $('btnRun').textContent=running?T('run'):T('pause');
+}
+function evText(e){const p={...e.p};if(p.dir)p.dir=T(p.dir);return T(e.k)(p);}
+function renderStatic(){
+  document.documentElement.lang=LANG==='zh'?'zh-Hant':'en';
+  $('ttl').innerHTML=T('ttl');$('subt').textContent=T('subt');
+  document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T(el.dataset.i);});
+  $('langBtn').textContent=LANG==='zh'?'English':'中文';
+  $('rules').innerHTML=T('rules').map(r=>`<li>${r}</li>`).join('');
+  const H=T('ptHead');$('ptab').innerHTML=`<tr>${H.map(x=>`<th>${x}</th>`).join('')}</tr>`+T('ptRows').map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('');
+  $('src').textContent=T('src');
+  $('lg1').innerHTML=`<span><span class="dot" style="background:${COL.A}"></span>${T('lgA')}</span><span><span class="dot" style="background:${COL.B}"></span>${T('lgB')}</span><span><span class="dot" style="background:#cfe3ef"></span>${T('lgW')}</span><span>${T('lgQ')}</span>`;
+  document.title=LANG==='zh'?'虎頭埤纜車 全天候隨需發車 營運動態模擬':'Hutoupi Cable Car — On-Demand Dispatch Simulation';
+  updateUI();
+}
+$('langBtn').onclick=()=>{LANG=LANG==='zh'?'en':'zh';renderStatic();};
+$('btnRun').onclick=()=>{running=!running;updateUI();};
+$('btnReset').onclick=()=>reset(8*3600);
+$('selPhase').onchange=e=>{PH=+e.target.value;reset(now-now%60);};
+$('selSpeed').onchange=e=>{SPEED=+e.target.value;};
+function setMult(v){MULT=v;$('rngMult').value=v;$('txtMult').textContent='×'+(+v).toFixed(1);}
+$('rngMult').oninput=e=>setMult(+e.target.value);
+$('selScen').onchange=e=>{SCEN=e.target.value;setMult(SCEN==='avg'?1:SCEN==='peak'?2.5:6);};
+document.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const [hh,mm]=b.dataset.j.split(':').map(Number);reset(hh*3600+mm*60);});
+reset(8*3600);
+requestAnimationFrame(frame);
+// 供檢核
+window.__sim={get now(){return now},lines:()=>lines,cd:(t)=>canDepart(t),un:()=>freeAhead(1).concat(freeAhead(-1)),trains:()=>trains,stats:()=>stats,TRIP:()=>TRIP,LEGS,step:(s)=>{while(s>0){const dt=Math.min(0.5,s);simStep(dt);s-=dt;}},setScen:(s,m)=>{SCEN=s;$('selScen').value=s;setMult(m);},setPhase:(p,t)=>{PH=p;$('selPhase').value=p;reset(t);},reset};
+</script>
+
+</body></html>

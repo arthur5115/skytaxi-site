@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>虎頭埤纜車 全天候隨需發車 營運動態模擬（三維實景）</title>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f5f2; --panel:#ffffff; --ink:#1d2a33; --sub:#5d6b75; --line:#d9dee2;
+  --A:#1f6fb2; --B:#d9822b; --water:#cfe3ef; --ground:#e7e1d3; --ok:#2f8f5b; --warn:#c0392b; --accent:#0f4c5c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;font-size:14px;line-height:1.5}
+header{background:var(--accent);color:#fff;padding:16px 24px 14px;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+header .tt{flex:1;min-width:280px}
+header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:.5px}
+header h1 .od{background:#f2c14e;color:#3b2a00;padding:1px 10px;border-radius:4px;margin:0 6px}
+header p{margin:4px 0 0;font-size:13px;opacity:.88}
+.lang{background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff;border-radius:16px;padding:5px 14px;cursor:pointer;font:inherit;font-size:13px}
+.lang:hover{background:rgba(255,255,255,.15)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.bar label{color:var(--sub);font-size:13px;margin-right:4px}
+.bar select,.bar button{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 8px;color:var(--ink);cursor:pointer}
+.bar button.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.bar button.on{background:#e6f0f3;border-color:var(--accent)}
+.bar input[type=range]{vertical-align:middle;width:120px}
+.grp{display:flex;align-items:center;gap:4px}
+.clock{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-left:auto}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;padding:14px 24px}
+@media(max-width:1100px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.card h2{font-size:14px;margin:0 0 6px;font-weight:700;color:var(--accent);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h2 small{font-weight:400;color:var(--sub);font-size:12px}
+canvas{display:block;width:100%}
+#v3d{position:relative;height:clamp(360px,56vw,600px);border-radius:6px;overflow:hidden;background:#9cc3dc}
+#v3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.camBar{position:absolute;left:10px;top:10px;z-index:5;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 20px)}
+.camBar button{font:inherit;font-size:12.5px;border:1px solid rgba(255,255,255,.7);background:rgba(15,40,60,.55);color:#fff;border-radius:16px;padding:3px 11px;cursor:pointer;backdrop-filter:blur(3px)}
+.camBar button.on{background:#f2c14e;color:#3b2a00;border-color:#f2c14e}
+.v3dMsg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;font-size:14px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.lbl{font-family:"Noto Sans TC",sans-serif;font-size:12px;color:#fff;background:rgba(15,40,60,.62);padding:2px 7px;border-radius:10px;white-space:nowrap;pointer-events:none}
+.lbl.st{font-size:13px;font-weight:700;background:rgba(15,76,92,.82)}
+.lbl.A{background:rgba(31,111,178,.85)}.lbl.B{background:rgba(217,130,43,.88)}
+.lbl.mt{background:rgba(110,110,120,.75)}
+.mode{border-radius:6px;padding:8px 10px;font-weight:700;margin-bottom:8px}
+.mode.day{background:#e8f3ec;color:#1f5f3b}
+.mode.night{background:#e7eaf4;color:#2c3a6b}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi div{background:#f7f8f6;border-radius:6px;padding:6px 8px}
+.kpi b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--sub)}
+.kpi .full{grid-column:1/3}
+.trains{width:100%;border-collapse:collapse;font-size:12.5px}
+.trains td,.trains th{padding:3px 4px;border-bottom:1px solid #eef0f1;text-align:left;font-variant-numeric:tabular-nums}
+.trains th{color:var(--sub);font-weight:500}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.log{height:220px;overflow:auto;font-size:12px;font-variant-numeric:tabular-nums}
+.log div{padding:2px 0;border-bottom:1px dashed #eef0f1}
+.log .tm{color:var(--sub);margin-right:6px}
+.log .mt{color:#2c3a6b;font-weight:500}
+table.pt{width:100%;border-collapse:collapse;font-size:13px}
+table.pt th,table.pt td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+table.pt th{background:#eef3f4;font-weight:500}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 24px 24px}
+@media(max-width:1100px){.rules{grid-template-columns:1fr}}
+.rules ol{margin:4px 0 0;padding-left:20px}
+.rules li{margin:3px 0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:4px}
+.src{font-size:12px;color:var(--sub);padding:0 24px 24px}
+</style>
+</head>
+<body>
+<header>
+  <div class="tt">
+    <h1 id="ttl"></h1>
+    <p id="subt"></p>
+  </div>
+  <button class="lang" id="langBtn">English</button>
+</header>
+
+<div class="bar">
+  <div class="grp"><label data-i="ctlPhase"></label>
+    <select id="selPhase"><option value="2" data-i="phase2"></option><option value="1" data-i="phase1"></option></select></div>
+  <div class="grp"><label data-i="ctlScen"></label>
+    <select id="selScen"><option value="avg" data-i="scAvg"></option><option value="peak" data-i="scPeak"></option><option value="cap" data-i="scCap"></option></select></div>
+  <div class="grp"><label data-i="ctlMult"></label><input type="range" id="rngMult" min="0.2" max="8" step="0.1" value="1"><b id="txtMult" style="min-width:42px">×1.0</b></div>
+  <div class="grp"><label data-i="ctlSpeed"></label>
+    <select id="selSpeed"><option>1</option><option>10</option><option selected>30</option><option>60</option><option>120</option><option>300</option></select><span>×</span></div>
+  <div class="grp"><label data-i="ctlJump"></label>
+    <button data-j="07:50">07:50</button><button data-j="12:00">12:00</button><button data-j="21:50">21:50</button><button data-j="02:50">02:50</button></div>
+  <div class="grp"><button class="pri" id="btnRun"></button><button id="btnReset" data-i="reset"></button></div>
+  <div class="clock" id="clock">08:00:00</div>
+</div>
+
+<div class="wrap">
+  <main>
+    <div class="card">
+      <h2><span data-i="cv0"></span><small data-i="cv0s"></small></h2>
+      <div id="v3d">
+        <div class="camBar" id="camBar"></div>
+        <div class="v3dMsg" id="v3dMsg">三維場景載入中… Loading 3D…</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2><span data-i="cv1"></span><small data-i="cv1s"></small></h2>
+      <canvas id="cvLine" height="430"></canvas>
+      <div class="legend" id="lg1"></div>
+    </div>
+    <div class="card">
+      <h2><span data-i="cv2"></span><small data-i="cv2s"></small></h2>
+      <canvas id="cvTS" height="300"></canvas>
+    </div>
+    <div class="card">
+      <h2><span data-i="cv3"></span><small data-i="cv3s"></small></h2>
+      <canvas id="cvHr" height="190"></canvas>
+    </div>
+  </main>
+  <aside>
+    <div class="card">
+      <div class="mode day" id="modeBox"></div>
+      <div class="kpi">
+        <div><b id="kWait">0</b><span data-i="kWait"></span></div>
+        <div><b id="kMaxW">0 s</b><span data-i="kMaxW"></span></div>
+        <div><b id="kAvgW">—</b><span data-i="kAvgW"></span></div>
+        <div><b id="kCeil">342 s</b><span data-i="kCeil"></span></div>
+        <div class="full"><b id="kRate">—</b><span data-i="kRate"></span></div>
+        <div><b id="kFlowE">0</b><span data-i="kFlowE"></span></div>
+        <div><b id="kFlowW">0</b><span data-i="kFlowW"></span></div>
+        <div><b id="kCapE">0</b><span data-i="kCapE"></span></div>
+        <div><b id="kCapW">0</b><span data-i="kCapW"></span></div>
+        <div><b id="kTot">0</b><span data-i="kTot"></span></div>
+        <div><b id="kCars">0</b><span data-i="kCars"></span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 data-i="trTitle"></h2>
+      <table class="trains"><thead><tr><th data-i="thTrain"></th><th data-i="thState"></th><th data-i="thCars"></th><th data-i="thPax"></th><th data-i="thSpd"></th></tr></thead><tbody id="trBody"></tbody></table>
+    </div>
+    <div class="card">
+      <h2 data-i="logTitle"></h2>
+      <div class="log" id="log"></div>
+    </div>
+  </aside>
+</div>
+
+<div class="rules">
+  <div class="card">
+    <h2 data-i="ruTitle"></h2>
+    <ol id="rules"></ol>
+  </div>
+  <div class="card">
+    <h2 data-i="ptTitle"></h2>
+    <table class="pt" id="ptab"></table>
+  </div>
+</div>
+<div class="src" id="src"></div>
+
+<script>
+"use strict";
+/* ================= 語言 ================= */
+const I18N={
+zh:{
+ ttl:'虎頭埤纜車　24 小時全天候<span class="od">隨需發車</span>營運動態模擬',
+ subt:'弦線纜車系統｜A、B 兩線獨立往返｜每列 1～5 車、每車 6 人｜乘客叫車即發車，不設固定時刻表，由 T1 行控中心（OCC）依候乘人數派車',
+ ctlPhase:'營運階段', phase2:'全線直通 T1–T4', phase1:'第一階段 T1–T3',
+ ctlScen:'情境', scAvg:'年平均日（75 萬人次／年）', scPeak:'假日尖峰日', scCap:'運能檢核：連續派車',
+ ctlMult:'需求倍率', ctlSpeed:'模擬速度', ctlJump:'跳至', run:'暫停', pause:'繼續', reset:'重設',
+ cv0:'三維實景即時模擬', cv0s:'地形、水域為示意；路線平面、弦線高程與站體量體依定案值；滑鼠拖曳旋轉、滾輪縮放', camAll:'全線鳥瞰', camFollow:'跟隨', camLake:'水域視角', camLoad:'三維場景載入中…', camFail:'此瀏覽器無法顯示三維場景（需 WebGL）',
+ cv1:'路線縱斷與兩線即時位置', cv1s:'縱斷為示意，垂直比例放大；列長依車數放大顯示',
+ cv2:'時空圖（最近 45 分鐘）', cv2s:'橫軸里程、縱軸時間（上方為現在）',
+ cv3:'逐時叫車人次與平均候車', cv3s:'當日 00–24 時',
+ kWait:'候車中人數', kMaxW:'目前最長候車', kAvgW:'近 1 小時平均候車', kCeil:'目前隨需候車上限',
+ kRate:'隨需發車達成率（候車在上限內之人次 ÷ 叫車人次，目標 98.0%）',
+ kFlowE:'近 1 小時東行運量（人）', kFlowW:'近 1 小時西行運量（人）',
+ kCapE:'近 1 小時東行提供座位', kCapW:'近 1 小時西行提供座位', kTot:'累計載客人次', kCars:'營運中車輛數',
+ trTitle:'各列狀態', thTrain:'列', thState:'狀態', thCars:'車數', thPax:'乘客', thSpd:'速度',
+ logTitle:'行控中心派車紀錄',
+ stIdle:'待命', stRun:'運行', stDwell:'停站', stMaint:'維修時段', stPark:'存車',
+ at:'於', east:'東行', west:'西行', car:'車',
+ dayMode:'日間 08:00–22:00｜兩線待命，客量高時每線最多兩列連續派車',
+ dayMode1:'日間 08:00–22:00｜兩線待命，每線一列',
+ nightA:'夜間｜A 線維修時段 22:00–03:00，B 線一列服務全線',
+ nightB:'夜間｜B 線維修時段 03:00–08:00，A 線一列服務全線',
+ evDep:(p)=>`${p.tr} ${p.cars} 車自 ${p.st} ${p.dir}發車（${p.why}）`,
+ whyCall:(p)=>`叫車：${p.st} ${p.dir} ${p.n} 人`, whyFetch:(p)=>`前往 ${p.st} 接載 ${p.n} 人`, whyCont:()=>'連續派車',
+ evMs:(p)=>`${p.line} 線進入維修時段，停止受理派車`, evMe:(p)=>`${p.line} 線維修時段結束，恢復待命`,
+ evRe:(p)=>`${p.tr} 於 ${p.st} 編組變更 ${p.a}→${p.b} 車`,
+ lgA:'A 線', lgB:'B 線', lgW:'虎頭埤水域（示意）', lgQ:'站內數字：▶東行／◀西行候車人數',
+ hrCalls:'叫車人次', hrWait:'平均候車（s）',
+ ruTitle:'營運規則（模擬採用）',
+ rules:[
+  '24 小時全年營運、全天候<b>隨需發車</b>：乘客叫車即發車，不設固定時刻表；OCC 劃位至最早到站之列。',
+  'A、B 兩線各自獨立往返全線，全線不設轉轍及渡線；T2、T3 中途停靠 30 s，旅客不換車；端站折返 60 s。',
+  '日間 08:00–22:00 兩線待命；客量高時，OCC 依候乘人數連續派車，每線最多兩列同向追蹤（最短追蹤 58 s，T1、T4 前後雙車位）。',
+  '夜間一線維修、另一線一列服務全線：A 線維修 22:00–03:00，B 線維修 03:00–08:00；維修線停止受理派車，運行中之列完成該趟後存車。',
+  '彈性編組：安全以列固定、運能以車調整，每列 1～5 車；編組變更限端站、全列乘客下車後辦理。',
+  '同一線兩列不得對向同時運行；同向後列不推拉前列。',
+  '行駛速度：主線 40 km/h、門架段 30 km/h、T2／T3 站內曲線 18 km/h、T3 東承托座 34 km/h，加減速度 1.0 m/s²；站間行駛時間依定案值，剩餘時間計為運轉餘裕。'],
+ ptTitle:'定案運轉參數',
+ ptHead:['項目','第一階段 T1–T3','全線直通 T1–T4'],
+ ptRows:[
+  ['路線長','1,095.2 m','1,874.6 m'],
+  ['單程（含中途停站）','160.5 s','282.1 s'],
+  ['每線一列往返循環','441.0 s','684.2 s'],
+  ['每線兩列共同循環','—','806.0 s'],
+  ['單方向運能（兩線）','98.0～489.8 人／小時','一列 63.1～315.7；兩列 321.6～536.0 人／小時'],
+  ['隨需候車上限（兩線待命）','220.5 s','342 s'],
+  ['隨需候車上限（一線維修）','381 s','624 s'],
+  ['夜間單方向運能','244.9 人／小時','157.8 人／小時'],
+  ['車隊','12 輛（營運 10＋備用 2）','22 輛（營運 20＋備用 2）']],
+ src:'資料依據：投資計畫書第四章營運計畫（全天候隨需發車）、第三章 3.3 纜車系統、介面控制值 FACTS V3.1。需求以年 75 萬人次、逐時分布推估；起訖分布為模擬設定。',
+ tsNow:'現在', min:'分', stNames:['新化之門站','湖濱旅館站','湖濱山城站','新化林場站'],
+ ph2Only:'第二階段'
+},
+en:{
+ ttl:'Hutoupi Cable Car — 24-Hour <span class="od">On-Demand Dispatch</span> Operations Simulation',
+ subt:'String cable car system | Lines A and B shuttle independently | 1–5 cars per consist, 6 seats per car | No timetable: a call dispatches a car; the OCC at T1 dispatches by the number waiting',
+ ctlPhase:'Phase', phase2:'Full line T1–T4', phase1:'Phase 1 T1–T3',
+ ctlScen:'Scenario', scAvg:'Average day (750,000/yr)', scPeak:'Holiday peak day', scCap:'Capacity check: continuous dispatch',
+ ctlMult:'Demand ×', ctlSpeed:'Speed', ctlJump:'Jump to', run:'Pause', pause:'Run', reset:'Reset',
+ cv0:'Live 3D view', cv0s:'Terrain and water are schematic; alignment, string elevations and station massing follow adopted values; drag to orbit, scroll to zoom', camAll:'Whole line', camFollow:'Follow', camLake:'Reservoir view', camLoad:'Loading 3D scene…', camFail:'This browser cannot show the 3D scene (WebGL required)',
+ cv1:'Profile and live positions on both lines', cv1s:'Schematic profile, vertical scale exaggerated; consist length enlarged',
+ cv2:'Time–distance diagram (last 45 min)', cv2s:'x: chainage, y: time (now at top)',
+ cv3:'Calls per hour and average wait', cv3s:'Today 00–24 h',
+ kWait:'Passengers waiting', kMaxW:'Longest current wait', kAvgW:'Avg wait, last hour', kCeil:'Current on-demand wait ceiling',
+ kRate:'On-demand dispatch achievement (boardings within ceiling ÷ calls; target 98.0%)',
+ kFlowE:'Eastbound riders, last hour', kFlowW:'Westbound riders, last hour',
+ kCapE:'Eastbound seats offered, last hour', kCapW:'Westbound seats offered, last hour', kTot:'Total riders', kCars:'Cars in service',
+ trTitle:'Consists', thTrain:'Consist', thState:'State', thCars:'Cars', thPax:'Riders', thSpd:'Speed',
+ logTitle:'OCC dispatch log',
+ stIdle:'Standby', stRun:'Running', stDwell:'At station', stMaint:'Maintenance', stPark:'Stored',
+ at:'at', east:'eastbound', west:'westbound', car:'cars',
+ dayMode:'Day 08:00–22:00 | both lines on standby; up to two consists per line when demand is high',
+ dayMode1:'Day 08:00–22:00 | both lines on standby, one consist per line',
+ nightA:'Night | Line A maintenance 22:00–03:00; one consist on Line B serves the whole line',
+ nightB:'Night | Line B maintenance 03:00–08:00; one consist on Line A serves the whole line',
+ evDep:(p)=>`${p.tr} departs ${p.st} ${p.dir} with ${p.cars} cars (${p.why})`,
+ whyCall:(p)=>`call: ${p.n} waiting at ${p.st} ${p.dir}`, whyFetch:(p)=>`to pick up ${p.n} at ${p.st}`, whyCont:()=>'continuous dispatch',
+ evMs:(p)=>`Line ${p.line} enters maintenance window; dispatch suspended`, evMe:(p)=>`Line ${p.line} maintenance ends; back on standby`,
+ evRe:(p)=>`${p.tr} re-formed at ${p.st}: ${p.a}→${p.b} cars`,
+ lgA:'Line A', lgB:'Line B', lgW:'Hutoupi reservoir (schematic)', lgQ:'Station figures: ▶ eastbound / ◀ westbound waiting',
+ hrCalls:'Calls', hrWait:'Avg wait (s)',
+ ruTitle:'Operating rules (as simulated)',
+ rules:[
+  'Open 24 hours, all year, with <b>on-demand dispatch</b> at all hours: a call dispatches a car, with no timetable; the OCC assigns each rider to the first consist to arrive.',
+  'Lines A and B each shuttle over the whole line with no switches or crossovers; 30 s stops at T2 and T3 with no transfer; 60 s turnaround at the end stations.',
+  'Day 08:00–22:00: both lines on standby; when demand is high the OCC dispatches continuously, up to two consists per line in the same direction (58 s minimum following time; front and rear berths at T1 and T4).',
+  'Night: one line in maintenance, one consist on the other line serves the whole line — Line A 22:00–03:00, Line B 03:00–08:00. The line in maintenance takes no dispatch; a running consist completes its trip and is stored.',
+  'Flexible formation: safety is fixed per consist, capacity is set by cars, 1–5 cars per consist; re-formation only at end stations with the consist empty.',
+  'Two consists on one line never run toward each other; a following consist never pushes or pulls the one ahead.',
+  'Speeds: 40 km/h main line, 30 km/h at gantries, 18 km/h on T2/T3 station curves, 34 km/h on the T3 east support; 1.0 m/s² acceleration and braking. Inter-station times follow the adopted values; any remainder is held as running margin.'],
+ ptTitle:'Adopted operating parameters',
+ ptHead:['Item','Phase 1 T1–T3','Full line T1–T4'],
+ ptRows:[
+  ['Line length','1,095.2 m','1,874.6 m'],
+  ['One way incl. intermediate stops','160.5 s','282.1 s'],
+  ['Round trip, one consist per line','441.0 s','684.2 s'],
+  ['Common cycle, two consists per line','—','806.0 s'],
+  ['Capacity per direction (both lines)','98.0–489.8 pphpd','one consist 63.1–315.7; two 321.6–536.0 pphpd'],
+  ['Wait ceiling, both lines on standby','220.5 s','342 s'],
+  ['Wait ceiling, one line in maintenance','381 s','624 s'],
+  ['Night capacity per direction','244.9 pphpd','157.8 pphpd'],
+  ['Fleet','12 cars (10 in service + 2 spare)','22 cars (20 in service + 2 spare)']],
+ src:'Sources: Investment Plan Chapter 4 Operations Plan (24-hour on-demand dispatch), Chapter 3 §3.3 Cable Car System, interface control values FACTS V3.1. Demand from 750,000 trips/year with an hourly profile; origin–destination split is a simulation setting.',
+ tsNow:'now', min:'min', stNames:['Xinhua Gate','Lakeside Hotel','Lakeside Hill Town','Xinhua Forest Farm'],
+ ph2Only:'Phase 2'
+}};
+let LANG='zh';
+const T=k=>I18N[LANG][k];
+
+/* ================= 定案參數 ================= */
+const CONT_RATE=100, A_ACC=1.0, DWELL=30, TURN=60, TURN_PAIR=62.9, FOLLOW=58, SEATS=6;
+const ST=[{id:'T1',ch:0,el:52.60},{id:'T2',ch:796.0,el:68.60},{id:'T3',ch:1095.2,el:69.00},{id:'T4',ch:1874.6,el:66.00}];
+const SUPP=[{id:'P1',ch:446.0,el:67.70},{id:'P2',ch:1424.7,el:85.70}];
+// 站間行駛時間（定案值：T1–T3 單程行駛 130.5 s、全線 222.1 s）
+const LEG_OFF={'0-1':89.4,'1-2':41.1,'2-3':91.6};
+const CEIL={1:{two:220.5,one:381},2:{two:342.1,one:624.2}};
+// 縱斷節點（弦線頂）與跨中下垂（示意）
+const NODES=[[0,52.60],[446.0,67.70],[796.0,68.60],[1095.2,69.00],[1424.7,85.70],[1874.6,66.00]];
+const SAGS=[6.0,3.7,2.71,3.28,6.13];
+const GROUND=[[-90,32.5],[0,32.5],[25,30.6],[425,30.6],[446,44.0],[468,30.6],[745,30.6],[770,37.5],[796,40.0],[860,55],[912,62.4],[990,50],[1095.2,43.0],[1180,47],[1300,60],[1424.7,69.9],[1468,61.5],[1560,58],[1700,52],[1874.6,46.85],[1960,46]];
+// 逐時需求分布（%）
+const HSHARE=[0.3,0.2,0.2,0.2,0.2,0.3,0.8,1.8,4.0,6.5,8.5,9.0,8.6,8.6,9.0,8.8,8.0,6.6,5.0,3.8,3.0,2.2,1.2,0.6];
+const HSUM=HSHARE.reduce((a,b)=>a+b,0);
+const DAILY=750000/365;
+
+function vlim(s){
+  let v=40;
+  if(s<10) v=Math.min(v,30);
+  if(Math.abs(s-446)<35||Math.abs(s-1424.7)<35) v=Math.min(v,30);
+  if(s>796&&s<808) v=Math.min(v,18);
+  if(s>1095.2&&s<1126.3) v=Math.min(v,18); else if(s>=1126.3&&s<1145) v=Math.min(v,34);
+  if(s>1864) v=Math.min(v,30);
+  return v/3.6;
+}
+function buildLeg(a,b){
+  const sA=ST[a].ch,sB=ST[b].ch,L=Math.abs(sB-sA),n=Math.ceil(L/0.5),d=L/n,sg=Math.sign(sB-sA);
+  const v=new Float64Array(n+1),t=new Float64Array(n+1);
+  for(let i=1;i<=n;i++) v[i]=Math.min(vlim(sA+sg*i*d),Math.sqrt(v[i-1]*v[i-1]+2*A_ACC*d));
+  v[n]=0; for(let i=n-1;i>=0;i--) v[i]=Math.min(v[i],Math.sqrt(v[i+1]*v[i+1]+2*A_ACC*d));
+  v[0]=0;
+  for(let i=1;i<=n;i++) t[i]=t[i-1]+2*d/Math.max(v[i-1]+v[i],1e-6);
+  const key=a<b?`${a}-${b}`:`${b}-${a}`,To=LEG_OFF[key],Tk=t[n];
+  let f=1,hold=0; if(Tk>To){f=To/Tk;} else hold=To-Tk;
+  for(let i=0;i<=n;i++) t[i]*=f;
+  return {a,b,sA,sB,sg,n,d,v,t,f,move:t[n],hold,official:To,kin:Tk};
+}
+function legPos(L,tau){
+  if(tau<=0) return {s:L.sA,v:0}; if(tau>=L.move) return {s:L.sB,v:0};
+  let lo=0,hi=L.n; while(hi-lo>1){const m=(lo+hi)>>1; if(L.t[m]<=tau) lo=m; else hi=m;}
+  const r=(tau-L.t[lo])/(L.t[hi]-L.t[lo]||1);
+  return {s:L.sA+L.sg*(lo+r)*L.d, v:(L.v[lo]+(L.v[hi]-L.v[lo])*r)/L.f};
+}
+const LEGS={}; for(const [a,b] of [[0,1],[1,2],[2,3]]){LEGS[`${a}>${b}`]=buildLeg(a,b);LEGS[`${b}>${a}`]=buildLeg(b,a);}
+
+let PH=2, LAST=3;
+let TRIP={}; // dir -> {segs,total,arr[],dep[]}
+function buildTrips(){
+  LAST=PH===2?3:2;
+  for(const d of [1,-1]){
+    const seq=[]; if(d>0) for(let i=0;i<=LAST;i++) seq.push(i); else for(let i=LAST;i>=0;i--) seq.push(i);
+    const segs=[],arr=[],dep=[]; let t=0; arr[seq[0]]=0; dep[seq[0]]=0;
+    for(let i=0;i<seq.length-1;i++){
+      const L=LEGS[`${seq[i]}>${seq[i+1]}`];
+      segs.push({type:'move',L,t0:t,dur:L.move}); t+=L.move; arr[seq[i+1]]=t;
+      const mid=i<seq.length-2; const dw=L.hold+(mid?DWELL:0);
+      segs.push({type:'dwell',st:seq[i+1],t0:t,dur:dw,mid}); t+=dw; dep[seq[i+1]]=t;
+    }
+    TRIP[d]={segs,total:t,arr,dep,seq};
+  }
+}
+const timeTo=(d,s)=>TRIP[d].arr[s];
+
+/* ================= 狀態 ================= */
+let now=8*3600, running=true, SPEED=30, MULT=1, SCEN='avg';
+let trains=[], lines={}, Q=[], stats, events=[], lastMaint=null, accGen=0, accDisp=0, accHist=0;
+function mkTrain(line,idx,term,berth){
+  return {id:line+idx,line,idx,state:'idle',term,berth,dirOut:term===0?1:-1,dir:term===0?1:-1,arrivedAt:-1e9,
+    cars:3,pax:[],trip:null,tripStart:0,seg:0,lastDep:-1e9,hist:[],pos:ST[term].ch,v:0};
+}
+function reset(t0){
+  buildTrips();
+  now=t0; trains=[]; lines={};
+  const tA=0,tB=LAST;
+  for(const [L,term] of [['A',tA],['B',tB]]){
+    const arr=[mkTrain(L,1,term,'inner')];
+    if(PH===2) arr.push(mkTrain(L,2,term,'exit'));
+    lines[L]={trains:arr,active:arr[0],lastDep:-1e9,lastDepTerm:-1};
+    trains.push(...arr);
+  }
+  Q=ST.map(()=>({e:[],w:[]}));
+  stats={recent:[],calls:0,ok:0,board:[],seat:[],tot:0,hrCalls:new Array(24).fill(0),hrWaitSum:new Array(24).fill(0),hrBoard:new Array(24).fill(0),day:Math.floor(now/86400)};
+  events=[]; lastMaint=maintLine(); accGen=accDisp=accHist=0;
+  renderStatic();
+}
+/* ================= 時段 ================= */
+const hourOf=t=>((t%86400)+86400)%86400/3600;
+function isNight(t=now){const h=hourOf(t);return h>=22||h<8;}
+function maintLine(t=now){const h=hourOf(t);if(h>=22||h<3)return 'A';if(h<8)return 'B';return null;}
+const lineAvail=L=>maintLine()!==L;
+const allow2=L=>PH===2&&!isNight()&&lineAvail(L);
+const curCeil=()=>isNight()?CEIL[PH].one:CEIL[PH].two;
+const other=tr=>lines[tr.line].trains.find(x=>x!==tr);
+
+/* ================= 需求 ================= */
+function lambdaNow(){ // 人／秒（全網）
+  const h=Math.floor(hourOf(now));
+  return DAILY*MULT*(HSHARE[h]/HSUM)/3600*(PH===1?0.82:1);
+}
+function poisson(l){if(l<=0)return 0;if(l>30)return Math.max(0,Math.round(l+Math.sqrt(l)*gauss()));let L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random();}while(p>L);return k-1;}
+function gauss(){return Math.sqrt(-2*Math.log(Math.random()||1e-9))*Math.cos(2*Math.PI*Math.random());}
+function pickW(w){const s=w.reduce((a,b)=>a+b,0);let r=Math.random()*s;for(let i=0;i<w.length;i++){r-=w[i];if(r<=0)return i;}return w.length-1;}
+function genPax(dt){
+  const n=poisson(lambdaNow()*dt), h=hourOf(now);
+  for(let k=0;k<n;k++){
+    let wo,wd;
+    if(h<12){wo=[0.50,0.15,0.20,0.15];wd=[0.12,0.22,0.30,0.36];}
+    else if(h<15){wo=[0.32,0.20,0.24,0.24];wd=[0.30,0.20,0.25,0.25];}
+    else {wo=[0.18,0.20,0.30,0.32];wd=[0.50,0.18,0.20,0.12];}
+    wo=wo.slice(0,LAST+1); wd=wd.slice(0,LAST+1);
+    const o=pickW(wo); const w2=wd.map((x,i)=>i===o?0:x); const de=pickW(w2);
+    const p={t0:now,o,de,ceil:curCeil()};
+    (de>o?Q[o].e:Q[o].w).push(p);
+    stats.calls++; stats.hrCalls[Math.floor(h)]++; stats.recent.push(now);
+  }
+}
+/* ================= 列車運行 ================= */
+const cap=tr=>tr.cars*SEATS;
+const qOf=(s,d)=>d>0?Q[s].e:Q[s].w;
+function board(tr,s){
+  const q=qOf(s,tr.dir); let free=cap(tr)-tr.pax.length;
+  while(free>0&&q.length){const p=q.shift();const w=now-p.t0;tr.pax.push(p);free--;
+    stats.board.push({t:now,d:tr.dir,w,ok:w<=p.ceil+0.5,s,o:p.o}); stats.tot++; if(w<=p.ceil+0.5) stats.ok++;
+    const h=Math.floor(hourOf(p.t0)); stats.hrWaitSum[h]+=w; stats.hrBoard[h]++;}
+}
+function alight(tr,s){tr.pax=tr.pax.filter(p=>p.de!==s);}
+function turnOf(tr){
+  const o=other(tr);
+  if(o&&o.state==='idle'&&o.term===tr.term&&Math.abs(o.arrivedAt-tr.arrivedAt)<=120&&tr.berth==='exit') return TURN_PAIR;
+  return TURN;
+}
+function canDepart(tr){
+  if(tr.state!=='idle') return false;
+  const loaded=tr.pax.length>0; // 已有乘客之列完成該趟服務
+  if(!lineAvail(tr.line)&&!loaded) return false;
+  if(now<tr.arrivedAt+turnOf(tr)) return false;
+  if(!allow2(tr.line)&&lines[tr.line].active!==tr&&!loaded) return false;
+  const o=other(tr);
+  if(o){
+    if(o.state==='trip'&&o.dir!==tr.dirOut) return false;
+    if(o.state==='trip'&&o.dir===tr.dirOut&&now-o.lastDep<FOLLOW) return false;
+    if(o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner') return false;
+  }
+  return true;
+}
+function decideCars(tr){
+  if(SCEN==='cap') return 5;
+  const d=tr.dirOut; let need=0; for(let s=0;s<=LAST;s++) need+=qOf(s,d).length;
+  need+=0.5*lambdaNow()*TRIP[d].total;
+  let c=Math.ceil(need*1.3/SEATS); if(need>=3) c=Math.max(c,2); if(allow2(tr.line)&&need>30) c=5;
+  return Math.max(1,Math.min(5,c));
+}
+function depart(tr,why){
+  const nc=Math.max(decideCars(tr),Math.ceil(tr.pax.length/SEATS));
+  if(nc!==tr.cars) addEv('evRe',{tr:tr.id,st:ST[tr.term].id,a:tr.cars,b:nc});
+  if(!/58|following|追蹤/.test(why)){lines[tr.line].lastDep=now;lines[tr.line].lastDepTerm=tr.term;}
+  tr.cars=nc; tr.dir=tr.dirOut; tr.state='trip'; tr.trip=TRIP[tr.dir]; tr.tripStart=now; tr.seg=0; tr.lastDep=now; tr.berth=null;
+  board(tr,tr.term);
+  stats.seat.push({t:now,d:tr.dir,n:cap(tr)});
+  addEv('evDep',{tr:tr.id,cars:tr.cars,st:ST[tr.term].id,dir:tr.dir>0?'east':'west',why});
+}
+function finishTrip(tr){
+  const end=tr.dir>0?LAST:0; alight(tr,end);
+  const o=other(tr);
+  tr.state='idle'; tr.term=end; tr.dirOut=-tr.dir; tr.arrivedAt=now; tr.pos=ST[end].ch; tr.v=0;
+  const innerTaken=o&&o.state==='idle'&&o.term===end&&o.berth==='inner';
+  tr.berth=innerTaken?'exit':'inner';
+}
+function stepTrain(tr){
+  if(tr.state!=='trip') return;
+  const tau=now-tr.tripStart, S=tr.trip.segs;
+  while(tr.seg<S.length&&tau>=S[tr.seg].t0+S[tr.seg].dur){
+    const g=S[tr.seg];
+    if(g.type==='move'){ const nx=S[tr.seg+1]; alight(tr,nx.st); if(nx.mid) board(tr,nx.st); }
+    else if(g.mid) board(tr,g.st);
+    tr.seg++;
+  }
+  if(tr.seg>=S.length){finishTrip(tr);return;}
+  const g=S[tr.seg];
+  if(g.type==='move'){const r=legPos(g.L,tau-g.t0);tr.pos=r.s;tr.v=r.v;}
+  else {tr.pos=ST[g.st].ch;tr.v=0;}
+}
+/* ================= 行控中心派車 ================= */
+function eta(tr,s,d){
+  const tt=TRIP[d].total;
+  if(tr.state==='trip'){
+    const rem=tr.tripStart+tr.trip.total-now;
+    if(tr.dir===d){
+      const dp=tr.trip.dep[s]; if(dp!==undefined&&now<=tr.tripStart+dp) return Math.max(0,tr.tripStart+tr.trip.arr[s]-now);
+      return rem+TURN+TRIP[-d].total+TURN+timeTo(d,s);
+    }
+    return rem+TURN+timeTo(d,s);
+  }
+  const ready=Math.max(0,tr.arrivedAt+TURN-now);
+  let e=tr.dirOut===d?ready+timeTo(d,s):ready+TRIP[tr.dirOut].total+TURN+timeTo(d,s);
+  const o=other(tr);
+  if(o&&o.state==='trip'&&o.dir!==tr.dirOut) e+=o.tripStart+o.trip.total-now;
+  return e;
+}
+function freeAhead(d){ // 各站可用座位（已在途、同方向）
+  const order=[];for(let s=0;s<=LAST;s++)order.push(s); if(d<0)order.reverse();
+  const trs=trains.filter(t=>t.state==='trip'&&t.dir===d).map(t=>({t,f:cap(t)-t.pax.length,ts:t.tripStart,tp:t.trip}))
+    .concat(trains.filter(t=>t.state==='idle'&&t.pax.length&&t.dirOut===d).map(t=>({t,f:cap(t)-t.pax.length,ts:Math.max(now,t.arrivedAt+TURN),tp:TRIP[d]})));
+  const un=[];
+  for(const s of order){
+    if((d>0&&s===LAST)||(d<0&&s===0)) continue;
+    let w=qOf(s,d).length; if(!w) continue;
+    for(const x of trs){
+      const dp=x.tp.dep[s]; if(dp===undefined||now>x.ts+dp) continue;
+      x.f+=x.t.pax.filter(p=>p.de===s).length;
+      const k=Math.min(w,Math.max(0,x.f)); w-=k; x.f-=k;
+    }
+    if(w>0) un.push({s,d,w,old:qOf(s,d)[0].t0});
+  }
+  return un;
+}
+function dispatch(){
+  // 單列模式：存車列擋住出口時互換
+  for(const L of ['A','B']){
+    const ln=lines[L]; const o=ln.trains.find(x=>x!==ln.active);
+    if(o&&ln.active.state==='idle'&&o.state==='idle'&&o.term===ln.active.term&&o.berth==='exit') ln.active=o;
+    if(o&&ln.active.state==='idle'&&o.state==='trip'&&!allow2(L)) ln.active=o;
+  }
+  // 端站待命列開門受理：候車乘客即時上車
+  for(let s=0;s<=LAST;s++){ if(s!==0&&s!==LAST) continue; const d=s===0?1:-1; if(!qOf(s,d).length) continue;
+    const tr=boardingTrain(s); if(tr) board2(tr,s,d); }
+  // 後車位載客列被前車位空列擋住：前車位列先行發車讓出車位
+  for(const tr of trains){ if(tr.state!=='idle'||!tr.pax.length) continue; const o=other(tr);
+    if(o&&o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner'&&now>=o.arrivedAt+TURN){ o.pax.length||depart(o,LANG==='zh'?'讓出前車位':'clear front berth'); } }
+  // 已有乘客之待命列：折返完成即發車
+  for(const tr of trains){ if(tr.state==='idle'&&tr.pax.length&&canDepart(tr)) depart(tr,T('whyCall')({st:ST[tr.term].id,dir:T(tr.dirOut>0?'east':'west'),n:tr.pax.length})); }
+  if(SCEN==='cap'){
+    for(const tr of trains) if(canDepart(tr)) depart(tr,T('whyCont')());
+    return;
+  }
+  // 客量高：兩線反相連續派車（兩線相隔半循環）
+  const cont=!isNight()&&stats.recent.length*4>=CONT_RATE;
+  if(cont){
+    const half=TRIP[1].total+TURN;
+    for(const L of ['A','B']){ const tr=lines[L].active; if(!lineAvail(L)||!canDepart(tr)) continue;
+      const ol=lines[L==='A'?'B':'A']; let hold=0;
+      if(lineAvail(ol.active.line)&&ol.lastDepTerm===tr.term&&now-ol.lastDep<half) hold=ol.lastDep+half-8;
+      if(now>=hold) depart(tr,T('whyCont')()); }
+  }
+  let un=freeAhead(1).concat(freeAhead(-1)).sort((a,b)=>a.old-b.old);
+  if(!un.length){ rebalance(); return; }
+  const chosen=new Map(), capRem=new Map();
+  const rem=(tr,d)=>{const k=tr.id+d; if(!capRem.has(k)) capRem.set(k,5*SEATS-((tr.state==='trip'&&tr.dir===d)?tr.pax.length:0)); return capRem.get(k);};
+  for(const pass of [1,2]){
+    for(const g of un){
+      while(g.w>0){
+        let best=null,be=Infinity;
+        for(const tr of trains){
+          if(!lineAvail(tr.line)) continue;
+          const isAct=lines[tr.line].active===tr;
+          if(pass===1&&(!isAct||cont)) continue;
+          if(pass===2&&(isAct||!allow2(tr.line))) continue;
+          if(rem(tr,g.d)<=0) continue;
+          if(tr.state==='idle'){const o=other(tr);if(o&&o.state==='idle'&&o.term===tr.term&&o.berth==='exit'&&tr.berth==='inner')continue;}
+          let e=eta(tr,g.s,g.d); if(tr.state==='idle'&&!chosen.has(tr)) e+=10;
+          if(e<be){be=e;best=tr;}
+        }
+        if(!best) break;
+        const take=Math.min(g.w,rem(best,g.d)); g.w-=take; capRem.set(best.id+g.d,rem(best,g.d)-take);
+        if(best.state==='idle'&&!chosen.has(best)) chosen.set(best,{s:g.s,d:g.d,n:qOf(g.s,g.d).length});
+      }
+    }
+  }
+  for(const [tr,g] of chosen){
+    if(!canDepart(tr)) continue;
+    const dn=g.d>0?'east':'west';
+    const why=tr.dirOut===g.d?T('whyCall')({st:ST[g.s].id,dir:T(dn),n:g.n}):T('whyFetch')({st:ST[g.s].id,n:g.n});
+    depart(tr,why);
+  }
+}
+function eligible(tr){ return tr.state==='idle'&&lineAvail(tr.line)&&(allow2(tr.line)||lines[tr.line].active===tr); }
+function boardingTrain(s){ // 端站可受理上車之待命列（未被擋住者；行控指定列優先）
+  const ok=trains.filter(t=>eligible(t)&&t.term===s).filter(t=>{const o=other(t);return !(o&&o.state==='idle'&&o.term===s&&o.berth==='exit'&&t.berth==='inner');});
+  ok.sort((a,b)=>(b.pax.length-a.pax.length)||((lines[b.line].active===b)-(lines[a.line].active===a))||(a.arrivedAt-b.arrivedAt));
+  return ok[0]||null;
+}
+function board2(tr,s,d){ tr.dir=d; const save=tr.cars; tr.cars=5; board(tr,s); tr.cars=save; if(tr.pax.length>cap(tr)) tr.cars=Math.min(5,Math.ceil(tr.pax.length/SEATS)); }
+function rebalance(){ // 日間待命：兩線分置兩端站
+  if(isNight()||SCEN==='cap') return;
+  const a=lines.A.active,b=lines.B.active; if(!lineAvail('A')||!lineAvail('B')) return;
+  const endOf=t=>t.state==='idle'?t.term:(t.dir>0?LAST:0);
+  if(endOf(a)!==endOf(b)) return;
+  const idle=[a,b].filter(t=>t.state==='idle'&&canDepart(t)).sort((x,y)=>x.arrivedAt-y.arrivedAt);
+  if(idle.length) depart(idle[0],LANG==='zh'?'回送待命':'reposition to standby');
+}
+/* ================= 主迴圈 ================= */
+function addEv(k,p){events.unshift({t:now,k,p});if(events.length>60)events.pop();}
+function simStep(dt){
+  now+=dt;
+  const d=Math.floor(now/86400); if(d!==stats.day){stats.day=d;stats.hrCalls.fill(0);stats.hrWaitSum.fill(0);stats.hrBoard.fill(0);}
+  const m=maintLine(); if(m!==lastMaint){ if(lastMaint) addEv('evMe',{line:lastMaint}); if(m) addEv('evMs',{line:m}); lastMaint=m; }
+  for(const tr of trains) stepTrain(tr);
+  accGen+=dt; if(accGen>=1){genPax(accGen);accGen=0;}
+  accDisp+=dt; if(accDisp>=1){dispatch();accDisp=0;}
+  accHist+=dt; if(accHist>=4){accHist=0;for(const tr of trains){tr.hist.push([now,tr.pos]);while(tr.hist.length&&tr.hist[0][0]<now-2800)tr.hist.shift();}}
+  while(stats.recent.length&&stats.recent[0]<now-900) stats.recent.shift();
+  if(stats.board.length&&stats.board[0].t<now-3600) stats.board=stats.board.filter(x=>x.t>=now-3600);
+  if(stats.seat.length&&stats.seat[0].t<now-3600) stats.seat=stats.seat.filter(x=>x.t>=now-3600);
+}
+let lastT=performance.now(), uiAcc=0;
+function frame(ts){
+  const real=Math.min(0.1,(ts-lastT)/1000); lastT=ts;
+  if(running){ let sim=real*SPEED; while(sim>0){const dt=Math.min(0.5,sim);simStep(dt);sim-=dt;} }
+  drawLine(); drawTS();
+  uiAcc+=real; if(uiAcc>0.25){uiAcc=0;updateUI();drawHr();}
+  requestAnimationFrame(frame);
+}
+/* ================= 繪圖 ================= */
+function fit(cv){const r=window.devicePixelRatio||1,w=cv.clientWidth;if(!cv.dataset.h)cv.dataset.h=cv.getAttribute('height');const h=+cv.dataset.h;if(cv.width!==Math.round(w*r)){cv.width=Math.round(w*r);cv.height=Math.round(h*r);cv.style.height=h+'px';}const c=cv.getContext('2d');c.setTransform(r,0,0,r,0,0);return {c,w,h};}
+const CHMIN=-150,CHMAX=2050;
+function stringEl(ch){
+  for(let i=0;i<NODES.length-1;i++){const [a,ea]=NODES[i],[b,eb]=NODES[i+1];if(ch>=a&&ch<=b){const u=(ch-a)/(b-a);return ea+(eb-ea)*u-4*SAGS[i]*u*(1-u);}}
+  return ch<0?NODES[0][1]:NODES[NODES.length-1][1];
+}
+function groundEl(ch){for(let i=0;i<GROUND.length-1;i++){const [a,ea]=GROUND[i],[b,eb]=GROUND[i+1];if(ch>=a&&ch<=b)return ea+(eb-ea)*(ch-a)/(b-a);}return 46;}
+const COL={A:'#1f6fb2',B:'#d9822b'};
+function berthPos(tr){
+  if(tr.state!=='idle') return tr.pos;
+  const base=ST[tr.term].ch; if(PH===1&&tr.term===2) return base;
+  const out=tr.term===0?-1:1; return tr.berth==='inner'?base+out*36:base+out*2;
+}
+function drawLine(){
+  const {c,w,h}=fit(document.getElementById('cvLine'));
+  c.clearRect(0,0,w,h); c.font='12px "Noto Sans TC",sans-serif';
+  const pl=46,pr=18,X=ch=>pl+(ch-CHMIN)/(CHMAX-CHMIN)*(w-pl-pr);
+  const y0=18,y1=190,E0=26,E1=92,Y=el=>y1-(el-E0)/(E1-E0)*(y1-y0);
+  // 第二階段區段（第一階段時淡化）
+  if(PH===1){c.fillStyle='rgba(120,120,120,.08)';c.fillRect(X(1095.2+10),y0-6,X(CHMAX)-X(1105.2),h-y0);c.fillStyle='#8a949b';c.fillText(T('ph2Only'),X(1480),y0+6);}
+  // 高程格線
+  c.strokeStyle='#eef0f1';c.lineWidth=1;c.fillStyle='#8a949b';
+  for(let e=30;e<=90;e+=10){c.beginPath();c.moveTo(pl,Y(e));c.lineTo(w-pr,Y(e));c.stroke();c.fillText('EL'+e,4,Y(e)+4);}
+  // 水域
+  c.fillStyle='#cfe3ef';for(const [a,b] of [[25,425],[468,745]]) c.fillRect(X(a),Y(30.6),X(b)-X(a),y1-Y(30.6)+4);
+  // 地面
+  c.beginPath();c.moveTo(X(GROUND[0][0]),y1+4);for(const [ch,e] of GROUND)c.lineTo(X(ch),Y(e));c.lineTo(X(GROUND[GROUND.length-1][0]),y1+4);c.closePath();
+  c.fillStyle='#e7e1d3';c.fill();c.strokeStyle='#b9ad92';c.stroke();
+  for(const [a,b] of [[25,425],[468,745]]){c.fillStyle='#cfe3ef';c.fillRect(X(a),Y(30.6),X(b)-X(a),y1-Y(30.6)+4);}
+  // 門架
+  for(const p of SUPP){const xg=X(p.ch);c.strokeStyle='#59646c';c.lineWidth=3;c.beginPath();c.moveTo(xg,Y(groundEl(p.ch)));c.lineTo(xg,Y(p.el+2.5));c.stroke();
+    c.lineWidth=1;c.fillStyle='#59646c';c.fillText(p.id,xg+5,Y(p.el+4));}
+  // 站體
+  for(let i=0;i<4;i++){const s=ST[i];const x=X(s.ch);c.fillStyle=(PH===1&&i===3)?'#e5e7e8':'#c9d3d8';
+    const ww=i===0||i===3?X(s.ch+60)-X(s.ch):X(s.ch+30)-X(s.ch);
+    c.fillRect(i===0?x-ww:x-ww/2,Y(s.el+4),ww,Y(groundEl(s.ch))-Y(s.el+4));
+    c.fillStyle='#1d2a33';c.font='bold 12px "Noto Sans TC",sans-serif';c.fillText(s.id,x-8,Y(s.el+7));c.font='12px "Noto Sans TC",sans-serif';}
+  // 弦線
+  c.strokeStyle='#36434c';c.lineWidth=2;c.beginPath();
+  for(let ch=-100;ch<=1960;ch+=4){const yy=Y(ch<0||ch>1874.6?(ch<0?52.6:66.0):stringEl(ch));ch===-100?c.moveTo(X(ch),yy):c.lineTo(X(ch),yy);}c.stroke();
+  // 縱斷上列車
+  for(const tr of trains){const p=berthPos(tr);const e=p<0?52.6:p>1874.6?66:stringEl(p);const len=Math.max(8,tr.cars*5.68*3.2*(w-pl-pr)/(CHMAX-CHMIN));
+    c.fillStyle=COL[tr.line];c.globalAlpha=lineAvail(tr.line)?1:.35;c.fillRect(X(p)-len/2,Y(e)+2+(tr.line==='B'?7:0),len,6);c.globalAlpha=1;}
+  // ===== 兩線示意 =====
+  const ya=262,yb=350;
+  for(const [L,yy] of [['A',ya],['B',yb]]){
+    const off=!lineAvail(L);
+    c.strokeStyle=off?'#c5cacd':COL[L];c.lineWidth=3;c.setLineDash(off?[6,5]:[]);
+    c.beginPath();c.moveTo(X(-90),yy);c.lineTo(X(ST[LAST].ch+(LAST===3?80:0)),yy);c.stroke();c.setLineDash([]);
+    c.fillStyle=off?'#9aa3a8':COL[L];c.font='bold 13px "Noto Sans TC",sans-serif';
+    c.fillText((LANG==='zh'?L+' 線':'Line '+L)+(off?(LANG==='zh'?'（維修時段）':' (maintenance)'):''),X(300),L==='A'?yy-10:yy+20);
+    c.font='12px "Noto Sans TC",sans-serif';
+  }
+  for(let i=0;i<=LAST;i++){const x=X(ST[i].ch);
+    c.fillStyle='#f0f3f4';c.strokeStyle='#9fb0b8';c.lineWidth=1;c.fillRect(x-30,ya+12,60,yb-ya-24);c.strokeRect(x-30,ya+12,60,yb-ya-24);
+    c.fillStyle='#1d2a33';c.font='bold 12px "Noto Sans TC",sans-serif';c.textAlign='center';c.fillText(ST[i].id,x,ya+29);
+    c.font='11px "Noto Sans TC",sans-serif';c.fillStyle='#5d6b75';c.fillText(T('stNames')[i],x,ya+43);
+    const ne=Q[i].e.length,nw=Q[i].w.length;
+    c.font='bold 12px "Noto Sans TC",sans-serif';c.fillStyle=ne?'#0f4c5c':'#b3bcc1';c.fillText('▶'+ne,x-14,ya+60);
+    c.fillStyle=nw?'#0f4c5c':'#b3bcc1';c.fillText('◀'+nw,x+14,ya+60);
+    c.textAlign='left';c.font='12px "Noto Sans TC",sans-serif';}
+  for(const tr of trains){
+    const yy=tr.line==='A'?ya:yb, len=tr.cars*9;
+    let x=X(berthPos(tr));
+    if(tr.state==='idle'&&!(PH===1&&tr.term===2)){const out=tr.term===0?-1:1;x=X(ST[tr.term].ch)+out*(len/2+4+(tr.berth==='inner'?48:0));}
+    const lyOff=(tr.state==='idle'&&tr.berth==='inner')?(tr.line==='A'?-13:13):0;
+    const av=lineAvail(tr.line);
+    c.globalAlpha=av?1:.4;
+    for(let k=0;k<tr.cars;k++){c.fillStyle=COL[tr.line];c.fillRect(x-len/2+k*9+0.5,yy-6,8,12);}
+    const ld=tr.pax.length/cap(tr);c.fillStyle='rgba(255,255,255,.75)';c.fillRect(x-len/2,yy-6,len*(1-ld),3);
+    c.fillStyle='#1d2a33';c.font='11px "Noto Sans TC",sans-serif';c.textAlign='center';
+    const lab=`${tr.id}·${tr.pax.length}/${cap(tr)}`;c.fillText(lab,x,(tr.line==='A'?yy-11:yy+20)+lyOff);
+    if(tr.state==='trip'){c.fillText(tr.dir>0?'→':'←',x+len/2+7,yy+4);}
+    c.textAlign='left';c.globalAlpha=1;
+  }
+  // 里程尺
+  c.strokeStyle='#c8cfd3';c.beginPath();c.moveTo(X(0),h-16);c.lineTo(X(1874.6),h-16);c.stroke();c.fillStyle='#8a949b';c.font='11px "Noto Sans TC",sans-serif';
+  for(let k=0;k<=1800;k+=200){c.beginPath();c.moveTo(X(k),h-19);c.lineTo(X(k),h-13);c.stroke();c.fillText(k===0?'CH0':k.toLocaleString(),X(k)-10,h-2);}
+}
+function drawTS(){
+  const {c,w,h}=fit(document.getElementById('cvTS'));
+  c.clearRect(0,0,w,h);c.font='11px "Noto Sans TC",sans-serif';
+  const pl=46,pr=18,pt=14,pb=22,X=ch=>pl+(ch-CHMIN)/(CHMAX-CHMIN)*(w-pl-pr),WIN=2700,Y=t=>pt+(now-t)/WIN*(h-pt-pb);
+  c.strokeStyle='#eef0f1';c.fillStyle='#8a949b';
+  for(let m=0;m<=45;m+=5){const y=Y(now-m*60);c.beginPath();c.moveTo(pl,y);c.lineTo(w-pr,y);c.stroke();c.fillText(m===0?T('tsNow'):'-'+m+T('min'),4,y+4);}
+  for(let i=0;i<=LAST;i++){const x=X(ST[i].ch);c.strokeStyle='#c9d3d8';c.beginPath();c.moveTo(x,pt);c.lineTo(x,h-pb);c.stroke();c.fillStyle='#1d2a33';c.fillText(ST[i].id,x-7,h-6);}
+  // 維修時段陰影
+  for(const tr of trains){
+    if(tr.hist.length<2) continue;
+    c.strokeStyle=COL[tr.line];c.lineWidth=tr.idx===1?2:1.4;c.setLineDash(tr.idx===2?[5,3]:[]);
+    c.beginPath();let st=false;
+    for(const [t,p] of tr.hist){const y=Y(t);if(y>h-pb)continue;const x=X(p);if(!st){c.moveTo(x,y);st=true;}else c.lineTo(x,y);}
+    c.lineTo(X(berthPos(tr)),Y(now));c.stroke();c.setLineDash([]);
+  }
+}
+function drawHr(){
+  const {c,w,h}=fit(document.getElementById('cvHr'));
+  c.clearRect(0,0,w,h);c.font='11px "Noto Sans TC",sans-serif';
+  const pl=46,pr=46,pt=18,pb=22,bw=(w-pl-pr)/24;
+  const mx=Math.max(20,...stats.hrCalls)*1.15, wm=Math.max(60,...stats.hrBoard.map((b,i)=>b?stats.hrWaitSum[i]/b:0))*1.15;
+  c.fillStyle='rgba(30,40,80,.06)';
+  for(let i=0;i<24;i++){if(i>=22||i<8)c.fillRect(pl+i*bw,pt,bw,h-pt-pb);}
+  c.strokeStyle='#eef0f1';
+  for(let k=0;k<=4;k++){const y=pt+(h-pt-pb)*k/4;c.beginPath();c.moveTo(pl,y);c.lineTo(w-pr,y);c.stroke();
+    c.fillStyle='#8a949b';c.fillText(Math.round(mx*(1-k/4)),4,y+4);c.fillText(Math.round(wm*(1-k/4))+'s',w-pr+6,y+4);}
+  const curH=Math.floor(hourOf(now));
+  for(let i=0;i<24;i++){const v=stats.hrCalls[i],bh=(h-pt-pb)*v/mx;c.fillStyle=i===curH?'#0f4c5c':'#8fb3be';c.fillRect(pl+i*bw+2,h-pb-bh,bw-4,bh);
+    if(i%2===0){c.fillStyle='#5d6b75';c.fillText(String(i).padStart(2,'0'),pl+i*bw+bw/2-6,h-6);}}
+  c.strokeStyle='#d9822b';c.lineWidth=2;c.beginPath();let st=false;
+  for(let i=0;i<24;i++){if(!stats.hrBoard[i])continue;const v=stats.hrWaitSum[i]/stats.hrBoard[i];const x=pl+i*bw+bw/2,y=h-pb-(h-pt-pb)*v/wm;if(!st){c.moveTo(x,y);st=true;}else c.lineTo(x,y);}
+  c.stroke();c.lineWidth=1;
+  c.fillStyle='#8fb3be';c.fillRect(pl,3,10,10);c.fillStyle='#5d6b75';c.fillText(T('hrCalls'),pl+14,12);
+  c.fillStyle='#d9822b';c.fillRect(pl+110,7,14,3);c.fillStyle='#5d6b75';c.fillText(T('hrWait'),pl+128,12);
+}
+/* ================= 介面 ================= */
+const fmtT=t=>{const s=Math.floor(((t%86400)+86400)%86400);return [Math.floor(s/3600),Math.floor(s/60)%60,s%60].map(x=>String(x).padStart(2,'0')).join(':');};
+const $=id=>document.getElementById(id);
+function updateUI(){
+  $('clock').textContent=fmtT(now);
+  const mb=$('modeBox'),m=maintLine();
+  mb.className='mode '+(m?'night':'day'); mb.textContent=m?(m==='A'?T('nightA'):T('nightB')):(PH===2?T('dayMode'):T('dayMode1'));
+  let nw=0,mw=0;for(const q of Q)for(const a of [q.e,q.w]){nw+=a.length;if(a.length)mw=Math.max(mw,now-a[0].t0);}
+  $('kWait').textContent=nw;$('kMaxW').textContent=Math.round(mw)+' s';
+  $('kMaxW').style.color=mw>curCeil()?'#c0392b':'';
+  const b=stats.board;$('kAvgW').textContent=b.length?Math.round(b.reduce((a,x)=>a+x.w,0)/b.length)+' s':'—';
+  $('kCeil').textContent=(isNight()?CEIL[PH].one:CEIL[PH].two).toFixed(PH===2?0:1)+' s';
+  const rate=stats.tot?stats.ok/stats.tot*100:null;
+  $('kRate').textContent=rate===null?'—':rate.toFixed(1)+' %';$('kRate').style.color=rate===null?'':rate>=98?'#2f8f5b':rate>=97?'#c08a00':'#c0392b';
+  $('kFlowE').textContent=b.filter(x=>x.d>0).length;$('kFlowW').textContent=b.filter(x=>x.d<0).length;
+  $('kCapE').textContent=stats.seat.filter(x=>x.d>0).reduce((a,x)=>a+x.n,0);$('kCapW').textContent=stats.seat.filter(x=>x.d<0).reduce((a,x)=>a+x.n,0);
+  $('kTot').textContent=stats.tot.toLocaleString();
+  $('kCars').textContent=trains.filter(t=>t.state==='trip').reduce((a,t)=>a+t.cars,0);
+  let rows='';
+  for(const tr of trains){
+    let st;
+    if(!lineAvail(tr.line)&&tr.state==='idle') st=T('stMaint');
+    else if(tr.state==='idle') st=(!allow2(tr.line)&&lines[tr.line].active!==tr)?T('stPark'):T('stIdle');
+    else {const g=tr.trip.segs[Math.min(tr.seg,tr.trip.segs.length-1)];st=g.type==='dwell'?T('stDwell'):T('stRun')+(tr.dir>0?' →':' ←');}
+    const where=tr.state==='idle'?' '+T('at')+' '+ST[tr.term].id:'';
+    rows+=`<tr><td><span class="dot" style="background:${COL[tr.line]}"></span>${tr.id}</td><td>${st}${where}</td><td>${tr.cars}</td><td>${tr.pax.length}/${cap(tr)}</td><td>${(tr.v*3.6).toFixed(0)} km/h</td></tr>`;
+  }
+  $('trBody').innerHTML=rows;
+  $('log').innerHTML=events.slice(0,40).map(e=>`<div><span class="tm">${fmtT(e.t)}</span><span class="${e.k==='evMs'||e.k==='evMe'?'mt':''}">${evText(e)}</span></div>`).join('');
+  $('btnRun').textContent=running?T('run'):T('pause');
+}
+function evText(e){const p={...e.p};if(p.dir)p.dir=T(p.dir);return T(e.k)(p);}
+function renderStatic(){
+  document.documentElement.lang=LANG==='zh'?'zh-Hant':'en';
+  $('ttl').innerHTML=T('ttl');$('subt').textContent=T('subt');
+  document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T(el.dataset.i);});
+  $('langBtn').textContent=LANG==='zh'?'English':'中文';
+  $('rules').innerHTML=T('rules').map(r=>`<li>${r}</li>`).join('');
+  const H=T('ptHead');$('ptab').innerHTML=`<tr>${H.map(x=>`<th>${x}</th>`).join('')}</tr>`+T('ptRows').map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('');
+  $('src').textContent=T('src');
+  $('lg1').innerHTML=`<span><span class="dot" style="background:${COL.A}"></span>${T('lgA')}</span><span><span class="dot" style="background:${COL.B}"></span>${T('lgB')}</span><span><span class="dot" style="background:#cfe3ef"></span>${T('lgW')}</span><span>${T('lgQ')}</span>`;
+  document.title=LANG==='zh'?'虎頭埤纜車 全天候隨需發車 營運動態模擬（三維實景）':'Hutoupi Cable Car — On-Demand Dispatch Simulation (3D)';
+  updateUI();
+}
+$('langBtn').onclick=()=>{LANG=LANG==='zh'?'en':'zh';renderStatic();};
+$('btnRun').onclick=()=>{running=!running;updateUI();};
+$('btnReset').onclick=()=>reset(8*3600);
+$('selPhase').onchange=e=>{PH=+e.target.value;reset(now-now%60);};
+$('selSpeed').onchange=e=>{SPEED=+e.target.value;};
+function setMult(v){MULT=v;$('rngMult').value=v;$('txtMult').textContent='×'+(+v).toFixed(1);}
+$('rngMult').oninput=e=>setMult(+e.target.value);
+$('selScen').onchange=e=>{SCEN=e.target.value;setMult(SCEN==='avg'?1:SCEN==='peak'?2.5:6);};
+document.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const [hh,mm]=b.dataset.j.split(':').map(Number);reset(hh*3600+mm*60);});
+reset(8*3600);
+requestAnimationFrame(frame);
+// 供檢核
+window.__sim={get now(){return now},get PH(){return PH},get lang(){return LANG},get running(){return running},Q:()=>Q,night:()=>isNight(),maint:()=>maintLine(),lineAvail:(l)=>lineAvail(l),lines:()=>lines,cd:(t)=>canDepart(t),un:()=>freeAhead(1).concat(freeAhead(-1)),trains:()=>trains,stats:()=>stats,TRIP:()=>TRIP,LEGS,step:(s)=>{while(s>0){const dt=Math.min(0.5,s);simStep(dt);s-=dt;}},setScen:(s,m)=>{SCEN=s;$('selScen').value=s;setMult(m);},setPhase:(p,t)=>{PH=p;$('selPhase').value=p;reset(t);},reset};
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {Sky} from 'three/addons/objects/Sky.js';
+import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+import {Line2} from 'three/addons/lines/Line2.js';
+import {LineMaterial} from 'three/addons/lines/LineMaterial.js';
+import {LineGeometry} from 'three/addons/lines/LineGeometry.js';
+
+const S=window.__sim, box=document.getElementById('v3d'), msg=document.getElementById('v3dMsg');
+const TXT=k=>{const L=S.lang;const d={zh:{all:'全線鳥瞰',fol:'跟隨',lake:'水域視角',car:'車',mt:'維修'},en:{all:'Whole line',fol:'Follow',lake:'Reservoir',car:'cars',mt:'maint.'}};return d[L][k];};
+const STN=()=>S.lang==='zh'?['T1 新化之門站','T2 湖濱旅館站','T3 湖濱山城站','T4 新化林場站']:['T1 Xinhua Gate','T2 Lakeside Hotel','T3 Lakeside Hill Town','T4 Xinhua Forest Farm'];
+
+/* ---------- 路線幾何（TWD97，FACTS V3.1） ---------- */
+const E0=182800,N0=2547650;
+const NODE=[[0,181984.4,2547426.1],[446.0,182394.1,2547602.3],[796.0,182715.6,2547740.6],[1095.2,182949.6,2547927.2],[1424.7,183226.7,2547749.1],[1874.6,183605.3,2547505.9]]
+  .map(([c,e,n])=>({c,x:e-E0,z:-(n-N0)}));
+function rawP(ch){
+  let i=0; if(ch>=NODE[NODE.length-1].c) i=NODE.length-2; else while(i<NODE.length-2&&ch>NODE[i+1].c) i++;
+  const a=NODE[i],b=NODE[i+1],u=(ch-a.c)/(b.c-a.c);
+  return new THREE.Vector2(a.x+(b.x-a.x)*u,a.z+(b.z-a.z)*u);
+}
+function P(ch){ // 站內曲線平滑
+  const near=[796,1095.2].some(c=>Math.abs(ch-c)<16);
+  if(!near) return rawP(ch);
+  const p=new THREE.Vector2();for(let k=-3;k<=3;k++)p.add(rawP(ch+k*4));return p.multiplyScalar(1/7);
+}
+function Tan(ch){const a=P(ch-6),b=P(ch+6);return b.sub(a).normalize();}
+const NRM=t=>new THREE.Vector2(t.y,-t.x); // 左側（北）
+const EL_N=[[0,52.60],[446.0,67.70],[796.0,68.60],[1095.2,69.00],[1424.7,85.70],[1874.6,66.00]],SAG=[6.0,3.7,2.71,3.28,6.13];
+function strEl(ch){
+  if(ch<=0) return 52.60; if(ch>=1874.6) return 66.00;
+  for(let i=0;i<EL_N.length-1;i++){const [a,ea]=EL_N[i],[b,eb]=EL_N[i+1];if(ch<=b){const u=(ch-a)/(b-a);
+    const flat=(i===0&&ch<8)||(Math.abs(ch-796)<12)||(Math.abs(ch-1095.2)<30)||(ch>1866);
+    return flat?ea+(eb-ea)*u:ea+(eb-ea)*u-4*SAG[i]*u*(1-u);}}
+}
+const GRD=[[-200,33],[0,32.5],[25,31.5],[425,31.5],[446,44.0],[468,31.5],[745,31.5],[770,37.5],[796,40.0],[860,55],[912,62.4],[990,50],[1095.2,43.0],[1180,47],[1300,60],[1424.7,69.9],[1468,61.5],[1560,58],[1700,52],[1874.6,46.85],[2100,47]];
+const lineG=ch=>{for(let i=0;i<GRD.length-1;i++)if(ch<=GRD[i+1][0]){const u=(ch-GRD[i][0])/(GRD[i+1][0]-GRD[i][0]);return GRD[i][1]+(GRD[i+1][1]-GRD[i][1])*u;}return 47;};
+const LANE=2.5; // 兩線中心距之半
+function world(ch,lat,yOff=0){const p=P(ch),n=NRM(Tan(ch));return new THREE.Vector3(p.x+n.x*lat,strEl(ch)+yOff,p.y+n.y*lat);}
+
+/* 最近點投影 */
+const SEGS=[];{const ext=[{c:-400,...(()=>{const a=NODE[0],b=NODE[1],t=new THREE.Vector2(b.x-a.x,b.z-a.z).normalize();return {x:a.x-t.x*400,z:a.z-t.y*400};})()},...NODE,
+  (()=>{const a=NODE[4],b=NODE[5],t=new THREE.Vector2(b.x-a.x,b.z-a.z).normalize();return {c:2274.6,x:b.x+t.x*400,z:b.z+t.y*400};})()];
+  for(let i=0;i<ext.length-1;i++)SEGS.push([ext[i],ext[i+1]]);}
+function proj(x,z){let best={d:1e9,ch:0,lat:0};
+  for(const [a,b] of SEGS){const dx=b.x-a.x,dz=b.z-a.z,L2=dx*dx+dz*dz;let u=((x-a.x)*dx+(z-a.z)*dz)/L2;u=Math.max(0,Math.min(1,u));
+    const px=a.x+dx*u,pz=a.z+dz*u,d=Math.hypot(x-px,z-pz);if(d<best.d){const L=Math.sqrt(L2);best={d,ch:a.c+(b.c-a.c)*u,lat:((x-a.x)*dz/L*-1+(z-a.z)*dx/L*-1)*-1};
+      best.lat=((x-a.x)*(dz/L)-(z-a.z)*(dx/L));}}
+  return best;}
+// 虎頭埤水域（示意）：以 T1–P1–T2 直線段為座標軸之橢圓聯集
+const T1=NODE[0],TT=new THREE.Vector2(NODE[1].x-T1.x,NODE[1].z-T1.z).normalize(),NN=NRM(TT);
+function lakeMask(x,z){const dx=x-T1.x,dz=z-T1.z,s=dx*TT.x+dz*TT.y,v=dx*NN.x+dz*NN.y;
+  const E=[[225,40,200,170],[606,60,140,165],[446,160,70,75],[330,230,180,120]];let m=0;
+  for(const [cs,cv,ra,rb] of E){const r=Math.hypot((s-cs)/ra,(v-cv)/rb);m=Math.max(m,THREE.MathUtils.smoothstep(1.0,0.82,r));}return m;}
+const hn=(x,z)=>14*Math.sin(x*0.0042+1.3)*Math.cos(z*0.0051)+9*Math.sin(x*0.0108+z*0.0072+.7)+5*Math.sin(z*0.017-x*0.0031)+2.2*Math.sin(x*0.047)*Math.sin(z*0.043)+1.2*Math.sin(x*0.11+z*0.09);
+function terrainH(x,z){
+  const pr=proj(x,z),reg=Math.max(37,50+(x+1300)/2600*16+hn(x,z)+THREE.MathUtils.smoothstep(Math.abs(pr.lat),150,600)*18);
+  const w=THREE.MathUtils.smoothstep(pr.d,12,150);let h=lineG(pr.ch)*(1-w)+reg*w;
+  const m=lakeMask(x,z);h=h*(1-m)+23*m;
+  for(const c of [0,796,1095.2,1874.6]){const p=rawP(c);const dd=Math.hypot(x-p.x,z-p.y);if(dd<75){const k=THREE.MathUtils.smoothstep(dd,75,40);h=h*(1-k)+lineG(c)*k;}}
+  return h;
+}
+
+/* ---------- 場景 ---------- */
+let renderer;
+try{renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch(e){msg.textContent=document.querySelector('[data-i="camFail"]')?'':'';msg.textContent=S.lang==='zh'?'此瀏覽器無法顯示三維場景（需 WebGL）':'WebGL is required for the 3D view';throw e;}
+renderer.setPixelRatio(Math.min(1.5,window.devicePixelRatio||1));
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=0.5;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+box.appendChild(renderer.domElement);
+const lr=new CSS2DRenderer();lr.domElement.style.position='absolute';lr.domElement.style.inset='0';lr.domElement.style.pointerEvents='none';box.appendChild(lr.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,1,40000);
+camera.position.set(0,820,1380);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.target.set(0,40,-60);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*0.495;controls.minDistance=15;controls.maxDistance=3200;
+scene.fog=new THREE.Fog(0xd6e7f3,2400,7000);
+
+const sky=new Sky();sky.scale.setScalar(20000);
+const su=sky.material.uniforms;
+const domeU={zen:{value:new THREE.Color(0x3f7fc2)},hor:{value:new THREE.Color(0xd8e8f2)},sunDir:{value:new THREE.Vector3(0,1,0)},sunC:{value:new THREE.Color(0xfff1d6)},night:{value:0}};
+const dome=new THREE.Mesh(new THREE.SphereGeometry(15000,48,24),new THREE.ShaderMaterial({uniforms:domeU,side:THREE.BackSide,depthWrite:false,fog:false,
+ vertexShader:'varying vec3 vP;void main(){vP=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+ fragmentShader:'uniform vec3 zen,hor,sunC,sunDir;uniform float night;varying vec3 vP;void main(){float h=max(vP.y,0.);vec3 c=mix(hor,zen,pow(h,.55));float s=max(dot(vP,normalize(sunDir)),0.);c+=sunC*(pow(s,600.)*1.6+pow(s,8.)*.18)*(1.-night);if(vP.y<0.)c=hor*.92;gl_FragColor=vec4(c,1.);}'}));
+scene.add(dome);su.turbidity.value=3.2;su.rayleigh.value=2.2;su.mieCoefficient.value=0.005;su.mieDirectionalG.value=0.8;
+const hemi=new THREE.HemisphereLight(0xdfefff,0x5a6b4a,0.7);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff2dd,2.2);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+Object.assign(sun.shadow.camera,{left:-260,right:260,top:260,bottom:-260,near:10,far:2500});sun.shadow.bias=-0.0006;sun.shadow.normalBias=0.6;
+scene.add(sun);scene.add(sun.target);
+const pmrem=new THREE.PMREMGenerator(renderer);let envRT=null;
+// 星空
+const starG=new THREE.BufferGeometry();{const a=[];for(let i=0;i<1500;i++){const th=Math.random()*Math.PI*2,ph=Math.random()*Math.PI*0.45;a.push(8000*Math.cos(th)*Math.cos(ph),8000*Math.sin(ph)+300,8000*Math.sin(th)*Math.cos(ph));}starG.setAttribute('position',new THREE.Float32BufferAttribute(a,3));}
+const stars=new THREE.Points(starG,new THREE.PointsMaterial({color:0xffffff,size:2.2,sizeAttenuation:false,transparent:true,opacity:.9,fog:false}));stars.visible=false;scene.add(stars);
+
+/* 地形 */
+{const W=4400,H=3200,g=new THREE.PlaneGeometry(W,H,330,240);g.rotateX(-Math.PI/2);
+ const pos=g.attributes.position,col=[];const c=new THREE.Color();
+ for(let i=0;i<pos.count;i++){const x=pos.getX(i)+120,z=pos.getZ(i)-60;pos.setX(i,x);pos.setZ(i,z);const h=terrainH(x,z);pos.setY(i,h);
+   const m=lakeMask(x,z),pr=proj(x,z);
+   if(h<31.2) c.set(0x8a8a6a); else if(h<33) c.set(0xb9b08a);
+   else {c.set(0x6f9a4e).lerp(new THREE.Color(0x3f6b32),THREE.MathUtils.clamp((h-40)/30,0,1));c.lerp(new THREE.Color(0x56763c),Math.max(0,Math.sin(x*0.05+z*0.03))*0.25);}
+   for(const cc of [0,796,1095.2,1874.6]){const p=rawP(cc);const dd=Math.hypot(x-p.x,z-p.y);if(dd<62)c.lerp(new THREE.Color(0xc9c4b6),THREE.MathUtils.smoothstep(dd,62,35));}
+   col.push(c.r,c.g,c.b);}
+ g.setAttribute('color',new THREE.Float32BufferAttribute(col,3));g.computeVertexNormals();
+ const t=new THREE.Mesh(g,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.95,metalness:0}));t.receiveShadow=true;scene.add(t);}
+/* 水面 */
+const waterMat=new THREE.MeshStandardMaterial({color:0x2b6576,roughness:.22,metalness:.15,transparent:true,opacity:.96});
+{const w=new THREE.Mesh(new THREE.PlaneGeometry(4400,3200),waterMat);w.rotation.x=-Math.PI/2;w.position.set(120,30.6,-60);w.receiveShadow=true;scene.add(w);}
+
+/* 材質 */
+const M={
+  white:new THREE.MeshStandardMaterial({color:0xf3f5f6,roughness:.55}),
+  stone:new THREE.MeshStandardMaterial({color:0xd8d2c4,roughness:.85}),
+  conc:new THREE.MeshStandardMaterial({color:0xc4c6c4,roughness:.9}),
+  wood:new THREE.MeshStandardMaterial({color:0xb98a55,roughness:.7}),
+  steel:new THREE.MeshStandardMaterial({color:0x9aa7b2,roughness:.35,metalness:.85}),
+  string:new THREE.MeshStandardMaterial({color:0x7f8b95,roughness:.3,metalness:.9}),
+  glass:new THREE.MeshStandardMaterial({color:0x6f93a8,roughness:.08,metalness:.6,transparent:true,opacity:.55}),
+  win:new THREE.MeshStandardMaterial({color:0x3b5566,roughness:.15,metalness:.5,emissive:0xffc66b,emissiveIntensity:0}),
+  green:new THREE.MeshStandardMaterial({color:0x5f8f45,roughness:.9}),
+  plat:new THREE.MeshStandardMaterial({color:0xb7b9b6,roughness:.8}),
+  gate:new THREE.MeshStandardMaterial({color:0xcfe6f0,roughness:.05,metalness:.3,transparent:true,opacity:.45}),
+  roofW:new THREE.MeshStandardMaterial({color:0xc79a62,roughness:.6,transparent:true,opacity:.92,side:THREE.DoubleSide}),
+  lamp:new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffe2a8,emissiveIntensity:0}),
+};
+function frameAt(ch){const g=new THREE.Group();const p=P(ch),t=Tan(ch);g.position.set(p.x,0,p.y);g.rotation.y=Math.atan2(-t.y,t.x);scene.add(g);return g;}
+function bx(par,u0,u1,v0,v1,y0,y1,mat,cast=true){ // 局部座標：u 沿線、v 向北、y 高程
+  const m=new THREE.Mesh(new THREE.BoxGeometry(u1-u0,y1-y0,v1-v0),mat);m.position.set((u0+u1)/2,(y0+y1)/2,-(v0+v1)/2);m.castShadow=cast;m.receiveShadow=true;par.add(m);return m;}
+function windows(par,u0,u1,v,y0,y1,floors){ // 立面窗帶（v 為外牆面，自動外凸）
+  const fh=(y1-y0)/floors,o=v+Math.sign(v||1)*0.14;for(let f=0;f<floors;f++){const m=new THREE.Mesh(new THREE.BoxGeometry(u1-u0-2,fh*0.5,0.22),M.win);m.position.set((u0+u1)/2,y0+fh*(f+0.5),-o);par.add(m);}}
+function foldRoof(par,u0,u1,w,yb,amp,n){ // 摺板屋面：沿線鋸齒斷面向兩側擠出
+  const sh=new THREE.Shape();sh.moveTo(u0,yb);for(let i=0;i<=n;i++){const u=u0+(u1-u0)*i/n;sh.lineTo(u,yb+(i%2?amp:0)+0.5);}sh.lineTo(u1,yb);sh.lineTo(u0,yb);
+  const g=new THREE.ExtrudeGeometry(sh,{depth:w,bevelEnabled:false});g.translate(0,0,-w/2);const m=new THREE.Mesh(g,M.white);m.castShadow=true;m.receiveShadow=true;par.add(m);return m;}
+function platform(par,u0,u1,yP){ // 側式月台（兩線外側）＋半高月台門
+  for(const sg of [1,-1]){const v0=sg*(LANE+0.9),v1=sg*(LANE+0.9+3.2);bx(par,u0,u1,Math.min(v0,v1),Math.max(v0,v1),yP-0.6,yP,M.plat);
+    for(let u=u0+2;u<u1-1;u+=5.68){const g=new THREE.Mesh(new THREE.BoxGeometry(1.8,1.5,0.06),M.gate);g.position.set(u+0.9,yP+0.75,-(sg*(LANE+1.5)));par.add(g);}
+    bx(par,u0,u1,Math.min(sg*(LANE+4.1),sg*(LANE+4.3)),Math.max(sg*(LANE+4.1),sg*(LANE+4.3)),yP,yP+1.1,M.glass,false);
+    bx(par,u0,u1,Math.min(sg*(LANE+2.4),sg*(LANE+2.7)),Math.max(sg*(LANE+2.4),sg*(LANE+2.7)),yP+3.3,yP+3.4,M.lamp,false);}}
+
+/* T1 新化之門站：光舟＋階梯商店街 */
+{const g=frameAt(-50);const yP=50.75;
+ const hull=new THREE.Mesh(new THREE.SphereGeometry(1,64,24,0,Math.PI*2,0,Math.PI),M.roofW);hull.scale.set(45.6,6.05,9.2);hull.position.set(0,53.05,0);hull.castShadow=true;g.add(hull);
+ const net=new THREE.Mesh(new THREE.SphereGeometry(1.004,40,14),new THREE.MeshBasicMaterial({color:0x7a5532,wireframe:true,transparent:true,opacity:.55}));net.scale.copy(hull.scale);net.position.copy(hull.position);g.add(net);
+ bx(g,-45,44,-8.2,8.2,49.4,50.2,M.conc);
+ for(let u=-40;u<=40;u+=13.3)for(const v of [-6.5,6.5]){const c=new THREE.Mesh(new THREE.CylinderGeometry(.45,.6,49.4-32.5,10),M.wood);c.position.set(u,(49.4+32.5)/2,-v);c.castShadow=true;g.add(c);}
+ platform(g,-17,45,yP); // 前後車位 CH−67～−5
+ bx(g,-46,-36,-8,8,32.5,57,M.conc); // 錨碇核心（站體共構）
+ for(const sg of [1,-1])for(let i=0;i<6;i++){const v0=sg*(11+i*3.4),v1=sg*(11+(i+1)*3.4),top=50.75-i*3.05;
+   const b=bx(g,-38,30,Math.min(v0,v1),Math.max(v0,v1),32.5,top,M.stone);
+   const nxt=i<5?50.75-(i+1)*3.05:32.5;windows(g,-36,28,sg>0?Math.max(v0,v1):Math.min(v0,v1),nxt+0.3,top-0.3,1);
+   const pl=bx(g,-38,30,Math.min(v0,v1),Math.max(v0,v1)-0.0,top,top+0.25,M.green,false);}
+ const mir=new THREE.Mesh(new THREE.PlaneGeometry(70,11),new THREE.MeshStandardMaterial({color:0x6aa3c0,roughness:.02,metalness:.8}));mir.rotation.x=-Math.PI/2;mir.position.set(0,32.6,0);g.add(mir);}
+/* T2 湖濱旅館站：疊岸露台 */
+{const g=frameAt(777);const yP=66.75,yG=40;
+ bx(g,-34,34,-8.2,8.2,yG,yP-0.7,M.white);windows(g,-33,33,8.2,yG,yP-1,7);
+ for(let f=0;f<6;f++){const y0=yG+(f===0?0:4.4+(f-1)*3.45),y1=y0+(f===0?4.4:3.45),dep=26-f*4.2;
+   bx(g,-34+f*2,30-f*2,-8.2-dep,-8.2,y0,y1,M.white);windows(g,-32+f*2,28-f*2,-8.2-dep,y0,y1,1);
+   bx(g,-34+f*2,30-f*2,-8.2-dep,-8.2-dep+2.2,y1,y1+0.5,M.green,false);}
+ platform(g,-17,13,yP);
+ bx(g,-34,34,-8.2,-7.9,yP,yP+5.6,M.glass,false);bx(g,-34,34,7.9,8.2,yP,yP+5.6,M.glass,false);
+ foldRoof(g,-34.5,34.5,18.6,yP+5.6,1.6,8);}
+/* T3 湖濱山城站：站廳山城（西段沿 T2–T3、東段沿 T3–P2） */
+{const yP=67.15,yG=43;
+ const gw=frameAt(1062),ge=frameAt(1120);
+ for(const [g,L] of [[gw,33],[ge,23]]){bx(g,-L,L,-10,10,yG,yP-0.6,M.white);windows(g,-L+1,L-1,10,yG,yP-1,6);windows(g,-L+1,L-1,-10,yG,yP-1,6);
+   bx(g,-L,L,-10,-9.7,yP,yP+5,M.glass,false);bx(g,-L,L,9.7,10,yP,yP+5,M.glass,false);
+   foldRoof(g,-L-0.5,L+0.5,21,yP+5,4.2,Math.round(L*2/9));}
+ platform(gw,-12,18,yP);
+ for(const [g,u,v,L,D,F] of [[gw,-10,-36,42,16,5],[gw,8,34,38,16,5],[ge,4,-34,40,16,5],[ge,-2,32,36,16,4]]){
+   bx(g,u-L/2,u+L/2,v-D/2,v+D/2,yG,yG+F*3.6+1,M.white);windows(g,u-L/2+1,u+L/2-1,v+Math.sign(v)*D/2,yG,yG+F*3.6,F);windows(g,u-L/2+1,u+L/2-1,v-Math.sign(v)*D/2,yG,yG+F*3.6,F);}}
+/* T4 新化林場站：林冠驛站 */
+{const g=frameAt(1916);const yP=64.15;
+ bx(g,-42.5,42.5,-7.6,7.6,yP-1.2,yP-0.6,M.conc);bx(g,-42.5,42.5,-7.6,7.6,yP+6.2,yP+6.8,M.white);
+ bx(g,-42.5,42.5,-7.6,-7.3,yP-0.6,yP+6.2,M.glass,false);bx(g,-42.5,42.5,7.3,7.6,yP-0.6,yP+6.2,M.glass,false);
+ platform(g,-37,30,yP);
+ for(let u=-40;u<=40;u+=13.3){let ymin=1e9;for(const v of [-7.4,7.4]){const w=world(1916+u,v);const yg=terrainH(w.x,w.z);ymin=Math.min(ymin,yg);bx(g,u-0.6,u+0.6,v-0.6,v+0.6,yg-1,yP-1.2,M.white);}
+   bx(g,u-0.6,u+0.6,-7.4,7.4,yP-2.6,yP-1.2,M.white);bx(g,u-0.35,u+0.35,-7.6,7.6,yP+6.8,yP+7.6,M.wood);}
+ bx(g,-43.5,43.5,-8.4,8.4,yP+7.6,yP+8.0,M.white);
+}
+/* 門架 P1、P2：兩柱＋頂橫梁＋X 斜撐＋三角吊架＋R100 弧形承托座 */
+for(const ch of [446.0,1424.7]){const g=frameAt(ch);const ys=strEl(ch),yb=ys+3.2,p=P(ch),yg=terrainH(p.x,p.y);
+ for(const v of [-7.2,7.2]){const c=bx(g,-0.7,0.7,v-0.7,v+0.7,yg-1,yb,M.white);}
+ bx(g,-1.2,1.2,-8.6,8.6,yb,yb+1.6,M.white);
+ const h=yb-yg,nb=Math.max(2,Math.round(h/8));
+ for(let i=0;i<nb;i++){const y0=yg+h*i/nb,y1=yg+h*(i+1)/nb,L=Math.hypot(14.4,y1-y0),a=Math.atan2(y1-y0,14.4);
+   for(const s of [1,-1]){const m=new THREE.Mesh(new THREE.BoxGeometry(L,0.35,0.35),M.white);m.position.set(0,(y0+y1)/2,0);m.rotation.x=s*a;m.rotation.y=Math.PI/2;g.add(m);}}
+ for(const v of [-LANE,LANE]){const tri=new THREE.Mesh(new THREE.CylinderGeometry(0.15,1.3,yb-ys+0.2,3),M.steel);tri.position.set(0,(ys+yb)/2+0.2,-v);g.add(tri);
+   bx(g,-12.5,12.5,v-0.45,v+0.45,ys+0.35,ys+0.75,M.steel);}}
+
+/* 弦線（每線兩條並排） */
+for(const sg of [1,-1])for(const dv of [-0.14,0.14]){const pts=[];for(let ch=-92;ch<=1960;ch+=4)pts.push(world(ch,sg*LANE+dv,0));
+  const tube=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),1400,0.13,6,false),M.string);tube.castShadow=true;scene.add(tube);}
+
+/* 弦線強調線（遠景可見，固定像素寬） */
+const hiMats=[];const hiLines=[];
+for(const sg of [1,-1]){const arr=[];for(let ch=-92;ch<=1960;ch+=4){const w=world(ch,sg*LANE,0.1);arr.push(w.x,w.y,w.z);}
+  const g=new LineGeometry();g.setPositions(arr);const m=new LineMaterial({color:sg>0?0x1f6fb2:0xd9822b,linewidth:3.2,transparent:true,opacity:.95,depthTest:true});
+  const l=new Line2(g,m);l.computeLineDistances();l.renderOrder=2;scene.add(l);hiMats.push(m);hiLines.push(l);}
+/* 站體位置標示（遠景） */
+const beacons=[];
+for(const [c,len] of [[-50,92],[777,69],[1085,112],[1916,85]]){const w=world(c,0,0);const t=Tan(c);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(len*0.62,len*0.62+5,64),new THREE.MeshBasicMaterial({color:0xf2c14e,transparent:true,opacity:.85,side:THREE.DoubleSide,depthWrite:false}));
+  ring.rotation.x=-Math.PI/2;ring.position.set(w.x,terrainH(w.x,w.z)+1.5,w.z);scene.add(ring);beacons.push(ring);}
+/* 樹（實例化） */
+{const N=6000,trunk=new THREE.InstancedMesh(new THREE.CylinderGeometry(.25,.35,4,5),new THREE.MeshStandardMaterial({color:0x5a4330}),N),
+  crown=new THREE.InstancedMesh(new THREE.SphereGeometry(1,9,7),new THREE.MeshStandardMaterial({color:0x4d7f3b,roughness:.95}),N);
+ crown.castShadow=true;const m=new THREE.Matrix4(),q=new THREE.Quaternion(),c=new THREE.Color();let k=0,guard=0;
+ while(k<N&&guard<160000){guard++;const x=-1300+Math.random()*2800,z=-900+Math.random()*1650;if(lakeMask(x,z)>0.05)continue;
+   const pr=proj(x,z);if(pr.d<16)continue;const h=terrainH(x,z);if(h<32.5)continue;
+   if([0,796,1095.2,1874.6].some(cc=>{const p=rawP(cc);return Math.hypot(x-p.x,z-p.y)<(cc===1874.6?30:70);}))continue;
+   const cl=0.5+0.5*Math.sin(x*0.013+1.1)*Math.cos(z*0.011)+0.25*Math.sin(x*0.031-z*0.027);const dens=Math.min(1,(0.25+0.75*THREE.MathUtils.smoothstep(x,-400,700))*(0.35+cl)*(h>45?1.25:0.7));if(Math.random()>dens)continue;
+   const s=1.0+Math.random()*1.1;m.compose(new THREE.Vector3(x,h+2*s,z),q,new THREE.Vector3(s,s,s));trunk.setMatrixAt(k,m);
+   m.compose(new THREE.Vector3(x,h+4*s+3.2*s,z),q,new THREE.Vector3(3.4*s,3.8*s,3.4*s));crown.setMatrixAt(k,m);
+   c.setHSL(0.24+Math.random()*0.08,0.42,0.22+Math.random()*0.12);crown.setColorAt(k,c);k++;}
+ trunk.count=crown.count=k;scene.add(trunk);scene.add(crown);}
+
+/* 車輛：Unicar-T 外形示意（4.70×1.65×2.44 m，車頂罩包覆弦線） */
+const carMat={body:new THREE.MeshStandardMaterial({color:0xf6f7f8,roughness:.35,metalness:.1}),
+  win:new THREE.MeshStandardMaterial({color:0x1d2c38,roughness:.05,metalness:.6,emissive:0xffd9a0,emissiveIntensity:0}),
+  roof:new THREE.MeshStandardMaterial({color:0xd5dbe0,roughness:.4,metalness:.3}),
+  stripeA:new THREE.MeshStandardMaterial({color:0x1f6fb2}),stripeB:new THREE.MeshStandardMaterial({color:0xd9822b}),
+  door:new THREE.MeshStandardMaterial({color:0xe9edf0,roughness:.3})};
+const gBody=new RoundedBoxGeometry(4.70,1.86,1.65,4,0.48),gWin=new RoundedBoxGeometry(4.2,0.8,1.67,2,0.2),gRoof=new RoundedBoxGeometry(3.4,0.62,1.1,3,0.25);
+function makeCar(line){const outer=new THREE.Group(),inner=new THREE.Group();outer.add(inner);
+  const b=new THREE.Mesh(gBody,carMat.body);b.position.y=-1.982+0.93;b.castShadow=true;inner.add(b);
+  const w=new THREE.Mesh(gWin,carMat.win);w.position.y=-0.86;inner.add(w);
+  const r=new THREE.Mesh(gRoof,carMat.roof);r.position.y=0.15;inner.add(r);
+  const st=new THREE.Mesh(new THREE.BoxGeometry(4.3,0.14,1.67),line==='A'?carMat.stripeA:carMat.stripeB);st.position.y=-1.55;inner.add(st);
+  const doors=[];for(const s of [1,-1]){const d=new THREE.Mesh(new THREE.BoxGeometry(0.95,1.55,0.05),carMat.door);d.position.set(0,-1.15,s*0.84);inner.add(d);doors.push(d);}
+  outer.userData={inner,doors};outer.visible=false;scene.add(outer);return outer;}
+const T3D=new Map();
+function getT(tr){if(!T3D.has(tr.id)){const cars=[];for(let i=0;i<5;i++)cars.push(makeCar(tr.line));
+  const div=document.createElement('div');div.className='lbl '+tr.line;const lab=new CSS2DObject(div);scene.add(lab);T3D.set(tr.id,{cars,lab,div,cc:null});}return T3D.get(tr.id);}
+// 停靠位置對應（列車中心里程）：T1 前車位、T2／T3 停靠區、T4 前車位
+const MAP=[[-1e4,-1e4-20],[0,-20],[796,775],[1095.2,1080],[1874.6,1894.6],[1e4,1e4+20]];
+const disp=c=>{for(let i=0;i<MAP.length-1;i++)if(c<=MAP[i+1][0]){const [a,b]=MAP[i],[a2,b2]=MAP[i+1];return b+(b2-b)*(c-a)/(a2-a);}};
+function centerCh(tr){
+  if(tr.state==='idle'){const t=tr.term;const base=t===0?-20:(t===3?1894.6:1080);if(tr.berth==='inner'&&!(S.PH===1&&t===2))return base+(t===0?-32:32);return base;}
+  return disp(tr.pos);}
+
+/* 乘客（實例化） */
+const PAXN=480,pax=new THREE.InstancedMesh(new THREE.CapsuleGeometry(0.24,0.95,3,6),new THREE.MeshStandardMaterial({roughness:.8}),PAXN);
+{const c=new THREE.Color();for(let i=0;i<PAXN;i++){c.setHSL(Math.random(),0.45,0.45+Math.random()*0.2);pax.setColorAt(i,c);}}
+pax.castShadow=true;scene.add(pax);
+const PLAT=[{c:-20,len:30},{c:775,len:30},{c:1080,len:30},{c:1894.6,len:30}];
+function updatePax(){const Q=S.Q();const m=new THREE.Matrix4(),q=new THREE.Quaternion(),one=new THREE.Vector3(1,1,1);let k=0;
+  for(let s=0;s<Q.length;s++){if(S.PH===1&&s===3)continue;const n=Q[s].e.length+Q[s].w.length;const sides=[Math.ceil(n/2),Math.floor(n/2)];
+    for(const [si,cnt] of sides.entries()){const sg=si===0?1:-1;for(let j=0;j<Math.min(cnt,60)&&k<PAXN;j++){
+      const u=PLAT[s].c-13+(j%13)*2.1+((j*7)%3)*0.3,row=Math.floor(j/13);const w=world(u,sg*(LANE+2.3+row*0.6+((j*13)%5)*0.08),-1.85+0.72);
+      m.compose(w,q,one);pax.setMatrixAt(k++,m);}}}
+  pax.count=k;pax.instanceMatrix.needsUpdate=true;}
+
+/* 標籤 */
+const stLab=[];[0,796,1095.2,1874.6].forEach((c,i)=>{const d=document.createElement('div');d.className='lbl st';const o=new CSS2DObject(d);o.position.copy(world(c+(i===0?-50:i===3?40:0),0,i===2?18:14));scene.add(o);stLab.push({o,d});});
+
+/* 鏡頭 */
+let mode='all',follow=null;const bar=document.getElementById('camBar');
+const camDefs=()=>[['all',TXT('all')],['T1','T1'],['T2','T2'],['T3','T3'],['T4','T4'],['lake',TXT('lake')],['A1',TXT('fol')+' A1'],['B1',TXT('fol')+' B1']];
+function drawBar(){bar.innerHTML='';for(const [k,l] of camDefs()){const b=document.createElement('button');b.textContent=l;if(k===mode)b.className='on';b.onclick=()=>setCam(k);bar.appendChild(b);}}
+const tween={on:false};
+function flyTo(pos,tgt){tween.on=true;tween.p0=camera.position.clone();tween.t0=controls.target.clone();tween.p1=pos;tween.t1=tgt;tween.s=performance.now();tween.k=0;}
+function setCam(k){mode=k;drawBar();follow=null;
+  const node={T1:-40,T2:777,T3:1085,T4:1905}[k];
+  if(k==='all')flyTo(new THREE.Vector3(0,820,1380),new THREE.Vector3(0,40,-60));
+  else if(k==='lake'){const a=world(300,-180,0),t=world(560,0,0);flyTo(new THREE.Vector3(a.x,40,a.z),new THREE.Vector3(t.x,58,t.z));}
+  else if(node!==undefined){const c=world(node,0,0),n=NRM(Tan(node)),t=Tan(node);flyTo(new THREE.Vector3(c.x-n.x*95-t.x*70,c.y+38,c.z-n.y*95-t.y*70),new THREE.Vector3(c.x,c.y-4,c.z));}
+  else follow=k;}
+drawBar();
+
+/* 日夜 */
+let lastSunUpdate=-99;const sunVec=new THREE.Vector3(0,1,0);
+function updateSun(){
+  const h=((S.now%86400)+86400)%86400/3600;
+  const el=Math.sin((h-6)/12*Math.PI)*62, az=180+(h-12)*15;
+  const night=el<-2;
+  if(Math.abs(el-lastSunUpdate)<0.6) return; lastSunUpdate=el;
+  const phi=THREE.MathUtils.degToRad(90-Math.max(el,-8)),th=THREE.MathUtils.degToRad(az);
+  const v=new THREE.Vector3().setFromSphericalCoords(1,phi,th);su.sunPosition.value.copy(v);domeU.sunDir.value.copy(v);
+  sun.position.copy(controls.target).addScaledVector(v,1200);sun.intensity=night?0.45:Math.max(0.25,Math.min(2.4,el/18*2.4));
+  if(night){sun.color.set(0x9fb4e0);v.set(-0.35,0.7,0.6).normalize();} else sun.color.setHSL(0.09,0.6,0.55+Math.min(0.35,el/90));
+  hemi.intensity=night?0.75:0.35+Math.min(0.5,el/60);hemi.color.set(night?0x6f8cc4:0xdfefff);hemi.groundColor.set(night?0x1c2836:0x5a6b4a);
+  sunVec.copy(v);stars.visible=night;domeU.night.value=night?1:0;
+  if(night){domeU.zen.value.set(0x050c18);domeU.hor.value.set(0x1a2c46);}
+  else if(el<10){domeU.zen.value.set(0x46679a);domeU.hor.value.set(0xf1c79a);}
+  else {domeU.zen.value.set(0x3a79c0);domeU.hor.value.set(0xd6e7f3);}
+  scene.fog.color.copy(domeU.hor.value);
+  const e=night?1.6:(el<8?0.6:0);M.win.emissiveIntensity=e;carMat.win.emissiveIntensity=night?1.3:0;M.lamp.emissiveIntensity=night?2:0;
+  renderer.toneMappingExposure=night?1.05:0.5;
+  waterMat.color.set(night?0x1a3550:0x2c6878);
+  if(!night){if(envRT)envRT.dispose();const sc=new THREE.Scene();const sk=new Sky();sk.scale.setScalar(10000);Object.assign(sk.material.uniforms.sunPosition.value,v);
+    for(const k of ['turbidity','rayleigh','mieCoefficient','mieDirectionalG'])sk.material.uniforms[k].value=su[k].value;sc.add(sk);envRT=pmrem.fromScene(sc);scene.environment=envRT.texture;}
+  else scene.environment=null;
+}
+
+/* 主迴圈 */
+function resize(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h,false);lr.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+window.addEventListener('resize',resize);resize();
+let paxT=0,lang='';
+function frame(){
+  requestAnimationFrame(frame);
+  if(tween.on){tween.k=Math.min(1,(performance.now()-tween.s)/1400);const e=tween.k<.5?2*tween.k*tween.k:1-Math.pow(-2*tween.k+2,2)/2;camera.position.lerpVectors(tween.p0,tween.p1,e);controls.target.lerpVectors(tween.t0,tween.t1,e);if(tween.k>=1)tween.on=false;}
+  const trains=S.trains();
+  for(const tr of trains){const o=getT(tr);const n=tr.cars;const cc=centerCh(tr);const sg=tr.line==='A'?1:-1;
+    const seg=tr.state==='trip'?tr.trip.segs[Math.min(tr.seg,tr.trip.segs.length-1)]:null;const dwell=tr.state==='idle'||(seg&&seg.type==='dwell');
+    o.cars.forEach((car,i)=>{if(i>=n){car.visible=false;return;}car.visible=true;
+      const ch=cc+(i-(n-1)/2)*5.68;const w=world(ch,sg*LANE,0);car.position.copy(w);
+      const t=Tan(ch);car.rotation.set(0,Math.atan2(-t.y,t.x),0);car.userData.inner.rotation.z=Math.atan((strEl(ch+2)-strEl(ch-2))/4);
+      const open=dwell&&!(!S.lineAvail(tr.line)&&tr.state==='idle');for(const d of car.userData.doors){d.position.x+=((open?0.95:0)-d.position.x)*0.08;}});
+    o.lab.position.copy(world(cc,sg*LANE,3.2));
+    const mt=!S.lineAvail(tr.line)&&tr.state==='idle';o.div.className='lbl '+(mt?'mt':tr.line);
+    o.div.textContent=`${tr.id}｜${n} ${TXT('car')}｜${tr.pax.length}/${n*6}`+(mt?`｜${TXT('mt')}`:'');
+    if(follow===tr.id){const w=world(cc,sg*LANE,0),t=Tan(cc),dir=tr.state==='trip'?tr.dir:(tr.term===0?1:-1);
+      const nearSt=[-20,775,1080,1894.6].some(c=>Math.abs(cc-c)<90),bk=nearSt?70:42,up=nearSt?42:16,sd=nearSt?50:34;
+      const want=new THREE.Vector3(w.x-t.x*dir*bk+NRM(t).x*sg*sd,w.y+up,w.z-t.y*dir*bk+NRM(t).y*sg*sd);
+      camera.position.lerp(want,0.06);controls.target.lerp(w,0.12);}
+  }
+  paxT++;if(paxT%10===0)updatePax();
+  if(S.lang!==lang){lang=S.lang;const nm=STN();stLab.forEach((s,i)=>s.d.textContent=nm[i]);drawBar();}
+  stLab[3].o.visible=S.PH===2;
+  updateSun();sun.target.position.copy(controls.target);sun.position.copy(controls.target).addScaledVector(sunVec,1200);
+  const dist=camera.position.distanceTo(controls.target);const far=THREE.MathUtils.smoothstep(dist,180,420);
+  for(const m of hiMats){m.resolution.set(box.clientWidth,box.clientHeight);m.opacity=0.95*far;}hiLines.forEach(l=>l.visible=far>0.02);
+  beacons.forEach(b=>{b.visible=far>0.02;b.material.opacity=0.85*far;});
+  controls.update();renderer.render(scene,camera);lr.render(scene,camera);
+}
+msg.textContent='';
+frame();
+window.__v3d={setCam,camera,controls,world,T3D,setFollow:(id)=>{follow=id;mode=id;}};
+
+</script>
+</body>
+</html>

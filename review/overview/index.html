@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>虎頭埤纜車 最終資料總覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 正式、清楚、可直接點用的交付目錄
+   IDEA: 纜車路線圖——一條粗線串起全案資料，每類資料是一個「站」
+   PICTURE: 依比例繪製 T1–P1–T2–T3–P2–T4 五跨路線，站點即目錄入口
+   COLOUR and TYPE: 白底黑字；A 線藍、B 線橘、門架琥珀、動態綠；Figtree＋思源黑體
+   LAYOUT: 首屏標題＋路線圖＋定案數據；下方各「站」沿左側粗線排列 */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0e1116);--ink:light-dark(#111317,#eef1f5);--mute:light-dark(#5b6270,#9aa3b2);--rule:light-dark(#e3e6eb,#262b35);--card:light-dark(#f6f7f9,#161a22);
+--a:#0a5cff;--b:#e66a00;--p:#ffb400;--g:#00a05a;--r:#e6261f}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","Figtree",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font:900 clamp(30px,4.6vw,50px)/1.08 "Noto Sans TC",sans-serif;margin:0 0 10px;text-wrap:balance}
+.sub{color:var(--mute);margin:0;font-size:17px}
+.fig{position:relative;min-height:230px;margin:26px 0 8px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border-top:3px solid var(--ink);margin-top:14px}
+.stats div{padding:12px 14px 10px 0;border-bottom:1px solid var(--rule)}
+.stats b{display:block;font:800 clamp(20px,2.4vw,26px)/1.15 Figtree,"Noto Sans TC",sans-serif;white-space:nowrap}
+.stats span{color:var(--mute);font-size:13.5px}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:10px max(5vw,16px);border-block:1px solid var(--rule);background:var(--bg)}
+@media(min-width:900px){.nav{position:sticky;top:0;z-index:5}}
+.nav a{flex:none;text-decoration:none;padding:9px 14px;border-radius:999px;border:2px solid var(--c,var(--ink));font-weight:700;font-size:14.5px;min-height:44px;display:flex;align-items:center;gap:8px}
+.nav a:focus-visible,.item a:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.nav i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.line{position:relative;padding-left:46px}
+.line::before{content:"";position:absolute;left:14px;top:8px;bottom:8px;width:8px;border-radius:4px;background:linear-gradient(var(--a),var(--g) 45%,var(--b) 75%,var(--p))}
+.stop{position:relative;margin:0 0 44px;scroll-margin-top:80px}
+.stop::before{content:"";position:absolute;left:-41px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:6px solid var(--c)}
+.stop h2{font:900 clamp(22px,2.6vw,30px)/1.2 "Noto Sans TC",sans-serif;margin:0 0 4px}
+.stop .note{color:var(--mute);margin:0 0 14px;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:12px}
+.item{background:var(--card);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.item a{font-weight:700;font-size:16.5px;text-decoration:none;border-bottom:2px solid color-mix(in srgb,var(--c) 55%,transparent);align-self:flex-start;line-height:1.45}
+.item a:hover{border-bottom-color:var(--c)}
+.item p{margin:0;color:var(--mute);font-size:14.5px}
+.tag{font-size:13px;font-weight:700;color:var(--c);white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:15px;margin-top:6px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:13.5px;color:var(--mute);font-weight:700}
+td.n{white-space:nowrap;font-family:Figtree,sans-serif;font-weight:700}
+.scroll{overflow-x:auto}
+details{background:var(--card);border-radius:10px;padding:12px 16px}
+summary{cursor:pointer;font-weight:700;min-height:28px}
+details ul{margin:10px 0 0;padding-left:20px;color:var(--mute);font-size:14.5px}
+footer{color:var(--mute);font-size:14px;border-top:1px solid var(--rule)}
+@media(max-width:600px){.line{padding-left:34px}.line::before{left:8px;width:6px}.stop::before{left:-33px;width:18px;height:18px;border-width:5px}
+table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:no-preference){.car{animation:run 14s linear infinite}@keyframes run{from{offset-distance:0%}to{offset-distance:100%}}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <h1>虎頭埤纜車 BOT 案　最終資料總覽</h1>
+  <p class="sub">雲天新能源科技股份有限公司（SKYTAXI）｜全案現行版彙整至 2026-11-24：投資計畫書、工程圖說與圖冊、動態模擬與互動 3D、簡報、融資與原廠文件</p>
+  <div class="fig"><svg id="route" role="img" aria-label="虎頭埤纜車路線圖：T1、P1、T2、T3、P2、T4，五跨全長 1,874.6 公尺"></svg></div>
+  <div class="stats">
+    <div><b>1,874.6 m</b><span>全線 4 站 5 跨</span></div>
+    <div><b>U4-431-01</b><span>22 輛（營運 20、備用 2）</span></div>
+    <div><b>24 h</b><span>全天候隨需發車</span></div>
+    <div><b>69.75 億元</b><span>興建工程經費</span></div>
+    <div><b>20.37 億元</b><span>淨現值；Project IRR 5.60%</span></div>
+    <div><b>民國 116 年</b><span>簽約；122 年 1 月全線開業</span></div>
+  </div>
+</div></header>
+
+<nav class="nav" id="nav"></nav>
+
+<main class="band"><div class="wrap line" id="stops"></div>
+<div class="wrap" style="margin-top:8px">
+  <details><summary>前版與過程文件（已被上列現行版取代，僅供追溯）</summary><ul id="old"></ul></details>
+</div></main>
+
+<footer class="band"><div class="wrap">
+  <p style="margin:0 0 6px">檔案實體存於 Google Drive「虎頭埤 BOT 專案知識庫」；線上頁面與文件為 Claude 成品頁，預設僅本人可見，分享請於各頁右上角設定。控制值、決策與產圖程式之文字母源存於 Claude 專案「月台設計」。</p>
+  <p style="margin:0">現行數值依 2026-11-23 全書交叉驗證（主冊合冊 V2.3、附冊合冊 V1.10）。</p>
+</div></footer>
+
+<script>
+{
+const D='https://drive.google.com/file/d/', A='https://claude.ai/artifact/';
+const stops=[
+{id:'book',c:'var(--a)',t:'投資計畫書（送審正本）',n:'Drive 資料夾「20261123」之「全套現行版」六包，含全書交叉驗證後之主冊合冊 V2.3（1,145 頁）與附冊 3-2 合冊 V1.10（258 頁）。',
+ items:[
+ ['1／6　說明、投資計畫書合冊、原廠回函',D+'1h1lvW7qOZ3U3kniqk14CGV3g5gg_X50u/view','zip 205 MB','主冊合冊 V2.3、閱覽版、附冊 3-2 纜車系統技術說明 V1.10、致原廠回函中英文'],
+ ['2／6　各章 Word 原始檔',D+'1FaCDZn57QFDaXBs-UTIjx2NpHNPmtwIe/view','zip 392 MB','第一章至第六章、第三章各節（3.1～3.13）、附冊 3-2，共 19 份 docx'],
+ ['3／6　英文版四站',D+'14vDBFsxziVeCactWMfWQj56vku21GYbo/view','zip 344 MB','3.4 T1、3.5 T2、3.6 T3、3.7 T4 英文版 docx／PDF'],
+ ['第二章　民間機構籌組計畫 PDF','#book','專案檔案','存於 Claude 專案「月台設計」檔案區（第二章民間機構籌組計畫_V1.0_20261115.pdf）']
+ ],table:true},
+{id:'drawings',c:'var(--r)',t:'工程圖說與圖冊',n:'工程圖說 V1.6（A1 中英文版、PDF／DXF／PNG）、九階段深化定案全套圖說、四站平面尺寸圖冊與建築圖冊。',
+ items:[
+ ['4／6　工程圖說 PDF、DXF＋解構＋簡報展示＋SketchUp',D+'1T8dgw9Y3jxQHCE54NlqfvRbLTu6jEx0R/view','zip 317 MB','另含四站結構拆解展示包（PDF、MP4、離線 HTML）、長壽解構離線版、SketchUp 建模包'],
+ ['5／6　工程圖說 PNG：全案總圖、纜車系統',D+'1H3TE6T4OAw0kiOhKNWnH4TGXZ8mXxuj0/view','zip 233 MB','G 全案總圖 14 張、CS 纜車系統 44 張（依比例）'],
+ ['6／6　工程圖說 PNG：四站',D+'1T-_rogxpzVfaGQyz71d2WH0aenrLsYRM/view','zip 177 MB','T1～T4 站體圖說 PNG'],
+ ['四站平面尺寸圖冊　33 張 A3 PDF',D+'176FaQjKGXCBE_Rkt5mO6Xeq5godPmMCI/view','PDF 20 MB','2026-11-24；尺寸 997 組、軸線軸號；T1 8、T2 10、T3 10、T4 5 張'],
+ ['四站平面尺寸圖冊　PNG 35 張',D+'1o6JBmpZa_5pmvpjZOlYgKnK66ceJW9GP/view','zip 19 MB','A3 220 dpi，含封面與圖目'],
+ ['四站平面尺寸圖冊　DXF 33 檔',D+'1sUU5ndxfgipFRD7HqM4coha7eFhNY-dq/view','zip 1.7 MB','AutoCAD R2018；開檔即 A3 配置空間'],
+ ['虎頭埤四站建築圖冊',D+'1BaRN9G8PZ6M0em6Zd2l5cQc5MKP5s_5e/view','PDF 146 MB','2026-11-23'],
+ ['Four-Station Floor Plan Boards（英文）',D+'1jgCGITNUbBgiEFL_mUTgv8fcB0iLAmS1/view','PDF 47 MB','2026-11-24'],
+ ['九階段深化　定案全套圖說合訂本（中文）',D+'1nNUYNg6HElkc_nQ7qBhjazrGHOCzzGw4/view','PDF 21 MB','T1～T4 與纜車系統 174 張；BIM、建照圖、數量、詳圖、預算'],
+ ['九階段深化　合訂本 PNG（中文）',D+'1VfDr_YPElSZEZmkK4WyK54t3aIUro-4s/view','zip 72 MB',''],
+ ['Nine-Stage Final Drawing Set（英文）',D+'1lTOzkNW7RHzHBCrOuQqW8iGdgF60It-G/view','PDF 9 MB',''],
+ ['Nine-Stage Final Drawing Set PNG（英文）',D+'1f5sqVZYOR8wlijeC5jpFrhyCpvaGpXPY/view','zip 74 MB','']
+ ]},
+{id:'live',c:'var(--g)',t:'動態模擬與互動 3D（線上）',n:'點開即可操作。互動 3D：滑鼠滾輪拆解／組裝、左鍵拖曳 360° 旋轉、右上中英切換鈕。',
+ items:[
+ ['纜車營運動態模擬　全天候隨需發車（三維實景 V1.1）','https://www.skytaxi.com.tw/sim/3d/','動態','三維路線、站體、門架與列車即時運行；叫車派車、時空圖、KPI、日夜光影；第一階段／全線直通、假日尖峰、運能檢核情境'],
+ ['纜車如何運行？側立面動態模擬','https://www.skytaxi.com.tw/sim/how/','動態','藍圖底側立面：T1→T4 列車沿弦線運行、七處熱點說明、日間／夜間切換'],
+ ['T1 光舟站體　結構拆解','/stations/t1/','互動 3D','依施工順序五層拆解，附各層金額'],
+ ['T2 湖濱旅館站　結構拆解','/stations/t2/','互動 3D',''],
+ ['T3 湖濱山城站　結構拆解','/stations/t3/','互動 3D',''],
+ ['T4 新化林場站　結構拆解','/stations/t4/','互動 3D',''],
+ ['T1 長壽門戶　長壽解構','/longevity/portal/','互動 3D','「長壽之湖」概念版'],
+ ['T2 湖濱修復所　長壽解構','/longevity/lakeside/','互動 3D',''],
+ ['T3 長壽學院　長壽解構','/longevity/academy/','互動 3D',''],
+ ['T4 森林處方站　長壽解構','/longevity/forest/','互動 3D',''],
+ ['虎頭埤長壽之湖　網站',A+'HicHcEiytMk5Ay88c5WJL5','網站','四站長壽概念與 24 小時節奏'],
+ ['虎頭埤纜車財務儀表板',A+'GJ4nX1eXY8qq2kxE1LtdHD','儀表板','第五章財務指標圖表']
+ ]},
+{id:'present',c:'var(--b)',t:'簡報與對外',n:'甄審簡報與對遊客之營業網站（品牌「虎頭埤纜車」，中英日三語）。',
+ items:[
+ ['虎頭埤纜車 BOT 投資計畫書　甄審簡報',A+'D7zGNbJnNoLqJfnEAhHU7Q','簡報','可於頁面下載 PPTX／PDF'],
+ ['虎頭埤纜車　對外營業網站','https://www.skytaxi.com.tw/hutoupi/','網站','票價（全線來回 480 元）、營運時間、FAQ'],
+ ['四站解構 NotebookLM 簡報提示詞 V1.2','#present','專案文件','Claude 專案「月台設計」：四站解構_NotebookLM簡報提示詞_原案與長壽之湖'],
+ ['四站模型渲染圖（白底模型照風格）','#present','PNG 4 張','2560×1440，2026-11-23；產圖程式存於專案（圖件程式/render）']
+ ]},
+{id:'finance',c:'var(--p)',t:'融資、股權與原廠',n:'對「亞洲基礎發展扶持基金」等資方之融資資料（3 億美元口徑，與送審口徑分開）、股權設計與原廠往來。',
+ items:[
+ ['專案基本資訊（融資洽談用）中文 PDF',D+'1p3USUT9hpqFVfO3TKpBXeNlWpOCs-s55/view','PDF 5.6 MB','2026-11-23'],
+ ['Project Information for Financing（英文）PDF',D+'1dvtzCNCXe8fEb8OQrHYeFKg8rabSwzP7/view','PDF 4.8 MB','2026-11-23'],
+ ['專案基本資訊（融資洽談用）中文　線上文件',A+'Rps8vDFJWbhxDCdzh2SeyA','文件','可編輯、可匯出 Word／PDF'],
+ ['Project Information for Financing（英文）線上文件',A+'QyTG3weoDkYMWX4YXSfz7b','文件',''],
+ ['Four-Station Spatial Plan Overview（英文，300 dpi）',D+'1HkDb25CzmYFH_Jv5M2cdYf1JHoW8_vV9/view','PNG 5.8 MB','最終路線四站空間配置總覽'],
+ ['專案公司股權設計方案（資方股權共管）',A+'ByHcHHPZTeHZHqzyrSL6TW','文件',''],
+ ['致原廠回函：審閱範圍、現有基地資料與車型（U4-431-01）',A+'PpoKaEwp9cEV4PLLT7dP2e','文件','中英文 Word 另收於 1／6 包']
+ ]}
+];
+const book=[['第一章　計畫目標及開發經營理念','V3.14'],['第二章　民間機構籌組計畫','V1.1'],['3.1　計畫範圍與路廊','V1.31'],['3.3　纜車系統','V3.16'],['3.7　T4 新化林場站','V2.10'],['3.9','V1.14'],['第四章　營運計畫','V1.18'],['第五章　財務計畫','V7.14'],['第六章　創新、公益回饋及企業社會責任','V3.7'],['附冊 3-2　纜車系統技術說明','V3.15'],['英文 3.4 T1／3.7 T4','V3.10／V2.7']];
+const old=['Drive「20261120終稿」最終定稿六包（主冊 V2.1、附冊 V1.8）','Drive 主冊合冊 V1.7（2026-11-19）','營運動態模擬 V1.0 平面版（線上 MtNdzvKCVZJXpQKFPDEhCB，已由三維實景 V1.1 涵蓋）','T3 月台關係 3D（2026-10-09，C7 投資版）','纜車系統興建計畫簡報（2026-10-20）','T1／T2／T3 基地整合開發與建築設計方案報告（2026-10 月）','纜車興建計畫 R4 深度審查意見書、四站月台統一設計控制書 V1.0','新纜車計畫全線直通營運修正方案（審閱版，2026-10-31）'];
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const ext=u=>u.startsWith('http');
+document.getElementById('nav').innerHTML=stops.map(s=>`<a href="#${s.id}" style="--c:${s.c}"><i></i>${esc(s.t.replace(/（.*）/,''))}</a>`).join('');
+document.getElementById('stops').innerHTML=stops.map(s=>`<section class="stop" id="${s.id}" style="--c:${s.c}"><h2>${esc(s.t)}</h2><p class="note">${esc(s.n)}</p>
+<div class="grid">${s.items.map(([t,u,g,d])=>`<div class="item"><span class="tag">${esc(g)}</span><a href="${esc(u)}"${ext(u)?' target="_blank" rel="noopener"':''}>${esc(t)}</a>${d?`<p>${esc(d)}</p>`:''}</div>`).join('')}</div>
+${s.table?`<div class="scroll" style="margin-top:16px"><table class="stack"><thead><tr><th>章節（交叉驗證後現行版）</th><th>版次</th></tr></thead><tbody>${book.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="n">${esc(b)}</td></tr>`).join('')}</tbody></table><p class="note" style="margin-top:8px;font-size:14px">其餘各節版次依 2／6 包內檔名；全書圖 314、表 503，經 2026-11-23 跨章勾稽一致。</p></div>`:''}
+</section>`).join('');
+document.getElementById('old').innerHTML=old.map(o=>`<li>${esc(o)}</li>`).join('');
+
+const svg=document.getElementById('route');
+const nodes=[['T1','新化之門站',0,'st'],['P1','門架',446.0,'p'],['T2','湖濱旅館站',796.0,'st'],['T3','湖濱山城站',1095.2,'st'],['P2','門架',1424.6,'p'],['T4','新化林場站',1874.6,'st']];
+const spans=['446.0','350.0','299.2','329.4','450.0'];
+const draw=()=>{const W=svg.clientWidth,H=svg.clientHeight,sm=W<520,m=sm?26:52,x=v=>m+(W-2*m)*v/1874.6,yA=H*0.42,yB=yA+16;
+let h=`<path id="la" d="M${x(0)} ${yA} H${x(1874.6)}" stroke="var(--a)" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M${x(0)} ${yB} H${x(1874.6)}" stroke="var(--b)" stroke-width="8" stroke-linecap="round" fill="none"/>`;
+h+=`<rect x="${x(1095.2)-2}" y="${yA-34}" width="${x(1874.6)-x(1095.2)+4}" height="4" rx="2" fill="var(--rule)"/><text x="${(x(1095.2)+x(1874.6))/2}" y="${yA-42}" text-anchor="middle" font-size="12.5" fill="var(--mute)">${sm?'二階段':'第二階段 779.4 m'}</text>`;
+h+=`<rect x="${x(0)-2}" y="${yA-34}" width="${x(1095.2)-x(0)}" height="4" rx="2" fill="var(--ink)"/><text x="${(x(0)+x(1095.2))/2}" y="${yA-42}" text-anchor="middle" font-size="12.5" fill="var(--mute)">${sm?'一階段':'第一階段 1,095.2 m'}</text>`;
+nodes.forEach((n,i)=>{const cx=x(n[2]);if(n[3]==='st'){h+=`<rect x="${cx-11}" y="${yA-11}" width="22" height="${yB-yA+22}" rx="11" fill="var(--bg)" stroke="var(--ink)" stroke-width="4"/><text x="${cx}" y="${yB+38}" text-anchor="middle" font-family="Figtree" font-weight="800" font-size="${sm?15:19}" fill="var(--ink)">${n[0]}</text>${sm?'':`<text x="${cx}" y="${yB+58}" text-anchor="middle" font-size="13.5" fill="var(--mute)">${n[1]}</text>`}`}
+else{h+=`<path d="M${cx-9} ${yA-18} L${cx-6} ${yB+30} M${cx+9} ${yA-18} L${cx+6} ${yB+30} M${cx-12} ${yA-18} H${cx+12}" stroke="var(--p)" stroke-width="4" fill="none"/><text x="${cx}" y="${yB+48}" text-anchor="middle" font-family="Figtree" font-weight="700" font-size="${sm?12:14}" fill="var(--p)">${n[0]}</text>`}
+if(i<5&&!sm){const mx=(cx+x(nodes[i+1][2]))/2;h+=`<text x="${mx}" y="${yA-12}" text-anchor="middle" font-family="Figtree" font-size="12.5" fill="var(--mute)">${spans[i]} m</text>`}});
+h+=`<rect class="car" width="${sm?18:26}" height="10" rx="3" fill="var(--a)" style="offset-path:path('M${x(0)} ${yA+9} H${x(1874.6)}');offset-rotate:0deg;transform:translate(0,-5px)"/>`;
+svg.innerHTML=h};
+const ro=new ResizeObserver(draw);ro.observe(svg);
+}
+</script>
+</body>
+</html>

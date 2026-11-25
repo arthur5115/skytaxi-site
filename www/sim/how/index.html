@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>虎頭埤纜車 如何運行｜全天候隨需發車動態模擬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#0f2236;color:#fff;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+.stage{position:relative;width:100%;max-width:1920px;margin:0 auto;aspect-ratio:1920/900;overflow:hidden;background:#24476a}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ttl{position:absolute;left:16.5%;top:9%;pointer-events:none}
+.ttl h1{margin:0;font-size:clamp(20px,2.6vw,50px);font-weight:700;letter-spacing:1px;text-shadow:0 2px 18px rgba(0,0,0,.25)}
+.ttl p{margin:.35em 0 0;font-size:clamp(11px,1vw,18px);font-weight:300;opacity:.85;letter-spacing:.5px}
+.ttl p b{font-weight:700;color:#ffd36b}
+.ctl{position:absolute;right:2%;top:3.2%;display:flex;gap:8px;z-index:20}
+.ctl button{font:inherit;font-size:clamp(11px,.8vw,14px);color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.55);border-radius:20px;padding:.4em 1.1em;cursor:pointer;backdrop-filter:blur(4px)}
+.ctl button:hover{background:rgba(255,255,255,.2)}
+/* 熱點 */
+.hs{position:absolute;transform:translate(-50%,-50%);z-index:10}
+.hs .dot{width:clamp(22px,1.75vw,34px);height:clamp(22px,1.75vw,34px);border-radius:50%;background:#fff;cursor:pointer;position:relative;transition:transform .35s ease;box-shadow:0 0 0 0 rgba(255,255,255,.5);animation:pulse 2.6s infinite}
+.hs .dot:before,.hs .dot:after{content:"";position:absolute;left:50%;top:50%;background:#195da7;transform:translate(-50%,-50%)}
+.hs .dot:before{width:50%;height:2px}.hs .dot:after{width:2px;height:50%}
+.hs.on .dot{transform:rotate(45deg);animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 14px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.hs .lead{position:absolute;left:50%;top:100%;width:0;border-left:1px dashed rgba(255,255,255,.9);height:0;transition:height 1.6s ease}
+.hs .lead:after{content:"";position:absolute;left:-4.5px;bottom:-1px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid #fff;opacity:0;transition:opacity .4s 1.2s}
+.stage.live .hs .lead:after{opacity:1}
+.hs .txt{position:absolute;left:calc(100% + 12px);top:-.55em;background:rgba(9,28,48,.62);border-radius:8px;padding:.5em .8em;backdrop-filter:blur(3px);width:max-content;max-width:clamp(180px,19vw,360px);font-size:clamp(11px,.92vw,17px);line-height:1.5;opacity:0;visibility:hidden;transition:opacity .45s;text-shadow:0 1px 8px rgba(10,30,50,.6)}
+.hs .txt b{display:block;font-size:1.08em;margin-bottom:.15em;color:#ffd36b;font-weight:700}
+.hs.on .txt{opacity:1;visibility:visible}
+.hs.lft .txt{left:auto;right:calc(100% + 12px);text-align:right}
+/* 數據列 */
+.stats{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(6,1fr);padding:0 4% 1.6%;gap:1%;z-index:5;pointer-events:none}
+.stats div{border-top:1px solid rgba(255,255,255,.35);padding-top:.55em}
+.stats b{display:block;font-size:clamp(14px,1.75vw,34px);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.stats span{font-size:clamp(9px,.78vw,14px);opacity:.82}
+.badge{position:absolute;left:4%;bottom:15.5%;font-size:clamp(10px,.82vw,15px);background:rgba(8,25,45,.45);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:.45em .9em;z-index:6;backdrop-filter:blur(3px);font-variant-numeric:tabular-nums}
+.badge i{display:inline-block;width:.7em;height:.7em;border-radius:50%;background:#58e0a0;margin-right:.45em;vertical-align:.05em;box-shadow:0 0 8px #58e0a0}
+.note{max-width:1920px;margin:0 auto;padding:10px 4% 18px;font-size:12.5px;color:#9db3c6;line-height:1.6}
+</style>
+</head>
+<body>
+<section class="stage" id="stage">
+  <svg id="scene" viewBox="0 0 1920 900" preserveAspectRatio="xMidYMid slice" aria-label="虎頭埤纜車側立面動態示意"></svg>
+  <div class="ttl"><h1 id="tH"></h1><p id="tP"></p></div>
+  <div class="ctl"><button id="bNight"></button><button id="bPlay"></button><button id="bLang">English</button></div>
+  <div id="hsLayer"></div>
+  <div class="badge" id="badge"></div>
+  <div class="stats" id="stats"></div>
+</section>
+<div class="note" id="note"></div>
+
+<script>
+"use strict";
+/* ============ 文字 ============ */
+const TX={
+zh:{h:'纜車如何運行？',p:'虎頭埤纜車｜弦線纜車系統｜全天候<b>隨需發車</b>',night:'夜間',day:'日間',play:'暫停',pause:'播放',
+ st:['T1 新化之門站','T2 湖濱旅館站','T3 湖濱山城站','T4 新化林場站'],
+ span1:'跨 1　446.0 m',h21:'21.0 m',
+ hs:[
+  ['弦線錨碇與站體共構','T1 新化之門站以站體結構承受弦線錨碇力 4,000 tf；出閘門即進入階梯商店街。'],
+  ['全線僅兩座中間門架','P1、P2 為加寬門架，承受垂直力；弦線經 R100 弧形承托座連續通過。'],
+  ['跨越虎頭埤，水中不落柱','跨 1 節點間距 446.0 m，跨 2 為 350.0 m，水域內不設任何支承。'],
+  ['中途停靠，旅客不換車','T2、T3 停站 30 秒，A、B 兩線各自往返全線；端站折返 60 秒。'],
+  ['隨需發車','乘客叫車即發車，不設固定時刻表；24 小時全天候服務，每列 1～5 車、每車 6 人。'],
+  ['門架高約 21.0 m','主線速度 40 km/h；全線 1,874.6 m，單程含停站 282.1 秒。'],
+  ['單方向最大 536 人／小時','日間兩線待命，客量高時每線最多兩列同向追蹤；夜間一線維修、另一線一列服務全線。']],
+ stats:[['1,874.6 m','全線長度'],['4 站 5 跨','T1–T4 直通'],['2 座','中間門架'],['40 km/h','主線速度'],['536','單方向最大運能（人／小時）'],['24 h','全天候隨需發車']],
+ call:'叫車',maint:'維修時段',
+ bDay:(a,b)=>`<i></i>日間｜兩線待命　A 線 ${a}　B 線 ${b}`,
+ bNight:(b)=>`<i></i>夜間｜A 線維修時段，B 線一列隨需發車　B 線 ${b}`,
+ sIdle:'待命',sRun:(d)=>d>0?'往 T4':'往 T1',sDw:(s)=>`停靠 ${s}`,cars:'車',
+ note:'示意圖未依比例繪製，縱向放大。數值依投資計畫書第三章 3.3 纜車系統、第四章營運計畫（全天候隨需發車）及介面控制值 FACTS V3.1；動畫時間已壓縮。'},
+en:{h:'How does it work?',p:'Hutoupi Cable Car | String cable car system | 24-hour <b>on-demand dispatch</b>',night:'Night',day:'Day',play:'Pause',pause:'Play',
+ st:['T1 Xinhua Gate','T2 Lakeside Hotel','T3 Lakeside Hill Town','T4 Xinhua Forest Farm'],
+ span1:'Span 1　446.0 m',h21:'21.0 m',
+ hs:[
+  ['Anchorage built into the station','T1 Xinhua Gate carries the 4,000 tf string anchorage in its own structure; the fare gates open straight onto the stepped shopping street.'],
+  ['Only two intermediate gantries','P1 and P2 are widened gantries that take the vertical load; the strings pass over R100 curved bearing saddles.'],
+  ['Across Hutoupi Reservoir, no piers in the water','Span 1 is 446.0 m and span 2 is 350.0 m between nodes, with no support in the water.'],
+  ['Intermediate stops, no transfers','30 s stops at T2 and T3; Lines A and B each shuttle over the whole line; 60 s turnaround at the end stations.'],
+  ['On-demand dispatch','A call dispatches a car, with no timetable; service around the clock, 1–5 cars per consist, 6 seats per car.'],
+  ['Gantry height about 21.0 m','40 km/h on the main line; 1,874.6 m end to end in 282.1 s including stops.'],
+  ['Up to 536 passengers/hour per direction','By day both lines stand by, up to two consists per line when demand is high; at night one line is serviced while one consist runs on the other.']],
+ stats:[['1,874.6 m','Line length'],['4 stations','5 spans, T1–T4 through'],['2','Intermediate gantries'],['40 km/h','Main-line speed'],['536','Max. passengers/hour per direction'],['24 h','On-demand, around the clock']],
+ call:'Call',maint:'Maintenance',
+ bDay:(a,b)=>`<i></i>Day | both lines on standby　Line A ${a}　Line B ${b}`,
+ bNight:(b)=>`<i></i>Night | Line A in maintenance, one consist on demand on Line B　Line B ${b}`,
+ sIdle:'standby',sRun:(d)=>d>0?'to T4':'to T1',sDw:(s)=>`at ${s}`,cars:'cars',
+ note:'Schematic, not to scale; vertical scale exaggerated. Figures from Investment Plan Chapter 3 §3.3 Cable Car System, Chapter 4 Operations Plan (24-hour on-demand dispatch) and FACTS V3.1 interface control values; animation time is compressed.'}};
+let L='zh',NIGHT=false,PLAY=true,LIVE=false;
+const t=k=>TX[L][k];
+
+/* ============ 幾何 ============ */
+const NS='http://www.w3.org/2000/svg';
+const el=(tag,at={},par)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);if(par)par.appendChild(e);return e;};
+const SX=[250,880,1135,1715];             // T1 T2 T3 T4
+const NODES=[[110,470],[330,470],[565,436],[835,458],[925,458],[1085,456],[1185,456],[1440,398],[1660,462],[1860,462]];
+const SAG=[0,24,18,0,10,0,16,30,0];
+const STOP=[232,880,1135,1765]; // 列車停靠位置（站內）
+function sy(x){ // 弦線高程
+  if(x<=NODES[0][0]) return NODES[0][1];
+  for(let i=0;i<NODES.length-1;i++){const [a,ya]=NODES[i],[b,yb]=NODES[i+1];if(x<=b){const u=(x-a)/(b-a);return ya+(yb-ya)*u+4*SAG[i]*u*(1-u);}}
+  return NODES[NODES.length-1][1];
+}
+const slope=x=>(sy(x+1)-sy(x-1))/2;
+const GROUND_Y=640;
+function gy(x){ // 地面
+  const P=[[0,640],[330,640],[345,662],[525,662],[545,628],[590,624],[610,662],[795,662],[815,640],[960,600],[1010,612],[1135,640],[1230,600],[1440,548],[1560,580],[1715,600],[1920,604]];
+  for(let i=0;i<P.length-1;i++){if(x<=P[i+1][0]){const u=(x-P[i][0])/(P[i+1][0]-P[i][0]);return P[i][1]+(P[i+1][1]-P[i][1])*u;}}return 604;
+}
+
+/* ============ 場景 ============ */
+const svg=document.getElementById('scene');
+let G={};
+function build(){
+  svg.innerHTML='';
+  const defs=el('defs',{},svg);
+  defs.innerHTML=`
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${NIGHT?'#0b1a2c':'#23466b'}"/><stop offset=".55" stop-color="${NIGHT?'#0d2238':'#28557c'}"/><stop offset="1" stop-color="${NIGHT?'#10294a':'#2f6a95'}"/></linearGradient>
+  <radialGradient id="glow" cx=".72" cy="1.02" r=".55"><stop offset="0" stop-color="${NIGHT?'#2b6fa8':'#9ff0ff'}" stop-opacity="${NIGHT?.45:.95}"/><stop offset=".45" stop-color="${NIGHT?'#1d4f80':'#4fb7dc'}" stop-opacity="${NIGHT?.25:.55}"/><stop offset="1" stop-color="#2f6a95" stop-opacity="0"/></radialGradient>
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NIGHT?'#2a5d8f':'#8fd9f0'}" stop-opacity=".75"/><stop offset="1" stop-color="${NIGHT?'#12345a':'#3b8fc0'}" stop-opacity=".45"/></linearGradient>
+  <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NIGHT?'#173a52':'#3f8aa8'}" stop-opacity=".85"/><stop offset="1" stop-color="${NIGHT?'#0d2236':'#2c6a8c'}" stop-opacity=".2"/></linearGradient>
+  <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#e6edf2"/><stop offset="1" stop-color="#b9c7d2"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NIGHT?'#ffe7a8':'#2a3d4f'}"/><stop offset="1" stop-color="${NIGHT?'#f6c35b':'#132331'}"/></linearGradient>
+  <linearGradient id="bld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset="1" stop-color="#cfe0ea" stop-opacity=".9"/></linearGradient>
+  <radialGradient id="tree" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="${NIGHT?'#2f6a4a':'#9bd36a'}"/><stop offset=".6" stop-color="${NIGHT?'#1d4a34':'#4f9a3c'}"/><stop offset="1" stop-color="${NIGHT?'#0f2c20':'#2c6328'}"/></radialGradient>
+  <radialGradient id="lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe7a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffe7a8" stop-opacity="0"/></radialGradient>
+  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#8fc3ec" stroke-opacity=".12" stroke-width="1"/></pattern>
+  <pattern id="grid2" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#8fc3ec" stroke-opacity=".18" stroke-width="1"/></pattern>
+  <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#fff" stop-opacity=".7"/><stop offset=".62" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <mask id="bpMask"><rect width="1920" height="900" fill="url(#fadeR)"/></mask>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>`;
+  el('rect',{width:1920,height:900,fill:'url(#bg)'},svg);
+  // 藍圖區（左）
+  const bp=el('g',{mask:'url(#bpMask)'},svg);
+  el('rect',{width:1920,height:900,fill:'url(#grid)'},bp);
+  el('rect',{width:1920,height:900,fill:'url(#grid2)'},bp);
+  const dr=el('g',{fill:'none',stroke:'#a9d3f5','stroke-opacity':.22,'stroke-width':1.4},bp);
+  // 原創藍圖：車輛走行裝置剖面示意
+  el('circle',{cx:470,cy:130,r:70},dr);el('circle',{cx:470,cy:130,r:44},dr);el('circle',{cx:470,cy:130,r:12},dr);
+  el('rect',{x:330,y:40,width:280,height:180,rx:6},dr);el('rect',{x:300,y:210,width:340,height:46},dr);
+  el('path',{d:'M300 256 L300 330 Q470 370 640 330 L640 256'},dr);el('rect',{x:360,y:280,width:220,height:34},dr);
+  el('rect',{x:60,y:60,width:200,height:150},dr);el('path',{d:'M60 135H260M160 60V210'},dr);el('circle',{cx:160,cy:135,r:38},dr);
+  el('rect',{x:720,y:20,width:260,height:110,rx:4},dr);el('path',{d:'M740 75H960M850 20V130'},dr);
+  el('rect',{x:40,y:280,width:180,height:120},dr);el('path',{d:'M40 340H220'},dr);
+  // 光暈、星空
+  if(NIGHT){const st=el('g',{fill:'#fff'},svg);for(let i=0;i<120;i++)el('circle',{cx:(i*397)%1920,cy:(i*131)%360,r:(i%7===0)?1.4:.7,opacity:.25+(i%5)*.12},st);
+    el('circle',{cx:1610,cy:120,r:26,fill:'#f4f1dc',opacity:.85},svg);}
+  el('rect',{width:1920,height:900,fill:'url(#glow)'},svg);
+  // 遠山
+  el('path',{d:'M760 640 L980 520 L1100 560 L1290 470 L1460 520 L1620 450 L1800 520 L1920 500 L1920 700 L760 700Z',fill:NIGHT?'#132f48':'#3b7aa0',opacity:.35},svg);
+  // 地形
+  let d='M0 900 L0 640';for(let x=0;x<=1920;x+=10)d+=` L${x} ${gy(x).toFixed(1)}`;d+=' L1920 900Z';
+  el('path',{d,fill:'url(#hill)'},svg);
+  el('path',{d:d.replace(/ L1920 900Z$/,'').replace('M0 900 L0 640','M0 640'),fill:'none',stroke:'#cfeaff','stroke-opacity':.35,'stroke-width':1.2},svg);
+  // 水域
+  const wg=el('g',{},svg);
+  for(const [a,b] of [[345,525],[610,795]]){el('rect',{x:a,y:646,width:b-a,height:60,fill:'url(#water)'},wg);}
+  G.ripples=el('g',{stroke:'#fff','stroke-opacity':.5,'stroke-width':1.2,'stroke-linecap':'round'},wg);
+  for(let i=0;i<14;i++){const x=(i%2?620:355)+((i*53)%160),y=655+((i*17)%40);el('line',{x1:x,y1:y,x2:x+18+(i%3)*8,y2:y,'data-x':x},G.ripples);}
+  // 救生艇
+  const boat=el('g',{transform:'translate(690 652)'},svg);
+  el('path',{d:'M-14 0 H14 L9 6 H-9Z',fill:'#ffffff','fill-opacity':.9},boat);el('rect',{x:-4,y:-6,width:8,height:6,fill:'#f2a33a'},boat);
+  // 尺寸：跨 1
+  const dim=el('g',{stroke:'#fff','stroke-width':1,fill:'#fff'},svg);
+  el('line',{x1:SX[0]+18,y1:588,x2:563,y2:588,'stroke-dasharray':'4 4'},dim);
+  el('path',{d:`M${SX[0]+18} 588 l8 -4 v8z M563 588 l-8 -4 v8z`,stroke:'none'},dim);
+  G.span1=el('text',{x:(SX[0]+563)/2,y:578,'text-anchor':'middle','font-size':17,stroke:'none'},dim);
+  // 尺寸：P2 高
+  const dx=1478;el('line',{x1:dx,y1:400,x2:dx,y2:gy(1440)-2},dim);
+  el('path',{d:`M${dx} 400 l-4 8 h8z M${dx} ${gy(1440)-2} l-4 -8 h8z`,stroke:'none'},dim);
+  G.h21=el('text',{x:dx+8,y:480,'font-size':17,stroke:'none'},dim);
+  // 構造物
+  drawT1(svg);drawT2(svg);drawT3(svg);drawT4(svg);drawGantry(svg,565,436);drawGantry(svg,1440,398);
+  // 樹
+  for(const [x,s] of [[700,.0],[985,.8],[1010,1],[1060,.7],[1250,.9],[1300,1.1],[1340,.8],[1520,1],[1560,.9],[1620,1.2],[1650,1],[1790,1.3],[1840,1.1],[1880,.9]]) if(s) tree(svg,x,gy(x),s);
+  // 弦線（兩線並列，側視重疊）
+  let p='M110 '+sy(110);for(let x=110;x<=1860;x+=5)p+=` L${x} ${sy(x).toFixed(2)}`;
+  el('path',{d:p,fill:'none',stroke:NIGHT?'#7fd0ff':'#bfe6ff','stroke-width':2.2,'stroke-opacity':.95},svg);
+  el('path',{d:p,fill:'none',stroke:NIGHT?'#7fd0ff':'#bfe6ff','stroke-width':8,'stroke-opacity':.12,filter:'url(#soft)'},svg);
+  // 地面小人物（自繪圖示）
+  const pp=el('g',{fill:'#fff','fill-opacity':.9},svg);
+  for(const [x,y] of [[190,636],[204,636],[318,636],[905,606],[918,606],[1160,636],[1700,598]]){el('circle',{cx:x,cy:y-15,r:2.6},pp);el('rect',{x:x-2,y:y-12,width:4,height:12,rx:1.5},pp);}
+  const bike=el('g',{fill:'none',stroke:'#fff','stroke-width':1.4,transform:'translate(775 660)'},svg);
+  el('circle',{cx:-6,cy:0,r:4.5},bike);el('circle',{cx:7,cy:0,r:4.5},bike);el('path',{d:'M-6 0 L0 -7 L7 0 M0 -7 L-2 -12 M-1 -12 h4'},bike);el('circle',{cx:-1,cy:-16,r:2,fill:'#fff'},bike);
+  // 站名
+  G.stLab=[];for(let i=0;i<4;i++){G.stLab.push(el('text',{x:SX[i],y:i===0?690:(i===3?655:gy(SX[i])+26),'text-anchor':'middle','font-size':16,fill:'#fff','fill-opacity':.92,'font-weight':500},svg));}
+  // 叫車脈衝
+  G.call=el('g',{opacity:0},svg);el('circle',{r:12,fill:'none',stroke:'#ffd36b','stroke-width':2},G.call);el('circle',{r:4,fill:'#ffd36b'},G.call);
+  G.callT=el('text',{x:0,y:-20,'text-anchor':'middle','font-size':15,fill:'#ffd36b','font-weight':700},G.call);
+  // 列車層
+  G.trains=el('g',{},svg);
+  G.labels=el('g',{},svg);
+  applyText();
+}
+function drawT1(p){ // 光舟＋階梯商店街（線稿，藍圖區）
+  const g=el('g',{fill:'none',stroke:'#fff','stroke-width':1.6,'stroke-linejoin':'round'},p);
+  const x0=105,x1=360,yc=468;
+  el('path',{d:`M${x0} ${yc} Q${(x0+x1)/2} ${yc-62} ${x1} ${yc-6} Q${(x0+x1)/2} ${yc+44} ${x0} ${yc}Z`},g);
+  for(let i=1;i<12;i++){const x=x0+(x1-x0)*i/12;el('line',{x1:x,y1:yc-48+Math.abs(i-6)*5,x2:x+14,y2:yc+30-Math.abs(i-6)*3,'stroke-opacity':.55},g);}
+  for(const x of [150,200,260,315]) el('line',{x1:x,y1:yc+20,x2:x,y2:640},g);
+  // 階梯商店街
+  let s='M95 640';for(let i=0;i<6;i++){s+=` V${640-16*(i+1)} H${95+14*(i+1)}`;}s+=' V640';el('path',{d:s,'stroke-opacity':.8},g);
+  let s2='M370 640';for(let i=0;i<6;i++){s2+=` V${640-16*(i+1)} H${370-14*(i+1)}`;}s2+=' V640';el('path',{d:s2,'stroke-opacity':.8},g);
+  el('ellipse',{cx:232,cy:642,rx:105,ry:5,'stroke-opacity':.6},g); // 水鏡
+  el('line',{x1:0,y1:640,x2:345,y2:640,'stroke-opacity':.6},g);
+}
+function drawT2(p){ // 疊岸露台
+  const g=el('g',{},p);const x=SX[1],gyy=gy(x);
+  const fill=NIGHT?'rgba(255,255,255,.10)':'rgba(255,255,255,.16)';
+  for(let i=0;i<6;i++){const w=210-i*20,h=26,y=gyy-(i+1)*h;el('rect',{x:x-90+i*16,y,width:w,height:h,fill,stroke:'#fff','stroke-width':1.3},g);
+    for(let k=0;k<Math.floor(w/22);k++) el('rect',{x:x-84+i*16+k*22,y:y+7,width:14,height:12,fill:NIGHT?'#ffd98a':'#cfe6f5','fill-opacity':NIGHT?(k%3?.85:.3):.35},g);
+    el('ellipse',{cx:x-88+i*16,cy:y+1,rx:9,ry:4,fill:'url(#tree)'},g);}
+  el('rect',{x:x-45,y:sy(x)-26,width:110,height:48,fill:fill,stroke:'#fff','stroke-width':1.6,rx:3},g);
+  el('path',{d:`M${x-52} ${sy(x)-26} L${x+10} ${sy(x)-40} L${x+72} ${sy(x)-26}`,fill:'none',stroke:'#fff','stroke-width':1.6},g);
+}
+function drawT3(p){ // 站廳山城
+  const g=el('g',{},p);const x=SX[2],gyy=gy(x);
+  const f=NIGHT?'rgba(255,255,255,.12)':'url(#bld)',fo=NIGHT?1:.55;
+  el('rect',{x:x-150,y:gyy-120,width:85,height:120,fill:f,'fill-opacity':fo,stroke:'#fff','stroke-width':1.2},g);
+  el('rect',{x:x+75,y:gyy-140,width:95,height:140,fill:f,'fill-opacity':fo,stroke:'#fff','stroke-width':1.2},g);
+  el('rect',{x:x-65,y:sy(x)-28,width:140,height:gyy-sy(x)+28,fill:f,'fill-opacity':fo+.1,stroke:'#fff','stroke-width':1.5},g);
+  let r=`M${x-72} ${sy(x)-28}`;for(let i=0;i<=7;i++)r+=` L${x-72+i*21} ${sy(x)-(i%2?52:30)}`;el('path',{d:r,fill:'none',stroke:'#fff','stroke-width':1.6},g);
+  for(const [bx,by,bw,bh] of [[x-150,gyy-120,85,120],[x+75,gyy-140,95,140],[x-65,sy(x)+30,140,gyy-sy(x)-30]])
+    for(let yy=by+10;yy<by+bh-12;yy+=18)for(let xx=bx+8;xx<bx+bw-10;xx+=16)el('rect',{x:xx,y:yy,width:9,height:9,fill:NIGHT?'#ffd98a':'#9fb7c8','fill-opacity':NIGHT?(((xx+yy)%3)?.85:.25):.5},g);
+}
+function drawT4(p){ // 林冠驛站（實景區）
+  const g=el('g',{},p);const x=SX[3],y=sy(x),gyy=gy(x);
+  for(const [tx,s] of [[1640,1.5],[1680,1.3],[1765,1.4],[1830,1.2]]) tree(g,tx,gy(tx),s);
+  el('rect',{x:x-20,y:y-30,width:150,height:50,fill:'url(#bld)',stroke:'#fff','stroke-width':1.2,rx:4},g);
+  el('rect',{x:x-14,y:y-24,width:138,height:14,fill:'url(#glass)','fill-opacity':.85},g);
+  for(const lx of [x-8,x+118]){el('rect',{x:lx,y:y+20,width:10,height:gyy-y-20,fill:'#f2f6f9',stroke:'#fff'},g);}
+  el('rect',{x:x-22,y:y-38,width:154,height:9,fill:'#e9f1f6',stroke:'#fff'},g);
+  if(NIGHT) el('ellipse',{cx:x+55,cy:gyy,rx:90,ry:18,fill:'url(#lamp)'},g);
+  for(const [tx,s] of [[1700,1.1],[1810,1.25]]) tree(g,tx,gy(tx),s);
+}
+function drawGantry(p,x,ytop){ // 加寬門架：兩柱＋頂橫梁＋柱間 X 斜撐＋R100 弧形承托座
+  const g=el('g',{stroke:'#fff','stroke-width':2,fill:'none'},p);const yb=gy(x),hw=26,bw=32;
+  el('path',{d:`M${x-bw} ${yb} L${x-hw} ${ytop-4} M${x+bw} ${yb} L${x+hw} ${ytop-4}`,'stroke-width':3},g);
+  el('path',{d:`M${x-hw-8} ${ytop-6} H${x+hw+8}`,'stroke-width':4.5},g);
+  const n=Math.max(2,Math.round((yb-ytop)/55));
+  for(let i=0;i<n;i++){const a=ytop+(yb-ytop)*i/n,b=ytop+(yb-ytop)*(i+1)/n;const w1=hw+(bw-hw)*i/n,w2=hw+(bw-hw)*(i+1)/n;
+    el('path',{d:`M${x-w1} ${a} L${x+w2} ${b} M${x+w1} ${a} L${x-w2} ${b}`,'stroke-width':1.1},g);}
+  el('path',{d:`M${x-12} ${ytop-6} L${x-4} ${ytop+2} M${x+12} ${ytop-6} L${x+4} ${ytop+2}`,'stroke-width':1.4},g);
+  el('path',{d:`M${x-30} ${ytop+5} Q${x} ${ytop-5} ${x+30} ${ytop+5}`,'stroke-width':2.6},g);
+}
+function tree(p,x,y,s){const g=el('g',{transform:`translate(${x} ${y}) scale(${s})`},p);
+  el('rect',{x:-1.6,y:-18,width:3.2,height:18,fill:NIGHT?'#2b2620':'#6b5136'},g);
+  el('circle',{cx:0,cy:-26,r:12,fill:'url(#tree)'},g);el('circle',{cx:-9,cy:-19,r:8,fill:'url(#tree)'},g);el('circle',{cx:9,cy:-20,r:9,fill:'url(#tree)'},g);}
+
+/* ============ 車輛 ============ */
+const PITCH=52;
+function carShape(g){ // 原點＝弦線；車廂位於弦線下方，走行裝置罩包覆弦線
+  const o=el('g',{class:'ol',fill:'none',stroke:'#fff','stroke-width':1.3},g);
+  el('rect',{x:-15,y:-5,width:30,height:11,rx:5},o);el('rect',{x:-22,y:5,width:44,height:26,rx:10},o);el('path',{d:'M-17 12 H17 M0 6 V30'},o);
+  const s=el('g',{class:'sd'},g);
+  el('rect',{x:-15,y:-5,width:30,height:11,rx:5,fill:'#dfe7ee',stroke:'#9fb3c3','stroke-width':.8},s);
+  el('rect',{x:-22,y:5,width:44,height:26,rx:10,fill:'url(#body)',stroke:'#a8bac8','stroke-width':.8},s);
+  el('rect',{x:-18.5,y:9,width:37,height:12,rx:4,fill:'url(#glass)'},s);
+  el('line',{x1:0,y1:9,x2:0,y2:30,stroke:'#8fa5b6','stroke-width':.8},s);
+  el('rect',{x:-21,y:25,width:42,height:3,fill:'#1f6fb2','fill-opacity':.85},s);
+}
+class Consist{
+  constructor(id,line,dir,start){this.id=id;this.line=line;this.n=3;this.x=start;this.dir=dir;this.mode='idle';this.wait=1.5;this.g=el('g',{},G.trains);this.label=el('text',{'text-anchor':'middle','font-size':14,fill:'#fff','fill-opacity':.9},G.labels);this.rebuild();}
+  rebuild(){this.g.innerHTML='';this.cars=[];for(let i=0;i<this.n;i++){const c=el('g',{},this.g);carShape(c);this.cars.push(c);} }
+}
+let trains=[];
+function resetTrains(){
+  G.trains.innerHTML='';G.labels.innerHTML='';
+  trains=[new Consist('A','A',1,STOP[0]),new Consist('B','B',-1,STOP[3])];
+  trains[0].n=3;trains[1].n=NIGHT?2:4;trains.forEach(c=>c.rebuild());
+  trains[1].wait=6;
+  if(NIGHT){trains[0].mode='maint';trains[0].n=2;trains[0].rebuild();}
+}
+// 運行：梯形速度曲線（壓縮時間）
+const VMAX=120,ACC=90,DWELL=2.2,TURN=1.6;
+function nextStop(c){const i=STOP.indexOf(c.atStation);return c.dir>0?STOP[i+1]:STOP[i-1];}
+function update(c,dt){
+  if(c.mode==='maint'){c.x=STOP[0];return;}
+  if(c.mode==='idle'){c.wait-=dt;if(c.wait<=0){ // 端站待命→叫車→發車
+      if(!c.called){c.called=true;c.wait=1.4;showCall(c);return;}
+      c.called=false;c.atStation=c.x;c.target=nextStop(c);c.v=0;c.mode='run';}
+    return;}
+  if(c.mode==='dwell'){c.wait-=dt;if(c.wait<=0){c.atStation=c.x;c.target=nextStop(c);c.v=0;c.mode='run';}return;}
+  // run
+  const rem=Math.abs(c.target-c.x),brake=c.v*c.v/(2*ACC);
+  c.v=rem<=brake+0.5?Math.max(8,c.v-ACC*dt):Math.min(VMAX,c.v+ACC*dt);
+  const step=Math.min(rem,c.v*dt);c.x+=c.dir*step;
+  if(rem-step<=0.01){c.x=c.target;c.v=0;
+    if(c.x===STOP[0]||c.x===STOP[3]){c.dir=-c.dir;c.mode='idle';c.wait=TURN+Math.random()*1.5;
+      const nn=NIGHT?1+Math.floor(Math.random()*2):1+Math.floor(Math.random()*5); if(nn!==c.n){c.n=nn;c.rebuild();}}
+    else {c.mode='dwell';c.wait=DWELL;}}
+}
+function showCall(c){
+  const end=c.dir>0?SX[0]:SX[3];const cand=c.dir>0?[0,1,2]:[3,2,1];const i=cand[Math.floor(Math.random()*cand.length)];
+  const x=SX[i],y=sy(x)-62;G.call.setAttribute('transform',`translate(${x} ${y})`);G.call.style.transition='none';G.call.setAttribute('opacity',1);
+  G.callT.textContent=t('call');G.callTime=performance.now();
+}
+function render(){
+  for(const c of trains){
+    const visible=!(NIGHT&&c.line==='A'&&false);
+    const k=(c.n-1)/2;
+    c.cars.forEach((g,i)=>{
+      const off=(i-k)*PITCH*(c.dir>0?-1:1);
+      let x=c.x+off;
+      const y=sy(Math.max(110,Math.min(1860,x))),a=Math.atan(slope(Math.max(111,Math.min(1859,x))))*180/Math.PI;
+      g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(2)})`);
+      // 車體全線一律以實體呈現
+      g.querySelector('.sd').setAttribute('opacity',1);g.querySelector('.ol').setAttribute('opacity',0);
+      g.setAttribute('opacity',c.line==='B'?.93:1);
+    });
+    const lx=c.x,ly=sy(Math.max(110,Math.min(1860,lx)))+58+(c.line==='B'?18:0);
+    c.label.setAttribute('x',lx);c.label.setAttribute('y',ly);
+    c.label.textContent=c.mode==='maint'?`${c.line}｜${t('maint')}`:`${c.line}｜${c.n} ${t('cars')}`;
+  }
+  if(G.callTime){const e=(performance.now()-G.callTime)/1000;const s=1+e*1.2;G.call.firstChild.setAttribute('r',(12*s).toFixed(1));G.call.firstChild.setAttribute('stroke-opacity',Math.max(0,1-e/1.6).toFixed(2));if(e>1.8){G.call.setAttribute('opacity',0);G.callTime=null;}}
+  // 水波
+  const tt=performance.now()/1000;[...G.ripples.children].forEach((r,i)=>{const x=+r.dataset.x+Math.sin(tt*.8+i)*6;r.setAttribute('x1',x);r.setAttribute('x2',x+18+(i%3)*8);r.setAttribute('stroke-opacity',(.25+.25*Math.sin(tt*1.3+i)).toFixed(2));});
+  // 狀態列
+  const st=c=>c.mode==='maint'?t('maint'):c.mode==='idle'?t('sIdle'):c.mode==='dwell'?t('sDw')(['T1','T2','T3','T4'][STOP.indexOf(c.x)]):t('sRun')(c.dir);
+  document.getElementById('badge').innerHTML=NIGHT?t('bNight')(st(trains[1])):t('bDay')(st(trains[0]),st(trains[1]));
+}
+
+/* ============ 熱點 ============ */
+const HS=[ // x,y（viewBox）、引線長、文字方向
+  [250,300,150,''],[565,255,170,''],[700,372,272,''],[1008,310,135,''],[1290,215,200,''],[1440,145,235,'lft'],[1715,300,150,'lft']];
+let hsEls=[],hsIdx=0,hsTimer=null,hsHold=false;
+function buildHS(){
+  const lay=document.getElementById('hsLayer');lay.innerHTML='';hsEls=[];
+  HS.forEach((h,i)=>{const d=document.createElement('div');d.className='hs '+h[3];d.style.left=(h[0]/1920*100)+'%';d.style.top=(h[1]/900*100)+'%';
+    d.innerHTML=`<div class="dot" tabindex="0" role="button"></div><div class="lead" data-h="${h[2]}"></div><div class="txt"></div>`;
+    d.querySelector('.dot').addEventListener('mouseenter',()=>{hsHold=true;setHS(i);});
+    d.querySelector('.dot').addEventListener('click',()=>{hsHold=true;setHS(i);});
+    d.addEventListener('mouseleave',()=>{hsHold=false;});
+    lay.appendChild(d);hsEls.push(d);});
+  growLeads();applyText();setHS(hsIdx);
+}
+function growLeads(){hsEls.forEach(d=>{const l=d.querySelector('.lead');l.style.height=LIVE?`calc(${l.dataset.h}/900*${document.getElementById('stage').clientHeight}px)`:'0';});}
+function setHS(i){hsIdx=i;hsEls.forEach((d,k)=>d.classList.toggle('on',k===i));}
+function cycleHS(){if(!hsHold&&PLAY)setHS((hsIdx+1)%HS.length);}
+
+/* ============ 文字套用 ============ */
+function applyText(){
+  document.documentElement.lang=L==='zh'?'zh-Hant':'en';
+  document.getElementById('tH').textContent=t('h');document.getElementById('tP').innerHTML=t('p');
+  document.getElementById('bLang').textContent=L==='zh'?'English':'中文';
+  document.getElementById('bNight').textContent=NIGHT?t('day'):t('night');
+  document.getElementById('bPlay').textContent=PLAY?t('play'):t('pause');
+  if(G.stLab) G.stLab.forEach((e,i)=>e.textContent=t('st')[i]);
+  if(G.span1){G.span1.textContent=t('span1');G.h21.textContent=t('h21');}
+  if(G.callT) G.callT.textContent=t('call');
+  hsEls.forEach((d,i)=>{const [a,b]=t('hs')[i];d.querySelector('.txt').innerHTML=`<b>${a}</b>${b}`;});
+  document.getElementById('stats').innerHTML=t('stats').map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+  document.getElementById('note').textContent=t('note');
+  document.title=L==='zh'?'虎頭埤纜車 如何運行｜全天候隨需發車動態模擬':'Hutoupi Cable Car — How does it work?';
+}
+
+/* ============ 主迴圈 ============ */
+let last=performance.now();
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(PLAY&&LIVE)trains.forEach(c=>update(c,dt));render();requestAnimationFrame(loop);}
+function init(){build();resetTrains();buildHS();render();}
+document.getElementById('bLang').onclick=()=>{L=L==='zh'?'en':'zh';applyText();render();};
+document.getElementById('bPlay').onclick=()=>{PLAY=!PLAY;applyText();};
+document.getElementById('bNight').onclick=()=>{NIGHT=!NIGHT;const keep=hsIdx;build();resetTrains();buildHS();setHS(keep);};
+window.addEventListener('resize',growLeads);
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!LIVE){LIVE=true;document.getElementById('stage').classList.add('live');growLeads();}});},{threshold:.35});
+io.observe(document.getElementById('stage'));
+init();
+setInterval(cycleHS,5200);
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
