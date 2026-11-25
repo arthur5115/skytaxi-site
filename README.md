@@ -17,6 +17,12 @@
 2. 在入口頁加上連結：公開區改 `www/index.html` 的「互動展示」卡片；審查區改 `review/index.html` 的對應分組。
 3. 提交並推送到 `main`，Cloudflare 會在數分鐘內自動上線。
 
+## Cloudflare 專案
+
+- `skytaxi-site`（輸出 `www`）→ skytaxi.com.tw、www.skytaxi.com.tw
+- `skytaxi-site-review`（輸出 `review`）→ review.skytaxi.com.tw
+- 舊的手動上傳專案 `skytaxi-www`、`skytaxi-review` 已不再使用。
+
 ## 注意
 
 - `review/_headers` 與 `review/robots.txt` 讓審查區不被搜尋引擎收錄，請保留。
