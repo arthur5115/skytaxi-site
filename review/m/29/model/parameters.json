@@ -1,0 +1,69 @@
+{
+  "project": "T1 新化之門",
+  "version": "V0.2",
+  "model_status": "概念車軌整合模型；車體與接口為假設外廓，非原廠CAD、非核定設計、非施工圖",
+  "internal_unit": "mm",
+  "coordinate_system": "局部座標；X沿正立面、Y向建築後方、Z向上；地坪Z=0，非絕對高程",
+  "parameters": {
+    "building_width_mm": 72000,
+    "building_depth_mm": 24000,
+    "portal_width_mm": 32000,
+    "floor_to_floor_mm": 4500,
+    "floor_count": 4,
+    "slab_thickness_mm": 350,
+    "column_width_mm": 800,
+    "roof_overhang_mm": 2000,
+    "roof_thickness_mm": 240,
+    "roof_base_mm": 20000,
+    "roof_wave_amplitude_mm": 1450,
+    "roof_end_rise_mm": 800,
+    "lift_width_mm": 3600,
+    "lift_depth_mm": 4000,
+    "lift_height_mm": 18500,
+    "lift_x_mm": -23200,
+    "facade_module_mm": 2250
+  },
+  "assumptions": {
+    "all_numeric_parameters": "本檔所有建築尺寸均為建立可修改概念模型所採暫設值；不是從圖面量測獲得，也未經使用者核定。",
+    "levels": "保留V0.1樓層鏈；4F月台區依假設車軌高差局部下凹，非核定月台高程。",
+    "geometry": "僅鎖定三張參考圖共通的造型及空間關係，不宣稱毫米級還原。",
+    "area": "未將21,510平方公尺土地或1,720.35坪商店街轉作單棟總樓地板面積；本模型不作法定面積計算依據。",
+    "rail": "雙軌懸掛基本型式依原廠型錄；本版所有車體尺寸、軌道截面、軌距、支承、車門及月台間隙均為明示概念假設。T1軌道中心與P2起訖高程／跨距為專案文字控制值。",
+    "site": "展示基座不代表地籍界線、道路線形或核定基地配置。",
+    "cutaway": "選擇性剖透視：隱藏前側外皮與部分前屋頂；不是單一剖切平面。"
+  },
+  "rail_interface": {
+    "t1_rail_center_EL_m": 52.6,
+    "p2_rail_center_EL_m": 63.1,
+    "first_span_m": 446,
+    "approx_ground_EL_m": 37.0,
+    "vehicle_length_mm": 4200,
+    "vehicle_width_mm": 2200,
+    "vehicle_height_mm": 2600,
+    "rail_to_floor_mm": 2200,
+    "floor_above_body_bottom_mm": 200,
+    "door_clear_width_mm": 900,
+    "door_clear_height_mm": 1900,
+    "guide_pair_spacing_mm": 1500,
+    "guide_width_mm": 200,
+    "guide_height_mm": 260,
+    "lane_centers_y_mm": [
+      5000,
+      17000
+    ],
+    "vehicle_positions_x_mm": [
+      0,
+      12000
+    ],
+    "station_track_start_x_mm": -26000,
+    "station_track_end_x_mm": 36000,
+    "local_extension_end_x_mm": 48000,
+    "illustrative_exit_grade": 0.02,
+    "platform_gap_mm": 70,
+    "civil_clear_width_mm": 2700,
+    "civil_vertical_margin_mm": 150,
+    "status": "Except T1/P2/first-span control values and referenced configuration, ALL NUMERIC INTERFACE DIMENSIONS ARE ASSUMED.",
+    "route_direction": "Local +X only; not verified P2 azimuth; extension is geometric proposal, not sagged full route.",
+    "operating_topology": "Two independent straight corridors for spatial coordination only; no assumed tight-radius turnback, turnout or reversible operation."
+  }
+}
