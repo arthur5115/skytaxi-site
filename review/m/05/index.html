@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b36">
+  <meta name="description" content="以平面圖與三維模型查看虎頭埤四站的配置、樓層與構件。">
+  <title>虎頭埤四站｜站體工作台</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css?v=4">
+  <script type="importmap">
+    { "imports": { "three": "./assets/vendor/three.module.min.js", "three/addons/": "./assets/vendor/addons/" } }
+  </script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <svg class="brand-symbol" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <path d="M6 23.5h24M8 20l6.8-7 4.1 5 3.1-3.5 5 5.5M11 28h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="23.5" cy="10.5" r="1.8" fill="#b7e4b5"/>
+      </svg>
+      <span>虎頭埤四站<span class="brand-detail">站體工作台</span></span>
+    </div>
+    <nav class="station-nav" aria-label="選擇車站" id="station-nav"></nav>
+  </header>
+
+  <main class="page">
+    <section class="station-bar" aria-labelledby="station-title">
+      <div class="station-heading">
+        <span class="station-code" id="station-code">T1</span>
+        <div>
+          <h1 id="station-title">新化之門站</h1>
+          <p id="station-description">光舟站房、階梯商店街與虎埤水鏡</p>
+        </div>
+      </div>
+      <details class="export-menu" id="export-menu">
+        <summary><span class="icon" data-icon="download"></span>匯出</summary>
+        <div class="export-items">
+          <button type="button" id="export-png">目前畫面 PNG</button>
+          <a id="export-pdf" download>樓層圖說 PDF</a>
+          <a id="export-dxf" download>樓層 CAD DXF</a>
+          <button type="button" data-export="obj">整站模型 OBJ</button>
+          <button type="button" data-export="usdz">整站模型 USDZ</button>
+          <a id="export-glb" download>整站原始 GLB</a>
+          <p>OBJ 為幾何。USDZ 附基礎材質。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="studio" id="studio" aria-label="車站建築模型" data-mode="explode" data-compare="false">
+      <div class="view-bar">
+        <div class="view-modes" role="group" aria-label="檢視方式">
+          <button type="button" class="tool" data-mode="plan" aria-pressed="false"><span class="icon" data-icon="floor"></span>2D 平面</button>
+          <button type="button" class="tool" data-mode="whole" aria-pressed="false"><span class="icon" data-icon="cube"></span>3D 整棟</button>
+          <button type="button" class="tool" data-mode="explode" aria-pressed="true"><span class="icon" data-icon="layers"></span>樓層拆解</button>
+          <button type="button" class="tool" data-mode="floor" aria-pressed="false"><span class="icon" data-icon="floor"></span>單層檢視</button>
+          <button type="button" class="tool" data-mode="section" aria-pressed="false"><span class="icon" data-icon="section"></span>剖切</button>
+          <button type="button" class="tool" data-mode="inspect" aria-pressed="false"><span class="icon" data-icon="info"></span>構件</button>
+        </div>
+        <div class="view-actions">
+          <button type="button" class="plain-button" id="compare" aria-pressed="false"><span class="icon" data-icon="compare"></span><span id="compare-label">外觀對照</span></button>
+          <button type="button" class="plain-button" id="full-screen" aria-pressed="false"><span class="icon" data-icon="maximize"></span><span id="full-label">全螢幕</span></button>
+        </div>
+      </div>
+
+      <div class="studio-content">
+        <aside class="settings" aria-label="樓層與檢視設定">
+          <div class="floor-picker">
+            <div class="panel-heading"><h2>樓層</h2><span id="floor-count"></span></div>
+            <div id="floors" class="floors" role="group" aria-label="選擇樓層"></div>
+            <div class="floor-details" id="floor-details">
+              <strong id="floor-name"></strong>
+              <p id="floor-description"></p>
+              <button type="button" class="text-button" id="floor-note"><span class="icon" data-icon="edit"></span><span id="note-button-label">樓層備註</span></button>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="panel-heading"><h2 id="settings-title">拆解設定</h2></div>
+            <div id="settings-content"></div>
+          </div>
+        </aside>
+
+        <div class="workspace-view">
+          <div class="viewport-pair">
+            <section class="viewport viewport--section" id="left-panel" aria-label="三維操作視窗">
+              <div class="viewport-label" id="left-label">樓層拆解</div>
+              <div class="canvas-host" id="left-canvas"></div>
+              <canvas class="plan-canvas" id="plan-canvas" hidden tabindex="0" aria-label="樓層平面圖，使用方向鍵平移、加減號縮放"></canvas>
+              <div class="viewport-scale" id="left-scale" aria-hidden="true"><span></span><i></i></div>
+              <div class="viewport-scale" id="plan-scale" hidden aria-hidden="true"><span></span><i></i></div>
+            </section>
+            <section class="viewport viewport--exterior" id="right-panel" aria-label="對照視窗" data-light="day" hidden>
+              <div class="viewport-label" id="right-label">完整外觀</div>
+              <button class="plain-button light-button" type="button" id="light-toggle" aria-pressed="false">暮色</button>
+              <div class="canvas-host" id="right-canvas"></div>
+              <div class="viewport-scale" id="right-scale" aria-hidden="true"><span></span><i></i></div>
+            </section>
+            <div class="load-state" id="load-state" role="status">
+              <span class="spinner" id="spinner"></span><span id="load-label">載入站體模型</span>
+              <button type="button" class="plain-button" id="retry" hidden>重新載入</button>
+            </div>
+          </div>
+          <div class="toolbar-row">
+            <p class="drag-hint" id="drag-hint">拖曳拆解，滾輪縮放</p>
+            <p class="workspace-status" role="status" id="workspace-status"></p>
+            <div class="canvas-tools" role="group" aria-label="視角與縮放">
+              <button type="button" class="plain-button" id="rotate" aria-pressed="false"><span class="icon" data-icon="rotate"></span>自動旋轉</button>
+              <button type="button" class="plain-button icon-button" id="zoom-out" aria-label="縮小"><span class="icon" data-icon="minus"></span></button>
+              <button type="button" class="plain-button icon-button" id="zoom-in" aria-label="放大"><span class="icon" data-icon="plus"></span></button>
+              <button type="button" class="plain-button icon-button" id="reset" aria-label="重設視角"><span class="icon" data-icon="reset"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p class="basis">平面圖採工程圖說 V1.6。3D 供站體與樓層檢視，尺寸及構件以原圖說為準。</p>
+  </main>
+
+  <dialog id="note-dialog" aria-labelledby="note-title">
+    <form id="note-form">
+      <div class="dialog-heading"><h2 id="note-title">樓層備註</h2><button type="button" class="plain-button" id="close-note">關閉</button></div>
+      <label for="note-input">用途或檢視備註</label>
+      <textarea id="note-input" rows="5" maxlength="400"></textarea>
+      <p>備註儲存在這個瀏覽器。</p>
+      <div class="dialog-actions"><button type="submit" class="primary-button">儲存備註</button></div>
+    </form>
+  </dialog>
+  <noscript><p class="noscript">請啟用 JavaScript 以操作平面圖及三維模型。</p></noscript>
+  <script type="module" src="assets/app.js?v=4"></script>
+</body>
+</html>

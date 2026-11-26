@@ -1,0 +1,231 @@
+{
+  "T1-A-07": {
+    "title": "地面層平面圖（EL32.50）",
+    "file": "t1-a-07",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 77
+  },
+  "T1-A-08": {
+    "title": "EL37.25層平面圖",
+    "file": "t1-a-08",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 78
+  },
+  "T1-A-09": {
+    "title": "EL41.75層平面圖",
+    "file": "t1-a-09",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 79
+  },
+  "T1-A-10": {
+    "title": "EL46.25層平面圖",
+    "file": "t1-a-10",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 80
+  },
+  "T1-A-11": {
+    "title": "月台層（出站層）平面圖（EL50.75）",
+    "file": "t1-a-11",
+    "features": [
+      "doors",
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 81
+  },
+  "T1-A-13": {
+    "title": "屋頂層平面圖",
+    "file": "t1-a-13",
+    "features": [
+      "stairs"
+    ],
+    "page": 83
+  },
+  "T2-A-04": {
+    "title": "B1停車層平面圖（EL36.80）",
+    "file": "t2-a-04",
+    "features": [
+      "lifts",
+      "stairs"
+    ],
+    "page": 105
+  },
+  "T2-A-05": {
+    "title": "1F平面圖（EL40.00）",
+    "file": "t2-a-05",
+    "features": [
+      "glazing",
+      "stairs"
+    ],
+    "page": 106
+  },
+  "T2-A-06": {
+    "title": "2F平面圖（EL44.40）",
+    "file": "t2-a-06",
+    "features": [
+      "glazing",
+      "stairs"
+    ],
+    "page": 107
+  },
+  "T2-A-07": {
+    "title": "3F客房標準層平面圖（EL47.85）",
+    "file": "t2-a-07",
+    "features": [
+      "glazing",
+      "stairs"
+    ],
+    "page": 108
+  },
+  "T2-A-08": {
+    "title": "4F～5F客房層平面圖",
+    "file": "t2-a-08",
+    "features": [
+      "glazing",
+      "stairs"
+    ],
+    "page": 109
+  },
+  "T2-A-09": {
+    "title": "6F客房層與公共轉乘層平面圖（EL58.20）",
+    "file": "t2-a-09",
+    "features": [
+      "glazing",
+      "stairs"
+    ],
+    "page": 110
+  },
+  "T2-A-10": {
+    "title": "R5月台層放大平面圖（EL66.75）",
+    "file": "t2-a-10",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 111
+  },
+  "T2-A-11": {
+    "title": "屋頂層平面圖",
+    "file": "t2-a-11",
+    "features": [],
+    "page": 112
+  },
+  "T3-A-07": {
+    "title": "5F轉乘大廳與月台層平面圖（EL68.40／67.15）",
+    "file": "t3-a-07",
+    "features": [
+      "lifts",
+      "stairs"
+    ],
+    "page": 148
+  },
+  "T3-A-08": {
+    "title": "2F大廳與前庭平面圖（EL57.60）",
+    "file": "t3-a-08",
+    "features": [],
+    "page": 149
+  },
+  "T3-A-14": {
+    "title": "B2宴會層平面圖（EL46.80）",
+    "file": "t3-a-14",
+    "features": [],
+    "page": 155
+  },
+  "T3-A-15": {
+    "title": "B1會議層平面圖（EL50.40）",
+    "file": "t3-a-15",
+    "features": [],
+    "page": 156
+  },
+  "T3-A-16": {
+    "title": "1F平面圖（EL54.00）",
+    "file": "t3-a-16",
+    "features": [],
+    "page": 157
+  },
+  "T3-A-17": {
+    "title": "3F、4F平面圖（EL61.20／64.80）",
+    "file": "t3-a-17",
+    "features": [
+      "stairs"
+    ],
+    "page": 158
+  },
+  "T3-A-18": {
+    "title": "6F平面圖（EL72.00，跨線連通與雲端餐廳）",
+    "file": "t3-a-18",
+    "features": [
+      "stairs"
+    ],
+    "page": 159
+  },
+  "T3-A-19": {
+    "title": "屋頂層平面圖（摺板屋面EL78.60）",
+    "file": "t3-a-19",
+    "features": [
+      "glazing"
+    ],
+    "page": 160
+  },
+  "T4-A-05": {
+    "title": "月台層平面圖（EL64.15）",
+    "file": "t4-a-05",
+    "features": [
+      "lifts",
+      "stairs"
+    ],
+    "page": 182
+  },
+  "T4-A-06": {
+    "title": "地面層平面圖（EL46.85）",
+    "file": "t4-a-06",
+    "features": [
+      "glazing",
+      "lifts",
+      "stairs"
+    ],
+    "page": 183
+  },
+  "T4-A-07": {
+    "title": "中間層平面圖（EL52.00）",
+    "file": "t4-a-07",
+    "features": [
+      "lifts",
+      "stairs"
+    ],
+    "page": 184
+  },
+  "T4-A-08": {
+    "title": "林冠展示層平面圖（EL57.00）",
+    "file": "t4-a-08",
+    "features": [
+      "lifts",
+      "stairs"
+    ],
+    "page": 185
+  },
+  "T4-A-11": {
+    "title": "屋頂層平面圖（EL69.00）",
+    "file": "t4-a-11",
+    "features": [],
+    "page": 188
+  }
+}
