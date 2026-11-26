@@ -27,3 +27,9 @@
 
 - `review/_headers` 與 `review/robots.txt` 讓審查區不被搜尋引擎收錄，請保留。
 - 單一檔案上限 25 MB（Cloudflare Pages 限制）。
+
+## 審查資料區目錄（2026-11-27 改版）
+- `review/index.html` 為唯一目錄，由 `tools/build_index.py` 產生（四類現行版 16 項＋最終資料總覽、歷史版本、原始檔下載）。
+- 縮圖在 `review/thumbs/`，以 `thumbs.py` 擷取。
+- `review/m/index.html` 只做轉址到 `../`。
+- 新增項目：在 build_index.py 的 SECTIONS 或 ARCHIVE 加一列後重新產生。
