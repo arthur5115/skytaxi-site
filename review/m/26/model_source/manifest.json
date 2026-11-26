@@ -1,0 +1,92 @@
+[
+  {
+    "path": "validation.json",
+    "size_bytes": 838,
+    "sha256": "9d0d7e95bda343a9f159634208644c0ab8efc48b9f535fce227b6e2fe3106d36"
+  },
+  {
+    "path": "README.md",
+    "size_bytes": 5304,
+    "sha256": "5dc2b27280dcf50634d9fbb27dc41bf33cfc2b89a0d93dfc0df7c5c1b530aa43"
+  },
+  {
+    "path": "T1-P2_446m_縱斷面與淨空模型_R1_9600x5400.png",
+    "size_bytes": 1599586,
+    "sha256": "f06372ea6f466ac1db725c48c59dfd1b5642c4cd554d88c6f92331045bbfa1b2"
+  },
+  {
+    "path": "baseline.json",
+    "size_bytes": 2389,
+    "sha256": "a49bae02a65789a8f794ad2ccc3c88b2eec520f0ae2c418936c68b29f7d714bb"
+  },
+  {
+    "path": "png_validation.json",
+    "size_bytes": 338,
+    "sha256": "dff8a3c36fdede81459920ee7c528e53f127dfa9da74ab17b6efdab2edd0d785"
+  },
+  {
+    "path": "control_points.csv",
+    "size_bytes": 45,
+    "sha256": "fe83013c9f8288178dc13ef959e05a1b6ff95c708ddf35bb3c50583ca265d910"
+  },
+  {
+    "path": "model.py",
+    "size_bytes": 7037,
+    "sha256": "0347202419ff550153506a1c10cb8943ca668ebb539b3d0459d1bc6bd04f5758"
+  },
+  {
+    "path": "drawing_register.csv",
+    "size_bytes": 542,
+    "sha256": "b67aa1784b61d894796973e2efac25eb21402a3b0c385a8f5ddfa52c9ac96914"
+  },
+  {
+    "path": "T1-P2_446m_互動計算模型_R1.html",
+    "size_bytes": 20453,
+    "sha256": "fdac2dce48bd6244fdb5e23100d6ee57cda81a65f7415611ded6553740390fda"
+  },
+  {
+    "path": "check_interface.cjs",
+    "size_bytes": 3164,
+    "sha256": "26918fd923214f30b29d38986ce972fe6cb67f562d9a9577153c0fc57b425d7c"
+  },
+  {
+    "path": "interface_validation.json",
+    "size_bytes": 1205,
+    "sha256": "ee03ffc40504c0969284d56a853224d2987e152f64c93af278ff9d7dec6cae04"
+  },
+  {
+    "path": "T1-P2_446m_縱斷面與淨空模型_R1.svg",
+    "size_bytes": 148857,
+    "sha256": "0f614999d14899fb1d2d0745ead33de4dde289297d25bf53edc9d60f95bab694"
+  },
+  {
+    "path": "profile.csv",
+    "size_bytes": 94107,
+    "sha256": "956c3c206b32547d3150a286353713626e75f51a009a8454356329fae81ca442"
+  },
+  {
+    "path": "render.py",
+    "size_bytes": 7850,
+    "sha256": "289bc429a70d96ec39cd765c68c2090117012f54424bcdb000c0f1b7ec748d7b"
+  },
+  {
+    "path": "assets/font-license.txt",
+    "size_bytes": 404,
+    "sha256": "2e4dc60a3d65c6bf131b44a606319601478cabf3d57c4ce23f85afcd3973aeac"
+  },
+  {
+    "path": "assets/NotoSansCJKtc-Regular.otf",
+    "size_bytes": 16435884,
+    "sha256": "d6f71ff15fc00cad2b6c94feecb0bbdfd7665ca2595c40be932edc1e1f72bfb1"
+  },
+  {
+    "path": "assets/NotoSansCJKtc-Bold.otf",
+    "size_bytes": 17000768,
+    "sha256": "3ee160e5015106e3ec1a394301df54fa9bbbf8a251519984aec5c0abc50840c0"
+  },
+  {
+    "path": "assets/OFL.txt",
+    "size_bytes": 4301,
+    "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+  }
+]

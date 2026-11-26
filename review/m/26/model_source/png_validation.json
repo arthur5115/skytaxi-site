@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "date": "2026-10-05",
+  "full_decode": true,
+  "dimensions": [
+    9600,
+    5400
+  ],
+  "mode": "RGB",
+  "IEND": true,
+  "sha256": "f06372ea6f466ac1db725c48c59dfd1b5642c4cd554d88c6f92331045bbfa1b2",
+  "repair": "原PNG資料截斷；重新渲染、完整解碼驗證後原子替換；工程計算未更動。"
+}

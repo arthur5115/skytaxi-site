@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T1—P2 第一跨446 m｜縱斷面與淨空模型</title>
+<style>
+:root{color-scheme:light;--green:#174e42;--copper:#a46842;--blue:#356885;--red:#b24538;--muted:#687875;--line:#dce4df;--bg:#f2f5f2;--ink:#203431}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Noto Sans CJK TC","Microsoft JhengHei",system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:32px}header{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;border-bottom:2px solid var(--green);padding-bottom:20px;margin-bottom:24px}h1{font-size:30px;line-height:1.35;margin:5px 0}h2{font-size:18px;margin:0 0 14px;color:var(--green)}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:1.3px;color:var(--green)}.muted{color:var(--muted)}.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px}.panel{background:white;padding:23px;border-radius:8px;border:1px solid var(--line)}.field{margin-bottom:15px}.field label{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px;font-size:14px}input[type=number]{font:inherit;width:100%;padding:8px 11px;border:1px solid #baccc2;border-radius:5px;background:white;color:var(--ink)}input[type=range]{width:100%;accent-color:var(--green)}button,.filebutton{font:inherit;font-size:13px;border:1px solid var(--green);color:var(--green);background:white;border-radius:5px;padding:8px 13px;cursor:pointer;display:inline-block}button:hover,.filebutton:hover{background:#edf4ef}button.primary{background:var(--green);color:white}.buttons{display:flex;gap:8px;flex-wrap:wrap}#error{color:var(--red);font-weight:600;min-height:25px;margin:6px 0}svg{display:block;width:100%;height:auto;font-family:inherit}.legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13px}.legend span:before{content:'';display:inline-block;width:22px;border-top:3px solid;margin-right:7px;vertical-align:middle}.legend .chord:before{border-color:#687875;border-top-style:dashed}.legend .uniform:before{border-color:var(--blue)}.legend .actual:before{border-color:var(--green)}.legend .envelope:before{border-color:var(--copper);border-top-style:dashed}.legend .lower:before{border-color:var(--red);border-top-style:dotted}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:17px 0}.metric{padding:12px 0;border-top:1px solid var(--line)}.metric strong{display:block;font-size:24px;font-weight:600}.metric small{font-size:12px;color:var(--muted)}.result{background:#fbf1e9;border-left:3px solid var(--copper);padding:12px 16px;font-size:14px}.scroll{overflow:auto;margin-top:15px}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:13px}th,td{text-align:right;border-bottom:1px solid var(--line);padding:9px 12px}th:first-child,td:first-child{text-align:left}th{background:#edf4ef;color:var(--green);font-weight:500}.negative{color:var(--red);font-weight:600}.positive{color:var(--green)}details{margin-top:20px;background:white;border:1px solid var(--line);border-radius:8px;padding:18px 23px}summary{cursor:pointer;font-weight:600;color:var(--green)}.formula{font-family:ui-monospace,monospace;background:#f5f7f5;padding:10px 15px;overflow:auto;font-size:13px}.small{font-size:12px}footer{font-size:12px;color:var(--muted);padding:20px 0}.nodebar{display:flex;align-items:center;gap:10px;justify-content:space-between;font-size:13px;margin-bottom:18px;padding:12px;background:#f3f6f3}.nodebar i{height:1px;background:#b6c8bf;flex:1}.nodebar b{font-weight:600;color:var(--green)}
+@media(max-width:900px){main{padding:17px}header{display:block}h1{font-size:25px}.layout{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}.controls h2,.controls .full{grid-column:1/-1}.metrics{gap:8px}.metric strong{font-size:19px}.nodebar{font-size:11px}.panel{padding:17px}}
+@media print{body{background:white}main{padding:0}.layout{display:block}.controls,.buttons{display:none}.panel{border:0}details{break-inside:avoid}header{margin-bottom:0}}
+</style></head><body><main>
+<header><div><div class="eyebrow">虎頭埤 BOT　／　T1-P2-LP-01　／　R1</div><h1>T1—P2 第一跨446 m<br>縱斷面與淨空模型</h1><p class="muted">鎖定既定幾何，重現附錄C，再比較載重、水平張力與控制面餘裕。</p></div><div class="small muted">2026.10.05<br>高程基準：軌道中心<br>固定水平張力之條件式計算</div></header>
+<div class="layout"><section class="panel controls"><h2>計算參數</h2>
+<div class="field"><label for="H">有效水平張力 H <span>tf</span></label><input id="H" type="number" min="1" step="50" value="1000"></div>
+<div class="field"><label for="w">均布荷載 w <span>tf/m</span></label><input id="w" type="number" min="0" step="0.01"></div>
+<div class="field"><label for="P">等效集中載重 P <span>tf</span></label><input id="P" type="number" min="0" step="0.01" value="5.88"></div>
+<div class="field"><label for="d">額外向下扣減 d <span>m</span></label><input id="d" type="number" min="0" step="0.1" value="0"></div>
+<div class="field full"><label for="a">固定車位 a <output id="aValue">70.0 m</output></label><input id="a" type="range" min="0" max="446" step="0.5" value="70"></div>
+<p class="small muted full">預設P＝5.88 tf為附錄C合併受力單元，不是每軌常態載重；單車U4-430為2.94 tf。P、w、H須使用相同受力範圍。</p>
+<p class="small muted full">d＝0表示沒有納入車體下緣與額外包絡；d不是指定車體高度。端點固定為52.60／63.10 m。</p>
+<div class="buttons full"><button id="reset">還原附錄C</button><button id="mid">點載移至跨中</button></div>
+<div id="error" class="full" role="alert"></div>
+<div class="full"><h2>控制斷面</h2><p class="small muted">預設只有丘1算例CH70／EL50。匯入CSV可替換控制點；只計算所列位置，不內插全跨淨空。</p><div class="buttons"><label class="filebutton" for="import">匯入控制點CSV</label><input id="import" type="file" accept=".csv,text/csv" hidden><button id="sample">下載CSV範例</button></div></div>
+</section>
+<section class="panel"><div class="nodebar"><span><b>T1 錨碇端</b><br>CH0｜EL.52.60</span><i></i><span>446 m<br>本圖計算</span><i></i><span><b>P2 中間支承</b><br>CH446｜EL.63.10</span><i></i><span>350 m<br>相鄰跨</span><i></i><span><b>T2</b><br>CH796｜EL.67.60</span></div>
+<div class="legend"><span class="chord">端點弦線</span><span class="uniform">僅均布荷載</span><span class="actual">固定車位軌道線</span><span class="envelope">移動點載包絡</span><span class="lower">包絡再扣d</span></div>
+<svg id="plot" viewBox="0 0 1000 505" role="img" aria-label="第一跨縱斷面：弦線、均布荷載線、固定車位線、移動點載包絡與離散控制點"></svg>
+<div class="metrics"><div class="metric"><span>弦線平均坡度</span><strong>＋2.354%</strong><small>端點高差10.50 m／跨距446 m</small></div><div class="metric"><span>固定車位線最低點</span><strong id="actualMin">—</strong><small id="actualX">—</small></div><div class="metric"><span>已輸入控制點最小餘裕</span><strong id="margin">—</strong><small id="marginX">—</small></div></div>
+<div id="finding" class="result" aria-live="polite"></div>
+<div class="scroll"><table><thead><tr><th>檢查里程</th><th>控制面EL.</th><th>弦線EL.</th><th>固定車位軌道EL.</th><th>移動包絡EL.</th><th>再扣d後餘裕</th></tr></thead><tbody id="controlsTable"></tbody></table></div>
+<div class="buttons" style="margin-top:18px"><button id="export" class="primary">匯出當前逐米CSV</button><button id="savejson">匯出參數JSON</button></div>
+<p class="small muted">移動點載包絡由不同車位逐點取最不利值；不能把包絡斜率當作實際行車坡度。圖面縱向比例放大。</p>
+</section></div>
+<details open><summary>模型範圍與公式</summary>
+<p>本版重現正文與附錄C的幾何／條件式分析。P2已保留與350 m第二跨的連接關係；本版沒有求解滑鞍摩擦、兩跨伸長相容、支承位移、EI、EA或溫度—張力關係。H的變動是敏感度比較。</p>
+<div class="formula">z_c(x) = 52.60 + 10.50 x / 446<br>f_q(x) = w x(L−x)/(2H)<br>f_P(x,a) = P min(x,a)[L−max(x,a)]/(HL)<br>z(x,a) = z_c(x) − f_q(x) − f_P(x,a)<br>z_env(x) = z_c(x) − f_q(x) − P x(L−x)/(HL)<br>M(x) = z_env(x) − d − C(x)</div>
+<p>預設H＝1,000 tf、w≈0.296427 tf/m為原文比較輸入，不是本案選定張力或材料實重。丘1算例地形EL40加10 m形成EL50控制面。不得把此控制面與車體偏置重複扣除。本模型報告局部餘裕，不出具全跨安全判定。</p>
+</details>
+<details><summary>資料來源與版本</summary><p>CH02-P12-R5《第二章土地使用與興建計畫統一修訂版》，版本14，2026-09-15；正文2.3、附錄B及C.1。固定幾何：T1 CH0 EL52.60、P2 CH446 EL63.10、T2 CH796 EL67.60。丘1CH70、地形EL40為文件算例。</p><p>第一跨不新增P1、不拆成223＋223。535 m印度參考圖僅作圖面組織參考，未使用其溫度、張力、弦垂或車底尺寸。</p><p>本模型沒有製造未知地形。匯入控制點只在本機計算；高程單位m、力單位tf。</p></details>
+<footer>U4-430｜兩條單軌獨立往復之配置基準；本版附錄C算例為合併受力單元比較。1 tf＝9.80665 kN。</footer>
+</main><script>
+'use strict';
+const BASE={
+  "drawing_id": "T1-P2-LP-01",
+  "version": "R1",
+  "date": "2026-10-05",
+  "title": "T1—P2第一跨446 m縱斷面與淨空模型",
+  "length_m": 446.0,
+  "zA_m": 52.6,
+  "zB_m": 63.1,
+  "nodes": [
+    {
+      "name": "T1",
+      "chainage_m": 0,
+      "track_center_el_m": 52.6,
+      "type": "錨碇端"
+    },
+    {
+      "name": "P2／丘2",
+      "chainage_m": 446,
+      "track_center_el_m": 63.1,
+      "type": "中間支承"
+    },
+    {
+      "name": "T2",
+      "chainage_m": 796,
+      "track_center_el_m": 67.6,
+      "type": "錨碇介面"
+    }
+  ],
+  "scenario": {
+    "H_tf": 1000.0,
+    "w_tf_m": 0.29642727656848483,
+    "P_tf": 5.88,
+    "a_m": 70,
+    "d_m": 0,
+    "scope": "附錄C合併受力單元比較；非每軌採用荷載",
+    "type": "條件式邊界算例；非本案選定張力或自重"
+  },
+  "ground_points": [
+    {
+      "chainage_m": 0,
+      "ground_el_m": 37.0,
+      "source": "正文T1約值；站內不套用地形加10 m"
+    },
+    {
+      "chainage_m": 70,
+      "ground_el_m": 40.0,
+      "source": "附錄C丘1算例地形"
+    }
+  ],
+  "controls": [
+    {
+      "chainage_m": 70,
+      "ground_el_m": 40,
+      "control_el_m": 50,
+      "source": "附錄C丘1算例：地形加10 m"
+    }
+  ],
+  "vehicle": {
+    "type": "U4-430",
+    "max_mass_kg": 2940,
+    "payload_kg": 450,
+    "nominal_persons": 6
+  },
+  "source": {
+    "name": "CH02-P12-R5_第二章土地使用與興建計畫統一修訂版.docx",
+    "version": "14",
+    "modified": "2026-09-15",
+    "library_file_id": "libfile_085ff18cfdd08191843aa875cb168955",
+    "file_id": "file_0000000008ac81f5a2a9d5441c85a1fc",
+    "sections": [
+      "2.3：第一區段與446公尺飛越丘1",
+      "附錄B：第一跨丘1控制面",
+      "附錄C.1：表2-C-1、表2-C-2"
+    ]
+  },
+  "limits": [
+    "固定水平張力的理想柔索拋物線近似；未計EA、EI、滑鞍非線性及支承位移",
+    "移動點載包絡由不同車位取極值，不是同一瞬間的實際軌道線",
+    "d是軌道中心向下至控制外廓的額外扣減量；0表示未納入，不是車體高度為0",
+    "只對已輸入控制點計算餘裕；沒有連續地形資料的里程不填淨空",
+    "P2連接350 m第二跨；本模型展示連接關係，未求解两跨兼容平衡",
+    "參數變動為敏感度比較，不以H變動替代溫度、動力或安全驗證"
+  ]
+};
+const L=446,ZA=52.6,ZB=63.1;let controls=structuredClone(BASE.controls);let current=null;
+const el=id=>document.getElementById(id),fmt=(n,p=3)=>(Math.abs(n)<1e-10?0:n).toFixed(p);
+el('w').value=BASE.scenario.w_tf_m;
+function params(){const s={};for(const id of ['H','w','P','a','d']){const raw=el(id).value;if(raw.trim()==='')throw Error('請輸入完整數值。');s[id]=Number(raw)}if(!Object.values(s).every(Number.isFinite)||s.H<=0||s.w<0||s.P<0||s.d<0||s.a<0||s.a>L)throw Error('H須大於0；w、P、d不得為負；車位須介於0至446 m。');return s}
+function val(x,s){const chord=ZA+(ZB-ZA)*x/L,fq=s.w*x*(L-x)/(2*s.H),fp=s.P*Math.min(x,s.a)*(L-Math.max(x,s.a))/(s.H*L),ep=s.P*x*(L-x)/(s.H*L);return {x,chord,uniform:chord-fq,actual:chord-fq-fp,envelope:chord-fq-ep,lower:chord-fq-ep-s.d}}
+function actualMin(s){const xs=[0,L,s.a],m=(ZB-ZA)/L;if(s.w>0){const l=(s.w*L/2+s.P*(L-s.a)/L-s.H*m)/s.w,r=(s.w*L/2-s.P*s.a/L-s.H*m)/s.w;if(l>=0&&l<=s.a)xs.push(l);if(r>=s.a&&r<=L)xs.push(r)}return xs.map(x=>val(x,s)).reduce((a,b)=>a.actual<b.actual?a:b)}
+const NS='http://www.w3.org/2000/svg';
+function node(tag,attrs,text){const n=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text!==undefined)n.textContent=text;return n}
+function draw(s){const svg=el('plot');svg.replaceChildren();const rows=Array.from({length:447},(_,x)=>val(x,s));const vals=rows.map(r=>r.lower).concat([37],controls.map(c=>c.control_el_m),controls.filter(c=>c.ground_el_m!==null).map(c=>c.ground_el_m));const ymin=Math.floor((Math.min(...vals)-2)/5)*5,ymax=Math.ceil((Math.max(ZB,...controls.map(c=>c.control_el_m))+5)/5)*5;const X=x=>65+x/L*885,Y=y=>445-(y-ymin)/(ymax-ymin)*405;const add=(t,a,z)=>svg.append(node(t,a,z));
+ const dy=Math.max(5,Math.ceil((ymax-ymin)/7/5)*5);for(let y=Math.ceil(ymin/dy)*dy;y<=ymax;y+=dy){add('line',{x1:65,y1:Y(y),x2:950,y2:Y(y),stroke:'#dce4df','stroke-width':1});add('text',{x:52,y:Y(y)+4,'text-anchor':'end',fill:'#687875','font-size':12},String(y))}
+ for(const x of [0,70,150,223,300,400,446]){add('line',{x1:X(x),y1:40,x2:X(x),y2:445,stroke:'#e7ece8','stroke-width':1});add('text',{x:X(x),y:466,'text-anchor':'middle',fill:'#687875','font-size':12},String(x))}
+ add('text',{x:65,y:23,fill:'#203431','font-size':13},'EL.（m）');add('text',{x:950,y:494,'text-anchor':'end',fill:'#203431','font-size':13},'自T1起算水平里程 x（m）');
+ for(const [key,color,dash,width]of [['chord','#687875','7 4',1.5],['uniform','#356885','',2],['actual','#174e42','',2.8],['envelope','#a46842','5 3',2.4],['lower','#b24538','2 4',2]]){if(key==='lower'&&s.d===0)continue;const d=rows.map((r,i)=>(i?'L':'M')+X(r.x).toFixed(2)+' '+Y(r[key]).toFixed(2)).join(' ');add('path',{d,fill:'none',stroke:color,'stroke-width':width,'stroke-dasharray':dash})}
+ for(const[x,z,label,anchor]of [[0,ZA,'T1 52.60','start'],[446,ZB,'P2 63.10','end']]){add('circle',{cx:X(x),cy:Y(z),r:4,fill:'#174e42'});add('text',{x:X(x)+(x===0?8:-8),y:Y(z)-12,fill:'#174e42','text-anchor':anchor,'font-size':13},label)}
+ controls.forEach(c=>{const xp=X(c.chainage_m),yp=Y(c.control_el_m);add('line',{x1:xp-9,y1:yp,x2:xp+9,y2:yp,stroke:'#b24538','stroke-width':2});add('text',{x:xp+9,y:yp-9,fill:'#b24538','font-size':12},'C '+fmt(c.control_el_m,2));if(c.ground_el_m!==null){add('rect',{x:xp-3,y:Y(c.ground_el_m)-3,width:6,height:6,fill:'#687875'});add('line',{x1:xp,y1:Y(c.ground_el_m),x2:xp,y2:yp,stroke:'#687875','stroke-dasharray':'2 4'})}});
+ const av=val(s.a,s),ax=X(s.a),ay=Y(av.actual);add('line',{x1:ax,y1:ay-42,x2:ax,y2:ay-5,stroke:'#174e42','stroke-width':2});add('path',{d:`M${ax-4} ${ay-11} L${ax} ${ay-4} L${ax+4} ${ay-11}`,fill:'none',stroke:'#174e42','stroke-width':2});add('text',{x:Math.max(120,Math.min(890,ax)),y:ay-49,'text-anchor':'middle',fill:'#174e42','font-size':13},`P ${fmt(s.P,2)} tf｜a ${fmt(s.a,1)} m`);
+}
+function update(){try{const s=params();current=s;el('error').textContent='';el('aValue').textContent=fmt(s.a,1)+' m';draw(s);const am=actualMin(s);el('actualMin').textContent='EL. '+fmt(am.actual);el('actualX').textContent='CH '+fmt(am.x)+'｜固定車位a='+fmt(s.a,1)+' m';const tested=controls.map(c=>{const v=val(c.chainage_m,s);return {...c,...v,margin:v.lower-c.control_el_m}});const worst=tested.reduce((a,b)=>a.margin<b.margin?a:b);el('margin').textContent=fmt(worst.margin)+' m';el('margin').className=worst.margin< -1e-8?'negative':'';el('marginX').textContent='CH '+fmt(worst.chainage_m,1)+'｜共'+tested.length+'個離散控制點';el('controlsTable').replaceChildren();tested.forEach(c=>{const tr=document.createElement('tr');for(const n of [c.chainage_m,c.control_el_m,c.chord,c.actual,c.envelope,c.margin]){const td=document.createElement('td');td.textContent=fmt(n);tr.append(td)}if(c.margin< -1e-8)tr.lastChild.className='negative';el('controlsTable').append(tr)});let msg=worst.margin< -1e-8?'已輸入控制點出現負餘裕，需調整條件後重新比較。':Math.abs(worst.margin)<1e-8?'已輸入控制點的最小剩餘餘裕為0，屬邊界情境。':'已輸入控制點在本工況下有正餘裕。';if(s.d===0)msg+=' d＝0，車體及額外包絡未納入。';msg+=' 此結果僅限所列控制點與參數，不代表全跨通過。';el('finding').textContent=msg;window.modelSnapshot={params:s,actualMin:am,controls:tested}}catch(e){current=null;el('error').textContent=e.message;el('finding').textContent='參數無效；圖面保留上一次有效結果，請修正輸入後再計算。'}}
+for(const id of ['H','w','P','a','d'])el(id).addEventListener('input',update);
+el('reset').onclick=()=>{for(const[id,key]of [['H','H_tf'],['w','w_tf_m'],['P','P_tf'],['a','a_m'],['d','d_m']])el(id).value=BASE.scenario[key];controls=structuredClone(BASE.controls);update()};
+el('mid').onclick=()=>{el('a').value=223;update()};
+function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+el('sample').onclick=()=>download('control_points.csv','\uFEFFchainage_m,ground_el_m,control_el_m\n70,40,50\n','text/csv;charset=utf-8');
+el('import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const lines=(await file.text()).replace(/^\uFEFF/,'').trim().split(/\r?\n/);const heads=lines.shift().split(',').map(t=>t.trim());for(const h of ['chainage_m','ground_el_m','control_el_m'])if(!heads.includes(h))throw Error('CSV需包含chainage_m、ground_el_m、control_el_m。');const out=lines.filter(l=>l.trim()).map((line,i)=>{const p=line.split(',').map(t=>t.trim());const get=h=>p[heads.indexOf(h)];if(!get('chainage_m')||!get('control_el_m'))throw Error('第'+(i+2)+'列缺少里程或控制面。');const x=Number(get('chainage_m')),c=Number(get('control_el_m')),g=get('ground_el_m')?Number(get('ground_el_m')):null;if(!Number.isFinite(x)||!Number.isFinite(c)||(g!==null&&!Number.isFinite(g))||x<0||x>L)throw Error('第'+(i+2)+'列數值無效或超出第一跨。');return{chainage_m:x,ground_el_m:g,control_el_m:c,source:'使用者匯入CSV'}});if(!out.length)throw Error('CSV沒有控制點。');if(new Set(out.map(p=>p.chainage_m)).size!==out.length)throw Error('同一里程不可重複。');controls=out.sort((a,b)=>a.chainage_m-b.chainage_m);update()}catch(err){el('error').textContent=err.message}finally{e.target.value=''}};
+function makeCSV(s){const xs=[...new Set([...Array(447).keys(),s.a,...controls.map(c=>c.chainage_m)])].sort((a,b)=>a-b);const rows=['chainage_m,chord_el_m,uniform_track_center_el_m,loaded_track_center_el_m,moving_load_envelope_el_m,envelope_minus_d_el_m,ground_el_m,control_el_m,margin_after_d_m,H_tf,w_tf_m,P_tf,a_m,d_m,status'];for(const x of xs){const v=val(x,s),c=controls.find(c=>c.chainage_m===x);rows.push([x,v.chord,v.uniform,v.actual,v.envelope,v.lower,c?.ground_el_m??'',c?.control_el_m??'',c?v.lower-c.control_el_m:'',s.H,s.w,s.P,s.a,s.d,'conditional_comparison_not_design_release'].join(','))}return '\uFEFF'+rows.join('\n')}
+el('export').onclick=()=>{if(current)download('T1-P2_current_profile.csv',makeCSV(current),'text/csv;charset=utf-8');else el('error').textContent='請先修正參數。'};
+el('savejson').onclick=()=>{if(current)download('T1-P2_current_parameters.json',JSON.stringify({baseline:BASE,scenario:current,controls},null,2),'application/json');else el('error').textContent='請先修正參數。'};
+window.T1P2={val,params,makeCSV,actualMin};update();
+</script></body></html>

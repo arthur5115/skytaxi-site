@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "method": "Node VM and minimal DOM integration; no browser layout test",
+  "checks": [
+    "initial SVG",
+    "boundary reconstruction",
+    "d sensitivity",
+    "midpoint",
+    "invalid parameters",
+    "reset",
+    "CSV import",
+    "CSV export",
+    "duplicate rejection"
+  ],
+  "python_parity_samples": [
+    {
+      "x": 0,
+      "chord": 52.6,
+      "uniform": 52.6,
+      "actual": 52.6,
+      "envelope": 52.6,
+      "lower": 52.6
+    },
+    {
+      "x": 70,
+      "chord": 54.247982062780274,
+      "uniform": 50.34699910313901,
+      "actual": 50,
+      "envelope": 50,
+      "lower": 50
+    },
+    {
+      "x": 140.5,
+      "chord": 55.90773542600897,
+      "uniform": 49.54599848334401,
+      "actual": 49.264061712043556,
+      "envelope": 48.98011110666239,
+      "lower": 48.98011110666239
+    },
+    {
+      "x": 223,
+      "chord": 57.85,
+      "uniform": 50.47948398176291,
+      "actual": 50.273683981762915,
+      "envelope": 49.82386398176291,
+      "lower": 49.82386398176291
+    },
+    {
+      "x": 446,
+      "chord": 63.1,
+      "uniform": 63.1,
+      "actual": 63.1,
+      "envelope": 63.1,
+      "lower": 63.1
+    }
+  ],
+  "python_js_parity_passed": true
+}

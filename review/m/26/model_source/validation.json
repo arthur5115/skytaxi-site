@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "checks": {
+    "endpoint_A": true,
+    "endpoint_B": true,
+    "appendix_C_local_boundary": true,
+    "point_load_at_inspection": true,
+    "midpoint_point_load": true,
+    "d_reduces_margin": true,
+    "envelope_below_each_actual_shape": true,
+    "H_doubling_halves_sag": true,
+    "zero_load_returns_chord": true
+  },
+  "baseline_summary": {
+    "chord_grade_pct": 2.3542600896860986,
+    "local_chord_el_m": 54.247982062780274,
+    "local_envelope_el_m": 50.0,
+    "local_margin_after_d_m": 0.0,
+    "actual_at_a_local_margin_m": 0.0,
+    "envelope_mid_sag_m": 8.026136018237091,
+    "envelope_mid_el_m": 49.82386398176291,
+    "envelope_lowest_x_m": 150.0663992399452,
+    "envelope_lowest_el_m": 48.96534065443042,
+    "actual_lowest_x_m": 140.46552093573754,
+    "actual_lowest_el_m": 49.26406153584631
+  }
+}
