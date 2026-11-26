@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>四站基地航照疊位｜虎頭埤長壽生活園區</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/site-map.css">
+  <script src="assets/site-map-data.js" defer></script>
+  <script src="assets/site-map.js" defer></script>
+</head>
+<body>
+<header class="sitehead">
+  <div class="shell sitehead-inner">
+    <a class="brand" href="index.html">虎頭埤長壽生活園區</a>
+    <nav class="nav" aria-label="園區圖冊">
+      <a href="index.html" aria-current="page">基地航照</a>
+      <a href="compare.html">CAD 與材質</a>
+      <a href="stations/t1.html">T1 新化之門</a>
+      <a href="stations/t2.html">T2 湖濱旅館</a>
+      <a href="stations/t3.html">T3 湖濱山城</a>
+      <a href="stations/t4.html">T4 新化林場</a>
+    </nav>
+  </div>
+</header>
+<main class="shell">
+  <section class="intro map-intro">
+    <div>
+      <h1>四站基地航照疊位</h1>
+      <p>沿纜車線查看湖岸、道路，以及四站的 CAD 平面、BIM 外廓與完工屋頂。</p>
+    </div>
+    <div class="actions">
+      <a class="action primary" href="downloads/Hutoupi_Google_Maps_Overlay.kml" download>下載 Google 地圖 KML</a>
+      <a class="action" href="downloads/Hutoupi_Site_Alignment_Atlas.pdf" download>PDF 圖冊</a>
+      <a class="action" href="downloads/Hutoupi_Site_Alignment_8K.png" download>8K PNG</a>
+    </div>
+  </section>
+
+  <div class="map-layout">
+    <section class="map-card" aria-label="航照互動圖">
+      <nav class="map-views" aria-label="航照圖視野">
+        <button type="button" data-location="all" aria-pressed="true">全線</button>
+        <button type="button" data-location="T1" aria-pressed="false">T1 新化之門</button>
+        <button type="button" data-location="T2" aria-pressed="false">T2 湖濱旅館</button>
+        <button type="button" data-location="T3" aria-pressed="false">T3 湖濱山城</button>
+        <button type="button" data-location="T4" aria-pressed="false">T4 新化林場</button>
+      </nav>
+      <div class="map-canvas">
+        <div id="offline-map" class="offline-map" role="img" aria-label="全線航照與規劃線形">
+          <img src="assets/map-all.webp" width="1938" height="1022" alt="四站全線航照底圖">
+        </div>
+        <div id="google-map" class="google-map" aria-label="Google 衛星疊圖" hidden></div>
+        <div class="map-tools" aria-label="縮放" id="offline-tools">
+          <button type="button" id="zoom-in" aria-label="放大航照" title="放大航照">+</button>
+          <button type="button" id="zoom-out" aria-label="縮小航照" title="縮小航照" disabled>−</button>
+        </div>
+        <span class="map-north" id="offline-north" aria-label="上方朝北"><b>↑</b> N</span>
+      </div>
+      <fieldset class="map-layers">
+        <legend>圖層</legend>
+        <label><input type="checkbox" data-layer="route" checked><i class="swatch route"></i>弦軌與中心線</label>
+        <label><input type="checkbox" data-layer="building" checked><i class="swatch building"></i>BIM 外廓</label>
+        <label><input type="checkbox" data-layer="cad" checked><i class="swatch cad"></i>站體 CAD</label>
+        <label><input type="checkbox" data-layer="material" checked><i class="swatch roof"></i>完工屋頂</label>
+        <label><input type="checkbox" data-layer="point" checked><i class="swatch node"></i>路線節點</label>
+      </fieldset>
+      <p class="map-note" id="map-credit">CS-02 航照底圖採內政部國土測繪中心正射影像。原圖的黑白示意輪廓與線形隨底圖保留。</p>
+    </section>
+    <aside class="location-card" id="place-detail" aria-live="polite">
+      <h2>四站站位</h2><p>點選站別放大，查看座標與完工材質。</p><div class="location-cards"><button type="button" data-location="T1"><img src="assets/t1-finish.webp" alt="" width="69" height="46"><span><b>T1</b>新化之門站</span></button><button type="button" data-location="T2"><img src="assets/t2-finish.webp" alt="" width="69" height="46"><span><b>T2</b>湖濱旅館站</span></button><button type="button" data-location="T3"><img src="assets/t3-finish.webp" alt="" width="69" height="46"><span><b>T3</b>湖濱山城站</span></button><button type="button" data-location="T4"><img src="assets/t4-finish.webp" alt="" width="69" height="46"><span><b>T4</b>新化林場站</span></button></div>
+    </aside>
+  </div>
+
+  <section class="google-card" aria-labelledby="google-heading">
+    <div>
+      <h2 id="google-heading">在 Google 衛星底圖上核對</h2>
+      <p>在「我的地圖」建立地圖，匯入 KML 到圖層，再把基本地圖切換為衛星。</p>
+    </div>
+    <a class="action" href="https://mymaps.google.com/" target="_blank" rel="noopener">開啟 Google 我的地圖 ↗</a>
+    <details id="google-settings">
+      <summary>在本站啟用即時 Google 衛星</summary>
+      <p>在部署後的網頁輸入已啟用 Maps JavaScript API 且允許此網域的金鑰。</p>
+      <form id="google-form" class="key-form">
+        <label for="google-key">Google Maps 網域金鑰</label>
+        <input id="google-key" name="google-key" type="password" required autocomplete="off" spellcheck="false">
+        <button class="action primary" id="load-google" type="submit">載入即時衛星底圖</button>
+        <button class="action" id="show-offline" type="button" hidden>回到工程航照</button>
+      </form>
+      <p class="google-status" id="google-status" role="status"></p>
+    </details>
+  </section>
+  <noscript><p>啟用 JavaScript 後可切換站別與圖層。PDF、PNG 與 KML 可直接下載。</p></noscript>
+</main>
+<footer class="shell foot">V1.6 工程圖說　｜　TWD97 TM2 規劃圖面定位　｜　材質概念模擬</footer>
+</body>
+</html>
