@@ -1,0 +1,254 @@
+{
+  "version": "R1",
+  "date": "2026-10-05",
+  "source_version": 14,
+  "status": "待審核",
+  "first_span_PNG_unchanged": true,
+  "files": [
+    {
+      "path": "P2-T2_350m_縱斷面與淨空模型_R1.svg",
+      "bytes": 142605,
+      "sha256": "d0acb7d2976e6aa9fd84d178034960298312762b9adb9be6e595bbf3c7d87d37"
+    },
+    {
+      "path": "P2-T2_350m_縱斷面與淨空模型_R1_9600x5400.png",
+      "bytes": 1432903,
+      "sha256": "69b2c028827e17ce24f9824a65e74bd550774d79980d800ccadcd069b3ac05a2"
+    },
+    {
+      "path": "P2-T2_350m_縱斷面與淨空模型_R1_preview.png",
+      "bytes": 253980,
+      "sha256": "783596f73b010225a8342f3a3fef0f18dc1ba879fb4f06eeca5a6c5e2fb17ea9"
+    },
+    {
+      "path": "P2-T2_control_points.csv",
+      "bytes": 33,
+      "sha256": "912bd5386698031503166fa7ec9b12345f7a1202f6a624ff5c0af325d32aa2f7"
+    },
+    {
+      "path": "P2-T2_profile.csv",
+      "bytes": 67109,
+      "sha256": "9af9ac6d425d72fe3c095cf86953aef527dd88e29b74ae6878d74bfb89450fd9"
+    },
+    {
+      "path": "P4-T4_402m_縱斷面與淨空模型_R1.svg",
+      "bytes": 143611,
+      "sha256": "85ed8788dcde09a1a2e29f6d7dd6065c016a4cc20ff05bfaa6121aed8efc4956"
+    },
+    {
+      "path": "P4-T4_402m_縱斷面與淨空模型_R1_9600x5400.png",
+      "bytes": 1499892,
+      "sha256": "b1d049bd01086d7982fcdbd0bdb665070123e88444308116ba4acbfac62c6df7"
+    },
+    {
+      "path": "P4-T4_402m_縱斷面與淨空模型_R1_preview.png",
+      "bytes": 261019,
+      "sha256": "6dba569c88a3c5b6793cd680312a809fa238cd78adddba1c7fa717f79a5ece61"
+    },
+    {
+      "path": "P4-T4_control_points.csv",
+      "bytes": 33,
+      "sha256": "912bd5386698031503166fa7ec9b12345f7a1202f6a624ff5c0af325d32aa2f7"
+    },
+    {
+      "path": "P4-T4_profile.csv",
+      "bytes": 77335,
+      "sha256": "c66d6c702e970860ff1033f6568656df60002d3399dbdaed2e8778484474769d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6213,
+      "sha256": "dcef56707f843f0d025113474aa0b73fb0049d3a64e7c97777ed96410e0e3e13"
+    },
+    {
+      "path": "T1-P2_446m_縱斷面與淨空模型_R1.svg",
+      "bytes": 148857,
+      "sha256": "0f614999d14899fb1d2d0745ead33de4dde289297d25bf53edc9d60f95bab694"
+    },
+    {
+      "path": "T1-P2_446m_縱斷面與淨空模型_R1_9600x5400.png",
+      "bytes": 1599586,
+      "sha256": "f06372ea6f466ac1db725c48c59dfd1b5642c4cd554d88c6f92331045bbfa1b2"
+    },
+    {
+      "path": "T1-P2_control_points.csv",
+      "bytes": 49,
+      "sha256": "2ad6ca3af7062337f8a4703202fcd1fa140b8d20a62550ea0b87ae84c3487fd4"
+    },
+    {
+      "path": "T1-P2_profile.csv",
+      "bytes": 85602,
+      "sha256": "c9f6316c34149b95c4dee9226b3d36b41d25cf68936b2b205088433d698874bf"
+    },
+    {
+      "path": "T2-T3_343m_縱斷面與淨空模型_R1.svg",
+      "bytes": 144107,
+      "sha256": "7fba38e15c66c3d70aded3d740ead92c29dbdb31034965c435b76b43e151c19f"
+    },
+    {
+      "path": "T2-T3_343m_縱斷面與淨空模型_R1_9600x5400.png",
+      "bytes": 1499638,
+      "sha256": "e6df6ed8615d4cf5028acf71a1e1071354f108600e1acb67ae49e972d02fff22"
+    },
+    {
+      "path": "T2-T3_343m_縱斷面與淨空模型_R1_preview.png",
+      "bytes": 265899,
+      "sha256": "f6feebe40eee13d0f4461fc680f54cbd91cfc3ed9e9df118099db2284d0615e0"
+    },
+    {
+      "path": "T2-T3_control_points.csv",
+      "bytes": 50,
+      "sha256": "5b43baed240b62cae82b4a697123da865fb90d604a929326c742093aec05ecf7"
+    },
+    {
+      "path": "T2-T3_profile.csv",
+      "bytes": 66302,
+      "sha256": "53449ecf8172d9e24e22af1a46deb3ffb7f34427fd689c2bba20ae22b82ddfb7"
+    },
+    {
+      "path": "T3-P4_406m_縱斷面與淨空模型_R1.svg",
+      "bytes": 143649,
+      "sha256": "c211d8ce8a8bedf204606c729b2604f049f53c37f814b5fefd5e1564c090782a"
+    },
+    {
+      "path": "T3-P4_406m_縱斷面與淨空模型_R1_9600x5400.png",
+      "bytes": 1449206,
+      "sha256": "fff3f04936a2e9392d8a5487f2a7ce2af7c656246d457e4f83f89d18b43feb72"
+    },
+    {
+      "path": "T3-P4_406m_縱斷面與淨空模型_R1_preview.png",
+      "bytes": 254453,
+      "sha256": "d4641f49d9f8628bd3a81d0cc6a2bd720a235b4aaa3b01d333b8c86c2b053a3d"
+    },
+    {
+      "path": "T3-P4_control_points.csv",
+      "bytes": 33,
+      "sha256": "912bd5386698031503166fa7ec9b12345f7a1202f6a624ff5c0af325d32aa2f7"
+    },
+    {
+      "path": "T3-P4_profile.csv",
+      "bytes": 78140,
+      "sha256": "6e0b7cb62e2c047c7813ce1791018139837c98111fb5500567842ca1eb5a578d"
+    },
+    {
+      "path": "assets/NotoSansCJKtc-Bold.otf",
+      "bytes": 17000768,
+      "sha256": "3ee160e5015106e3ec1a394301df54fa9bbbf8a251519984aec5c0abc50840c0"
+    },
+    {
+      "path": "assets/NotoSansCJKtc-Regular.otf",
+      "bytes": 16435884,
+      "sha256": "d6f71ff15fc00cad2b6c94feecb0bbdfd7665ca2595c40be932edc1e1f72bfb1"
+    },
+    {
+      "path": "assets/OFL.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "baseline.json",
+      "bytes": 4803,
+      "sha256": "9c4c66dfeeea7a5fb1180cdb7bdfbcd3261ed8d11abeaf5d3b4f6779f784266a"
+    },
+    {
+      "path": "build_html.py",
+      "bytes": 397,
+      "sha256": "6628aa4d06fd94b193f4a345932b8543702b3736ad3feb411474cea418edab09"
+    },
+    {
+      "path": "check_interface.cjs",
+      "bytes": 4615,
+      "sha256": "db04f7f73010f9e0d40659abcd45dbe264e405fa6c0b78eab149ee97d0f7169f"
+    },
+    {
+      "path": "drawing_register.csv",
+      "bytes": 1382,
+      "sha256": "5934db1dbc9e7755841010f7190e168b43bf4f1361ab92f85c1c757e9bf51253"
+    },
+    {
+      "path": "first_span_source/README.md",
+      "bytes": 5304,
+      "sha256": "5dc2b27280dcf50634d9fbb27dc41bf33cfc2b89a0d93dfc0df7c5c1b530aa43"
+    },
+    {
+      "path": "first_span_source/baseline.json",
+      "bytes": 2389,
+      "sha256": "a49bae02a65789a8f794ad2ccc3c88b2eec520f0ae2c418936c68b29f7d714bb"
+    },
+    {
+      "path": "first_span_source/model.py",
+      "bytes": 7037,
+      "sha256": "0347202419ff550153506a1c10cb8943ca668ebb539b3d0459d1bc6bd04f5758"
+    },
+    {
+      "path": "first_span_source/render.py",
+      "bytes": 7857,
+      "sha256": "eb487bb2d15fbf95de3ba17d4c35d9ba5902f9b4f73921b40cf3e29cb5232cbd"
+    },
+    {
+      "path": "interface.template.html",
+      "bytes": 17458,
+      "sha256": "b5c71b0fc6f1dd4813ff7fdb73c748c7417977fa30a191af2886381146eca794"
+    },
+    {
+      "path": "interface_validation.json",
+      "bytes": 4634,
+      "sha256": "a538d489d928a1ab82c44e5f967a7c075b2e8a4994a0c3250c2ea20300e0edb1"
+    },
+    {
+      "path": "model.py",
+      "bytes": 4979,
+      "sha256": "13944e6232f2e15ba4a4aa1cca83ebd6ca31dba014af0fde07898228a0c493b1"
+    },
+    {
+      "path": "png_validation.json",
+      "bytes": 1018,
+      "sha256": "e4097f6b45f62a7ab58ff3d72e484c7e9bc0a002b21569d3823cc706c7e5ea1e"
+    },
+    {
+      "path": "render.py",
+      "bytes": 13048,
+      "sha256": "5062217780ec8875f85a92e5cae732184ec2413eb584292da181077b43039ffb"
+    },
+    {
+      "path": "style.css",
+      "bytes": 3926,
+      "sha256": "b9b528637aaaff89297ab31ea699780a1d44a962a4a57646341b10ef881679a2"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 4458,
+      "sha256": "968e0d89bec56b8a74236108e1442a00451386e1033c2f5bb468b4ce342d1fca"
+    },
+    {
+      "path": "validate.py",
+      "bytes": 2569,
+      "sha256": "8dce256dfa3314b219b9c5ed9f5031ff38e3a40136063e109e2e48b30b54d906"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 1609,
+      "sha256": "f7679146bee619f067e34642145dc4cd3a4098efc0472787deaac43c7a214911"
+    },
+    {
+      "path": "虎頭埤_五跨互動計算模型_R1.html",
+      "bytes": 24757,
+      "sha256": "f2ecff4d896ed52c94b7f558ac72e0433b386541431dc1db701ba126276409dd"
+    },
+    {
+      "path": "虎頭埤_五跨縱斷面總覽_R1.svg",
+      "bytes": 50779,
+      "sha256": "e4f7c4a5b8956782c7357e75c2e21ccdf245673effa4f7ce3ff7337b9567a5ef"
+    },
+    {
+      "path": "虎頭埤_五跨縱斷面總覽_R1_9600x5400.png",
+      "bytes": 1310134,
+      "sha256": "5900245a589044fc073c95db04a70e92a5691a89b3767489fc5821020cc6e1da"
+    },
+    {
+      "path": "虎頭埤_五跨縱斷面總覽_R1_preview.png",
+      "bytes": 233242,
+      "sha256": "e25057eabab82b627f99b2b45b4ac6889cdd0119de523d77bccac0b9450ffc57"
+    }
+  ]
+}

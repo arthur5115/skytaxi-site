@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "checks": [
+    "T1-P2: endpoints, envelope, extrema, CSV",
+    "P2-T2: endpoints, envelope, extrema, CSV",
+    "T2-T3: endpoints, envelope, extrema, CSV",
+    "T3-P4: endpoints, envelope, extrema, CSV",
+    "P4-T4: endpoints, envelope, extrema, CSV"
+  ],
+  "python_JS_max_error_m": 0,
+  "PNGs": [
+    {
+      "file": "P2-T2_350m_縱斷面與淨空模型_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1432903
+    },
+    {
+      "file": "P4-T4_402m_縱斷面與淨空模型_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1499892
+    },
+    {
+      "file": "T1-P2_446m_縱斷面與淨空模型_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1599586
+    },
+    {
+      "file": "T2-T3_343m_縱斷面與淨空模型_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1499638
+    },
+    {
+      "file": "T3-P4_406m_縱斷面與淨空模型_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1449206
+    },
+    {
+      "file": "虎頭埤_五跨縱斷面總覽_R1_9600x5400.png",
+      "fully_decoded": true,
+      "IEND": true,
+      "size": [
+        9600,
+        5400
+      ],
+      "bytes": 1310134
+    }
+  ],
+  "interface_real_browser_layout_test": false
+}

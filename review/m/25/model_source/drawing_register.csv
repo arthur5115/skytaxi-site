@@ -1,0 +1,6 @@
+﻿drawing_id,version,status,category,priority,locked,known_issue,action,evidence,external_flag
+T1-P2-LP-01,R1,待審核,縱斷面與控制點比較,高,T1—P2跨距446 m、端點軌道中心高程,尚未求解支承相容；無連續實測地形,同工況比較，控制點限定求值,baseline.json; summary.json; validation.json,非施工核定圖
+P2-T2-LP-02,R1,待審核,縱斷面與控制點比較,高,P2—T2跨距350 m、端點軌道中心高程,尚未求解支承相容；無連續實測地形,同工況比較，控制點限定求值,baseline.json; summary.json; validation.json,非施工核定圖
+T2-T3-LP-03,R1,待審核,縱斷面與控制點比較,高,T2—T3跨距343 m、端點軌道中心高程,尚未求解支承相容；無連續實測地形,同工況比較，控制點限定求值,baseline.json; summary.json; validation.json,非施工核定圖
+T3-P4-LP-04,R1,待審核,縱斷面與控制點比較,高,T3—P4跨距406 m、端點軌道中心高程,尚未求解支承相容；無連續實測地形,同工況比較，控制點限定求值,baseline.json; summary.json; validation.json,非施工核定圖
+P4-T4-LP-05,R1,待審核,縱斷面與控制點比較,高,P4—T4跨距402 m、端點軌道中心高程,尚未求解支承相容；無連續實測地形,同工況比較，控制點限定求值,baseline.json; summary.json; validation.json,非施工核定圖

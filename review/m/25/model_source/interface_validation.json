@@ -1,0 +1,222 @@
+{
+  "passed": true,
+  "method": "Node VM with minimal DOM; no real-browser layout test",
+  "checks": [
+    "five-span switching",
+    "state retained by span",
+    "reset",
+    "SVG rendering",
+    "global/local chainage",
+    "unknown margins blank",
+    "hill1 boundary",
+    "hill3 comparison",
+    "descending zero-load minimum",
+    "invalid H",
+    "CSV import/export",
+    "duplicate and out-of-range rejection",
+    "clear controls",
+    "five-span JSON"
+  ],
+  "python_parity_samples": [
+    {
+      "spanId": "T1-P2",
+      "x": 0,
+      "CH": 0,
+      "chord": 52.6,
+      "uniform": 52.6,
+      "actual": 52.6,
+      "envelope": 52.6,
+      "lower": 52.6
+    },
+    {
+      "spanId": "T1-P2",
+      "x": 111.5,
+      "CH": 111.5,
+      "chord": 55.225,
+      "uniform": 49.69711298632218,
+      "actual": 49.38841298632218,
+      "envelope": 49.20539798632218,
+      "lower": 49.20539798632218
+    },
+    {
+      "spanId": "T1-P2",
+      "x": 223,
+      "CH": 223,
+      "chord": 57.85,
+      "uniform": 50.47948398176291,
+      "actual": 50.273683981762915,
+      "envelope": 49.82386398176291,
+      "lower": 49.82386398176291
+    },
+    {
+      "spanId": "T1-P2",
+      "x": 446,
+      "CH": 446,
+      "chord": 63.1,
+      "uniform": 63.1,
+      "actual": 63.1,
+      "envelope": 63.1,
+      "lower": 63.1
+    },
+    {
+      "spanId": "P2-T2",
+      "x": 0,
+      "CH": 446,
+      "chord": 63.1,
+      "uniform": 63.1,
+      "actual": 63.1,
+      "envelope": 63.1,
+      "lower": 63.1
+    },
+    {
+      "spanId": "P2-T2",
+      "x": 87.5,
+      "CH": 533.5,
+      "chord": 64.225,
+      "uniform": 60.8207179956588,
+      "actual": 60.563467995658804,
+      "envelope": 60.434842995658805,
+      "lower": 60.434842995658805
+    },
+    {
+      "spanId": "P2-T2",
+      "x": 175,
+      "CH": 621,
+      "chord": 65.35,
+      "uniform": 60.81095732754507,
+      "actual": 60.29645732754507,
+      "envelope": 60.29645732754507,
+      "lower": 60.29645732754507
+    },
+    {
+      "spanId": "P2-T2",
+      "x": 350,
+      "CH": 796,
+      "chord": 67.6,
+      "uniform": 67.6,
+      "actual": 67.6,
+      "envelope": 67.6,
+      "lower": 67.6
+    },
+    {
+      "spanId": "T2-T3",
+      "x": 0,
+      "CH": 796,
+      "chord": 67.6,
+      "uniform": 67.6,
+      "actual": 67.6,
+      "envelope": 67.6,
+      "lower": 67.6
+    },
+    {
+      "spanId": "T2-T3",
+      "x": 85.75,
+      "CH": 881.75,
+      "chord": 67.69999999999999,
+      "uniform": 64.43052756303071,
+      "actual": 64.17842256303071,
+      "envelope": 64.05237006303071,
+      "lower": 64.05237006303071
+    },
+    {
+      "spanId": "T2-T3",
+      "x": 171.5,
+      "CH": 967.5,
+      "chord": 67.8,
+      "uniform": 63.44070341737429,
+      "actual": 62.93649341737429,
+      "envelope": 62.93649341737429,
+      "lower": 62.93649341737429
+    },
+    {
+      "spanId": "T2-T3",
+      "x": 343,
+      "CH": 1139,
+      "chord": 68,
+      "uniform": 68,
+      "actual": 68,
+      "envelope": 68,
+      "lower": 68
+    },
+    {
+      "spanId": "T3-P4",
+      "x": 0,
+      "CH": 1139,
+      "chord": 68,
+      "uniform": 68,
+      "actual": 68,
+      "envelope": 68,
+      "lower": 68
+    },
+    {
+      "spanId": "T3-P4",
+      "x": 101.5,
+      "CH": 1240.5,
+      "chord": 72.25,
+      "uniform": 67.66919813495849,
+      "actual": 67.37078813495849,
+      "envelope": 67.2215831349585,
+      "lower": 67.2215831349585
+    },
+    {
+      "spanId": "T3-P4",
+      "x": 203,
+      "CH": 1342,
+      "chord": 76.5,
+      "uniform": 70.39226417994466,
+      "actual": 69.79544417994467,
+      "envelope": 69.79544417994467,
+      "lower": 69.79544417994467
+    },
+    {
+      "spanId": "T3-P4",
+      "x": 406,
+      "CH": 1545,
+      "chord": 85,
+      "uniform": 85,
+      "actual": 85,
+      "envelope": 85,
+      "lower": 85
+    },
+    {
+      "spanId": "P4-T4",
+      "x": 0,
+      "CH": 1545,
+      "chord": 85,
+      "uniform": 85,
+      "actual": 85,
+      "envelope": 85,
+      "lower": 85
+    },
+    {
+      "spanId": "P4-T4",
+      "x": 100.5,
+      "CH": 1645.5,
+      "chord": 80.25,
+      "uniform": 75.75901559975874,
+      "actual": 75.46354559975875,
+      "envelope": 75.31581059975873,
+      "lower": 75.31581059975873
+    },
+    {
+      "spanId": "P4-T4",
+      "x": 201,
+      "CH": 1746,
+      "chord": 75.5,
+      "uniform": 69.51202079967833,
+      "actual": 68.92108079967832,
+      "envelope": 68.92108079967832,
+      "lower": 68.92108079967832
+    },
+    {
+      "spanId": "P4-T4",
+      "x": 402,
+      "CH": 1947,
+      "chord": 66,
+      "uniform": 66,
+      "actual": 66,
+      "envelope": 66,
+      "lower": 66
+    }
+  ]
+}

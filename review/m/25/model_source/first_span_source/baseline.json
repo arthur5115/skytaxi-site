@@ -1,0 +1,84 @@
+{
+  "drawing_id": "T1-P2-LP-01",
+  "version": "R1",
+  "date": "2026-10-05",
+  "title": "T1—P2第一跨446 m縱斷面與淨空模型",
+  "length_m": 446.0,
+  "zA_m": 52.6,
+  "zB_m": 63.1,
+  "nodes": [
+    {
+      "name": "T1",
+      "chainage_m": 0,
+      "track_center_el_m": 52.6,
+      "type": "錨碇端"
+    },
+    {
+      "name": "P2／丘2",
+      "chainage_m": 446,
+      "track_center_el_m": 63.1,
+      "type": "中間支承"
+    },
+    {
+      "name": "T2",
+      "chainage_m": 796,
+      "track_center_el_m": 67.6,
+      "type": "錨碇介面"
+    }
+  ],
+  "scenario": {
+    "H_tf": 1000.0,
+    "w_tf_m": 0.29642727656848483,
+    "P_tf": 5.88,
+    "a_m": 70,
+    "d_m": 0,
+    "scope": "附錄C合併受力單元比較；非每軌採用荷載",
+    "type": "條件式邊界算例；非本案選定張力或自重"
+  },
+  "ground_points": [
+    {
+      "chainage_m": 0,
+      "ground_el_m": 37.0,
+      "source": "正文T1約值；站內不套用地形加10 m"
+    },
+    {
+      "chainage_m": 70,
+      "ground_el_m": 40.0,
+      "source": "附錄C丘1算例地形"
+    }
+  ],
+  "controls": [
+    {
+      "chainage_m": 70,
+      "ground_el_m": 40,
+      "control_el_m": 50,
+      "source": "附錄C丘1算例：地形加10 m"
+    }
+  ],
+  "vehicle": {
+    "type": "U4-430",
+    "max_mass_kg": 2940,
+    "payload_kg": 450,
+    "nominal_persons": 6
+  },
+  "source": {
+    "name": "CH02-P12-R5_第二章土地使用與興建計畫統一修訂版.docx",
+    "version": "14",
+    "modified": "2026-09-15",
+    "library_file_id": "libfile_085ff18cfdd08191843aa875cb168955",
+    "file_id": "file_0000000008ac81f5a2a9d5441c85a1fc",
+    "sections": [
+      "2.3：第一區段與446公尺飛越丘1",
+      "附錄B：第一跨丘1控制面",
+      "附錄C.1：表2-C-1、表2-C-2"
+    ]
+  },
+  "limits": [
+    "固定水平張力的理想柔索拋物線近似；未計EA、EI、滑鞍非線性及支承位移",
+    "移動點載包絡由不同車位取極值，不是同一瞬間的實際軌道線",
+    "d是軌道中心向下至控制外廓的額外扣減量；0表示未納入，不是車體高度為0",
+    "只對已輸入控制點計算餘裕；沒有連續地形資料的里程不填淨空",
+    "P2連接350 m第二跨；本模型展示連接關係，未求解兩跨兼容平衡",
+    "參數變動為敏感度比較，不以H變動替代溫度、動力或安全驗證"
+  ]
+}

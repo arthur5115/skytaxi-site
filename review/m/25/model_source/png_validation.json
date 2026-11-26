@@ -1,0 +1,57 @@
+[
+  {
+    "file": "P2-T2_350m_縱斷面與淨空模型_R1_9600x5400.png",
+    "full_decode": true,
+    "IEND": true,
+    "size": [
+      9600,
+      5400
+    ],
+    "mode": "RGB",
+    "bytes": 1432903
+  },
+  {
+    "file": "T2-T3_343m_縱斷面與淨空模型_R1_9600x5400.png",
+    "full_decode": true,
+    "IEND": true,
+    "size": [
+      9600,
+      5400
+    ],
+    "mode": "RGB",
+    "bytes": 1499638
+  },
+  {
+    "file": "T3-P4_406m_縱斷面與淨空模型_R1_9600x5400.png",
+    "full_decode": true,
+    "IEND": true,
+    "size": [
+      9600,
+      5400
+    ],
+    "mode": "RGB",
+    "bytes": 1449206
+  },
+  {
+    "file": "P4-T4_402m_縱斷面與淨空模型_R1_9600x5400.png",
+    "full_decode": true,
+    "IEND": true,
+    "size": [
+      9600,
+      5400
+    ],
+    "mode": "RGB",
+    "bytes": 1499892
+  },
+  {
+    "file": "虎頭埤_五跨縱斷面總覽_R1_9600x5400.png",
+    "full_decode": true,
+    "IEND": true,
+    "size": [
+      9600,
+      5400
+    ],
+    "mode": "RGB",
+    "bytes": 1310134
+  }
+]
