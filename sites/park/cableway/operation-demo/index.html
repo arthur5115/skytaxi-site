@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="依四站全線規劃展示 uSky Unicar U4‑430 雙向往返。選一站看車輛停靠，或跟著車輛走完全程。">
+<meta name="theme-color" content="#17392f">
+<title>四站纜車運行｜虎頭埤長壽生活園區</title>
+<link rel="stylesheet" href="/style.css?v=V1.13.19">
+<link rel="stylesheet" href="/cableway.css">
+<link rel="stylesheet" href="/cable-operation.css?v=V1.13.19">
+
+
+<link rel="stylesheet" href="/visitor-journey.css?v=V1.13.19">
+<link rel="stylesheet" href="/visitor-photos.css?v=V1.13.19">
+<link rel="stylesheet" href="/site-design.css?v=V1.13.19">
+
+
+<script defer src="/app.js"></script>
+<script defer src="/visitor-photos.js?v=V1.13.19"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳至主要內容</a>
+<header class="site-header">
+  <div class="frame header-inner">
+    <a class="wordmark" href="/" aria-label="虎頭埤長壽生活園區首頁"><span class="mark" aria-hidden="true"></span><span><strong>虎頭埤長壽生活園區</strong><small>HUTOUPI HEALTHSPAN</small></span></a>
+    <nav class="desktop-nav" aria-label="主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav>
+    <details class="mobile-menu"><summary>網站選單</summary><nav aria-label="手機主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav></details>
+  </div>
+</header>
+<main id="main-content" tabindex="-1"><div class="frame inner-page operation-page"><nav class="breadcrumb" aria-label="網頁位置"><ol><li><a href="/">首頁</a></li><li><a href="/cableway/">園區纜車</a></li><li aria-current="page">四站纜車運行</li></ol></nav><header class="operation-heading"><h1>四站纜車運行</h1><p>依四站全線規劃展示 uSky Unicar U4‑430 雙向往返。選一站看車輛停靠，或跟著車輛走完全程。</p></header><section class="operation-demo" id="operation-demo" aria-label="四站纜車互動運行" data-operation-demo>
+  <div class="operation-view-bar" id="play-operation">
+    <div><p>T1 至 T4 規劃一次通車 <span aria-hidden="true">·</span> 四站雙向往返</p></div>
+    <div class="operation-quick-actions">
+      <button type="button" class="operation-quick-play" data-operation-quick-play data-operation-interactive hidden>播放四站運行</button>
+      <div class="operation-view-options" role="group" aria-label="運行畫面視角" data-operation-interactive hidden>
+  <button type="button" data-operation-view="overview" aria-pressed="true">全線總覽</button>
+  <button type="button" data-operation-view="follow" aria-pressed="false">立體跟車</button>
+</div>
+    </div>
+  </div>
+  <div class="operation-grid">
+    <div class="operation-main">
+      <div class="operation-progress" data-operation-progress data-operation-interactive hidden>
+        <div class="operation-progress-summary">
+          <span class="operation-playback-state" data-operation-playback-state role="status">準備播放</span>
+          <span class="operation-progress-time">模擬時間 <strong data-operation-progress-clock>00:00</strong></span>
+        </div>
+        <div class="operation-track" aria-hidden="true">
+          <div class="operation-track-inner">
+            <div class="operation-ticks"><span class="operation-tick" style="--position:0.0000%"><i></i>T1</span><span class="operation-tick" style="--position:42.4624%"><i></i>T2</span><span class="operation-tick" style="--position:58.4231%"><i></i>T3</span><span class="operation-tick" style="--position:100.0000%"><i></i>T4</span></div>
+            <div class="operation-diagram">
+              <div><span>A</span><i data-operation-car=""></i></div>
+              <div><span>B</span><i data-operation-car="" class="reverse"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="operation-scene" data-operation-scene>
+        <figure class="operation-panorama" data-operation-panorama>
+          <img src="/assets/route-aerial-hutoupi.webp?v=6f96599bc27f" alt="由新化之門西南側往東北俯看虎頭埤湖面、山城和林場方向的四站規劃" loading="lazy" decoding="async">
+          <span class="operation-map-car" data-operation-map-car aria-hidden="true">A</span>
+          <span class="operation-map-car line-b" data-operation-map-car aria-hidden="true">B</span>
+          <figcaption>虎頭埤四站沿線 · 規劃全景</figcaption>
+        </figure>
+        <canvas data-operation-canvas aria-hidden="true" hidden></canvas>
+        <p class="operation-follow-label" data-operation-follow-label hidden>立體運行示意 · 車輛放大顯示</p>
+      </div>
+      <p class="operation-visual-message" data-operation-visual-message role="status" hidden></p>
+      <div class="operation-toolbar" data-operation-interactive hidden>
+        <div class="operation-playback">
+          <button class="operation-play" type="button" data-operation-play aria-label="播放運行">播放</button>
+          <button class="operation-reset" type="button" data-operation-reset>重播</button>
+        </div>
+        <div class="operation-timeline">
+          <label class="visually-hidden" for="operation-time">運行時間軸</label>
+          <input id="operation-time" type="range" min="0" max="1000" step="1" value="0" data-operation-time>
+          <div><span data-operation-clock>00:00</span><span>模擬時間</span><span data-operation-duration>—</span></div>
+        </div>
+        <div class="operation-speed"><label for="operation-speed">播放速度</label>
+          <select id="operation-speed" data-operation-speed><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+        </div>
+      </div>
+      <div class="operation-stops" role="group" aria-label="選站看列車到站" data-operation-interactive hidden><button type="button" data-operation-stop="0" aria-current="step">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t1-gate-aerial-480.webp?v=cee73fcfadc6"><img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T1</span><strong>新化之門</strong></span>
+</button><button type="button" data-operation-stop="1">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t2-station-concept-480.webp?v=6cd26077668e"><img src="/assets/t2-station-concept.webp?v=e1e2849631bd" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T2</span><strong>湖濱旅館</strong></span>
+</button><button type="button" data-operation-stop="2">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t3-station-concept-480.webp?v=a96c8fd3f900"><img src="/assets/t3-station-concept.webp?v=fe3f3cff22d9" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T3</span><strong>湖濱山城</strong></span>
+</button><button type="button" data-operation-stop="3">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t4-station-concept-480.webp?v=c790f8d7bb89"><img src="/assets/t4-station-concept.webp?v=0550ec72269e" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T4</span><strong>新化林場</strong></span>
+</button></div>
+    </div>
+    <aside class="operation-side" aria-label="列車狀態與目前路段">
+      <div class="operation-status">
+        <p class="operation-status-label">A 線</p>
+        <h3 data-operation-status>T1 新化之門準備出發</h3>
+        <p data-operation-direction>往新化林場</p>
+        <div class="operation-b-line"><span>B 線</span><p data-operation-secondary>由 T4 準備出發</p></div>
+      </div>
+      <article class="operation-station">
+        <figure>
+          <img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="東南側鳥瞰架空光舟、南北階梯商店街、空中通廊及下方虎埤水鏡" loading="lazy" data-operation-photo>
+          <figcaption data-operation-photo-label>新化之門站 · 規劃示意</figcaption>
+        </figure>
+        <div>
+          <p class="operation-stop-type" data-operation-stop-type>端站折返</p>
+          <h3 data-operation-stop-name>T1 新化之門</h3>
+          <p data-operation-stop-detail>由光舟月台出站，經通廊前往階梯商店街與迎賓廣場。</p>
+          <a class="text-link" href="/stations/t1/" data-operation-stop-link>探索本站 <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <a class="operation-vista-link" href="/cableway/vehicle/cabin-and-boarding/#t1-t2" data-operation-vista><span data-operation-vista-label>看 T1–T2 車窗景觀</span><span aria-hidden="true">→</span></a>
+    </aside>
+  </div>
+  <span class="visually-hidden" role="status" data-operation-announcement></span>
+  <noscript><p>啟用 JavaScript 可播放與選站。<a href="/cableway/network/">閱讀四站路線</a>。</p></noscript>
+  <div class="operation-route-details">
+  <div><h2>展示模型全線名目站距 1,874.6 公尺</h2><ul aria-label="三段名目站距"><li><span>T1–T2</span> <strong>796.0 公尺</strong></li><li><span>T2–T3</span> <strong>299.2 公尺</strong></li><li><span>T3–T4</span> <strong>779.4 公尺</strong></li></ul></div>
+  <a class="button dark-button" href="/cableway/planner/">試算我的抵達時間 <span aria-hidden="true">→</span></a>
+</div>
+<details class="operation-assumptions">
+  <summary>路線與播放設定</summary>
+  <p>A、B 線各由一輛 U4‑430 示範，沿各自線路往返。車輛在 T2、T3 停靠，旅客可原車續乘。T1、T4 為端站折返。</p>
+  <p>展示採情境均速 30 公里／小時、中間站停靠 30 秒、端站停留 60 秒。動畫預設以 10 倍時間播放。實際班次、速度與調度依營運公告。</p>
+  <p>影像為計畫全景。全線總覽下方的雙線依各站名目距離顯示車輛進度。</p>
+</details>
+  <script type="application/json" data-operation-config>{"stations": [{"code": "T1", "name": "新化之門", "url": "/stations/t1/", "photo": "/assets/t1-gate-aerial.webp?v=4a712293ea6a", "alt": "東南側鳥瞰架空光舟、南北階梯商店街、空中通廊及下方虎埤水鏡", "label": "新化之門站 · 規劃示意", "stopType": "端站折返", "detail": "由光舟月台出站，經通廊前往階梯商店街與迎賓廣場。"}, {"code": "T2", "name": "湖濱旅館", "url": "/stations/t2/", "photo": "/assets/t2-station-concept.webp?v=e1e2849631bd", "alt": "湖濱旅館站東南鳥瞰，面湖階梯露台、綠色屋頂與上層玻璃站廳", "label": "T2 湖濱旅館站 · 疊岸露台規劃示意", "stopType": "中途停靠", "detail": "在湖岸舒展、用餐或住宿，也可留在原車續往山城。"}, {"code": "T3", "name": "湖濱山城", "url": "/stations/t3/", "photo": "/assets/t3-station-concept.webp?v=fe3f3cff22d9", "alt": "湖濱山城站東南鳥瞰，摺板屋頂站廳、旅館客房翼與山林前庭", "label": "T3 湖濱山城站 · 站廳館與山城旅館規劃示意", "stopType": "中途停靠", "detail": "前往活力學院、山城共食，或到站廳館 3 樓體驗「虎埤傳說」室內 XR 樂園。"}, {"code": "T4", "name": "新化林場", "url": "/stations/t4/", "photo": "/assets/t4-station-concept.webp?v=0550ec72269e", "alt": "新化林場站東南鳥瞰，木質站房、進站軌道與跨道路鋼構", "label": "T4 新化林場站 · 站體規劃示意", "stopType": "端站折返", "detail": "依開放場次參加森林慢行與靜休。回程經 T3、T2 往新化之門。"}], "segmentIds": ["t1-t2", "t2-t3", "t3-t4"], "panoramaPoints": [[27.3, 82.8], [38.3, 54.9], [42.7, 45.3], [41.2, 40.4], [57.4, 36.9], [75.2, 35.4]], "distances": [796.0, 299.2, 779.4], "supports": [446.0, 1424.6], "speed": 30, "dwell": 30, "turnaround": 60, "animationRate": 10}</script>
+</section>
+<script type="module" src="/cable-operation.js?v=V1.13.19"></script><section class="route-vistas" id="along-route"><h2>看三段沿線景觀</h2><div><a class="route-view-card" href="/cableway/vehicle/cabin-and-boarding/#t1-t2"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-lake-view-480.webp?v=32db4b1eb781"><img src="/assets/route-lake-view.webp?v=5a769ec5ec25" alt="" loading="lazy" decoding="async"></picture><span>T1–T2</span><strong>跨湖看東岸 <span aria-hidden="true">→</span></strong></a><a class="route-view-card" href="/cableway/vehicle/cabin-and-boarding/#t2-t3"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-mountain-view-480.webp?v=feed04ea01ca"><img src="/assets/route-mountain-view.webp?v=692cfdd0a675" alt="" loading="lazy" decoding="async"></picture><span>T2–T3</span><strong>從湖岸看山城 <span aria-hidden="true">→</span></strong></a><a class="route-view-card" href="/cableway/vehicle/cabin-and-boarding/#t3-t4"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-forest-view-480.webp?v=14faddfb5b9f"><img src="/assets/route-forest-view.webp?v=7a77b525b47b" alt="" loading="lazy" decoding="async"></picture><span>T3–T4</span><strong>順著林冠進站 <span aria-hidden="true">→</span></strong></a></div></section><section class="vehicle-showcase" aria-labelledby="vehicle-showcase-title">
+  <div>
+    <h2 id="vehicle-showcase-title">從月台走進座艙</h2>
+    <p>透過車門看座椅與走道，再按路段查看跨湖、山城和林地的景觀。</p>
+  </div>
+  <div class="vehicle-showcase-media">
+    <figure class="visitor-photo ">
+  <a class="visitor-photo-link" href="/assets/unicar-cabin-passengers.webp?v=5108f32aedd2" aria-label="放大圖片 · 座艙內部實拍"><img src="/assets/unicar-cabin-passengers.webp?v=5108f32aedd2" alt="從敞開的車門望進座艙，乘客分坐在走道兩側" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">座艙內部實拍</span></figcaption>
+</figure>
+    <figure class="visitor-photo ">
+  <a class="visitor-photo-link" href="/assets/unicar-u4-430-poster.webp?v=d671672054c6" aria-label="放大圖片 · Unicar U4‑430 · 車型展示"><img src="/assets/unicar-u4-430-poster.webp?v=d671672054c6" alt="Unicar U4‑430 車型展示圖，呈現白色車身、深色窗帶與中央車門" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">Unicar U4‑430 · 車型展示</span></figcaption>
+</figure>
+  </div>
+  <div class="cable-actions"><a class="button dark-button" href="/cableway/vehicle/cabin-and-boarding/">看座艙與沿線觀景 <span aria-hidden="true">→</span></a><a class="text-link" href="/cableway/vehicle/">查看車型與軌道 <span aria-hidden="true">→</span></a></div>
+</section></div></main>
+<dialog class="photo-dialog" aria-label="圖片預覽" data-photo-dialog>
+  <div class="photo-dialog-top"><p data-photo-caption></p><div class="photo-dialog-actions"><a class="text-link" data-photo-original target="_blank" rel="noopener">開啟 4K 圖片 ↗</a><form method="dialog"><button type="submit" autofocus>關閉圖片</button></form></div></div>
+  <img alt="" data-photo-full>
+</dialog>
+<footer class="footer">
+  <div class="frame footer-content">
+    <div><a class="footer-brand" href="/">虎頭埤長壽生活園區</a><p>園區規劃展示 V1.13.19</p></div>
+    <nav aria-label="頁尾選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a><a href="/vision/">園區理念</a><a href="/journeys/">規劃行程</a><a href="/partners/">合作方式</a></nav>
+  </div>
+</footer>
+</body>
+</html>

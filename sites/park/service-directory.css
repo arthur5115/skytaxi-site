@@ -1,0 +1,63 @@
+.service-directory { margin-block: clamp(26px, 4vw, 46px); scroll-margin-top: 16px; }
+.service-directory-intro { margin-top: 7px; color: var(--muted); }
+.service-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 11px;
+  margin-top: 16px;
+  padding: clamp(10px, 2vw, 18px);
+  border: 1px solid var(--line);
+  background: var(--pale);
+  border-radius: 8px;
+}
+.service-filters label { display: grid; gap: 3px; min-width: 0; font-size: .9rem; font-weight: 800; }
+.service-filters input, .service-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #98ab9e;
+  border-radius: 5px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 .92rem var(--display);
+}
+.service-filters :is(button, input, select):focus-visible { outline: 3px solid #497b62; outline-offset: 2px; }
+.service-filters button { font: 800 .9rem var(--display); min-height: 44px; padding-inline: 11px; cursor: pointer; }
+.service-count { margin-block: 12px 9px; font-weight: 800; font-size: .9rem; }
+.service-empty-result { padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.service-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.7vw, 18px); }
+.service-directory-card, .service-visit {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+.service-directory-card-body, .service-visit { padding: clamp(12px, 2vw, 18px); }
+.service-directory-photo .visitor-photo-link { border-radius: 7px 7px 0 0; }
+.service-directory-photo .visitor-photo-link:focus-visible { outline-offset: -3px; }
+.service-directory-photo > figcaption { padding: 6px clamp(12px, 2vw, 18px) 0; }
+.service-directory-card header { display: flex; gap: 8px; justify-content: space-between; align-items: baseline; color: var(--green); font-size: .79rem; font-weight: 800; }
+.service-status { flex: none; border-radius: 4px; background: var(--pale); padding: 1px 7px; }
+.service-directory-card h3 { margin-top: 6px; font-size: 1.2rem; }
+.service-directory-card h3 a, .service-facts a { color: var(--pine); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.service-facts { display: grid; gap: 7px; margin: 11px 0 0; font-size: .88rem; }
+.service-facts div { padding-top: 7px; border-top: 1px solid var(--line); }
+.service-facts dt { color: var(--ink); font-weight: 800; }
+.service-facts dd { margin: 1px 0 0; color: var(--muted); }
+.service-facts ul { margin: 0; padding-left: 1.1em; }
+.service-facts li + li { margin-top: 4px; }
+.service-plan-link { display: inline-block; margin-left: 7px; font-size: .82rem; }
+.service-visit { margin-block: 24px 32px; }
+
+@media (max-width: 880px) {
+  .service-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .service-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .service-filters label:first-child { grid-column: 1 / -1; }
+  .service-filters button { justify-self: start; }
+  .service-results { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="選擇起訖站、到站時間與候車情境。試算各站抵達區間、下車遊園、活動報到及回程。">
+<meta name="theme-color" content="#17392f">
+<title>智慧行程與預計抵達｜虎頭埤長壽生活園區</title>
+<link rel="stylesheet" href="/style.css?v=V1.13.19">
+<link rel="stylesheet" href="/cableway.css">
+
+
+
+<link rel="stylesheet" href="/visitor-journey.css?v=V1.13.19">
+<link rel="stylesheet" href="/visitor-photos.css?v=V1.13.19">
+<link rel="stylesheet" href="/site-design.css?v=V1.13.19">
+
+
+<script defer src="/app.js"></script>
+<script defer src="/visitor-photos.js?v=V1.13.19"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳至主要內容</a>
+<header class="site-header">
+  <div class="frame header-inner">
+    <a class="wordmark" href="/" aria-label="虎頭埤長壽生活園區首頁"><span class="mark" aria-hidden="true"></span><span><strong>虎頭埤長壽生活園區</strong><small>HUTOUPI HEALTHSPAN</small></span></a>
+    <nav class="desktop-nav" aria-label="主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav>
+    <details class="mobile-menu"><summary>網站選單</summary><nav aria-label="手機主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav></details>
+  </div>
+</header>
+<main id="main-content" tabindex="-1"><div class="frame inner-page"><nav class="breadcrumb" aria-label="網頁位置"><ol><li><a href="/">首頁</a></li><li><a href="/cableway/">園區纜車</a></li><li aria-current="page">智慧行程與預計抵達</li></ol></nav><div class="page-heading has-image">
+  <div><h1>智慧行程與預計抵達</h1><p class="page-intro">選擇起訖站、到站時間與候車情境。試算各站抵達區間、下車遊園、活動報到及回程。</p><p class="status">全線規劃試算 · 臺灣當地時間</p><div class="visitor-actions"><a class="button dark-button" href="/plan/">加入景點、住宿與多日安排 <span aria-hidden="true">→</span></a></div></div>
+<figure class="visitor-photo page-cover-photo">
+  <a class="visitor-photo-link" href="/assets/t2-arrival-court.webp?v=d08b724e516a" aria-label="放大圖片 · 智慧行程與預計抵達"><img src="/assets/t2-arrival-court.webp?v=d08b724e516a" alt="湖濱旅館入口前的落客廣場和中央植栽" fetchpriority="high"></a>
+  <figcaption><span class="photo-label">T2 落客前庭 · 規劃示意</span></figcaption>
+</figure>
+</div><noscript><p class="trip-no-script">請啟用 JavaScript 使用抵達時間試算。也可查看<a href="/journeys/full-park-day/">四站一日遊範例</a>。</p></noscript>
+<section class="trip-planner" aria-label="纜車抵達時間試算" data-cable-planner hidden>
+  <div class="trip-form-pane">
+    <div class="trip-presets" aria-label="套用行程範例"><button type="button" class="trip-choice" data-trip-preset="core">新化之門到山城</button><button type="button" class="trip-choice" data-trip-preset="lake">湖岸來回</button><button type="button" class="trip-choice" data-trip-preset="direct">直達新化林場</button><button type="button" class="trip-choice" data-trip-preset="park">四站一日遊</button></div>
+    <form aria-label="設定纜車行程">
+      <fieldset>
+        <legend>選擇起訖站</legend>
+        <div class="trip-pair">
+          <label>起點站<select name="start"><option value="0" selected>T1 虎頭埤站｜新化之門</option><option value="1">T2 湖濱旅館站</option><option value="2">T3 湖濱山城站</option><option value="3">T4 新化林場站</option></select></label>
+          <label>目的站<select name="destination"><option value="0">T1 虎頭埤站｜新化之門</option><option value="1">T2 湖濱旅館站</option><option value="2" selected>T3 湖濱山城站</option><option value="3">T4 新化林場站</option></select></label>
+        </div>
+        <button type="button" class="trip-swap" data-swap-stations>交換起訖站</button>
+        <div class="trip-pair">
+          <label>到達起點站入口<input type="time" name="departure" value="09:00" required></label>
+          <label>每次進站步行<select name="access"><option value="3">一般 · 3 分鐘</option><option value="6">多留時間 · 6 分鐘</option><option value="10">多留時間 · 10 分鐘</option></select></label>
+        </div>
+        <label>每次候車預留<select name="wait"><option value="short">候車較順 · 2–5 分鐘</option><option value="normal" selected>一般預留 · 5–10 分鐘</option><option value="peak">尖峰預留 · 15–30 分鐘</option></select></label>
+      </fieldset>
+      <fieldset>
+        <legend>中途下車停留</legend>
+        <p class="trip-field-hint">勾選想下車的站，填入出站、體驗與走回車站入口的時間。</p>
+        <div class="trip-visit" data-visit="1">
+  <label class="trip-check"><input type="checkbox" name="visit-1">T2 湖濱旅館站 下車</label>
+  <label class="trip-minutes"><span class="visually-hidden">T2 湖濱旅館站 停留</span>
+    <input type="number" inputmode="numeric" name="stay-1" min="5" max="300" step="1" value="45" required disabled> 分鐘
+  </label>
+</div><div class="trip-visit" data-visit="2">
+  <label class="trip-check"><input type="checkbox" name="visit-2">T3 湖濱山城站 下車</label>
+  <label class="trip-minutes"><span class="visually-hidden">T3 湖濱山城站 停留</span>
+    <input type="number" inputmode="numeric" name="stay-2" min="5" max="300" step="1" value="45" required disabled> 分鐘
+  </label>
+</div>
+        <p class="trip-field-hint" data-no-visits hidden>這兩站之間可直接搭乘。</p>
+      </fieldset>
+      <fieldset>
+        <legend>回程與活動報到</legend>
+        <label class="trip-check"><input type="checkbox" name="return">加入回程至起點站</label>
+        <label data-return-stay hidden>目的站停留（分鐘）
+          <input type="number" inputmode="numeric" name="returnStay" min="0" max="480" step="1" value="60" required disabled>
+        </label>
+        <div class="trip-pair">
+          <label>目的站報到時間（同日，選填）<input type="time" name="deadline"></label>
+          <label data-report-walk hidden>月台到報到點（分鐘）
+            <input type="number" inputmode="numeric" name="activityWalk" min="0" max="60" step="1" value="5" required disabled>
+          </label>
+        </div>
+      </fieldset>
+      <button type="submit" class="button dark-button trip-submit">試算抵達時間 <span aria-hidden="true">↗</span></button>
+    </form>
+  </div>
+  <div class="trip-result-pane" data-trip-results hidden>
+    <div class="trip-result-head">
+      <h2>預計抵達</h2>
+      <p class="trip-eta" data-trip-arrival></p>
+      <p class="trip-destination" data-trip-destination></p>
+      <p class="trip-scenario" data-trip-scenario></p>
+      <p class="trip-total" data-trip-total></p>
+      <p class="trip-return" data-trip-return hidden></p>
+      <p class="trip-return" data-trip-next-day hidden>試算時間跨日，請依營運公告查詢班次及末班資訊。</p>
+    </div>
+    <div class="trip-result-body">
+      <p class="trip-report" data-trip-stale hidden>選項已變更，請重新試算。</p>
+      <div class="trip-report" data-trip-report hidden><strong></strong><p></p></div>
+      <h2>逐站時間</h2>
+      <ol class="trip-timeline" data-trip-timeline role="list"></ol>
+      <div class="trip-result-actions">
+        <button type="button" class="button dark-button" data-trip-download>下載纜車行程 PDF <span aria-hidden="true">↓</span></button>
+        <a data-trip-pdf-view target="_blank" rel="noopener" hidden>開啟 PDF</a>
+        <a href="/cableway/operations/service-hours/">查看班次與末班資訊</a>
+        <a href="/cableway/planner/method/">查看試算依據</a>
+      </div>
+      <p class="trip-field-hint" role="status" data-trip-pdf-status></p>
+    </div>
+  </div>
+  <p class="visually-hidden" role="status" data-trip-summary></p>
+</section>
+<script type="application/json" id="cable-trip-data">{"spans": [446.0, 350.0, 299.2, 329.4, 450.0], "speed": 30, "dwell": 30, "turnaround": 60, "waitProfiles": {"short": {"title": "候車較順", "minutes": [2, 5]}, "normal": {"title": "一般預留", "minutes": [5, 10]}, "peak": {"title": "尖峰預留", "minutes": [15, 30]}}, "presets": {"core": {"title": "新化之門到山城", "start": 0, "destination": 2, "departure": "09:00", "visits": {}, "returnStay": null}, "lake": {"title": "湖岸來回", "start": 0, "destination": 1, "departure": "10:00", "visits": {}, "returnStay": 60}, "direct": {"title": "直達新化林場", "start": 0, "destination": 3, "departure": "09:00", "visits": {}, "returnStay": null}, "park": {"title": "四站一日遊", "start": 0, "destination": 3, "departure": "10:40", "visits": {"1": 60, "2": 65}, "returnStay": 75}}, "distances": [796.0, 299.2, 779.4], "supports": [446.0, 1424.6], "basis": "全線名目站距 1,874.6 公尺 · 情境均速 30 公里／小時 · 中途停站各 30 秒", "stations": [{"title": "T1 虎頭埤站｜新化之門"}, {"title": "T2 湖濱旅館站"}, {"title": "T3 湖濱山城站"}, {"title": "T4 新化林場站"}]}</script>
+<script type="module" src="/cable-planner.js?v=V1.13.19"></script><section class="card-group"><h2>了解試算依據</h2><div class="card-grid " data-count="1"><a class="page-card" href="/cableway/planner/method/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-lake-view-480.webp?v=32db4b1eb781"><img src="/assets/route-lake-view.webp?v=5a769ec5ec25" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">跨湖段近水面視角 · 規劃示意</span></div><div class="card-body"><strong>站距與抵達試算依據</strong><p>試算以 1,874.6 公尺 作為四站展示模型的全線名目站距。抵達時間按區間行駛、中途停站、步行與候車分別加總。</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a></div></section><section class="card-group"><h2>乘車與遊園資訊</h2><div class="card-grid related-grid" data-count="3"><a class="page-card" href="/cableway/operations/tickets/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/related/t1-gate-bridge-480.webp?v=e45f3e114c46"><img src="/assets/t1-gate-bridge.webp?v=008fc8eb5110" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">光舟出站通廊銜接商店街 · 規劃示意</span></div><div class="card-body"><strong>票務與多站遊園</strong><p>先選定出發站、停留站與回程站，再依票券公告確認可搭乘範圍。園區規劃整合纜車與跨站遊園的票證資訊。</p><p class="card-status">實際票種、價格與使用權益依營運公告</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/cableway/operations/disruptions/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/related/t3-station-arrival-480.webp?v=a3ddd1ceefb8"><img src="/assets/t3-station-arrival.webp?v=00334d52adac" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">T3 湖濱山城站 · 前庭落客與公共入口規劃示意</span></div><div class="card-body"><strong>停駛與改排</strong><p>遇天候、設備或維護造成纜車服務變動，先確認受影響的站點、方向與回程選項，再依公告安排交通和活動。</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/journeys/full-park-day/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-aerial-hutoupi-480.webp?v=030e278fbc6b"><img src="/assets/route-aerial-hutoupi.webp?v=6f96599bc27f" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">虎頭埤四站全線 · 規劃鳥瞰</span></div><div class="card-body"><p class="card-context">T1 → T2 → T3 → T4 → T1</p><strong>四站纜車一日遊</strong><p>從食農市集出發，搭纜車在湖岸用餐、到山城參加活動，再到新化林場步行，最後由 T4 直返 T1。</p><p class="card-status">行程示例 · 四站全線</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a></div></section></div></main>
+<dialog class="photo-dialog" aria-label="圖片預覽" data-photo-dialog>
+  <div class="photo-dialog-top"><p data-photo-caption></p><div class="photo-dialog-actions"><a class="text-link" data-photo-original target="_blank" rel="noopener">開啟 4K 圖片 ↗</a><form method="dialog"><button type="submit" autofocus>關閉圖片</button></form></div></div>
+  <img alt="" data-photo-full>
+</dialog>
+<footer class="footer">
+  <div class="frame footer-content">
+    <div><a class="footer-brand" href="/">虎頭埤長壽生活園區</a><p>園區規劃展示 V1.13.19</p></div>
+    <nav aria-label="頁尾選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/" class="active">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a><a href="/vision/">園區理念</a><a href="/journeys/">規劃行程</a><a href="/partners/">合作方式</a></nav>
+  </div>
+</footer>
+</body>
+</html>

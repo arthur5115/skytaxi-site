@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="虎頭埤長壽生活園區將山城訓練、湖岸恢復與新化食農串成跨站旅程。探索四站概念、健康旅居及親子遊程。">
+<meta name="theme-color" content="#17392f">
+<title>虎頭埤長壽生活園區</title>
+<link rel="stylesheet" href="/style.css?v=V1.13.19">
+<link rel="stylesheet" href="/cableway.css">
+<link rel="stylesheet" href="/cable-operation.css?v=V1.13.19">
+
+
+<link rel="stylesheet" href="/visitor-journey.css?v=V1.13.19">
+<link rel="stylesheet" href="/visitor-photos.css?v=V1.13.19">
+<link rel="stylesheet" href="/site-design.css?v=V1.13.19">
+
+
+<script defer src="/app.js"></script>
+<script defer src="/visitor-photos.js?v=V1.13.19"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳至主要內容</a>
+<header class="site-header">
+  <div class="frame header-inner">
+    <a class="wordmark" href="/" aria-label="虎頭埤長壽生活園區首頁"><span class="mark" aria-hidden="true"></span><span><strong>虎頭埤長壽生活園區</strong><small>HUTOUPI HEALTHSPAN</small></span></a>
+    <nav class="desktop-nav" aria-label="主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav>
+    <details class="mobile-menu"><summary>網站選單</summary><nav aria-label="手機主選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a></nav></details>
+  </div>
+</header>
+<main id="main-content" tabindex="-1"><section class="home-lead" aria-labelledby="home-title">
+  <div class="frame home-lead-inner">
+    <div class="home-lead-copy">
+      <h1 id="home-title">湖岸與山城<br>練習健康的日常</h1>
+      <p>搭纜車遊湖，在山城練習肌力與平衡、到湖岸舒展休息，帶一道用新化食材做的料理回家。</p>
+      <div class="home-lead-actions">
+        <a class="button gold-button" href="/journeys/lakeside-retreat/">三天兩夜健康旅居 <span aria-hidden="true">→</span></a>
+        <a class="button light-button" href="#play-operation" data-operation-start>立即播放四站運行 <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <figure class="home-lead-photo">
+      <img src="/assets/t2-station-concept.webp?v=e1e2849631bd" alt="湖濱旅館站東南鳥瞰，面湖階梯露台、綠色屋頂與上層玻璃站廳" fetchpriority="high">
+      <figcaption>T2 湖濱旅館站 · 疊岸露台規劃示意</figcaption>
+    </figure>
+  </div>
+</section>
+<div class="frame home-content">
+  <section class="operation-demo operation-compact" id="operation-demo" aria-label="四站纜車互動運行" data-operation-demo>
+  <div class="operation-view-bar" id="play-operation">
+    <div><h2>四站纜車運行</h2><p>T1 至 T4 規劃一次通車 <span aria-hidden="true">·</span> 四站雙向往返</p></div>
+    <div class="operation-quick-actions">
+      <button type="button" class="operation-quick-play" data-operation-quick-play data-operation-interactive hidden>播放四站運行</button>
+      <a class="text-link" href="/cableway/operation-demo/">開啟完整運行專頁 <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <div class="operation-grid">
+    <div class="operation-main">
+      <div class="operation-progress" data-operation-progress data-operation-interactive hidden>
+        <div class="operation-progress-summary">
+          <span class="operation-playback-state" data-operation-playback-state role="status">準備播放</span>
+          <span class="operation-progress-time">模擬時間 <strong data-operation-progress-clock>00:00</strong></span>
+        </div>
+        <div class="operation-track" aria-hidden="true">
+          <div class="operation-track-inner">
+            <div class="operation-ticks"><span class="operation-tick" style="--position:0.0000%"><i></i>T1</span><span class="operation-tick" style="--position:42.4624%"><i></i>T2</span><span class="operation-tick" style="--position:58.4231%"><i></i>T3</span><span class="operation-tick" style="--position:100.0000%"><i></i>T4</span></div>
+            <div class="operation-diagram">
+              <div><span>A</span><i data-operation-car=""></i></div>
+              <div><span>B</span><i data-operation-car="" class="reverse"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="operation-scene" data-operation-scene>
+        <figure class="operation-panorama" data-operation-panorama>
+          <img src="/assets/route-aerial-hutoupi.webp?v=6f96599bc27f" alt="由新化之門西南側往東北俯看虎頭埤湖面、山城和林場方向的四站規劃" loading="lazy" decoding="async">
+          <span class="operation-map-car" data-operation-map-car aria-hidden="true">A</span>
+          <span class="operation-map-car line-b" data-operation-map-car aria-hidden="true">B</span>
+          <figcaption>虎頭埤四站沿線 · 規劃全景</figcaption>
+        </figure>
+        <canvas data-operation-canvas aria-hidden="true" hidden></canvas>
+        <p class="operation-follow-label" data-operation-follow-label hidden>立體運行示意 · 車輛放大顯示</p>
+      </div>
+      <p class="operation-visual-message" data-operation-visual-message role="status" hidden></p>
+      <div class="operation-toolbar" data-operation-interactive hidden>
+        <div class="operation-playback">
+          <button class="operation-play" type="button" data-operation-play aria-label="播放運行">播放</button>
+          <button class="operation-reset" type="button" data-operation-reset>重播</button>
+        </div>
+        <div class="operation-timeline">
+          <label class="visually-hidden" for="operation-time">運行時間軸</label>
+          <input id="operation-time" type="range" min="0" max="1000" step="1" value="0" data-operation-time>
+          <div><span data-operation-clock>00:00</span><span>模擬時間</span><span data-operation-duration>—</span></div>
+        </div>
+        <div class="operation-speed"><label for="operation-speed">播放速度</label>
+          <select id="operation-speed" data-operation-speed><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+        </div>
+      </div>
+      <div class="operation-stops" role="group" aria-label="選站看列車到站" data-operation-interactive hidden><button type="button" data-operation-stop="0" aria-current="step">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t1-gate-aerial-480.webp?v=cee73fcfadc6"><img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T1</span><strong>新化之門</strong></span>
+</button><button type="button" data-operation-stop="1">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t2-station-concept-480.webp?v=6cd26077668e"><img src="/assets/t2-station-concept.webp?v=e1e2849631bd" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T2</span><strong>湖濱旅館</strong></span>
+</button><button type="button" data-operation-stop="2">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t3-station-concept-480.webp?v=a96c8fd3f900"><img src="/assets/t3-station-concept.webp?v=fe3f3cff22d9" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T3</span><strong>湖濱山城</strong></span>
+</button><button type="button" data-operation-stop="3">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t4-station-concept-480.webp?v=c790f8d7bb89"><img src="/assets/t4-station-concept.webp?v=0550ec72269e" alt="" loading="lazy" decoding="async"></picture>
+  <span class="operation-stop-text"><span>T4</span><strong>新化林場</strong></span>
+</button></div>
+    </div>
+    <aside class="operation-side" aria-label="列車狀態與目前路段">
+      <div class="operation-status">
+        <p class="operation-status-label">A 線</p>
+        <h3 data-operation-status>T1 新化之門準備出發</h3>
+        <p data-operation-direction>往新化林場</p>
+        <div class="operation-b-line"><span>B 線</span><p data-operation-secondary>由 T4 準備出發</p></div>
+      </div>
+      <article class="operation-station">
+        <figure>
+          <img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="東南側鳥瞰架空光舟、南北階梯商店街、空中通廊及下方虎埤水鏡" loading="lazy" data-operation-photo>
+          <figcaption data-operation-photo-label>新化之門站 · 規劃示意</figcaption>
+        </figure>
+        <div>
+          <p class="operation-stop-type" data-operation-stop-type>端站折返</p>
+          <h3 data-operation-stop-name>T1 新化之門</h3>
+          <p data-operation-stop-detail>由光舟月台出站，經通廊前往階梯商店街與迎賓廣場。</p>
+          <a class="text-link" href="/stations/t1/" data-operation-stop-link>探索本站 <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <a class="operation-vista-link" href="/cableway/vehicle/cabin-and-boarding/#t1-t2" data-operation-vista><span data-operation-vista-label>看 T1–T2 車窗景觀</span><span aria-hidden="true">→</span></a>
+    </aside>
+  </div>
+  <span class="visually-hidden" role="status" data-operation-announcement></span>
+  <noscript><p>啟用 JavaScript 可播放與選站。<a href="/cableway/network/">閱讀四站路線</a>。</p></noscript>
+
+  <script type="application/json" data-operation-config>{"stations": [{"code": "T1", "name": "新化之門", "url": "/stations/t1/", "photo": "/assets/t1-gate-aerial.webp?v=4a712293ea6a", "alt": "東南側鳥瞰架空光舟、南北階梯商店街、空中通廊及下方虎埤水鏡", "label": "新化之門站 · 規劃示意", "stopType": "端站折返", "detail": "由光舟月台出站，經通廊前往階梯商店街與迎賓廣場。"}, {"code": "T2", "name": "湖濱旅館", "url": "/stations/t2/", "photo": "/assets/t2-station-concept.webp?v=e1e2849631bd", "alt": "湖濱旅館站東南鳥瞰，面湖階梯露台、綠色屋頂與上層玻璃站廳", "label": "T2 湖濱旅館站 · 疊岸露台規劃示意", "stopType": "中途停靠", "detail": "在湖岸舒展、用餐或住宿，也可留在原車續往山城。"}, {"code": "T3", "name": "湖濱山城", "url": "/stations/t3/", "photo": "/assets/t3-station-concept.webp?v=fe3f3cff22d9", "alt": "湖濱山城站東南鳥瞰，摺板屋頂站廳、旅館客房翼與山林前庭", "label": "T3 湖濱山城站 · 站廳館與山城旅館規劃示意", "stopType": "中途停靠", "detail": "前往活力學院、山城共食，或到站廳館 3 樓體驗「虎埤傳說」室內 XR 樂園。"}, {"code": "T4", "name": "新化林場", "url": "/stations/t4/", "photo": "/assets/t4-station-concept.webp?v=0550ec72269e", "alt": "新化林場站東南鳥瞰，木質站房、進站軌道與跨道路鋼構", "label": "T4 新化林場站 · 站體規劃示意", "stopType": "端站折返", "detail": "依開放場次參加森林慢行與靜休。回程經 T3、T2 往新化之門。"}], "segmentIds": ["t1-t2", "t2-t3", "t3-t4"], "panoramaPoints": [[27.3, 82.8], [38.3, 54.9], [42.7, 45.3], [41.2, 40.4], [57.4, 36.9], [75.2, 35.4]], "distances": [796.0, 299.2, 779.4], "supports": [446.0, 1424.6], "speed": 30, "dwell": 30, "turnaround": 60, "animationRate": 10}</script>
+</section>
+<script type="module" src="/cable-operation.js?v=V1.13.19"></script>
+  <section class="card-group"><h2>走進四座車站</h2><div class="card-grid station-grid" data-count="4"><a class="page-card station-concept-card" href="/stations/t1/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t1-gate-aerial-480.webp?v=cee73fcfadc6"><img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">新化之門站 · 規劃示意</span></div><div class="card-body"><p class="card-context">T1</p><strong>虎頭埤站｜新化之門</strong><p>光舟與階梯商店街構成健康旅程的入口。從新化食材、風土餐桌與共享廚房開始，認識可以帶回日常的用餐做法。</p><p class="card-status">園區規劃展示</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card station-concept-card" href="/stations/t2/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t2-station-concept-480.webp?v=6cd26077668e"><img src="/assets/t2-station-concept.webp?v=e1e2849631bd" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">T2 湖濱旅館站 · 疊岸露台規劃示意</span></div><div class="card-body"><p class="card-context">T2</p><strong>湖濱旅館站</strong><p>湖岸恢復與旅居主場。到 T3 上完課後，可回 T2 做舒展、休息、練習作息並用餐。日間旅客也能依時段安排停留。</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card station-concept-card" href="/stations/t3/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t3-station-concept-480.webp?v=a96c8fd3f900"><img src="/assets/t3-station-concept.webp?v=fe3f3cff22d9" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">T3 湖濱山城站 · 站廳館與山城旅館規劃示意</span></div><div class="card-body"><p class="card-context">T3</p><strong>湖濱山城站</strong><p>活力學院提供肌力、平衡與小班教學。課後可在山城共食，或回 T2 湖岸恢復。親子家庭可安排站廳館 3 樓的「虎埤傳說」室內 XR 樂園。</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card station-concept-card" href="/stations/t4/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t4-station-concept-480.webp?v=c790f8d7bb89"><img src="/assets/t4-station-concept.webp?v=0550ec72269e" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">T4 新化林場站 · 站體規劃示意</span></div><div class="card-body"><p class="card-context">T4</p><strong>新化林場站</strong><p>四站全線的森林療癒終點。旅客可沿開放林徑慢行、觀察林相與靜休，把湖岸恢復體驗接到林間。</p><p class="card-status">四站全線規劃</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a></div></section>
+  <section class="health-program" aria-labelledby="health-program-title" id="health-program">
+  <div class="health-program-heading"><h2 id="health-program-title">一次旅居，練習三種日常</h2></div>
+  <div class="health-program-grid"><article>
+  <figure class="visitor-photo program-photo">
+  <a class="visitor-photo-link" href="/assets/visit-small-class.webp?v=30b4043dc125" aria-label="放大圖片 · 訓練"><img src="/assets/visit-small-class.webp?v=30b4043dc125" alt="山城小班動作教室的學員在教練帶領下做站姿活動" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">規劃情境示意</span></figcaption>
+</figure>
+  <div><h3>訓練</h3>
+    <p class="program-station">T3 活力學院</p>
+    <p>從熱身、肌力與平衡入門，到選擇回家也能練的動作。</p>
+    <a class="text-link" href="/stations/t3/training/">活力學院與健康中心 <span aria-hidden="true">→</span></a>
+  </div>
+</article><article>
+  <figure class="visitor-photo program-photo">
+  <a class="visitor-photo-link" href="/assets/visit-lakeside-movement.webp?v=59f190c3d778" aria-label="放大圖片 · 恢復"><img src="/assets/visit-lakeside-movement.webp?v=59f190c3d778" alt="旅客和教練在湖畔木平台做肩部舒展" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">規劃情境示意</span></figcaption>
+</figure>
+  <div><h3>恢復</h3>
+    <p class="program-station">T2 湖岸旅居</p>
+    <p>上課後回到湖岸舒展、休息，練習安排晚間作息。想走進森林時，也可另排 T4 慢行活動。</p>
+    <a class="text-link" href="/ecosystems/wellness-centre/recovery-routine/">湖岸恢復與睡眠教育 <span aria-hidden="true">→</span></a>
+  </div>
+</article><article>
+  <figure class="visitor-photo program-photo">
+  <a class="visitor-photo-link" href="/assets/visit-nutrition.webp?v=14418c84aaff" aria-label="放大圖片 · 營養"><img src="/assets/visit-nutrition.webp?v=14418c84aaff" alt="桌上的米飯、蔬菜與豆腐餐盤，雙手示範日常配餐" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">規劃情境示意</span></figcaption>
+</figure>
+  <div><h3>營養</h3>
+    <p class="program-station">T1 共享廚房 · T2/T3 餐桌</p>
+    <p>在 T1 認識食材與料理，於旅居餐食和課後共食練習，帶回一項能在家重做的餐食。</p>
+    <a class="text-link" href="/ecosystems/healthy-dining/practical-nutrition/">日常營養餐與食農練習 <span aria-hidden="true">→</span></a>
+  </div>
+</article></div>
+</section>
+  <section class="card-group"><h2>選一趟湖山旅程</h2><div class="card-grid featured-journey-grid" data-count="5"><a class="page-card" href="/journeys/lakeside-retreat/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/room-t2-lake-480.webp?v=e3ed4b20a261"><img src="/assets/room-t2-lake.webp?v=558ffa6d1a52" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">客房配置示意</span></div><div class="card-body"><p class="card-context">T1 食農 · T2 湖岸恢復與旅居 · T3 活力學院</p><strong>三天兩夜湖岸健康旅居</strong><p>給想建立規律活動、飲食與作息的旅客。住在 T2，串聯 T1 食農、T3 肌力與平衡，再回到湖岸恢復，整理一份可帶回家的練習計畫。</p><p class="card-status">規劃示例 · T1、T2、T3 旅居動線</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/journeys/family-half-day/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t3-xr-flying-theater-480.webp?v=b7ec18c3424e"><img src="/assets/t3-xr-flying-theater.webp?v=6cab88488a08" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">飛越虎頭埤 · 飛行劇場規劃示意</span></div><div class="card-body"><p class="card-context">T1 新化之門 · T3 湖濱山城站</p><strong>親子半日 · 食農與微型遊樂園</strong><p>先在 T1 共享廚房認識新化食材，搭車到 T3 體驗「虎埤傳說」室內 XR 樂園，再和家人一起在山城用餐。</p><p class="card-status">規劃示例 · 親子遊程</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/journeys/lakeside-90/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-tea-480.webp?v=cf7e9d100bb2"><img src="/assets/visit-tea.webp?v=7ce88d9146d0" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">規劃情境示意</span></div><div class="card-body"><p class="card-context">T1 → T2</p><strong>90 分鐘湖畔初體驗</strong><p>從新化食材與市集選品出發，搭纜車到湖濱旅館站散步、喝茶或在室內休息。</p><p class="card-status">行程示例</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/journeys/full-park-day/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/route-aerial-hutoupi-480.webp?v=030e278fbc6b"><img src="/assets/route-aerial-hutoupi.webp?v=6f96599bc27f" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">虎頭埤四站全線 · 規劃鳥瞰</span></div><div class="card-body"><p class="card-context">T1 → T2 → T3 → T4 → T1</p><strong>四站纜車一日遊</strong><p>從食農市集出發，搭纜車在湖岸用餐、到山城參加活動，再到新化林場步行，最後由 T4 直返 T1。</p><p class="card-status">行程示例 · 四站全線</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a><a class="page-card" href="/journeys/forest-half-day/">
+  <div class="card-photo"><picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-forest-walk-480.webp?v=efef6f6b20d8"><img src="/assets/visit-forest-walk.webp?v=8c3e596ed473" alt="" loading="lazy" decoding="async"></picture><span class="card-photo-caption">規劃情境示意</span></div><div class="card-body"><p class="card-context">T4 新化林場站</p><strong>半日森林慢行</strong><p>從虎頭埤站搭纜車，經 T2、T3 中途停靠直達 T4，參加小團森林步行、自然觀察與林間靜休。</p><p class="card-status">行程示例 · T4 新化林場</p><span class="card-arrow" aria-hidden="true">→</span></div>
+</a></div></section>
+  <section class="vehicle-showcase" aria-labelledby="vehicle-showcase-title">
+  <div>
+    <h2 id="vehicle-showcase-title">從月台走進座艙</h2>
+    <p>透過車門看座椅與走道，再按路段查看跨湖、山城和林地的景觀。</p>
+  </div>
+  <div class="vehicle-showcase-media">
+    <figure class="visitor-photo ">
+  <a class="visitor-photo-link" href="/assets/unicar-cabin-passengers.webp?v=5108f32aedd2" aria-label="放大圖片 · 座艙內部實拍"><img src="/assets/unicar-cabin-passengers.webp?v=5108f32aedd2" alt="從敞開的車門望進座艙，乘客分坐在走道兩側" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">座艙內部實拍</span></figcaption>
+</figure>
+    <figure class="visitor-photo ">
+  <a class="visitor-photo-link" href="/assets/unicar-u4-430-poster.webp?v=d671672054c6" aria-label="放大圖片 · Unicar U4‑430 · 車型展示"><img src="/assets/unicar-u4-430-poster.webp?v=d671672054c6" alt="Unicar U4‑430 車型展示圖，呈現白色車身、深色窗帶與中央車門" loading="lazy" decoding="async"></a>
+  <figcaption><span class="photo-label">Unicar U4‑430 · 車型展示</span></figcaption>
+</figure>
+  </div>
+  <div class="cable-actions"><a class="button dark-button" href="/cableway/vehicle/cabin-and-boarding/">看座艙與沿線觀景 <span aria-hidden="true">→</span></a><a class="text-link" href="/cableway/vehicle/">查看車型與軌道 <span aria-hidden="true">→</span></a></div>
+</section>
+  <section class="home-stays"><h2>選一站，住進湖岸或山城</h2><div><article class="home-stay">
+  <figure><img src="/assets/room-t2-lake.webp?v=558ffa6d1a52" alt="T2 湖景房配置示意，雙人大床、靠窗座位與湖景" loading="lazy" decoding="async"><figcaption>客房配置示意</figcaption></figure>
+  <div><p class="eyebrow">T2 湖濱旅館站</p><h3>在湖岸住幾晚</h3><p>從 T3 上課回來，在湖岸安排舒展、用餐與休息。三天兩夜方案在這裡連住兩晚。</p>
+  <p class="home-rate">平日每房晚 NT$6,500 起 · 規劃參考</p>
+  <a class="text-link" href="/stays/#lakeside">看房型與房價 <span aria-hidden="true">→</span></a></div>
+</article><article class="home-stay">
+  <figure><img src="/assets/room-t3-course.webp?v=b0155407d8b5" alt="T3 課程長住房配置示意，工作桌、層架與一大床" loading="lazy" decoding="async"><figcaption>客房配置示意</figcaption></figure>
+  <div><p class="eyebrow">T3 湖濱山城站</p><h3>住在山城上課</h3><p>在活力學院上課，與同行者共食。從團旅、課程長住及彈性友善房選擇。</p>
+  <p class="home-rate">平日每房晚 NT$4,700 起 · 規劃參考</p>
+  <a class="text-link" href="/stays/#mountain">看房型與房價 <span aria-hidden="true">→</span></a></div>
+</article></div></section>
+  <section class="station-services" aria-labelledby="station-services-title">
+  <h2 id="station-services-title">四站 × 六大生態</h2>
+  <p>點選站點或服務圖片查看詳情。圖片為規劃示意。園內醫事服務設於 T1，開業資訊依進駐機構公告。</p>
+  <div class="visitor-actions"><a class="button quiet-button" href="/ecosystems/#service-directory">查健康服務 <span aria-hidden="true">→</span></a></div>
+  <p class="station-services-scroll-note">左右滑動查看 T1 至 T4。</p>
+  <div class="station-services-scroll" tabindex="0" role="region" aria-labelledby="station-services-title">
+    <table><thead><tr><th scope="col">生態類別</th><th scope="col"><a class="station-service-link" href="/stations/t1/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t1-gate-aerial-480.webp?v=cee73fcfadc6"><img src="/assets/t1-gate-aerial.webp?v=4a712293ea6a" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">T1 新化之門 <span aria-hidden="true">→</span></span>
+</a></th><th scope="col"><a class="station-service-link" href="/stations/t2/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t2-station-concept-480.webp?v=6cd26077668e"><img src="/assets/t2-station-concept.webp?v=e1e2849631bd" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">T2 湖濱旅館 <span aria-hidden="true">→</span></span>
+</a></th><th scope="col"><a class="station-service-link" href="/stations/t3/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t3-station-concept-480.webp?v=a96c8fd3f900"><img src="/assets/t3-station-concept.webp?v=fe3f3cff22d9" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">T3 湖濱山城 <span aria-hidden="true">→</span></span>
+</a></th><th scope="col"><a class="station-service-link" href="/stations/t4/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t4-station-concept-480.webp?v=c790f8d7bb89"><img src="/assets/t4-station-concept.webp?v=0550ec72269e" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">T4 新化林場 <span aria-hidden="true">→</span></span>
+</a></th></tr></thead><tbody><tr><th scope="row"><a href="/ecosystems/longevity-clinic/">長壽診所</a></th><td><a class="station-service-link" href="/ecosystems/longevity-clinic/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-preventive-480.webp?v=7a41b554ca4a"><img src="/assets/visit-preventive.webp?v=60878a1b3bd5" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">預防門診與健康追蹤 <span aria-hidden="true">→</span></span>
+</a></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td></tr><tr><th scope="row"><a href="/ecosystems/wellness-centre/">健康中心</a></th><td><a class="station-service-link" href="/stations/t1/market/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/t1-market-plaza-480.webp?v=bd3e88520922"><img src="/assets/t1-market-plaza.webp?v=fc2a324af1cf" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">入門活動與休憩 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/ecosystems/wellness-centre/recovery-routine/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-sleep-routine-480.webp?v=b1f5412031ef"><img src="/assets/visit-sleep-routine.webp?v=dcc74f4b5811" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">湖岸恢復與睡眠教育 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/stations/t3/training/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-training-480.webp?v=68c685edfeb6"><img src="/assets/visit-training.webp?v=626f4dbf6f4f" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">活力學院訓練 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/stations/t4/forest-walk/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-forest-walk-480.webp?v=efef6f6b20d8"><img src="/assets/visit-forest-walk.webp?v=8c3e596ed473" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">小團林間步行 <span aria-hidden="true">→</span></span>
+</a></td></tr><tr><th scope="row"><a href="/ecosystems/curated-retail/">精選零售</a></th><td><a class="station-service-link" href="/ecosystems/curated-retail/local-food/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-local-produce-480.webp?v=2d5ab86f7a70"><img src="/assets/visit-local-produce.webp?v=e5883d512423" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">新化物產與選品 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/ecosystems/curated-retail/stay-sampling/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-retail-sampling-480.webp?v=abcd8030afa6"><img src="/assets/visit-retail-sampling.webp?v=cf8cab76aed0" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">旅居選品試用 <span aria-hidden="true">→</span></span>
+</a></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td></tr><tr><th scope="row"><a href="/ecosystems/medical-allied/">醫療與醫事專業服務</a></th><td><a class="station-service-link" href="/ecosystems/medical-allied/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-rehab-480.webp?v=a76695899f31"><img src="/assets/visit-rehab.webp?v=314787f165b0" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">門診、復健等醫事服務 <span aria-hidden="true">→</span></span>
+</a></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td></tr><tr><th scope="row"><a href="/ecosystems/healthy-dining/">健康餐飲</a></th><td><a class="station-service-link" href="/ecosystems/healthy-dining/practical-nutrition/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-nutrition-480.webp?v=e1cd4c91f49e"><img src="/assets/visit-nutrition.webp?v=14418c84aaff" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">風土餐桌與食農練習 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/ecosystems/healthy-dining/lakeside-meals/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-tea-480.webp?v=cf7e9d100bb2"><img src="/assets/visit-tea.webp?v=7ce88d9146d0" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">湖岸旅居餐食 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/ecosystems/healthy-dining/group-dining/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-group-dining-480.webp?v=43e2dd3aa1d5"><img src="/assets/visit-group-dining.webp?v=b0545c8ebdb5" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">課後及團體共食 <span aria-hidden="true">→</span></span>
+</a></td><td class="service-empty"><span aria-label="無配置">—</span></td></tr><tr><th scope="row"><a href="/ecosystems/beauty-care/">美容與身體保養</a></th><td><a class="station-service-link" href="/ecosystems/curated-retail/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-skincare-480.webp?v=7d645ddabdaf"><img src="/assets/visit-skincare.webp?v=b377ab227a5c" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">保養選品展售 <span aria-hidden="true">→</span></span>
+</a></td><td><a class="station-service-link" href="/ecosystems/beauty-care/">
+  <picture class="responsive-photo"><source media="(max-width: 720px)" srcset="/assets/visit-body-care-480.webp?v=2092daf75758"><img src="/assets/visit-body-care.webp?v=338f9f5ceb34" alt="" loading="lazy" decoding="async"></picture>
+  <span class="station-service-name">日常保養與放鬆 <span aria-hidden="true">→</span></span>
+</a></td><td class="service-empty"><span aria-label="無配置">—</span></td><td class="service-empty"><span aria-label="無配置">—</span></td></tr></tbody></table>
+  </div>
+</section>
+  <section class="visit-callout"><div><h2>專程到園的旅客</h2><p>依目的查服務、到達入口及各站回程安排。</p></div><div class="visitor-actions"><a class="text-link" href="/ecosystems/">查看六大生態 <span aria-hidden="true">→</span></a><a class="text-link" href="/stations/t1/medical-access/">T1 醫事入口 <span aria-hidden="true">→</span></a><a class="text-link" href="/visit/">查看行前指南 <span aria-hidden="true">→</span></a></div></section>
+</div></main>
+<dialog class="photo-dialog" aria-label="圖片預覽" data-photo-dialog>
+  <div class="photo-dialog-top"><p data-photo-caption></p><div class="photo-dialog-actions"><a class="text-link" data-photo-original target="_blank" rel="noopener">開啟 4K 圖片 ↗</a><form method="dialog"><button type="submit" autofocus>關閉圖片</button></form></div></div>
+  <img alt="" data-photo-full>
+</dialog>
+<footer class="footer">
+  <div class="frame footer-content">
+    <div><a class="footer-brand" href="/">虎頭埤長壽生活園區</a><p>園區規劃展示 V1.13.19</p></div>
+    <nav aria-label="頁尾選單"><a href="/stations/">探索四站</a><a href="/ecosystems/">六大生態</a><a href="/cableway/">園區纜車</a><a href="/stays/">住宿與房價</a><a href="/visit/">行前指南</a><a href="/plan/" class="planner-nav">排我的行程</a><a href="/vision/">園區理念</a><a href="/journeys/">規劃行程</a><a href="/partners/">合作方式</a></nav>
+  </div>
+</footer>
+</body>
+</html>

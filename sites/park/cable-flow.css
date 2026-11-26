@@ -1,0 +1,70 @@
+.cable-flow {
+  --flow-green: #356b51;
+  margin-block: clamp(30px, 5vw, 54px);
+}
+.cable-flow > h2 { margin-bottom: 13px; }
+.flow-controls { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.flow-controls button {
+  min-height: 44px; padding: 7px 16px; border: 1px solid var(--line); border-radius: 4px;
+  background: var(--paper); color: var(--ink); font: inherit; font-size: .93rem; font-weight: 750; cursor: pointer;
+}
+.flow-controls button:hover { border-color: var(--flow-green); }
+.flow-controls [aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--paper); }
+
+.flow-panel { padding: clamp(12px, 2.4vw, 25px); background: var(--pale); border: 1px solid var(--line); border-radius: 8px; }
+.flow-result-head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 9px 21px;
+  padding: 0 0 13px; border-bottom: 1px solid #cfd6c7;
+}
+.flow-result-head > div { flex: 1 1 290px; min-width: 0; }
+.flow-result-head h3 { font-size: clamp(1.15rem, 2.1vw, 1.53rem); }
+.flow-result-head p { margin-top: 4px; color: var(--muted); }
+.flow-journey {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 5px 10px;
+  border: 1px solid #aebdad; border-radius: 4px; background: var(--paper); font-weight: 750; font-size: .9rem;
+  text-decoration: none;
+}
+.flow-journey:hover { border-color: var(--flow-green); text-decoration: underline; text-underline-offset: 3px; }
+
+.flow-track {
+  --flow-gap: clamp(9px, 1.45vw, 17px);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--flow-gap);
+  margin: 18px 0 13px; padding: 0; list-style: none;
+}
+.flow-stop { position: relative; min-width: 0; }
+.flow-edge {
+  position: absolute; top: 18px; left: 50%; width: calc(100% + var(--flow-gap));
+  border-top: 3px solid var(--flow-green); pointer-events: none;
+}
+.flow-station { position: relative; display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+.flow-code {
+  display: grid; place-items: center; width: 39px; height: 39px; margin: 0 auto 8px;
+  border: 2px solid var(--flow-green); border-radius: 50%; background: var(--pine); color: var(--paper);
+  font-weight: 850; font-size: .86rem;
+}
+.flow-card {
+  display: flex; flex-direction: column; flex: 1; min-width: 0; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--paper);
+}
+.flow-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.flow-card-copy { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 7px; padding: 8px 10px 11px; }
+.flow-card-copy strong { font-size: clamp(.95rem, 1.42vw, 1.18rem); line-height: 1.35; }
+.flow-activity { flex-basis: 100%; color: var(--flow-green); font-size: .82rem; line-height: 1.38; font-weight: 750; }
+.flow-activity:empty { display: none; }
+.flow-station:hover .flow-card, .flow-station:focus-visible .flow-card { border-color: var(--flow-green); }
+.flow-station:hover strong, .flow-station:focus-visible strong { text-decoration: underline; text-underline-offset: 3px; }
+
+.flow-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 5px 14px; }
+.flow-links .text-link { min-height: 44px; font-size: .87rem; }
+
+@media (max-width: 660px) {
+  .flow-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow-controls button { padding-inline: 7px; }
+  .flow-track { --flow-gap: 9px; grid-template-columns: minmax(0, 1fr); margin-top: 13px; }
+  .flow-station { padding-left: 42px; }
+  .flow-code { position: absolute; top: 12px; left: 0; width: 33px; height: 33px; margin: 0; }
+  .flow-edge { top: 28px; left: 15px; width: 0; height: calc(100% + var(--flow-gap)); border-top: 0; border-left: 3px solid var(--flow-green); }
+  .flow-card { display: grid; grid-template-columns: minmax(0, .56fr) minmax(0, 1fr); min-height: 68px; align-items: stretch; }
+  .flow-card img { height: 100%; aspect-ratio: auto; }
+  .flow-card-copy { align-content: center; padding: 6px 8px; }
+}
