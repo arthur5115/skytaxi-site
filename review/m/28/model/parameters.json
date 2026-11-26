@@ -1,0 +1,74 @@
+{
+  "project": "T1 新化之門",
+  "version": "V0.4",
+  "model_status": "單一中央軌梁、單車往復式概念三維CAD；非原廠U4-430 CAD、非核定接口或施工設計",
+  "internal_unit": "mm",
+  "coordinate_system": "局部座標；X沿正立面、Y向建築後方、Z向上；地坪Z=0，非絕對高程",
+  "parameters": {
+    "building_width_mm": 72000,
+    "building_depth_mm": 24000,
+    "portal_width_mm": 32000,
+    "floor_to_floor_mm": 4500,
+    "floor_count": 4,
+    "slab_thickness_mm": 350,
+    "column_width_mm": 800,
+    "roof_overhang_mm": 2000,
+    "roof_thickness_mm": 240,
+    "roof_base_mm": 20000,
+    "roof_wave_amplitude_mm": 1450,
+    "roof_end_rise_mm": 800,
+    "lift_width_mm": 3600,
+    "lift_depth_mm": 4000,
+    "lift_height_mm": 18500,
+    "lift_x_mm": -23200,
+    "facade_module_mm": 2250
+  },
+  "assumptions": {
+    "all_numeric_parameters": "本檔所有建築尺寸均為建立可修改概念模型所採暫設值；不是從圖面量測獲得，也未經使用者核定。",
+    "levels": "保留V0.1樓層鏈；4F月台區依假設車軌高差局部下凹，非核定月台高程。",
+    "geometry": "僅鎖定三張參考圖共通的造型及空間關係，不宣稱毫米級還原。",
+    "area": "未將21,510平方公尺土地或1,720.35坪商店街轉作單棟總樓地板面積；本模型不作法定面積計算依據。",
+    "rail": "依使用者本次要求，建立一條行車線及一根中央軌梁的概念配置。中央單梁截面、車頂開槽及走行接口未獲原廠尺寸證實，不宣稱是U4-430原廠構造。",
+    "site": "展示基座不代表地籍界線、道路線形或核定基地配置。",
+    "cutaway": "選擇性剖透視：隱藏前側外皮與部分前屋頂；不是單一剖切平面。"
+  },
+  "rail_interface": {
+    "first_span_m": 446,
+    "vehicle_length_mm": 4200,
+    "vehicle_width_mm": 2200,
+    "vehicle_height_mm": 2600,
+    "rail_to_floor_mm": 2200,
+    "floor_above_body_bottom_mm": 200,
+    "door_clear_width_mm": 900,
+    "door_clear_height_mm": 1900,
+    "guide_width_mm": 200,
+    "guide_height_mm": 260,
+    "lane_centers_y_mm": [
+      5000
+    ],
+    "vehicle_positions_x_mm": [
+      0
+    ],
+    "station_track_start_x_mm": -26000,
+    "station_track_end_x_mm": 36000,
+    "local_extension_end_x_mm": 48000,
+    "illustrative_exit_grade": 0.02,
+    "platform_gap_mm": 70,
+    "civil_clear_width_mm": 2700,
+    "civil_vertical_margin_mm": 150,
+    "status": "All dimensions inherited or assumed; only one-path / one-centered-member configuration is user-required. No georeferenced control adopted.",
+    "route_direction": "Local +X only; not verified P2 azimuth; extension is an inherited geometric proposal, not the full route.",
+    "operating_topology": "SINGLE_LINE_REVERSIBLE_SHUTTLE: exactly one running corridor. Arrival, stopping, and reverse departure use the same alignment. No second parallel line, loop, passing siding, or turnout.",
+    "station_zone_ymin_mm": 3500,
+    "platform_rear_y_mm": 11000,
+    "frame_rear_y_mm": 11400,
+    "operating_topology_status": "USER_REQUIRED; geometry only; traction, braking, bidirectional running and terminal controls require OEM validation.",
+    "rail_center_local_z_mm": 15600,
+    "guide_offsets_y_mm": [
+      0
+    ],
+    "rail_configuration": "ONE_CENTERED_GUIDE_MEMBER_PER_SINGLE_RUNNING_PATH",
+    "section_status": "USER_REQUESTED_CONCEPT_OPTION_NOT_OEM_VERIFIED",
+    "rails_per_lane_status": "One central nominal guide member; simplified running/suspension interfaces are placeholders, not manufacturer details."
+  }
+}
