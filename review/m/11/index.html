@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="探索虎頭埤纜車四站基地：切換實景地圖、公告原圖、地號面積及參考路線。">
+<meta name="theme-color" content="#102820"><title>虎頭埤纜車｜四站基地互動地圖</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="style.css">
+<script defer src="vendor/leaflet.js"></script><script defer src="assets/station-boundaries.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<header class="header">
+ <a class="brand" href="#overview" aria-label="虎頭埤四站地圖全線總覽"><span class="brand-icon" aria-hidden="true">⌁</span><div><small>HUTOUPI CABLE CAR</small><h1>虎頭埤纜車 <span>四站基地地圖</span></h1></div></a>
+ <div class="header-right"><span class="edition">113.09 政策公告基準</span><button class="icon-button" id="sourcesButton" title="資料來源與使用說明" aria-label="資料來源與使用說明">ⓘ</button></div>
+</header>
+<nav class="station-nav" aria-label="切換場站">
+ <button data-station="overview" class="selected" aria-pressed="true"><span class="nav-symbol">◎</span><span>全線總覽</span></button>
+ <button data-station="T1" aria-pressed="false"><span class="station-number">01</span><span><b>T1</b> 虎頭埤站</span></button>
+ <button data-station="T2" aria-pressed="false"><span class="station-number">02</span><span><b>T2</b> 湖濱旅館站</span></button>
+ <button data-station="T3" aria-pressed="false"><span class="station-number">03</span><span><b>T3</b> 湖濱山城站</span></button>
+ <button data-station="T4" aria-pressed="false"><span class="station-number">04</span><span><b>T4</b> 新化林場站</span></button>
+</nav>
+<main class="workspace">
+ <aside class="sidebar" aria-label="場站資料"><div id="stationInfo"></div><footer class="sidebar-footer"><span class="status-dot"></span>公告地籍資料 · 逐站對照<button id="sourceTextButton">來源說明 ↗</button></footer></aside>
+ <section class="map-shell" aria-label="互動地圖">
+  <div class="map-toolbar">
+   <div class="view-tabs" role="group" aria-label="檢視方式"><button id="liveViewButton" class="active" aria-pressed="true">實景地圖</button><button id="policyViewButton" aria-pressed="false">公告原圖</button></div>
+   <div class="map-actions"><button id="fitButton" class="tool-button" title="回到目前場站範圍">⛶ <span>適合範圍</span></button><button id="fullButton" class="tool-button" aria-label="展開地圖" title="展開地圖">⤢</button></div>
+  </div>
+  <div id="liveMap" class="map-canvas" role="region" aria-label="四站實景地圖，可拖曳及縮放"></div>
+  <div id="policyMap" class="map-canvas" role="region" aria-label="政策公告原圖，可拖曳及縮放" hidden></div>
+  <div class="live-controls" id="liveControls">
+   <div class="basemaps" role="group" aria-label="底圖"><button data-base="photo" class="active" aria-pressed="true">航照</button><button data-base="street" aria-pressed="false">街道</button></div>
+   <details class="layers"><summary>▱ 圖層</summary><div class="layer-menu"><label><input id="boundaryToggle" type="checkbox" checked>黃色基地範圍</label><label><input id="routeToggle" type="checkbox" checked>參考路線</label><label><input id="cadToggle" type="checkbox">公有土地地籍</label><label><input id="labelsToggle" type="checkbox" checked>道路地名</label><p>黃色為基地約略範圍；紅色地籍供對照。切換場站會自動顯示黃色範圍。</p></div></details>
+  </div>
+  <div class="policy-controls" id="policyControls" hidden><div class="basemaps" role="group" aria-label="公告圖類型"><button data-figure="boundary" class="active" aria-pressed="true">基地地籍圖</button><button data-figure="aerial" aria-pressed="false">現況空照圖</button></div><a id="downloadFigure" class="tool-button" download>下載原圖 ↓</a></div>
+  <div class="map-heading" id="mapHeading"><span>臺南市 · 新化區</span><h2>從湖畔，到山林。</h2><p>四處場站，一條觀光軸線</p></div>
+  <div class="north" id="north" aria-label="正北朝上"><span>N</span><svg viewBox="0 0 30 36" aria-hidden="true"><path d="M15 2L26 32L15 26L4 32Z" fill="#fbfaf5"/><path d="M15 2V26L4 32Z" fill="#c4bda6"/></svg></div>
+  <div class="map-notice" id="tileNotice" role="status" hidden></div>
+  <div class="map-legend" id="mapLegend"><span id="boundaryLegend"><i class="legend-boundary"></i>基地範圍</span><span><i class="legend-line"></i>參考路線</span><span><i class="legend-point"></i>參考站點</span><span id="cadLegend" hidden><i class="legend-cad"></i>公有土地</span><small>黃框為影像描繪 · 非測量界址</small></div>
+  <div class="policy-caption" id="policyCaption" hidden></div>
+  <div class="coordinate" id="coordinate" aria-hidden="true">WGS84</div>
+ </section>
+</main>
+<dialog id="sourceDialog"><div class="dialog-header"><div><small>DATA & SOURCES</small><h2>資料來源與使用說明</h2></div><button id="closeSources" class="icon-button" aria-label="關閉資料來源">×</button></div><div class="dialog-content">
+ <h3>公告地籍與基地面積</h3><p>依使用者提供的《政策公告（公告版）1130903》表 1–4、圖 1–9。場站名稱為公告預設名稱。本站直接擷取原圖，保留原有黃框、地號及圖上註記。</p>
+ <a href="assets/policy-1130903-excerpt.pdf" target="_blank" rel="noopener">開啟公告摘錄 PDF（正文第 3–10 頁） ↗</a>
+ <h3>黃色基地範圍套疊</h3><p>T1、T2、T3 與 T4 的 589-145 依公告圖 2、4、6、8 黃色界線描繪，以地籍轉折點對應公開底圖定位。T4 的 589-2 超出公告圖幅，依國土測繪中心公開地籍圖補繪完整約略外框，以黃色虛線表示。描繪面積與公告值約差 2% 以內，面積欄仍採公告值。</p><p>套疊屬影像判讀成果，非地政機關宗地向量或測量界址。公告與現行地籍時點不同，T2 等地號標示可能有差異。不可用於界址認定或工程放樣。</p><p><a href="assets/station-boundaries.geojson" download>下載四站 GeoJSON ↓</a> · <a href="assets/overlay-provenance.json" target="_blank" rel="noopener">定位與面積核對紀錄 ↗</a></p><h3>實景地圖</h3><p>航照、電子地圖、道路地名及公有土地地籍由內政部國土測繪中心 WMTS 服務提供，日期及涵蓋範圍以該服務為準。公有土地地籍圖層不等於本案公告用地範圍。</p>
+ <a href="https://maps.nlsc.gov.tw/" target="_blank" rel="noopener">國土測繪圖資服務雲 ↗</a>
+ <h3>站點與路線</h3><p>沿用原網站的六個參考位置以便瀏覽，未取得六節點正式測量成果。地圖虛線為參考位置連線，圖上折線反算約 1,973 m；不是興建計畫的工程線形。原網站誤繪的黃色多邊形未沿用。</p>
+ <p>《Chat20261019纜車興建計畫》里程合計 1,947 m（446＋350＋343＋406＋402 m）。此為文件標示距離，與參考座標連線分開呈現。正式線形及測量界址仍待測量成果與宗地向量確認。</p>
+ <h3>各站核對重點</h3><ul><li>T1：11 筆土地，分北側停車場與南側基地。</li><li>T2：僅 589-174；西側凹口 590、589-173、589-175 不在表 2 內。</li><li>T3：依表 3 為 589-165、589-168 兩筆。</li><li>T4：包含 589-145 及大面積的 589-2；圖 8 北側與西側截斷，已用公開地籍圖補繪 589-2。</li></ul>
+ <p class="muted">資料整理：2026-10-20。土地界址以地政機關測量資料為準。實景地圖黃框已定位至 WGS84；公告原圖仍保留獨立影像檢視。</p>
+ <a href="assets/source-manifest.json" target="_blank" rel="noopener">原圖擷取與來源雜湊紀錄 ↗</a>
+</div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript>請啟用 JavaScript 使用互動地圖，或開啟 <a href="assets/policy-1130903-excerpt.pdf">公告摘錄 PDF</a>。</noscript>
+</body></html>
+

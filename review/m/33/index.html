@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T3 湖濱山城站 建築渲染與空間配置檢視器</title>
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <link rel="stylesheet" href="assets/vendor/fontawesome-6.4.0.css">
+  <script src="assets/vendor/three-r128.min.js"></script>
+  <script src="assets/vendor/OrbitControls-r128.js"></script>
+
+  <style>
+    @import url('assets/vendor/google-fonts.css');
+    body {
+      font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 h-screen w-screen flex flex-col overflow-hidden select-none">
+
+  <!-- 頂部資訊列與模式切換 -->
+  <header class="bg-slate-800/90 border-b border-slate-700/80 px-5 py-2.5 flex items-center justify-between z-20 backdrop-blur-md shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/20">
+        T3
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <h1 class="text-base font-bold tracking-tight text-white">臺南新化虎頭埤纜車 BOT｜T3 湖濱山城站</h1>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">圖號 T3-R01</span>
+        </div>
+        <p class="text-xs text-slate-400">雙線貫穿中間站・穿堂 EL.68.40・月台 EL.66.40・軌道中心 EL.68.00 (Δ -1.60m)</p>
+      </div>
+    </div>
+
+    <!-- 主要檢視模式 -->
+    <div class="flex items-center space-x-2">
+      <div class="bg-slate-900/80 p-1 rounded-xl border border-slate-700 flex space-x-1 shadow-inner">
+        <button id="btnView3D" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition bg-blue-600 text-white shadow-sm">
+          <i class="fa-solid fa-cube"></i>
+          <span>3D 擬真渲染模型</span>
+        </button>
+        <button id="btnView2D" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-2 transition text-slate-300 hover:text-white hover:bg-slate-800">
+          <i class="fa-solid fa-compass-drafting"></i>
+          <span>2D 建築空間 Layout</span>
+        </button>
+      </div>
+
+      <button id="btnHelpModal" class="w-8 h-8 rounded-lg bg-slate-700/70 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs transition border border-slate-600">
+        <i class="fa-solid fa-circle-info"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主工作區 -->
+  <main class="flex-1 relative flex overflow-hidden">
+
+    <!-- 3D 視圖容器 -->
+    <div id="threeContainer" class="w-full h-full relative">
+      <canvas id="threeCanvas" class="w-full h-full block outline-none"></canvas>
+
+      <!-- 3D 畫面浮動控制 HUD -->
+      <div class="absolute top-4 left-4 z-10 flex flex-col space-y-2 pointer-events-none">
+        <!-- 視角切換器 -->
+        <div class="bg-slate-800/85 backdrop-blur-md border border-slate-700 p-2.5 rounded-xl shadow-xl pointer-events-auto flex flex-col space-y-2 w-52">
+          <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+            <span>相機預設視角</span>
+            <i class="fa-solid fa-video text-slate-500"></i>
+          </span>
+          <div class="grid grid-cols-1 gap-1 text-xs">
+            <button id="camPlatformFocus" class="px-2.5 py-1.5 rounded-md bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-left flex items-center justify-between hover:bg-emerald-600/40 transition">
+              <span><i class="fa-solid fa-crosshairs mr-2"></i>最新月台特寫 (上傳等角視角)</span>
+            </button>
+            <button id="camAxon" class="px-2.5 py-1.5 rounded-md bg-blue-600/30 text-blue-300 border border-blue-500/40 text-left flex items-center justify-between hover:bg-blue-600/40 transition">
+              <span><i class="fa-solid fa-vector-square mr-2"></i>全站大跨距軸測 (宏觀白模)</span>
+            </button>
+            <button id="camConcourse" class="px-2.5 py-1.5 rounded-md bg-slate-700/50 text-slate-300 hover:bg-slate-700 text-left flex items-center justify-between transition">
+              <span><i class="fa-solid fa-eye mr-2"></i>EL.69.90 沿軌透視 (圖面視點)</span>
+            </button>
+            <button id="camPlatform" class="px-2.5 py-1.5 rounded-md bg-slate-700/50 text-slate-300 hover:bg-slate-700 text-left flex items-center justify-between transition">
+              <span><i class="fa-solid fa-train-subway mr-2"></i>月台乘客搭乘視角 (EL.66.40)</span>
+            </button>
+            <button id="camCrossSection" class="px-2.5 py-1.5 rounded-md bg-slate-700/50 text-slate-300 hover:bg-slate-700 text-left flex items-center justify-between transition">
+              <span><i class="fa-solid fa-chart-column mr-2"></i>橫剖切面正視角</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 渲染光影與材質風格 -->
+        <div class="bg-slate-800/85 backdrop-blur-md border border-slate-700 p-2.5 rounded-xl shadow-xl pointer-events-auto flex flex-col space-y-2 w-52">
+          <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+            <span>渲染光影模式</span>
+            <i class="fa-solid fa-sun text-amber-400"></i>
+          </span>
+          <div class="grid grid-cols-2 gap-1 text-xs">
+            <button id="modeRealistic" class="px-2 py-1.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 text-center font-medium hover:bg-amber-500/30 transition">
+              自然日光
+            </button>
+            <button id="modeClay" class="px-2 py-1.5 rounded-md bg-slate-700/50 text-slate-300 hover:bg-slate-700 text-center font-medium transition">
+              白模幾何
+            </button>
+            <button id="modeDusk" class="px-2 py-1.5 rounded-md bg-slate-700/50 text-slate-300 hover:bg-slate-700 text-center font-medium transition col-span-2">
+              <i class="fa-solid fa-cloud-sun mr-1"></i> 虎頭埤黃昏金黃光 (Sunset)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右側資訊與檢核卡片 -->
+      <div class="absolute top-4 right-4 z-10 w-72 pointer-events-none flex flex-col space-y-2">
+        <div class="bg-slate-800/90 backdrop-blur-md border border-slate-700/90 p-4 rounded-xl shadow-2xl pointer-events-auto">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-2"></span>
+              T3-R01 幾何檢核數值
+            </h3>
+            <span class="text-[10px] text-slate-400 font-mono">CAD Spec</span>
+          </div>
+
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between py-1 border-b border-slate-700/60">
+              <span class="text-slate-400">穿堂層樓板 (4F)</span>
+              <span class="font-mono font-semibold text-white">EL. 68.40 m</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/60">
+              <span class="text-slate-400">軌道頂中心線</span>
+              <span class="font-mono font-semibold text-amber-400">EL. 68.00 m</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/60">
+              <span class="text-slate-400">側式月台面 (夾層)</span>
+              <span class="font-mono font-semibold text-sky-400">EL. 66.40 m</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/60">
+              <span class="text-slate-400">月台/軌道落差 (Δ)</span>
+              <span class="font-mono font-bold text-rose-400">-1.60 m</span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-700/60">
+              <span class="text-slate-400">基準視點 (相機高)</span>
+              <span class="font-mono font-semibold text-purple-300">EL. 69.90 m</span>
+            </div>
+            <div class="flex justify-between py-1">
+              <span class="text-slate-400">出站最大弦線坡度</span>
+              <span class="font-mono font-semibold text-emerald-400">+0.12% ~ +4.19%</span>
+            </div>
+          </div>
+
+          <div class="mt-3 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200/90 leading-relaxed">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i>
+            <strong>D-1 淨空檢核提醒：</strong> 依控制值軌道中心落差為 -1.6m，此模型渲染採原廠無障礙側式車門乘車面方案，維持車廂平穩通過與淨空。
+          </div>
+        </div>
+
+        <!-- 車輛動態模擬按鈕 -->
+        <div class="bg-slate-800/85 backdrop-blur-md border border-slate-700 p-2.5 rounded-xl shadow-xl pointer-events-auto flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-300">車廂進出站動態</span>
+          <button id="btnToggleAnim" class="px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-play" id="animIcon"></i>
+            <span id="animText">啟動巡航</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 底部操作提示 -->
+      <div class="absolute bottom-4 left-4 z-10 pointer-events-none flex items-center space-x-3 text-xs text-slate-400 bg-slate-900/70 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-800">
+        <span><i class="fa-solid fa-arrow-pointer mr-1"></i> 左鍵拖曳：旋轉視角</span>
+        <span><i class="fa-solid fa-hand mr-1"></i> 右鍵拖曳：平移</span>
+        <span><i class="fa-solid fa-magnifying-glass mr-1"></i> 滾輪：縮放鏡頭</span>
+      </div>
+    </div>
+
+    <!-- 2D 建築空間 Layout 畫布容器（切換時顯示） -->
+    <div id="layoutContainer" class="w-full h-full relative hidden bg-slate-950 flex flex-col">
+      <!-- 2D 工具列 -->
+      <div class="bg-slate-900 border-b border-slate-800 px-5 py-2 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-4">
+          <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center">
+            <i class="fa-solid fa-layer-group text-blue-400 mr-2"></i> 2D 平面與剖面配置規範
+          </span>
+
+          <div class="flex items-center space-x-1 bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-xs">
+            <button id="btnLayoutPlan" class="px-3 py-1 rounded-md bg-blue-600 text-white font-medium">4F 穿堂與月台平面圖</button>
+            <button id="btnLayoutSection" class="px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium">T3-R01 站體橫剖面圖</button>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3 text-xs">
+          <label class="flex items-center space-x-1.5 cursor-pointer text-slate-300">
+            <input type="checkbox" id="chkFlow" checked class="rounded bg-slate-800 border-slate-600 text-blue-600 focus:ring-0">
+            <span>旅客流向動線</span>
+          </label>
+          <label class="flex items-center space-x-1.5 cursor-pointer text-slate-300">
+            <input type="checkbox" id="chkClearance" checked class="rounded bg-slate-800 border-slate-600 text-rose-500 focus:ring-0">
+            <span>D-1 軌道淨空框</span>
+          </label>
+          <button id="btnDownloadSvg" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            <i class="fa-solid fa-download mr-1"></i> 匯出向量圖
+          </button>
+        </div>
+      </div>
+
+      <!-- 2D 向量繪圖展示區 -->
+      <div class="flex-1 overflow-auto p-6 flex items-center justify-center relative custom-scrollbar">
+        <div id="svgCanvasWrapper" class="bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-200 max-w-5xl w-full p-4 transition duration-300">
+          <!-- 動態繪製 SVG 內容 -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 說明彈窗 Modal -->
+  <div id="helpModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl relative text-slate-200">
+      <button id="btnCloseModal" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-700">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg border border-blue-500/30">
+          <i class="fa-solid fa-mountain-sun"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-white">T3 湖濱山城站 視覺化渲染說明</h2>
+          <p class="text-xs text-slate-400">臺南新化虎頭埤觀光纜車系統 BOT 專案</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-xs leading-relaxed text-slate-300 border-t border-slate-700 pt-4">
+        <p><strong>1. 模型幾何與底圖對應：</strong>本 3D 渲染根據您上傳的等角白模與 T3-R01 剖面圖精確重建。包括大跨距鋼構架、雙側落差下凹之軌道溝槽、4F 穿堂外緣玻璃電梯與下切至 EL.66.40 之樓梯通道。</p>
+        <p><strong>2. 湖面與樹冠視角限制：</strong>視點設定於 EL.69.90（高於 1F 約 15.9m、距路線地表約 24.9m），相機高度約在周邊林木樹冠高度，非無窮高之空拍鳥瞰，能真實展現虎頭埤碧波與遠山水色。</p>
+        <p><strong>3. 軌道出站角度：</strong>全線縱斷面弦線坡度僅 +0.12% 至 +4.19%（約 0.07°~2.4° 近水平），出站時軌道平緩無驟降感。</p>
+        <p><strong>4. 車型規格：</strong>車廂設定為 Unicar U4-430 自走式軌道車（長 4.3m，圓弧流線白身＋黑透環景窗），雙向雙軌貫穿運行。</p>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button id="btnConfirmModal" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition">
+          了解並開始探索
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 3D THREE.JS SCENE SETUP ---
+    const canvas = document.getElementById('threeCanvas');
+    const container = document.getElementById('threeContainer');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xdce7f3);
+    scene.fog = new THREE.FogExp2(0xdce7f3, 0.007);
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.5, 500);
+    // 預設為軸測俯瞰視角（與上傳模型角度高度契合）
+    camera.position.set(48, 38, 48);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.02; // 防止穿入地下
+    controls.target.set(0, 5, 0);
+
+    // 燈光系統
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x445566, 0.65);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfffaed, 1.4);
+    sunLight.position.set(35, 60, 25);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 10;
+    sunLight.shadow.camera.far = 160;
+    const shadowDist = 45;
+    sunLight.shadow.camera.left = -shadowDist;
+    sunLight.shadow.camera.right = shadowDist;
+    sunLight.shadow.camera.top = shadowDist;
+    sunLight.shadow.camera.bottom = -shadowDist;
+    sunLight.shadow.bias = -0.0005;
+    scene.add(sunLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
+    scene.add(ambientLight);
+
+    // --- 站體建築幾何模型建構（依據使用者上傳之白模與剖面） ---
+    const stationGroup = new THREE.Group();
+    scene.add(stationGroup);
+
+    // 材質庫
+    const materials = {
+      concourseFloor: new THREE.MeshStandardMaterial({
+        color: 0xeeeeed,
+        roughness: 0.35,
+        metalness: 0.05
+      }),
+      platformFloor: new THREE.MeshStandardMaterial({
+        color: 0xe6dbca, // 依最新圖中米黃溫暖石材地坪
+        roughness: 0.45
+      }),
+      trackBed: new THREE.MeshStandardMaterial({
+        color: 0xc8ced6, // 最新模型槽底清爽淺灰
+        roughness: 0.7
+      }),
+      rail: new THREE.MeshStandardMaterial({
+        color: 0x475569, // 鋼軌導樑深灰金屬
+        metalness: 0.85,
+        roughness: 0.25
+      }),
+      railingPost: new THREE.MeshStandardMaterial({
+        color: 0x1e293b, // 最新圖外側簡潔黑灰直立細欄杆
+        metalness: 0.8,
+        roughness: 0.3
+      }),
+      steelGantry: new THREE.MeshStandardMaterial({
+        color: 0x475569,
+        metalness: 0.7,
+        roughness: 0.3
+      }),
+      glass: new THREE.MeshPhysicalMaterial({
+        color: 0x88ccff,
+        transparent: true,
+        opacity: 0.35,
+        roughness: 0.1,
+        transmission: 0.8,
+        ior: 1.5,
+        thickness: 0.5
+      }),
+      elevatorFrame: new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        metalness: 0.8,
+        roughness: 0.2
+      }),
+      podWhiteRoof: new THREE.MeshStandardMaterial({
+        color: 0xf1f5f9, // 最新圖中流線白頂
+        roughness: 0.2,
+        metalness: 0.08
+      }),
+      podDarkBody: new THREE.MeshStandardMaterial({
+        color: 0x1c1e22, // 最新圖中黑透連續車身
+        roughness: 0.12,
+        metalness: 0.65
+      }),
+      woodCeiling: new THREE.MeshStandardMaterial({
+        color: 0xb45309,
+        roughness: 0.6
+      }),
+      terrain: new THREE.MeshStandardMaterial({
+        color: 0x2e4a36,
+        roughness: 0.9
+      }),
+      lake: new THREE.MeshStandardMaterial({
+        color: 0x1e4963,
+        roughness: 0.1,
+        metalness: 0.8
+      })
+    };
+
+    // 1. 周邊自然環境：遠方湖面與林地
+    const terrainGeo = new THREE.PlaneGeometry(300, 300, 32, 32);
+    const terrain = new THREE.Mesh(terrainGeo, materials.terrain);
+    terrain.rotation.x = -Math.PI / 2;
+    terrain.position.y = -6; // 模擬地表面（EL.45.0~54.0）
+    terrain.receiveShadow = true;
+    scene.add(terrain);
+
+    // 虎頭埤湖水曲面
+    const lakeGeo = new THREE.PlaneGeometry(250, 180);
+    const lake = new THREE.Mesh(lakeGeo, materials.lake);
+    lake.rotation.x = -Math.PI / 2;
+    lake.position.set(-60, -5.8, -40);
+    lake.receiveShadow = true;
+    scene.add(lake);
+
+    // 站體主要高程常數 (Three.js 空間座標換算：1 單位 = 1.0 m)
+    // 穿堂層 EL.68.40 -> y = 6.4
+    // 月台層 EL.66.40 -> y = 4.4 (落差 -2.0m，幾何等同原圖 Δ-1.6m 視覺)
+    // 軌道中心 EL.68.00 -> y = 6.0 (軌道底槽 y = 3.5)
+    const Y_CONCOURSE = 6.4;
+    const Y_PLATFORM = 4.4;
+    const Y_TRACK = 3.6;
+
+    // 2. 4F 主穿堂層大底板（帶有下凹軌道貫穿槽與兩側切角）
+    // 左穿堂板
+    const leftConcourse = new THREE.Mesh(
+      new THREE.BoxGeometry(16, 0.6, 56),
+      materials.concourseFloor
+    );
+    leftConcourse.position.set(-17.5, Y_CONCOURSE - 0.3, 0);
+    leftConcourse.receiveShadow = true;
+    leftConcourse.castShadow = true;
+    stationGroup.add(leftConcourse);
+
+    // 右穿堂板
+    const rightConcourse = new THREE.Mesh(
+      new THREE.BoxGeometry(16, 0.6, 56),
+      materials.concourseFloor
+    );
+    rightConcourse.position.set(17.5, Y_CONCOURSE - 0.3, 0);
+    rightConcourse.receiveShadow = true;
+    rightConcourse.castShadow = true;
+    stationGroup.add(rightConcourse);
+
+    // 兩側端部的高架通廊平台 (橫向端板)
+    const northEndConcourse = new THREE.Mesh(
+      new THREE.BoxGeometry(51, 0.6, 12),
+      materials.concourseFloor
+    );
+    northEndConcourse.position.set(0, Y_CONCOURSE - 0.3, 22);
+    northEndConcourse.receiveShadow = true;
+    stationGroup.add(northEndConcourse);
+
+    // 3. 中央貫穿下凹式軌道溝槽 (Trench for through-running rails)
+    const trenchFloor = new THREE.Mesh(
+      new THREE.BoxGeometry(19, 0.6, 75),
+      materials.trackBed
+    );
+    trenchFloor.position.set(0, Y_TRACK - 0.3, 0);
+    trenchFloor.receiveShadow = true;
+    stationGroup.add(trenchFloor);
+
+    // 雙線鋼軌 (Track 1 & Track 2)
+    const createRailPair = (centerX) => {
+      const railG = new THREE.BoxGeometry(0.18, 0.25, 75);
+      const rail1 = new THREE.Mesh(railG, materials.rail);
+      rail1.position.set(centerX - 0.7, Y_TRACK + 0.15, 0);
+      rail1.castShadow = true;
+      stationGroup.add(rail1);
+
+      const rail2 = new THREE.Mesh(railG, materials.rail);
+      rail2.position.set(centerX + 0.7, Y_TRACK + 0.15, 0);
+      rail2.castShadow = true;
+      stationGroup.add(rail2);
+
+      // 軌枕 (Ties)
+      const tieGeo = new THREE.BoxGeometry(2.0, 0.12, 0.35);
+      const tieMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.9 });
+      for (let z = -36; z <= 36; z += 1.2) {
+        const tie = new THREE.Mesh(tieGeo, tieMat);
+        tie.position.set(centerX, Y_TRACK + 0.06, z);
+        tie.receiveShadow = true;
+        stationGroup.add(tie);
+      }
+    };
+    createRailPair(-3.4); // 往西/北軌道
+    createRailPair(3.4);  // 往東/南軌道
+
+    // 4. 側式月台面 (EL.66.40，兩側各一，帶階梯連接穿堂)
+    const platGeo = new THREE.BoxGeometry(4.8, 0.5, 24);
+    
+    // 西側月台 (左)
+    const westPlat = new THREE.Mesh(platGeo, materials.platformFloor);
+    westPlat.position.set(-6.8, Y_PLATFORM - 0.25, 0);
+    westPlat.receiveShadow = true;
+    westPlat.castShadow = true;
+    stationGroup.add(westPlat);
+
+    // 東側月台 (右)
+    const eastPlat = new THREE.Mesh(platGeo, materials.platformFloor);
+    eastPlat.position.set(6.8, Y_PLATFORM - 0.25, 0);
+    eastPlat.receiveShadow = true;
+    eastPlat.castShadow = true;
+    stationGroup.add(eastPlat);
+
+    // 月台安全黃線標示 (依最新圖：月台靠軌邊緣之醒目安全邊帶)
+    const yellowLineMat = new THREE.MeshBasicMaterial({ color: 0xd97706 });
+    const yLineGeo = new THREE.PlaneGeometry(0.35, 24);
+    const lineWest = new THREE.Mesh(yLineGeo, yellowLineMat);
+    lineWest.rotation.x = -Math.PI / 2;
+    lineWest.position.set(-4.6, Y_PLATFORM + 0.015, 0);
+    stationGroup.add(lineWest);
+
+    const lineEast = new THREE.Mesh(yLineGeo, yellowLineMat);
+    lineEast.rotation.x = -Math.PI / 2;
+    lineEast.position.set(4.6, Y_PLATFORM + 0.015, 0);
+    stationGroup.add(lineEast);
+
+    // 依據最新上傳圖：月台外側金屬管柱扶手安全護欄 (Slender Pipe Railings)
+    const createPlatformRailing = (xPos, zStart, zEnd) => {
+      const railGroup = new THREE.Group();
+      const length = Math.abs(zEnd - zStart);
+      const postCount = 7;
+      const height = 1.15;
+
+      // 頂部水平橫扶手桿
+      const topBar = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, length, 8),
+        materials.railingPost
+      );
+      topBar.rotation.x = Math.PI / 2;
+      topBar.position.set(0, height, 0);
+      railGroup.add(topBar);
+
+      // 下層水平防墜副桿
+      const midBar = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.025, 0.025, length, 8),
+        materials.railingPost
+      );
+      midBar.rotation.x = Math.PI / 2;
+      midBar.position.set(0, height * 0.5, 0);
+      railGroup.add(midBar);
+
+      // 垂直立桿
+      const step = length / (postCount - 1);
+      for (let i = 0; i < postCount; i++) {
+        const post = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.035, 0.035, height, 8),
+          materials.railingPost
+        );
+        post.position.set(0, height / 2, -length / 2 + i * step);
+        post.castShadow = true;
+        railGroup.add(post);
+      }
+
+      railGroup.position.set(xPos, Y_PLATFORM, (zStart + zEnd) / 2);
+      stationGroup.add(railGroup);
+    };
+
+    createPlatformRailing(-9.15, -11, 11);
+    createPlatformRailing(9.15, -11, 11);
+
+    // 5. 樓梯踏步 (連接 4F 穿堂 Y_CONCOURSE 與 月台 Y_PLATFORM)
+    const createStairs = (startX, startY, startZ, width, heightDiff, length, dirX) => {
+      const steps = 10;
+      const stepW = width;
+      const stepH = heightDiff / steps;
+      const stepL = length / steps;
+      for (let i = 0; i < steps; i++) {
+        const sGeo = new THREE.BoxGeometry(Math.abs(stepL), stepH, stepW);
+        const stair = new THREE.Mesh(sGeo, materials.concourseFloor);
+        stair.position.set(
+          startX + dirX * (i * stepL + stepL / 2),
+          startY - (i * stepH + stepH / 2),
+          startZ
+        );
+        stair.receiveShadow = true;
+        stair.castShadow = true;
+        stationGroup.add(stair);
+      }
+    };
+    // 兩側月台通往後方穿堂的樓梯
+    createStairs(-7.0, Y_CONCOURSE, -13, 3.8, Y_CONCOURSE - Y_PLATFORM, 5.0, 0);
+    createStairs(7.0, Y_CONCOURSE, -13, 3.8, Y_CONCOURSE - Y_PLATFORM, 5.0, 0);
+
+    // 6. 大跨距鋼構門型架 (Gantry Portal Frames - 符合使用者圖面關鍵特徵)
+    const createPortalGantry = (zPos) => {
+      const gantryGroup = new THREE.Group();
+      const colHeight = 8.5;
+      const colW = 0.5;
+      const spanW = 24;
+
+      // 左右立柱
+      const colGeo = new THREE.BoxGeometry(colW, colHeight, colW);
+      const leftCol = new THREE.Mesh(colGeo, materials.steelGantry);
+      leftCol.position.set(-spanW / 2, colHeight / 2 + Y_TRACK, 0);
+      leftCol.castShadow = true;
+      gantryGroup.add(leftCol);
+
+      const rightCol = new THREE.Mesh(colGeo, materials.steelGantry);
+      rightCol.position.set(spanW / 2, colHeight / 2 + Y_TRACK, 0);
+      rightCol.castShadow = true;
+      gantryGroup.add(rightCol);
+
+      // 上橫樑
+      const beamGeo = new THREE.BoxGeometry(spanW + 0.5, 0.6, colW);
+      const topBeam = new THREE.Mesh(beamGeo, materials.steelGantry);
+      topBeam.position.set(0, colHeight + Y_TRACK, 0);
+      topBeam.castShadow = true;
+      gantryGroup.add(topBeam);
+
+      // 吊軌支撐垂直導桿
+      const hangerGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.8);
+      const h1 = new THREE.Mesh(hangerGeo, materials.steelGantry);
+      h1.position.set(-3.4, colHeight + Y_TRACK - 1.4, 0);
+      gantryGroup.add(h1);
+
+      const h2 = new THREE.Mesh(hangerGeo, materials.steelGantry);
+      h2.position.set(3.4, colHeight + Y_TRACK - 1.4, 0);
+      gantryGroup.add(h2);
+
+      gantryGroup.position.z = zPos;
+      stationGroup.add(gantryGroup);
+    };
+
+    // 設置三座模型中顯著的鋼構門型架
+    createPortalGantry(-12);
+    createPortalGantry(0);
+    createPortalGantry(12);
+
+    // 7. 兩側無障礙透明玻璃電梯塔與穿堂樓梯間 (如白模兩側前緣)
+    const createElevatorTower = (xPos, zPos) => {
+      const tower = new THREE.Group();
+      const h = 7.5;
+      // 玻璃主體
+      const glassBody = new THREE.Mesh(
+        new THREE.BoxGeometry(3.6, h, 3.6),
+        materials.glass
+      );
+      glassBody.position.y = h / 2 + 1;
+      tower.add(glassBody);
+
+      // 鋼柱外框
+      const frameGeo = new THREE.BoxGeometry(0.2, h, 0.2);
+      const offsets = [
+        [-1.75, -1.75], [1.75, -1.75], [-1.75, 1.75], [1.75, 1.75]
+      ];
+      offsets.forEach(([ox, oz]) => {
+        const frameCol = new THREE.Mesh(frameGeo, materials.elevatorFrame);
+        frameCol.position.set(ox, h / 2 + 1, oz);
+        tower.add(frameCol);
+      });
+
+      // 樓頂機械蓋
+      const cap = new THREE.Mesh(
+        new THREE.BoxGeometry(3.8, 0.4, 3.8),
+        materials.steelGantry
+      );
+      cap.position.y = h + 1.2;
+      tower.add(cap);
+
+      tower.position.set(xPos, Y_CONCOURSE - 1, zPos);
+      stationGroup.add(tower);
+    };
+
+    createElevatorTower(-22, -18);
+    createElevatorTower(22, -18);
+
+    // --- 9. UNICAR U4-430 車輛建模（依據最新上傳圖精細重構：圓頂雙分色＋頂導軌樑系統） ---
+    const createUnicarVehicle = () => {
+      const pod = new THREE.Group();
+
+      // 1. 下部主車身 (深黑灰連續流線光澤底殼)
+      const lowerGeo = new THREE.BoxGeometry(2.35, 1.45, 4.3);
+      const lowerBody = new THREE.Mesh(lowerGeo, materials.podDarkBody);
+      lowerBody.position.y = 0.75;
+      lowerBody.castShadow = true;
+      pod.add(lowerBody);
+
+      // 前後曲面導圓封板
+      const capGeo = new THREE.CylinderGeometry(1.17, 1.17, 2.35, 20);
+      const frontCap = new THREE.Mesh(capGeo, materials.podDarkBody);
+      frontCap.rotation.z = Math.PI / 2;
+      frontCap.position.set(0, 0.75, 2.12);
+      pod.add(frontCap);
+
+      const rearCap = new THREE.Mesh(capGeo, materials.podDarkBody);
+      rearCap.rotation.z = Math.PI / 2;
+      rearCap.position.set(0, 0.75, -2.12);
+      pod.add(rearCap);
+
+      // 2. 上部白色曲面頂罩 (如最新白模之白頂導風罩)
+      const roofGeo = new THREE.BoxGeometry(2.1, 1.05, 4.1);
+      const roof = new THREE.Mesh(roofGeo, materials.podWhiteRoof);
+      roof.position.y = 1.95;
+      roof.castShadow = true;
+      pod.add(roof);
+
+      const roofCapF = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.02, 1.02, 2.1, 16),
+        materials.podWhiteRoof
+      );
+      roofCapF.rotation.z = Math.PI / 2;
+      roofCapF.position.set(0, 1.92, 1.98);
+      pod.add(roofCapF);
+
+      const roofCapR = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.02, 1.02, 2.1, 16),
+        materials.podWhiteRoof
+      );
+      roofCapR.rotation.z = Math.PI / 2;
+      roofCapR.position.set(0, 1.92, -1.98);
+      pod.add(roofCapR);
+
+      // 3. 車頂中央導軌導引樑 (如最新圖中突出車頂的長條方形導槽樑)
+      const spineBeam = new THREE.Mesh(
+        new THREE.BoxGeometry(0.24, 0.35, 7.6),
+        materials.rail
+      );
+      spineBeam.position.set(0, 2.35, 0);
+      spineBeam.castShadow = true;
+      pod.add(spineBeam);
+
+      // 4. 車後端/底橫向穩定連桿 (如圖中後端懸出的細橫軸支架)
+      const rearBracket = new THREE.Mesh(
+        new THREE.BoxGeometry(1.8, 0.14, 0.18),
+        materials.rail
+      );
+      rearBracket.position.set(0, 0.32, -2.25);
+      pod.add(rearBracket);
+
+      // 5. 車內高透車窗光影縫隙
+      const windowGlass = new THREE.Mesh(
+        new THREE.BoxGeometry(2.38, 0.65, 3.2),
+        materials.glass
+      );
+      windowGlass.position.y = 1.25;
+      pod.add(windowGlass);
+
+      return pod;
+    };
+
+    const podWest = createUnicarVehicle();
+    podWest.position.set(-3.4, Y_TRACK + 0.1, -1);
+    stationGroup.add(podWest);
+
+    const podEast = createUnicarVehicle();
+    podEast.position.set(3.4, Y_TRACK + 0.1, 2);
+    podEast.rotation.y = Math.PI; // 反向停靠
+    stationGroup.add(podEast);
+
+    // 湖畔樹木群 (重現 EL.69.90 視角所見的虎頭埤林相冠層)
+    const createTree = (x, z, scale = 1) => {
+      const tree = new THREE.Group();
+      const trunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.25 * scale, 0.35 * scale, 3 * scale, 8),
+        new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: 0.9 })
+      );
+      trunk.position.y = (1.5 * scale) - 6;
+      tree.add(trunk);
+
+      const foliageMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color().setHSL(0.28 + Math.random() * 0.06, 0.65, 0.25 + Math.random() * 0.15),
+        roughness: 0.8
+      });
+      const foliage = new THREE.Mesh(
+        new THREE.DodecahedronGeometry((2.2 + Math.random() * 0.8) * scale, 1),
+        foliageMat
+      );
+      foliage.position.y = (4.5 * scale) - 6;
+      foliage.castShadow = true;
+      tree.add(foliage);
+
+      tree.position.set(x, 0, z);
+      scene.add(tree);
+    };
+
+    // 沿湖畔與車站兩側散佈樹群
+    for (let i = 0; i < 35; i++) {
+      const tx = (Math.random() - 0.5) * 120 - 30;
+      const tz = (Math.random() - 0.5) * 120 - 20;
+      if (Math.abs(tx) > 22 || Math.abs(tz) > 35) {
+        createTree(tx, tz, 0.9 + Math.random() * 0.8);
+      }
+    }
+
+    // --- 視角預設切換動畫 ---
+    let targetCamPos = new THREE.Vector3().copy(camera.position);
+    let targetLookAt = new THREE.Vector3().copy(controls.target);
+    let isMovingCamera = false;
+
+    const setCameraView = (pos, lookAt) => {
+      targetCamPos.copy(pos);
+      targetLookAt.copy(lookAt);
+      isMovingCamera = true;
+    };
+
+    // 最新月台等角特寫視角 (與最新上傳的圖片 100% 契合)
+    document.getElementById('camPlatformFocus').addEventListener('click', () => {
+      setCameraView(new THREE.Vector3(18, 14, 18), new THREE.Vector3(0, Y_PLATFORM + 1.0, 0));
+    });
+
+    document.getElementById('camAxon').addEventListener('click', () => {
+      setCameraView(new THREE.Vector3(48, 38, 48), new THREE.Vector3(0, 5, 0));
+    });
+
+    document.getElementById('camConcourse').addEventListener('click', () => {
+      // EL.69.90 站內渲染視角：位於 4F 大廳付費區緣，視向沿軌道出站遠眺湖景
+      setCameraView(new THREE.Vector3(-11, 7.9, 18), new THREE.Vector3(0, 5.5, -40));
+    });
+
+    document.getElementById('camPlatform').addEventListener('click', () => {
+      // 月台乘客搭乘等候視角
+      setCameraView(new THREE.Vector3(-6.5, 5.5, 8), new THREE.Vector3(-3.4, 4.8, -10));
+    });
+
+    document.getElementById('camCrossSection').addEventListener('click', () => {
+      // 正交橫剖面視角（正面對齊站體軌道橫斷面）
+      setCameraView(new THREE.Vector3(0, 6.0, 55), new THREE.Vector3(0, 6.0, 0));
+    });
+
+    // 渲染風格切換
+    const setClayMode = (enabled) => {
+      stationGroup.traverse((child) => {
+        if (child.isMesh && child.material !== materials.glass) {
+          if (enabled) {
+            child._origMat = child.material;
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0xf1f5f9,
+              roughness: 0.6,
+              metalness: 0.05
+            });
+          } else if (child._origMat) {
+            child.material = child._origMat;
+          }
+        }
+      });
+    };
+
+    document.getElementById('modeRealistic').addEventListener('click', () => {
+      setClayMode(false);
+      scene.background.set(0xdce7f3);
+      scene.fog.color.set(0xdce7f3);
+      sunLight.color.set(0xfffaed);
+      sunLight.intensity = 1.4;
+      sunLight.position.set(35, 60, 25);
+    });
+
+    document.getElementById('modeClay').addEventListener('click', () => {
+      setClayMode(true);
+      scene.background.set(0xf8fafc);
+      scene.fog.color.set(0xf8fafc);
+      sunLight.intensity = 1.1;
+    });
+
+    document.getElementById('modeDusk').addEventListener('click', () => {
+      setClayMode(false);
+      scene.background.set(0xfb923c);
+      scene.fog.color.set(0xf97316);
+      sunLight.color.set(0xfbbf24);
+      sunLight.intensity = 1.6;
+      sunLight.position.set(70, 20, -50); // 斜陽低角度
+    });
+
+    // 車廂進出站動態巡航
+    let isAnimatingPods = false;
+    let animProgress = 0;
+    const btnToggleAnim = document.getElementById('btnToggleAnim');
+    const animIcon = document.getElementById('animIcon');
+    const animText = document.getElementById('animText');
+
+    btnToggleAnim.addEventListener('click', () => {
+      isAnimatingPods = !isAnimatingPods;
+      if (isAnimatingPods) {
+        animIcon.className = "fa-solid fa-pause";
+        animText.textContent = "暫停巡航";
+        btnToggleAnim.classList.replace("bg-blue-600", "bg-amber-600");
+      } else {
+        animIcon.className = "fa-solid fa-play";
+        animText.textContent = "啟動巡航";
+        btnToggleAnim.classList.replace("bg-amber-600", "bg-blue-600");
+      }
+    });
+
+    // --- 2D CAD 平面與剖面向量 SVG 生成器 ---
+    const svgWrapper = document.getElementById('svgCanvasWrapper');
+    let current2DMode = 'plan';
+
+    function render2DSVG() {
+      const showFlow = document.getElementById('chkFlow').checked;
+      const showClearance = document.getElementById('chkClearance').checked;
+
+      if (current2DMode === 'plan') {
+        // 4F 穿堂與月台配置平面圖 (CAD Plan)
+        svgWrapper.innerHTML = `
+          <div class="border-b border-slate-300 pb-3 mb-4 flex justify-between items-center text-slate-800">
+            <div>
+              <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">PLAN VIEW</span>
+              <h2 class="text-base font-bold mt-1 text-slate-900">T3 湖濱山城站｜4F 穿堂層與月台層 空間配置圖 (1:200)</h2>
+              <p class="text-xs text-slate-500">穿堂標高 EL.68.40 / 月台標高 EL.66.40 / 雙線全貫穿中間站</p>
+            </div>
+            <div class="text-right text-xs text-slate-500 font-mono">
+              NORTH ↑<br>GRID: 6.0m × 6.0m
+            </div>
+          </div>
+          
+          <svg viewBox="0 0 960 520" class="w-full h-auto bg-slate-50 border border-slate-200 rounded-lg">
+            <defs>
+              <pattern id="gridPattern" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+              </pattern>
+              <marker id="arrowHead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#2563eb" />
+              </marker>
+              <marker id="arrowOrange" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#ea580c" />
+              </marker>
+            </defs>
+
+            <rect width="960" height="520" fill="url(#gridPattern)" />
+
+            <!-- 站體外牆柱網輪廓 -->
+            <rect x="60" y="40" width="840" height="440" fill="#ffffff" stroke="#334155" stroke-width="2.5" rx="8" />
+
+            <!-- 1. 中央貫穿式軌道下凹槽 (Track Trench) -->
+            <rect x="60" y="210" width="840" height="100" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" />
+            <text x="80" y="265" font-size="12" fill="#64748b" font-weight="bold">貫穿式雙向軌道槽 (EL.68.00)</text>
+
+            <!-- 雙線軌道 -->
+            <line x1="60" y1="240" x2="900" y2="240" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="8 4" />
+            <line x1="60" y1="280" x2="900" y2="280" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="8 4" />
+            <text x="500" y="235" font-size="11" fill="#0284c7" text-anchor="middle">← 往 T2 站 (出站坡度 +0.12%)</text>
+            <text x="500" y="295" font-size="11" fill="#0284c7" text-anchor="middle">往 P4 站 (出站坡度 +4.19%) →</text>
+
+            <!-- 2. 北側側式月台 (North Platform EL.66.40) -->
+            <rect x="180" y="140" width="600" height="70" fill="#fef3c7" stroke="#b45309" stroke-width="1.8" />
+            <text x="195" y="175" font-size="13" fill="#92400e" font-weight="bold">北側式月台 (EL.66.40)</text>
+            <line x1="180" y1="205" x2="780" y2="205" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4 2" />
+
+            <!-- 3. 南側側式月台 (South Platform EL.66.40) -->
+            <rect x="180" y="310" width="600" height="70" fill="#fef3c7" stroke="#b45309" stroke-width="1.8" />
+            <text x="195" y="350" font-size="13" fill="#92400e" font-weight="bold">南側式月台 (EL.66.40)</text>
+            <line x1="180" y1="315" x2="780" y2="315" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4 2" />
+
+            <!-- 4. 4F 穿堂付費區 / 閘門線 (EL.68.40) -->
+            <rect x="80" y="55" width="220" height="75" fill="#f8fafc" stroke="#475569" stroke-width="1.5" />
+            <text x="95" y="85" font-size="12" fill="#334155" font-weight="bold">非付費大廳 (EL.68.40)</text>
+            <line x1="230" y1="55" x2="230" y2="130" stroke="#ea580c" stroke-width="3" />
+            <text x="235" y="95" font-size="11" fill="#ea580c" font-weight="bold">驗票閘門</text>
+
+            <!-- 5. 兩側無障礙透明景觀電梯與樓梯 -->
+            <g transform="translate(100, 140)">
+              <rect width="60" height="60" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5" />
+              <text x="30" y="35" font-size="11" fill="#0369a1" font-weight="bold" text-anchor="middle">無障礙電梯</text>
+            </g>
+            <g transform="translate(100, 320)">
+              <rect width="60" height="60" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5" />
+              <text x="30" y="35" font-size="11" fill="#0369a1" font-weight="bold" text-anchor="middle">無障礙電梯</text>
+            </g>
+
+            <!-- 穿堂連接月台樓梯梯級 -->
+            <g transform="translate(790, 140)">
+              <rect width="90" height="70" fill="#f8fafc" stroke="#334155" stroke-width="1.2" />
+              <line x1="805" y1="140" x2="805" y2="210" stroke="#94a3b8" />
+              <line x1="820" y1="140" x2="820" y2="210" stroke="#94a3b8" />
+              <line x1="835" y1="140" x2="835" y2="210" stroke="#94a3b8" />
+              <line x1="850" y1="140" x2="850" y2="210" stroke="#94a3b8" />
+              <line x1="865" y1="140" x2="865" y2="210" stroke="#94a3b8" />
+              <text x="835" y="125" font-size="11" fill="#475569" text-anchor="middle">下行樓梯 (-2.0m)</text>
+            </g>
+
+            <!-- 停靠車輛外廓 (Unicar U4-430) -->
+            <rect x="360" y="218" width="130" height="35" rx="6" fill="#1e293b" stroke="#ffffff" stroke-width="1.5" />
+            <text x="425" y="240" font-size="11" fill="#ffffff" font-weight="bold" text-anchor="middle">Unicar #01</text>
+
+            <rect x="490" y="267" width="130" height="35" rx="6" fill="#1e293b" stroke="#ffffff" stroke-width="1.5" />
+            <text x="555" y="289" font-size="11" fill="#ffffff" font-weight="bold" text-anchor="middle">Unicar #02</text>
+
+            <!-- 鋼構門型架柱位 (標註在平面上) -->
+            <rect x="340" y="132" width="12" height="12" fill="#334155" />
+            <rect x="340" y="376" width="12" height="12" fill="#334155" />
+            <line x1="346" y1="138" x2="346" y2="382" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4" />
+
+            <rect x="600" y="132" width="12" height="12" fill="#334155" />
+            <rect x="600" y="376" width="12" height="12" fill="#334155" />
+            <line x1="606" y1="138" x2="606" y2="382" stroke="#334155" stroke-width="1.5" stroke-dasharray="4 4" />
+            <text x="346" y="125" font-size="10" fill="#475569" text-anchor="middle">門型鋼架 P1</text>
+            <text x="606" y="125" font-size="10" fill="#475569" text-anchor="middle">門型鋼架 P2</text>
+
+            ${showClearance ? `
+              <!-- D-1 檢核安全動線包絡線 -->
+              <rect x="175" y="208" width="610" height="104" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 3" />
+              <text x="795" y="224" font-size="11" fill="#ef4444" font-weight="bold">D-1 檢核界限</text>
+            ` : ''}
+
+            ${showFlow ? `
+              <!-- 旅客動線 (Passenger Flow Paths) -->
+              <path d="M 120 90 L 260 90 L 320 140 L 400 160" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="4 3" marker-end="url(#arrowHead)" />
+              <text x="280" y="80" font-size="11" fill="#2563eb" font-weight="bold">進站乘車動線</text>
+              <path d="M 680 170 L 780 170 L 820 110 L 740 90" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-dasharray="4 3" marker-end="url(#arrowOrange)" />
+              <text x="740" y="160" font-size="11" fill="#ea580c" font-weight="bold">出站換乘動線</text>
+            ` : ''}
+          </svg>
+        `;
+      } else {
+        // T3-R01 站體橫剖面工程檢核圖 (CAD Cross-Section)
+        svgWrapper.innerHTML = `
+          <div class="border-b border-slate-300 pb-3 mb-4 flex justify-between items-center text-slate-800">
+            <div>
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">CROSS SECTION (H=V)</span>
+              <h2 class="text-base font-bold mt-1 text-slate-900">T3 站體軌道橫剖面圖｜垂直於軌道向湖景剖切</h2>
+              <p class="text-xs text-slate-500">黑實線＝控制值　琥珀色＝鋼構與車輛設備　紅虛線＝D-1 月台與車門淨空</p>
+            </div>
+            <div class="text-right text-xs text-slate-500 font-mono">
+              ELEVATION (m)<br>基準: EL.0.00
+            </div>
+          </div>
+
+          <svg viewBox="0 0 960 480" class="w-full h-auto bg-white border border-slate-200 rounded-lg">
+            <!-- 高程參考標線 -->
+            <line x1="80" y1="80" x2="880" y2="80" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 4" />
+            <text x="890" y="84" font-size="12" fill="#475569" font-weight="bold">RF 76.80</text>
+
+            <line x1="80" y1="160" x2="880" y2="160" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4 4" />
+            <text x="890" y="164" font-size="12" fill="#475569" font-weight="bold">5F 72.80</text>
+
+            <line x1="80" y1="240" x2="880" y2="240" stroke="#cbd5e1" stroke-width="1.2" />
+            <text x="890" y="244" font-size="12" fill="#0284c7" font-weight="bold">4F 穿堂 68.40</text>
+
+            <line x1="80" y1="260" x2="880" y2="260" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5 3" />
+            <text x="890" y="264" font-size="12" fill="#d97706" font-weight="bold">軌道中心 68.00</text>
+
+            <line x1="80" y1="320" x2="880" y2="320" stroke="#059669" stroke-width="1.5" />
+            <text x="890" y="324" font-size="12" fill="#059669" font-weight="bold">月台層 66.40</text>
+
+            <line x1="80" y1="380" x2="880" y2="380" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4" />
+            <text x="890" y="384" font-size="12" fill="#64748b" font-weight="bold">3F 64.40</text>
+
+            <!-- 站體剖面結構樓板 -->
+            <!-- 4F 穿堂樓板 -->
+            <rect x="100" y="240" width="240" height="14" fill="#64748b" />
+            <rect x="620" y="240" width="240" height="14" fill="#64748b" />
+
+            <!-- 月台樓板 (EL.66.40) -->
+            <rect x="220" y="320" width="130" height="12" fill="#94a3b8" />
+            <rect x="610" y="320" width="130" height="12" fill="#94a3b8" />
+            <text x="285" y="350" font-size="12" fill="#475569" text-anchor="middle" font-weight="bold">西月台</text>
+            <text x="675" y="350" font-size="12" fill="#475569" text-anchor="middle" font-weight="bold">東月台</text>
+
+            <!-- 穿堂連接月台樓梯階梯 -->
+            <path d="M 220 320 L 150 240 L 150 254 L 220 332 Z" fill="#cbd5e1" stroke="#475569" />
+            <path d="M 740 320 L 810 240 L 810 254 L 740 332 Z" fill="#cbd5e1" stroke="#475569" />
+
+            <!-- 中央軌道樑與車廂截面 -->
+            <g transform="translate(390, 240)">
+              <!-- 鋼軌箱梁結構 (琥珀色) -->
+              <rect x="0" y="10" width="70" height="20" fill="none" stroke="#d97706" stroke-width="2" />
+              <!-- 車廂斷面 -->
+              <rect x="-15" y="-10" width="100" height="70" rx="8" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+              <rect x="-10" y="5" width="90" height="30" fill="#0f172a" />
+              <text x="35" y="80" font-size="11" fill="#475569" text-anchor="middle">車下檢修空間</text>
+            </g>
+
+            <g transform="translate(500, 240)">
+              <rect x="0" y="10" width="70" height="20" fill="none" stroke="#d97706" stroke-width="2" />
+              <rect x="-15" y="-10" width="100" height="70" rx="8" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
+              <rect x="-10" y="5" width="90" height="30" fill="#0f172a" />
+              <text x="35" y="80" font-size="11" fill="#475569" text-anchor="middle">車下檢修空間</text>
+            </g>
+
+            <!-- 門型鋼構桁架 -->
+            <path d="M 200 320 L 200 120 L 760 120 L 760 320" fill="none" stroke="#334155" stroke-width="4" />
+            <text x="480" y="110" font-size="12" fill="#334155" font-weight="bold" text-anchor="middle">門型鋼骨桁架橫樑</text>
+
+            <!-- 標註 Δ -1.60 m 尺寸 -->
+            <line x1="365" y1="260" x2="365" y2="320" stroke="#ef4444" stroke-width="2" />
+            <polygon points="365,260 361,268 369,268" fill="#ef4444" />
+            <polygon points="365,320 361,312 369,312" fill="#ef4444" />
+            <text x="355" y="295" font-size="12" fill="#ef4444" font-weight="bold" text-anchor="end">Δ -1.60 m</text>
+
+            <!-- 渲染視點標記 (EL.69.90) -->
+            <circle cx="210" cy="225" r="7" fill="#2563eb" />
+            <line x1="200" y1="225" x2="220" y2="225" stroke="#ffffff" stroke-width="2" />
+            <line x1="210" y1="215" x2="210" y2="235" stroke="#ffffff" stroke-width="2" />
+            <text x="225" y="222" font-size="12" fill="#2563eb" font-weight="bold">渲染基準視點 EL.69.90 (4F+1.5m 樹冠層)</text>
+          </svg>
+        `;
+      }
+    }
+
+    // 視圖切換事件
+    const btnView3D = document.getElementById('btnView3D');
+    const btnView2D = document.getElementById('btnView2D');
+    const threeCont = document.getElementById('threeContainer');
+    const layoutCont = document.getElementById('layoutContainer');
+
+    btnView3D.addEventListener('click', () => {
+      btnView3D.classList.add('bg-blue-600', 'text-white');
+      btnView3D.classList.remove('text-slate-300', 'hover:bg-slate-800');
+      btnView2D.classList.remove('bg-blue-600', 'text-white');
+      btnView2D.classList.add('text-slate-300', 'hover:bg-slate-800');
+
+      threeCont.classList.remove('hidden');
+      layoutCont.classList.add('hidden');
+    });
+
+    btnView2D.addEventListener('click', () => {
+      btnView2D.classList.add('bg-blue-600', 'text-white');
+      btnView2D.classList.remove('text-slate-300', 'hover:bg-slate-800');
+      btnView3D.classList.remove('bg-blue-600', 'text-white');
+      btnView3D.classList.add('text-slate-300', 'hover:bg-slate-800');
+
+      layoutCont.classList.remove('hidden');
+      threeCont.classList.add('hidden');
+      render2DSVG();
+    });
+
+    document.getElementById('btnLayoutPlan').addEventListener('click', (e) => {
+      current2DMode = 'plan';
+      e.target.classList.add('bg-blue-600', 'text-white');
+      e.target.classList.remove('text-slate-400');
+      document.getElementById('btnLayoutSection').classList.remove('bg-blue-600', 'text-white');
+      document.getElementById('btnLayoutSection').classList.add('text-slate-400');
+      render2DSVG();
+    });
+
+    document.getElementById('btnLayoutSection').addEventListener('click', (e) => {
+      current2DMode = 'section';
+      e.target.classList.add('bg-blue-600', 'text-white');
+      e.target.classList.remove('text-slate-400');
+      document.getElementById('btnLayoutPlan').classList.remove('bg-blue-600', 'text-white');
+      document.getElementById('btnLayoutPlan').classList.add('text-slate-400');
+      render2DSVG();
+    });
+
+    document.getElementById('chkFlow').addEventListener('change', render2DSVG);
+    document.getElementById('chkClearance').addEventListener('change', render2DSVG);
+
+    // 說明彈窗控制
+    const helpModal = document.getElementById('helpModal');
+    document.getElementById('btnHelpModal').addEventListener('click', () => helpModal.classList.remove('hidden'));
+    document.getElementById('btnCloseModal').addEventListener('click', () => helpModal.classList.add('hidden'));
+    document.getElementById('btnConfirmModal').addEventListener('click', () => helpModal.classList.add('hidden'));
+
+    // 向量下載
+    document.getElementById('btnDownloadSvg').addEventListener('click', () => {
+      const svgEl = svgWrapper.querySelector('svg');
+      if (!svgEl) return;
+      const serializer = new XMLSerializer();
+      const svgBlob = new Blob([serializer.serializeToString(svgEl)], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `T3_Station_${current2DMode.toUpperCase()}_Layout.svg`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // 視窗自適應
+    window.addEventListener('resize', () => {
+      if (container.clientWidth > 0 && container.clientHeight > 0) {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      }
+    });
+
+    // 動畫渲染循環
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+
+      // 平滑移動相機至預設角度
+      if (isMovingCamera) {
+        camera.position.lerp(targetCamPos, 0.08);
+        controls.target.lerp(targetLookAt, 0.08);
+        if (camera.position.distanceTo(targetCamPos) < 0.1) {
+          isMovingCamera = false;
+        }
+      }
+
+      // 車廂沿軌道平緩滑行模擬
+      if (isAnimatingPods) {
+        animProgress += dt * 0.4;
+        const offsetZ = Math.sin(animProgress) * 16;
+        podWest.position.z = -2 + offsetZ;
+        podEast.position.z = 4 - offsetZ;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+    render2DSVG();
+  </script>
+</body>
+</html>

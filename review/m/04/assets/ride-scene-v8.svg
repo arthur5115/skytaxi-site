@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="虎頭埤四站雙軌路線示意，四站均位於陸地">
+  <defs>
+    <linearGradient id="vr-sky" x2="0" y2="1"><stop stop-color="#dbeae4"/><stop offset="1" stop-color="#f5f3dd"/></linearGradient>
+    <linearGradient id="vr-land" x2="0" y2="1"><stop stop-color="#a2b390"/><stop offset="1" stop-color="#56785f"/></linearGradient>
+    <linearGradient id="vr-water" x2=".2" y2="1"><stop stop-color="#84b9ae"/><stop offset="1" stop-color="#478b89"/></linearGradient>
+    <linearGradient id="vr-steel" x2="0" y2="1"><stop stop-color="#d6e4df"/><stop offset=".5" stop-color="#a4c1bc"/><stop offset="1" stop-color="#628e87"/></linearGradient>
+    <pattern id="vr-windows" width="13" height="16" patternUnits="userSpaceOnUse"><path d="M1 1h10v12H1z" fill="#547e78"/><path d="M2 2h8v3H2z" fill="#97b7a0"/></pattern>
+    <symbol id="vr-house" viewBox="0 0 44 40">
+      <path d="M5 16 25 15 33 11v22l-8 5H5Z" fill="#ead6ab"/>
+      <path d="M25 19v19l13-6V13Z" fill="#ab9471"/>
+      <path d="m0 17 12-12L35 2l9 12-15 9-6-7Z" fill="currentColor"/>
+      <path d="m12 5 11 11M29 23 23 16" fill="none" stroke="#633e34" stroke-width=".8"/>
+      <path d="M9 22h6v6H9zm10 0h4v6h-4zM9 32h4v5H9zm9-1h5v7h-5z" fill="#5a7770"/>
+      <path d="m29 26 5-2v5l-5 2z" fill="#617c73"/>
+    </symbol>
+    <symbol id="vr-tree" viewBox="0 0 32 46">
+      <path d="M15 27h3v16h-3z" fill="#5a5544"/>
+      <path d="M8 33c-7 1-10-9-4-14C1 13 7 8 11 8 13-2 24-1 25 9c6 2 9 11 4 16 3 7-4 11-11 8-4 3-8 3-10 0Z" fill="currentColor"/>
+      <path d="M6 19C4 14 8 10 13 10c1-6 8-9 11-1 3 3 3 7 1 10-4 0-7 5-13 2-3 2-5 1-6-2Z" fill="#a6bb86" opacity=".27"/>
+    </symbol>
+    <symbol id="vr-station" viewBox="0 0 100 115">
+      <path d="M3 107h94l-16 7H9z" fill="#163d39" opacity=".22"/>
+      <path d="M17 65h67v40H17z" fill="currentColor"/>
+      <path d="M84 65 94 58v39l-10 8z" fill="#4c6254"/>
+      <path d="M26 76h49v20H26z" fill="url(#vr-windows)" stroke="#eadabd" stroke-width="2"/>
+      <path d="M17 99h67v7H17z" fill="#ded3af"/>
+      <path d="M10 34h76v32H10z" fill="#c8d2b1" stroke="#355954" stroke-width="2"/>
+      <path d="M86 34 96 29v31l-10 6z" fill="#6d8a70" stroke="#355954" stroke-width="2"/>
+      <path d="M15 40h65v20H15z" fill="#345b57"/>
+      <path d="M18 43h59v13H18z" fill="url(#vr-windows)"/>
+      <path d="M4 32 19 25h68l12 3-12 7H5z" fill="#32594f"/>
+      <path d="m4 32 15-7h68l12 3-13 2H20l-11 4Z" fill="#9ba978"/>
+      <path d="M4 35h83v4H4z" fill="#d3d9ba"/>
+      <path d="M20 65v5m63-5v5" stroke="#3a5f56" stroke-width="3"/>
+    </symbol>
+  </defs>
+  <path fill="url(#vr-sky)" d="M0 0h1000v420H0z"/>
+  <path d="M0 139c78-30 126-47 211-37 61 7 87-32 141-28 65 5 106 33 153 37 79 8 106-52 186-44 54 6 98-32 153-26 55 6 107 26 156 52v148H0Z" fill="#a8c1ae"/>
+  <path d="M0 172c79-6 129-50 224-45 92 6 154 39 231 28 66-9 123-38 180-35 79 4 111-35 175-37 63-2 118 24 190 48v131H0Z" fill="#829f83"/>
+  <path d="M0 212c61-21 151-38 231-31 85 8 130 20 207 23 84 5 125-30 198-31 87-2 155-42 217-38 62 4 103 15 147 24v261H0Z" fill="url(#vr-land)"/>
+  <path d="M687 183c68-13 142-63 213-40 37 12 77 8 100 22v255H746c-35-62-67-86-20-136 38-40-100-72-39-101Z" fill="#638970"/>
+  <path d="M0 258c120-37 170-50 252-25 44 13 71 48 34 75-56 41-4 87 33 112H0Z" fill="#96a67f"/>
+  <!-- Schematic shore relationships based on issued CS-02 and G-08, not a survey projection. -->
+  <path d="M169 194c10-12 24-13 39-3 12 9 11 24 23 25 10 1 15-14 28-14 15 0 20 19 21 35 0 16-4 22-13 29 25-8 30-31 36-48 6-17 20-32 33-20 10 10 11 30 15 40 5 13 8 11 9-7 1-13 6-30 13-23 9 10 5 40 15 61 17 30 35 42 55 47 31 5 60 0 85 10 24 10 18 20 55 25 25 3 71-6 95 9 22 16 19 42 32 61H278c-20-32-58-34-74-64-15-30-4-49-14-74-7-18-25-32-25-56 0-12 0-24 4-33Z" fill="url(#vr-water)" stroke="#c2ce9d" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M225 228c5-24 6-50 23-61 12-7 26 4 28 22 2 11 10 26 8 43-1 13-5 25-14 31-10 7-30-2-39-12-6-6-8-15-6-23Z" fill="#81996c" stroke="#b9c997" stroke-width="4"/>
+  <path d="M378 265q16-44 45-61 42-26 75 9 23-31 65-34 71-7 99 46 13 30-6 54-20 28-76 37-47 5-77-14-50 7-84-2-33-11-41-35Z" fill="#90a679"/>
+  <path d="M485 246q48-55 100-48 49 7 64 46-17 31-74 39-51 6-90-37Z" fill="#a0b486"/>
+  <g fill="none" stroke="#dce8cb" stroke-width="2" opacity=".44" stroke-linecap="round">
+    <path d="M181 247q14 8 31 5m108-17q9 2 21 2m-34 28q20 5 41 4M225 305q35 8 70 3m-45 26q41 5 79 1m-27 29q47 5 95 0m9-21q35 4 76 2m-86 42q55 6 96 2m43-29q46 9 75 8m-80 20q41 6 69 4m-13 16q35 4 71 2"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M439 271q11 15 46 18 46 2 80-19m0 0q24 14 65 6 42-10 86-7" stroke="#718966" stroke-width="10"/>
+    <path d="M439 271q11 15 46 18 46 2 80-19m0 0q24 14 65 6 42-10 86-7" stroke="#d6c7a2" stroke-width="6"/>
+  </g>
+  <path d="M0 341c60-42 103-20 159-57" fill="none" stroke="#e7d5ab" stroke-width="12" opacity=".9"/>
+  <path d="M0 341c60-42 103-20 159-57" fill="none" stroke="#f5e8c4" stroke-width="2" opacity=".8"/>
+  <path d="M106 246c-5 30 8 61 18 85s-16 59-4 89M879 263c-29 22-7 60-47 77-16 7-21 31-13 54" fill="none" stroke="#c5c2a0" stroke-width="5"/>
+  <g color="#a26a50">
+    <use href="#vr-house" x="0" y="273" width="48" height="44"/>
+    <use href="#vr-house" x="43" y="281" width="53" height="48" style="color:#96604f"/>
+    <use href="#vr-house" x="113" y="273" width="44" height="40" style="color:#788474"/>
+    <use href="#vr-house" x="153" y="260" width="55" height="50" style="color:#ad7355"/>
+    <use href="#vr-house" x="143" y="245" width="42" height="41" style="color:#866a57"/>
+    <use href="#vr-house" x="0" y="355" width="59" height="54" style="color:#ba8061"/>
+    <use href="#vr-house" x="57" y="342" width="57" height="52" style="color:#886452"/>
+    <use href="#vr-house" x="137" y="326" width="61" height="55" style="color:#b77f61"/>
+    <use href="#vr-house" x="145" y="330" width="49" height="46" style="color:#797b5e"/>
+  </g>
+  <g id="vr-groves" color="#3d6d53">
+    <use href="#vr-tree" x="235" y="266" width="27" height="39"/>
+    <use href="#vr-tree" x="188" y="332" width="31" height="49" style="color:#5c8360"/>
+    <use href="#vr-tree" x="236" y="181" width="25" height="54"/>
+    <use href="#vr-tree" x="253" y="188" width="23" height="58" style="color:#557b56"/>
+    <use href="#vr-tree" x="225" y="188" width="24" height="48"/>
+    <use href="#vr-tree" x="238" y="228" width="19" height="27" style="color:#557b56"/>
+    <use href="#vr-tree" x="261" y="223" width="20" height="33"/>
+    <use href="#vr-tree" x="382" y="196" width="22" height="30" style="color:#658761"/>
+    <use href="#vr-tree" x="378" y="246" width="19" height="28"/>
+    <use href="#vr-tree" x="597" y="207" width="23" height="34" style="color:#638761"/>
+    <use href="#vr-tree" x="620" y="207" width="24" height="35"/>
+    <use href="#vr-tree" x="651" y="209" width="21" height="30" style="color:#517d58"/>
+    <use href="#vr-tree" x="700" y="202" width="22" height="32"/>
+    <use href="#vr-tree" x="724" y="194" width="25" height="36" style="color:#557b56"/>
+    <use href="#vr-tree" x="753" y="182" width="33" height="48"/>
+    <use href="#vr-tree" x="777" y="183" width="27" height="39" style="color:#547b58"/>
+    <use href="#vr-tree" x="800" y="176" width="30" height="43"/>
+    <use href="#vr-tree" x="820" y="176" width="28" height="40" style="color:#557b56"/>
+    <use href="#vr-tree" x="944" y="160" width="37" height="54"/>
+    <use href="#vr-tree" x="966" y="172" width="36" height="52" style="color:#557b56"/>
+    <use href="#vr-tree" x="741" y="307" width="34" height="49"/>
+    <use href="#vr-tree" x="768" y="290" width="37" height="54" style="color:#4b7157"/>
+    <use href="#vr-tree" x="792" y="284" width="32" height="46"/>
+    <use href="#vr-tree" x="814" y="265" width="31" height="45" style="color:#6b8c61"/>
+    <use href="#vr-tree" x="723" y="355" width="43" height="62" style="color:#557b56"/>
+    <use href="#vr-tree" x="753" y="346" width="49" height="71"/>
+    <use href="#vr-tree" x="787" y="345" width="45" height="65" style="color:#52785a"/>
+    <use href="#vr-tree" x="833" y="329" width="48" height="69"/>
+    <use href="#vr-tree" x="872" y="343" width="43" height="62" style="color:#4f7658"/>
+    <use href="#vr-tree" x="906" y="311" width="47" height="68"/>
+    <use href="#vr-tree" x="938" y="317" width="53" height="76" style="color:#3a684f"/>
+    <use href="#vr-tree" x="965" y="304" width="48" height="69" style="color:#60885d"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M258 232v17m233-17v42m181-42v18m104-18v35" stroke="#2d514e" stroke-width="5"/>
+    <path d="M253 249h12m221 25h12m169-24h12m92 17h12" stroke="#d1d4b1" stroke-width="3"/>
+    <path d="M252 233h13m220 0h13m167 0h13m91 0h13" stroke="#2d514e" stroke-width="4"/>
+  </g>
+  <g>
+    <use href="#vr-station" x="45" y="167" width="100" height="115" style="color:#a97052"/>
+    <use href="#vr-station" x="388" y="167" width="100" height="115" style="color:#bd9163"/>
+    <use href="#vr-station" x="517" y="167" width="100" height="115" style="color:#ac7a57"/>
+    <use href="#vr-station" x="855" y="167" width="100" height="115" style="color:#80946d"/>
+  </g>
+  <g fill="none" stroke-linecap="butt">
+    <path d="M95 220H905M95 230H905" stroke="#193d3c" stroke-width="7"/>
+    <path d="M95 220H905M95 230H905" stroke="url(#vr-steel)" stroke-width="3"/>
+    <path d="M95 219H905M95 229H905" stroke="#f3f8eb" stroke-width=".7" opacity=".9"/>
+  </g>
+</svg>

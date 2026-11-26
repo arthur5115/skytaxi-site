@@ -1,0 +1,42 @@
+/* Guide V6: pictures are part of the corresponding card or button. */
+.guide-station,.guide-crumb-link,.guide-back,.guide-next,.guide-related{display:flex;align-items:center;gap:.5rem}
+.guide-station>.guide-key-photo,.guide-crumb-link>.guide-key-photo,.guide-back>.guide-key-photo,.guide-next>.guide-key-photo,.guide-related>.guide-key-photo{width:2.5rem;height:1.8rem;border-radius:4px;flex:none;object-fit:cover}
+.guide-crumb-link{display:inline-flex}.guide-crumb-link>.guide-key-photo{width:1.5rem;height:1.05rem}
+.guide-depth{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem;align-items:stretch}
+.guide-level{display:flex;flex-direction:column;align-items:stretch;justify-content:start;gap:.35rem;padding:0;overflow:hidden;background:#f3f7ee;border-radius:8px;min-width:0}
+.guide-level .guide-key-label{display:block;text-align:center;padding:0 .3rem .38rem}
+.guide-level .guide-key-photo,.guide-level .guide-art{width:100%;height:2.9rem;object-fit:cover;border-radius:0}
+.guide-level:hover:not([aria-current]){background:#e7f0e1}
+.guide-level[aria-current]{outline:2px solid #285843;outline-offset:2px}
+.guide-level:focus-visible{outline:3px solid #ba6c31;outline-offset:2px}
+.guide-overview-hero .guide-image{aspect-ratio:16/7;object-fit:cover}
+.guide-paired-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem;margin-top:.8rem}
+.guide-paired-choices .guide-choice{display:grid;grid-template-columns:6.25rem minmax(0,1fr);gap:.6rem;align-items:center;padding:0;overflow:hidden}
+.guide-paired-choices .guide-key-photo,.guide-paired-choices .guide-art{width:100%;height:100%;min-height:4.4rem;object-fit:cover;border-radius:0}
+.guide-choice-copy{padding:.4rem .35rem .4rem 0;color:var(--ink)!important}
+.guide-choice-copy span,.guide-choice-copy strong{display:block}
+.guide-art{display:grid;place-items:center;position:relative;background:var(--visual-paper);color:var(--visual-ink);min-width:0;overflow:hidden;isolation:isolate;line-height:1}
+.guide-art::before,.guide-art::after{content:"";position:absolute;z-index:-1;pointer-events:none}
+.guide-art::before{inset:0;background:radial-gradient(circle at 87% 17%,#fff9 0 10%,transparent 11%),repeating-radial-gradient(ellipse at 4% 120%,transparent 0 20px,#fff6 21px 23px,transparent 24px 35px)}
+.guide-art::after{width:95%;height:75%;bottom:-48%;right:-8%;border-radius:52% 12% 0 0;transform:rotate(-9deg);background:var(--visual-accent);opacity:.43}
+.guide-art-itinerary::before{background:radial-gradient(circle at 81% 29%,#fff8 0 12%,transparent 13%),repeating-linear-gradient(151deg,transparent 0 15px,#fff6 16px 19px,transparent 20px 26px)}
+.guide-art-service::before{background:radial-gradient(circle,#fff9 0 13%,transparent 14%) 0 0/15px 15px}
+.guide-art-symbols{display:flex;justify-content:center;align-items:center;gap:.3rem;width:88%;height:100%}
+.guide-art-symbols svg{width:min(34%,4.1rem);height:76%;fill:none;stroke:currentColor;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 0 #fff8)}
+.guide-art-connector{width:13%;border-top:2px dashed currentColor;opacity:.58}
+.guide-art-mini{width:2.5rem;height:1.8rem;flex:none;border-radius:4px}
+.guide-art-mini svg{width:min(44%,1.05rem);height:80%}
+.guide-art-mini .guide-art-connector{display:none}
+.guide-crumb-link .guide-art-mini{width:1.5rem;height:1.05rem}
+.guide-paired-details{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.guide-paired-itinerary{grid-template-columns:repeat(2,minmax(0,1fr))}
+.guide-paired-card{padding:0;overflow:hidden;min-width:0}
+.guide-paired-card>.guide-art,.guide-card-image>img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.guide-card-image{margin:0}.guide-card-image figcaption{font-size:.84rem;padding:.2rem .65rem;color:var(--sub);background:#edf4e9}
+.guide-card-copy{padding:.75rem .83rem .85rem}
+.guide-card-copy h4{font-size:1.08rem;line-height:1.35;margin:0 0 .35rem}
+.guide-card-copy p{margin-top:.4rem}.guide-card-steps{--visual-accent:#8ab097;--visual-ink:#285843}
+.guide-paired-caption{font-size:.9rem;color:var(--sub);margin:.6rem 0 0}
+.guide-related{display:inline-flex;border-radius:6px;border:1px solid #bfd4be;padding:.37rem .58rem;text-decoration:none}.guide-related:hover{background:#e9f1e5}
+@media(max-width:650px){.guide-depth{grid-template-columns:repeat(3,minmax(0,1fr))}.guide-paired-details,.guide-paired-itinerary{grid-template-columns:1fr}.guide-paired-card{display:grid;grid-template-columns:minmax(105px,32%) minmax(0,1fr);align-items:stretch}.guide-paired-card>.guide-art{height:100%;min-height:4.5rem;aspect-ratio:auto}.guide-card-image>img{height:100%;min-height:4rem;aspect-ratio:auto}.guide-card-image{display:grid;grid-template-rows:1fr auto;min-width:0}.guide-card-copy{padding:.65rem .58rem}.guide-paired-choices .guide-choice{grid-template-columns:3.6rem minmax(0,1fr)}.guide-overview-hero .guide-image{aspect-ratio:16/9}}
+@media(max-width:375px){.guide-paired-choices{grid-template-columns:1fr}.guide-paired-details{gap:.55rem}.guide-station .guide-key-photo{width:1.7rem;height:1.3rem}}

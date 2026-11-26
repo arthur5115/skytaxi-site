@@ -1,0 +1,141 @@
+{
+  "source_title": "政策公告(公告版)-1130903.pdf",
+  "source_sha256": "5c43b92eceb505c23a2c6fc89ebc24a8161a88823382b7b214d16ed207f61a45",
+  "figures": [
+    {
+      "figure": 1,
+      "pdf_page": 5,
+      "printed_page": 3,
+      "clip_pdf_points": [
+        53.76,
+        72.48,
+        541.44,
+        412.8
+      ],
+      "width": 2032,
+      "height": 1418,
+      "file": "assets/policy-fig-1.jpg",
+      "sha256": "23d7ec657d7427305bc695086e5c0616aa4e5ae03fe3bba52c387e880051bed8"
+    },
+    {
+      "figure": 2,
+      "pdf_page": 7,
+      "printed_page": 5,
+      "clip_pdf_points": [
+        53.52,
+        82.08,
+        541.44,
+        406.8
+      ],
+      "width": 2033,
+      "height": 1353,
+      "file": "assets/policy-fig-2.jpg",
+      "sha256": "5969ca4a6c859b6f1302c8b50dad433c62ae45f6068401fbd205ec436ea061a7"
+    },
+    {
+      "figure": 3,
+      "pdf_page": 7,
+      "printed_page": 5,
+      "clip_pdf_points": [
+        53.52,
+        434.88,
+        541.44,
+        737.52
+      ],
+      "width": 2033,
+      "height": 1261,
+      "file": "assets/policy-fig-3.jpg",
+      "sha256": "b0bcbbcf7d2be92aac4a9aacba1f5393ae5cbc14d607ad60a8ff8ca4a93f1707"
+    },
+    {
+      "figure": 4,
+      "pdf_page": 8,
+      "printed_page": 6,
+      "clip_pdf_points": [
+        53.52,
+        305.52,
+        541.44,
+        619.44
+      ],
+      "width": 2033,
+      "height": 1308,
+      "file": "assets/policy-fig-4.jpg",
+      "sha256": "970d6df64ccc736a62dea375fc13e376cd090d9b3cc4986d261aedad6657f296"
+    },
+    {
+      "figure": 5,
+      "pdf_page": 9,
+      "printed_page": 7,
+      "clip_pdf_points": [
+        53.52,
+        89.76,
+        541.44,
+        414.24
+      ],
+      "width": 2033,
+      "height": 1352,
+      "file": "assets/policy-fig-5.jpg",
+      "sha256": "2df3bd406c65fc3f5fdc276dfdbc8c9e404b7c6f6b678c1a91bfaaa0dab1d8cc"
+    },
+    {
+      "figure": 6,
+      "pdf_page": 10,
+      "printed_page": 8,
+      "clip_pdf_points": [
+        53.76,
+        75.36,
+        539.52,
+        394.8
+      ],
+      "width": 2024,
+      "height": 1331,
+      "file": "assets/policy-fig-6.jpg",
+      "sha256": "1007ff901ed88ffbdb8889b3246f1f2a727759d6848ae97d9c970a0ad39c210d"
+    },
+    {
+      "figure": 7,
+      "pdf_page": 10,
+      "printed_page": 8,
+      "clip_pdf_points": [
+        53.52,
+        414.48,
+        541.44,
+        740.64
+      ],
+      "width": 2033,
+      "height": 1359,
+      "file": "assets/policy-fig-7.jpg",
+      "sha256": "d0bf8734b58120cd418505ea360a81dd7decd8203ee228579225a9b7f0d72765"
+    },
+    {
+      "figure": 8,
+      "pdf_page": 11,
+      "printed_page": 9,
+      "clip_pdf_points": [
+        53.52,
+        305.76,
+        541.44,
+        628.56
+      ],
+      "width": 2033,
+      "height": 1345,
+      "file": "assets/policy-fig-8.jpg",
+      "sha256": "6a5532267f689bf35c07aad979898da9d60601e27559c4f3de9dd2dd641497f8"
+    },
+    {
+      "figure": 9,
+      "pdf_page": 12,
+      "printed_page": 10,
+      "clip_pdf_points": [
+        53.52,
+        75.6,
+        541.44,
+        396.96
+      ],
+      "width": 2033,
+      "height": 1339,
+      "file": "assets/policy-fig-9.jpg",
+      "sha256": "49beaf7f8c65b3abcf78d099b42eda0313b46d05345f62d81b99f2a082aea1aa"
+    }
+  ]
+}

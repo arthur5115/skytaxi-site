@@ -1,0 +1,42 @@
+.visitor-action-icon {
+  display: inline-block;
+  inline-size: 1.18em;
+  block-size: 1.18em;
+  flex: 0 0 auto;
+  vertical-align: -.18em;
+  pointer-events: none;
+}
+.visitor-has-action-icon > .visitor-action-icon { margin-inline-end: .43em; }
+.bar nav .visitor-action-icon { inline-size: 1em; block-size: 1em; margin-inline-end: .26em; }
+#tabs .route-btn span .visitor-action-icon { margin-inline-end: .22em; }
+.visitor-faq summary.visitor-has-action-icon {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  align-items: start;
+  column-gap: .55rem;
+  list-style: none;
+}
+.visitor-faq summary.visitor-has-action-icon::-webkit-details-marker { display: none; }
+.visitor-faq summary.visitor-has-action-icon > .visitor-action-icon { margin: .17em 0 0; }
+.visitor-faq summary.visitor-has-action-icon::after {
+  content: '';
+  display: block;
+  inline-size: .47em;
+  block-size: .47em;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin: .37em .18em 0 .18em;
+}
+.visitor-faq details[open] > summary.visitor-has-action-icon::after {
+  transform: rotate(225deg);
+  margin-block-start: .62em;
+}
+@media (max-width: 410px) {
+  .bar nav .visitor-action-icon { margin-inline-end: .2em; }
+  #tabs .route-btn span .visitor-action-icon { display: block; margin: 0 auto .2em; }
+}
+@media (max-width: 365px) {
+  .bar nav .visitor-has-action-icon { text-align: center; }
+  .bar nav .visitor-action-icon { display: block; margin: 0 auto .15em; }
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="從新化老街到虎頭埤湖畔與林場，探索虎頭埤纜車四站、遊程與到訪資訊。纜車尚未開放。">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#102e26"><title>虎頭埤纜車｜搭乘與遊園</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="preload" as="image" href="assets/hero-1123.webp"><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="guide-cards.css"><link rel="stylesheet" href="site-actions.css"><link rel="stylesheet" href="ride.css">
+<script defer src="plan.js"></script><script defer src="site.js"></script><script defer src="guide-data.js"></script><script defer src="guide-visuals.js"></script><script defer src="guide-card-assets.js"></script><script defer src="guide.js"></script><script defer src="site-actions.js"></script><script defer src="ride.js"></script></head>
+<body><a class="skip" href="#main">跳到主要內容</a>
+<header class="bar"><a class="brand" href="#top"><img class="logo" src="icon.svg" alt="" width="40" height="40"><span>虎頭埤纜車<small>HUTOUPI CABLE CAR</small></span></a><nav aria-label="主要導覽"><a href="#route">路線與四站</a><a href="#ride">行車模擬</a><a href="#guide/t1/overview">分站導覽</a><a href="#trips">推薦遊程</a><a href="#visit">到訪與票務</a></nav><span class="priv">尚未開放搭乘</span></header>
+<main id="main">
+<section id="top" class="hero" aria-labelledby="title"><div class="hero-image" aria-hidden="true"></div><div class="hero-content wrap"><p class="eyebrow"><span></span> 臺南新化・湖畔到林間</p><h1 id="title">虎頭埤纜車</h1><p class="hero-lead">從新化之門出發，沿湖穿過山城，一路走進森林。</p><div class="actions"><a class="cta" href="#route">探索沿線四站</a><a class="ghost" href="#ride">試搭纜車</a><a class="ghost" href="#visit">到訪與票務</a></div></div><div class="hero-foot wrap"><span>纜車尚未開放搭乘</span><span>全線鳥瞰・實景模擬</span></div></section>
+<section id="route" class="stations section"><div class="wrap">
+<div class="section-head"><div><p class="kicker">EXPLORE THE ROUTE</p><h2>從哪一站開始？</h2></div><p>從入口轉乘、湖畔住宿，到山城聚會與森林散步。選一站，看看有哪些體驗。</p></div>
+<div class="map-card visitor-route"><div class="map-head"><span>四站路線</span><span>站序示意・非地理比例</span></div><div id="tabs" class="route-track" role="tablist" aria-label="沿線四站"></div></div><div id="station-panels"></div>
+<noscript><p>沿線依序為新化之門站、湖濱旅館站、湖濱山城站、新化林場站。纜車尚未開放搭乘。</p></noscript>
+</div></section>
+<section id="ride" class="section ride-section" aria-labelledby="ride-title"><div class="wrap">
+<div class="section-head"><div><p class="kicker">THE VIRTUAL RIDE</p><h2 id="ride-title">先搭一趟虎頭埤纜車</h2></div><p>從新化小鎮出發，沿湖經過旅館與山城，再抵達林間。選擇一站起程，看看沿線如何串在一起。</p></div>
+<div class="ride-frame">
+<div class="ride-topline"><span>四站行車模擬</span><span class="ride-badge">互動示意・尚未開放搭乘</span></div>
+<div class="ride-toolbar"><div class="ride-buttons">
+<button id="ride-play" class="ride-button ride-main" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path id="ride-play-icon" d="M8 5l12 7-12 7z"/></svg><span>播放行程</span></button>
+<button id="ride-reset" class="ride-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 1 2 5m-2-5V5m0 7h7"/></svg><span>回到起點</span></button>
+<button id="ride-direction" class="ride-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-4-4m4 12H4l4 4"/></svg><span>切換行車方向</span></button>
+</div>
+</div>
+<div class="ride-stage" aria-hidden="true">
+<img class="ride-landscape" src="assets/ride-scene-v8.svg" width="1000" height="420" alt="" loading="lazy">
+<svg class="ride-overlay" viewBox="0 0 1000 420" focusable="false">
+<g id="ride-markers">
+<g transform="translate(95 0)"><path d="M0 174v35"/><circle cy="159" r="19"/><text y="165">1</text></g>
+<g transform="translate(438 0)"><path d="M0 174v35"/><circle cy="159" r="19"/><text y="165">2</text></g>
+<g transform="translate(567 0)"><path d="M0 174v35"/><circle cy="159" r="19"/><text y="165">3</text></g>
+<g transform="translate(905 0)"><path d="M0 174v35"/><circle cy="159" r="19"/><text y="165">4</text></g>
+</g>
+<g id="ride-car" transform="translate(95 220)">
+<ellipse cx="0" cy="49" rx="40" ry="5" fill="#1b372f" opacity=".24"/>
+<path d="M-25 0h50l4 14h-58z" fill="#63756d" stroke="#203e34" stroke-width="1.6"/>
+<circle cx="-18" cy="-3.7" r="5.5" fill="#253e36" stroke="#e3eae1" stroke-width="1.5"/><circle cx="18" cy="-3.7" r="5.5" fill="#253e36" stroke="#e3eae1" stroke-width="1.5"/>
+<path d="M-41 27c2-15 16-20 41-20s39 6 41 20c2 10-8 18-22 20h-38c-14-2-24-10-22-20Z" fill="#fffef6" stroke="#284c41" stroke-width="2.3"/>
+<path d="M-34 26c3-10 15-13 34-13s31 3 34 13l-3 6h-62z" fill="#203e48"/>
+<path d="M-25 35h50M-35 35h7m56 0h7" stroke="#46a7c5" stroke-width="2"/>
+<path d="M-13 15v14M1 14v16m13-15v14" stroke="#8cb0ad" stroke-width="1" opacity=".7"/>
+<path d="M-14 43h28" stroke="#c8d9cf" stroke-width="2" stroke-linecap="round"/>
+</g>
+</svg>
+</div>
+<p class="ride-shore-note"><strong>跨湖在新化之門與湖濱旅館之間</strong><span>湖濱旅館站坐落湖岸半島，湖濱山城站位於陸地丘陵，兩站之間不跨水。</span></p>
+<div class="ride-stops" id="ride-stops" role="group" aria-label="選擇起程站"></div>
+<div class="ride-console">
+<div class="ride-controls">
+<div class="ride-scrub"><label for="ride-range">行程進度</label><output id="ride-percent" for="ride-range">0%</output><input id="ride-range" type="range" min="0" max="1000" value="0" aria-describedby="ride-under" disabled></div>
+<p class="ride-under" id="ride-under">拖曳進度可查看沿線。動畫時間經過縮時，地景與車輛為示意，非正式班表或工程圖。</p>
+</div>
+<div class="ride-current">
+<p id="ride-phase" class="kicker">準備出發</p><p id="ride-status" role="status" aria-live="polite" aria-atomic="true">新化之門站</p>
+<p id="ride-next"></p><a id="ride-guide" class="ride-preview" href="#guide/t1/overview"><img src="assets/t1-render-1123.webp" alt="" width="100" height="62" loading="lazy"><span>看本站導覽</span></a>
+</div>
+</div><noscript><p class="ride-under">啟用 JavaScript 後可播放行車模擬；上方路線仍可瀏覽。</p></noscript>
+</div></div></section>
+<section id="guide" class="guide-wrap section"><div class="wrap">
+<div class="section-head"><div><p class="kicker">STATION VISITOR GUIDE</p><h2>分站深度導覽</h2></div><p>選一站，再從總覽往下探索。這些導覽介紹開放後的遊程；服務時間、實際動線及預約方式，以營運公告為準。</p></div>
+<div class="guide-shell"><nav class="guide-stations" aria-label="選擇導覽車站" id="guide-stations"></nav>
+<div class="guide-room"><nav id="guide-crumb" class="guide-crumb" aria-label="目前位置"></nav>
+<div id="guide-header"></div><nav id="guide-depth" class="guide-depth" aria-label="分站導覽層次"></nav>
+<div id="guide-content"></div><div id="guide-move" class="guide-move"></div></div>
+</div><noscript><p>開啟 JavaScript 後可逐層瀏覽；上方保留四站總覽。</p></noscript></div></section>
+<section id="trips" class="wrap section"><div class="section-head"><div><p class="kicker">PLAN YOUR VISIT</p><h2>想怎麼玩虎頭埤？</h2></div><p>先按興趣挑選。以下是開放後可參考的行程構想，餐飲、住宿及活動依各站正式公開資訊為準。</p></div>
+<div class="trip-grid">
+<article><img src="assets/t1-render-1123.webp" alt="新化之門站實景模擬" loading="lazy" decoding="async"><div><p class="kicker">新化之門站・老街散策</p><h3>逛老街，從新化出發</h3><p>先逛新化老街、嚐在地小吃，再安排在新化之門的迎賓廣場與商店街停留。</p><a class="lined station-link" href="#route" data-station="0">查看新化之門站</a></div></article>
+<article><img src="assets/t2-render-1123.webp" alt="湖濱旅館站實景模擬" loading="lazy" decoding="async"><div><p class="kicker">湖濱旅館站・湖畔小旅行</p><h3>在湖邊留一個晚上</h3><p>預留一段湖畔散步時間，把湖景、住宿與悠閒的隔日安排串成一趟小旅行。</p><a class="lined station-link" href="#route" data-station="1">查看湖濱旅館站</a></div></article>
+<article><img src="assets/t3-render-1123.webp" alt="湖濱山城站實景模擬" loading="lazy" decoding="async"><div><p class="kicker">湖濱山城站・聚會度假</p><h3>到山城安排團聚</h3><p>想找聚餐、宴會或會議場地，可先認識山城的旅宿與會展機能。</p><a class="lined station-link" href="#route" data-station="2">查看湖濱山城站</a></div></article>
+<article><img src="assets/t4-render-1123.webp" alt="新化林場站實景模擬" loading="lazy" decoding="async"><div><p class="kicker">新化林場站・親子散步</p><h3>從新化門戶走進森林</h3><p>由新化之門認識在地特色，再到新化林場安排林間漫步與自然觀察。</p><a class="lined station-link" href="#route" data-station="3">查看新化林場站</a></div></article>
+</div><p class="figure-note">圖片為實景模擬，不是目前設施現況。</p></section>
+<section id="visit" class="road-section"><div class="wrap section"><div class="section-head"><div><p class="kicker">BEFORE YOU GO</p><h2>出發前先確認</h2></div><p>纜車尚未開放，本站不提供購票或訂房。若現在要到虎頭埤遊玩，請查閱既有風景區的官方資訊。</p></div>
+<div class="visitor-faq">
+<details open><summary>現在可以搭纜車或買票嗎？</summary><p>還不行。開放日期、票價、售票方式與服務時間，以營運方正式公告為準。</p></details>
+<details><summary>之後從哪裡開始搭乘？</summary><p>新化之門站是主要入口與轉乘站。搭乘動線、上下客位置及停車資訊，開放前會另行公布。</p></details>
+<details><summary>帶長輩、小孩或輪椅，出發前要確認什麼？</summary><p>開放後請先確認各站無障礙進出、上下車協助、輪椅或嬰兒車搭乘規則，以及湖畔與林間步行路況。詳細資訊待營運方公布。</p></details>
+<details><summary>旅館、婚宴與會議現在可以預約嗎？</summary><p>本站不接受預訂；將來的開放資訊與服務內容，由各服務業者公告。</p></details>
+</div><div class="park-banner"><div><strong>現在想去虎頭埤風景區？</strong><p>門票、開園時間、園區交通及休園消息，請以風景區官網為準。</p></div><a class="cta" href="https://htp.tainan.gov.tw/zh-tw">虎頭埤風景區官網</a></div>
+</div></section>
+</main><footer><div class="wrap"><div><strong>虎頭埤纜車</strong><span>臺南市新化區・旅客網站預覽</span></div><a href="#top">回到頁首</a></div></footer>
+</body></html>
