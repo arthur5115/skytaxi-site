@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "project": {
+    "title": "T2 湖濱旅館站｜310 號湖景客房",
+    "subtitle": "虎頭埤長壽生活園區 · 三樓 EL47.85 m",
+    "stage": "既有方案概念驗證",
+    "revision": "01",
+    "date": "2026-11-19",
+    "notes": ["本圖依 T2 V3.5 重建單房；門窗、牆厚與家具尺寸為概念參數。", "模型 ±0.00 對應 3F EL47.85 m。"]
+  },
+  "building": {
+    "exterior_wall": 0.16,
+    "partition": 0.11,
+    "facade": "render",
+    "roof": {"type": "flat", "parapet": 0},
+    "section": {"line": "north-south", "at": 2.55}
+  },
+  "levels": [{
+    "id": "F3",
+    "name": "三樓客房",
+    "elevation": 0,
+    "height": 3.45,
+    "footprint": [[0, 0, 4, 11.75]],
+    "finish": "wood",
+    "entrance": [2.78, 10.93],
+    "walls": [[2.03, 9.15, 2.14, 11.59], [0.16, 9.15, 2.03, 9.26]],
+    "openings": [
+      {"type": "door", "at": [2.32, 11.59, 3.20, 11.75], "hinge": "E", "opens": "S", "head": 2.12},
+      {"type": "sliding", "at": [1.13, 9.15, 1.94, 9.26], "head": 2.10},
+      {"type": "sliding", "at": [0.19, 0, 3.81, 0.16], "head": 2.55}
+    ],
+    "rooms": [
+      {"name": "客房", "rect": [0.16, 0.16, 3.84, 11.59], "cutouts": [[0.16, 9.15, 2.14, 11.59]], "use": "bedroom", "label_at": [2.68, 6.65]},
+      {"name": "衛浴", "rect": [0.16, 9.26, 2.03, 11.59], "use": "bath", "label_at": [1.59, 10.00]}
+    ],
+    "furniture": [
+      {"type": "basin", "rect": [0.16, 10.52, 0.73, 11.20], "back": "W"},
+      {"type": "wc", "at": [1.13, 11.58], "back": "N"},
+      {"type": "shower", "rect": [0.16, 9.26, 1.04, 10.27]},
+      {"type": "wardrobe", "rect": [3.25, 9.70, 3.84, 11.49], "back": "E"},
+      {"type": "rug", "rect": [0.17, 2.35, 3.49, 6.00], "color": "b"},
+      {"type": "bed", "rect": [0.16, 3.24, 2.43, 5.36], "back": "W"},
+      {"type": "nightstand", "rect": [0.16, 2.70, 0.64, 3.19], "back": "W"},
+      {"type": "nightstand", "rect": [0.16, 5.41, 0.64, 5.90], "back": "W"},
+      {"type": "shoe_cabinet", "rect": [3.25, 2.14, 3.84, 4.48], "back": "E", "height": 0.64},
+      {"type": "armchair", "rect": [0.47, 0.72, 1.15, 1.44], "back": "W"},
+      {"type": "armchair", "rect": [2.84, 0.72, 3.52, 1.44], "back": "E"},
+      {"type": "coffee_table", "rect": [1.73, 0.84, 2.27, 1.38]}
+    ],
+    "dimensions": {"x": [0, 4], "y": [0, 11.75]}
+  }],
+  "room310_context": {
+    "source": "20261114 T2 湖濱旅館站疊岸露台 V3.5 定稿，圖 3.5-10a／10b，第 28–29 頁；第 21 頁樓層表。",
+    "source_floor_el_m": 47.85,
+    "source_eye_height_m": 1.50,
+    "source_reference_area_m2": 47.0,
+    "source_north_south_depth_m": 11.75,
+    "source_setback_m": 2.0,
+    "units": "metres",
+    "terrace": [0, -2, 4, 0],
+    "corridor_crop": [0, 11.75, 4, 12.75],
+    "guard_height_for_visualization_m": 1.1,
+    "notes": "4.00 m 為按 47÷11.75 推回並以原圖比例尺複核的名義面寬。退台帶按原圖 2.00 m 製作；1.00 m 走廊僅為畫面截取範圍。其餘開口、門片、牆厚、家具和欄杆皆為概念重建參數。"
+  }
+}

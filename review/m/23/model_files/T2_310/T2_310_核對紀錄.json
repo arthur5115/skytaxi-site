@@ -1,0 +1,39 @@
+{
+  "model": "T2_310_設計模型.json",
+  "tool": "Architectural Concept Design",
+  "tool_revision": "93c3d79e296c1674136edfdf85ca67751c08e797",
+  "tool_version": "1.0.1",
+  "checks": {
+    "errors": 0,
+    "warnings": 0,
+    "findings": []
+  },
+  "negative_test": {
+    "test": "在測試副本將衣櫃移入客房入口的開門範圍",
+    "result": "工具偵測 door-swing 碰撞",
+    "findings": [
+      {
+        "severity": "error",
+        "rule": "door-swing",
+        "level": "F3",
+        "message": "door openings[0] [2.32, 11.59, 3.2, 11.75] swings into wardrobe furniture[3] [2.66, 10.78, 3.27, 11.5]",
+        "ref": {
+          "opening": 0,
+          "furniture": 3
+        }
+      }
+    ]
+  },
+  "coordination": {
+    "cad_units": "m",
+    "matching_3d_furniture_items": 12,
+    "matching_feature_points": 6,
+    "verified": "入口門扇、南向窗、走廊、退台及家具幾何與同一模型核對",
+    "viewer_test": "介面腳本和內嵌幾何已驗證，未執行瀏覽器互動測試"
+  },
+  "floor_areas_m2": {
+    "nominal_envelope": 47.0,
+    "net_in_model": 41.589999999999996
+  },
+  "source": "20261114 T2 湖濱旅館站疊岸露台 V3.5 定稿，圖 3.5-10a／10b，第 28–29 頁；第 21 頁樓層表。"
+}
