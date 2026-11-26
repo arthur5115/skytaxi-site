@@ -61,7 +61,7 @@ section{padding:96px 0}
 .stations{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;font-size:15px;margin-bottom:28px}
 .stations li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:10px;vertical-align:middle}
 .btn.dark{background:var(--ink);color:#fff}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:box-shadow .2s,transform .2s}
 .card:hover{box-shadow:0 12px 30px rgba(15,30,43,.12);transform:translateY(-3px)}
 .card .th{aspect-ratio:16/10;background:#dde4e9 center/cover}
@@ -75,7 +75,6 @@ section{padding:96px 0}
 .company dt{color:var(--muted)}
 footer{background:var(--ink);color:#c9d3da;padding:40px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-@media (max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}.flag-grid,.company{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
 @media (max-width:640px){.nav ul{display:none}.cards{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.stations{grid-template-columns:1fr}section{padding:72px 0}}
 </style>
@@ -168,6 +167,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <a class="card" href="https://review.skytaxi.com.tw/bim/">
         <div class="th" style="background-image:url('img/bim-thumb.jpg')"></div>
         <div class="bd"><span class="tag">BIM 模型</span><h3>虎頭埤四站 BIM 互動檢視</h3><p>T1–T4 四站 IFC4 模型，可旋轉檢視並查詢構件屬性。</p><span class="go">開啟檢視器 →</span></div>
+      </a>
+      <a class="card" href="https://review.skytaxi.com.tw/m/">
+        <div class="th" style="background-image:url('hutoupi/img/t3-r1.jpg')"></div>
+        <div class="bd"><span class="tag">總覽 · 26 項</span><h3>全部互動模型與網站</h3><p>全案模型、結構計算、360 度全景與長壽生活園區網站一次瀏覽。</p><span class="go">查看全部 →</span></div>
       </a>
     </div>
   </div>

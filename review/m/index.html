@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>互動模型與網站總覽｜虎頭埤纜車 BOT｜Skytaxi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f1e2b;--muted:#5b6b78;--line:#dfe5ea;--bg:#f6f8f9;--a1:#0e6e8c;--a2:#1f9e78;--a3:#c48a2c;--a4:#7a5cc2;--a5:#c0563f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+header{background:var(--ink);color:#fff;padding:40px 0 36px}
+.crumb{font-size:13px;opacity:.75}
+.crumb a{text-decoration:underline;text-underline-offset:3px}
+h1{font-size:clamp(26px,3.4vw,38px);font-weight:900;margin:10px 0 8px}
+header p{opacity:.85;max-width:44em;font-size:15.5px}
+.stats{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
+.stats b{font-family:"Barlow Condensed",sans-serif;font-size:30px;display:block;line-height:1}
+.stats span{font-size:13px;opacity:.75}
+nav.jump{position:sticky;top:0;z-index:5;background:rgba(246,248,249,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.jump .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+nav.jump a{white-space:nowrap;font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#fff}
+main{padding:12px 0 64px}
+section{padding-top:30px}
+h2{font-size:21px;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+h2::before{content:"";width:6px;height:22px;border-radius:3px;background:var(--c,var(--a1))}
+.sub{color:var(--muted);font-size:14px;margin:0 0 14px 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.item{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;transition:box-shadow .2s,transform .2s}
+.item:hover{box-shadow:0 10px 24px rgba(15,30,43,.1);transform:translateY(-2px)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.no{font-family:"Barlow Condensed",sans-serif;font-size:15px;font-weight:700;color:var(--c,var(--a1))}
+.tag{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.t{font-weight:700;font-size:16.5px;line-height:1.45}
+.d{font-size:13.5px;color:var(--muted);margin-top:4px;flex:1}
+.go{font-size:13.5px;font-weight:700;margin-top:10px;color:var(--c,var(--a1))}
+.note{margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:14px;color:var(--muted)}
+.note b{color:var(--ink)}
+.note ul{margin:6px 0 0 18px}
+footer{color:var(--muted);font-size:13px;padding:24px 0 40px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="crumb"><a href="/">審查資料區</a> ／ 互動模型與網站</div>
+    <h1>互動模型與網站總覽</h1>
+    <p>虎頭埤纜車 BOT 案的全部互動模型、3D 檢視器與網站，依主題分類。點選卡片即可在瀏覽器中直接開啟操作。</p>
+    <div class="stats">
+      <div><b>26</b><span>項互動內容</span></div>
+      <div><b>5</b><span>大主題</span></div>
+      <div><b>3</b><span>個完整網站</span></div>
+    </div>
+  </div>
+</header>
+<nav class="jump"><div class="wrap">
+  <a href="#overall">全案與路線</a>
+  <a href="#bim">BIM 與建築</a>
+  <a href="#structure">結構與工程計算</a>
+  <a href="#tour">全景導覽</a>
+  <a href="#life">長壽生活與園區</a>
+</div></nav>
+<main class="wrap">
+
+  <section id="overall" style="--c:var(--a1)">
+    <h2>全案與路線</h2>
+    <p class="sub">全案整合模型、全線運行展示與資料索引。</p>
+    <div class="grid">
+      <a class="item" href="01/"><div class="top"><span class="no">01</span><span class="tag">3D 模型</span></div><div class="t">全案互動模型 V1.0</div><div class="d">四站、全線與基地整合模型，可切換站別、樓層與類別，支援分層拆解與中英切換。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="https://route.skytaxi.com.tw/"><div class="top"><span class="no">06</span><span class="tag">網站 · 中英文</span></div><div class="t">四站與路線互動展示</div><div class="d">四站五跨、全線同步列車動畫、縱斷面定位與四站構件拆解（V1.6）。</div><span class="go">開啟網站 →</span></a>
+      <a class="item" href="https://operation.skytaxi.com.tw/"><div class="top"><span class="no">07</span><span class="tag">網站</span></div><div class="t">路線與運行拆解</div><div class="d">較早展示版（V1.4），含班距、運能試算與 T1～T3 比較情境。</div><span class="go">開啟網站 →</span></a>
+      <a class="item" href="04/"><div class="top"><span class="no">04</span><span class="tag">網站</span></div><div class="t">纜車搭乘與遊園</div><div class="d">旅客網站：四站介紹、站內體驗、動線、遊程與到訪服務。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="11/"><div class="top"><span class="no">11</span><span class="tag">地圖</span></div><div class="t">四站基地互動地圖</div><div class="d">四站基地位置與站點視覺查詢，套疊國土測繪中心底圖。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="23/"><div class="top"><span class="no">23</span><span class="tag">資料索引</span></div><div class="t">動態資料離線合集（2026/11/24）</div><div class="d">全案最新文件、網站、圖說與動畫的總索引。</div><span class="go">開啟 →</span></a>
+    </div>
+  </section>
+
+  <section id="bim" style="--c:var(--a2)">
+    <h2>BIM 與建築</h2>
+    <p class="sub">四站 BIM 模型、建築外觀與剖切檢視。</p>
+    <div class="grid">
+      <a class="item" href="03/"><div class="top"><span class="no">03</span><span class="tag">BIM · 網站版</span></div><div class="t">四站 BIM 互動檢視</div><div class="d">網站版 BIM 檢視器，依站別、樓層查詢構件與屬性。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="/bim/"><div class="top"><span class="no">21</span><span class="tag">BIM · IFC4</span></div><div class="t">四站 BIM 互動檢視（IFC4 V1.6）</div><div class="d">獨立版檢視器，附四站 IFC4 原始檔下載。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="05/"><div class="top"><span class="no">05</span><span class="tag">3D 建築</span></div><div class="t">四站 3D 建築檢視（站體工作台）</div><div class="d">同一視角看外觀、縱剖、橫剖、剖切深度與地下構件。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="33/"><div class="top"><span class="no">33</span><span class="tag">3D 建築</span></div><div class="t">T3 湖濱山城站　建築與空間檢視</div><div class="d">T3 站建築渲染、月台與空間配置的 3D 檢視器。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="24/"><div class="top"><span class="no">24</span><span class="tag">3D 模型</span></div><div class="t">T4 R1 可旋轉站體</div><div class="d">T4 新化林場站 R1 站體模型，可旋轉檢視。</div><span class="go">開啟 →</span></a>
+    </div>
+  </section>
+
+  <section id="structure" style="--c:var(--a3)">
+    <h2>結構與工程計算</h2>
+    <p class="sub">四站結構拆解、縱斷面淨空計算與 T1 概念 CAD。</p>
+    <div class="grid">
+      <a class="item" href="08/"><div class="top"><span class="no">08</span><span class="tag">網站版</span></div><div class="t">四站 3D 結構拆解</div><div class="d">構件深化展示 V1.1，雙語、分層與剖切。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="22/"><div class="top"><span class="no">22</span><span class="tag">獨立版</span></div><div class="t">四站 3D 結構拆解 V1.1</div><div class="d">單檔獨立版的四站結構拆解。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="30/"><div class="top"><span class="no">30</span><span class="tag">原始版</span></div><div class="t">四站結構拆解（原始獨立版）</div><div class="d">T1–T4 各站原始結構拆解頁的入口。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="25/"><div class="top"><span class="no">25</span><span class="tag">計算模型</span></div><div class="t">五跨縱斷面與淨空模型 R1</div><div class="d">全線五跨縱斷面與淨空的互動計算模型。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="26/"><div class="top"><span class="no">26</span><span class="tag">計算模型</span></div><div class="t">T1—P2 第一跨 446 m 計算 R1</div><div class="d">第一跨 446 m 縱斷面與淨空的互動計算。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="27/"><div class="top"><span class="no">27</span><span class="tag">CAD · STEP</span></div><div class="t">T1 新化之門　逐層三維 CAD V0.5</div><div class="d">一樓至屋頂逐層檢視，附各樓層 STEP 檔下載。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="28/"><div class="top"><span class="no">28</span><span class="tag">CAD · GLB / STEP</span></div><div class="t">T1 新化之門　中央單梁概念 CAD V0.4</div><div class="d">中央單梁方案的外觀、剖切與車輛月台細部。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="29/"><div class="top"><span class="no">29</span><span class="tag">CAD · GLB / STEP</span></div><div class="t">T1 新化之門　U4-430 概念 CAD V0.2</div><div class="d">U4-430 車型方案的外觀、剖切與車輛月台細部。</div><span class="go">開啟 →</span></a>
+    </div>
+  </section>
+
+  <section id="tour" style="--c:var(--a4)">
+    <h2>全景導覽</h2>
+    <p class="sub">室內 360 度全景與客房導覽。</p>
+    <div class="grid">
+      <a class="item" href="02/"><div class="top"><span class="no">02</span><span class="tag">360°</span></div><div class="t">T2／T3 360 度導覽</div><div class="d">T2 湖濱旅館站與 T3 湖濱山城站室內全景。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="20/"><div class="top"><span class="no">20</span><span class="tag">360°</span></div><div class="t">室內全景：XR 與 310 客房</div><div class="d">XR 沉浸式空間與 310 客房的室內全景。</div><span class="go">開啟 →</span></a>
+    </div>
+  </section>
+
+  <section id="life" style="--c:var(--a5)">
+    <h2>長壽生活與園區</h2>
+    <p class="sub">園區主題網站與四站長壽生活概念。</p>
+    <div class="grid">
+      <a class="item" href="https://park.skytaxi.com.tw/"><div class="top"><span class="no">10</span><span class="tag">完整網站</span></div><div class="t">長壽生活園區</div><div class="d">園區主題網站：四站、六大生態、園區纜車、住宿與行前指南。</div><span class="go">開啟網站 →</span></a>
+      <a class="item" href="09/"><div class="top"><span class="no">09</span><span class="tag">網站</span></div><div class="t">湖山長健園區</div><div class="d">較早的園區展示站頁。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="12/"><div class="top"><span class="no">12</span><span class="tag">網站提案</span></div><div class="t">湖與森林</div><div class="d">在湖與森林之間找回生活節奏的網站提案版。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="31/"><div class="top"><span class="no">31</span><span class="tag">原始版</span></div><div class="t">四站長壽生活解構</div><div class="d">長壽門戶、湖濱修復所、長壽學院、森林處方站原始頁入口。</div><span class="go">開啟 →</span></a>
+      <a class="item" href="32/"><div class="top"><span class="no">32</span><span class="tag">原始版</span></div><div class="t">長壽之湖網站</div><div class="d">長壽之湖網站首頁與四站分站內容。</div><span class="go">開啟 →</span></a>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>說明</b>
+    <ul>
+      <li>06、07、10 為完整多頁網站，各自使用獨立網址（route／operation／park.skytaxi.com.tw），登入方式相同。</li>
+      <li>以下原始交換檔因超過網站單檔 25 MB 上限，未放上網站，請向公司索取：全案 GLB（120 MB）與 IFC（97 MB）、T1 逐層 STEP 全樓層合併檔（38 MB）、T1 中央單梁 V0.4 與 U4-430 V0.2 的新化之門 STEP（30／36 MB）。網頁本身的顯示不受影響。</li>
+    </ul>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 雲天新能源科技股份有限公司　·　<a href="/" style="text-decoration:underline">返回審查資料區</a></div></footer>
+</body>
+</html>
