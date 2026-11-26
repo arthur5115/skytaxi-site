@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="虎頭埤纜車 BOT 四站 3D 結構拆解 V1.6，支援拖曳拆解、立體檢視及工程圖說。">
+  <title data-en="Hutoupi Cable Transit | Four Stations in 3D">虎頭埤纜車｜四站 3D 結構拆解</title>
+  <style>:root {
+  color-scheme: dark; --bg:#0f191d; --panel:#152227; --canvas:#101e24;
+  --line:#304047; --line-soft:#26373e; --text:#edf0eb; --secondary:#b5c1c0;
+  --muted:#97a9ab; --accent:#92cbb9; --accent-ink:#112a2a;
+  --faint:#203438; --radius:11px;
+  font-family:"Instrument Sans","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+* { box-sizing:border-box }
+body { margin:0; background:radial-gradient(ellipse at 45% 0%,#19272b 0%,var(--bg) 49%); color:var(--text); min-width:295px }
+button { font:inherit; color:inherit }
+button, input[type=range] { cursor:pointer }
+button { touch-action:manipulation }
+button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid #b5e8d9; outline-offset:3px }
+button[hidden], [hidden] { display:none!important }
+.topbar { display:flex; justify-content:space-between; align-items:center; min-height:69px; gap:16px; padding:9px 29px; background:#121f24; border-bottom:1px solid #293a41 }
+.brand, .tools-top { display:flex; align-items:center; gap:12px }
+.brand-icon { width:37px; height:37px; position:relative; border:1px solid #5d887e; border-radius:8px; display:grid; align-content:center; gap:4px; padding:7px; background:#203537; flex:none }
+.brand-icon i { display:block; height:2px; background:#a7d9c4; transform:skew(-24deg); border-radius:2px }
+.brand-icon i:nth-child(2) { margin:0 4px }
+.brand-icon i:nth-child(3) { margin:0 8px }
+.brand-name { font-size:16px; font-weight:730; letter-spacing:.058em }
+.brand-context { font-size:11px; line-height:1.55; color:var(--muted); letter-spacing:.055em }
+.button,.icon-button { background:#1d2b31; border:1px solid #34464e; padding:7px 10px; border-radius:6px; font-size:12px; white-space:nowrap }
+.button { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:34px }
+.button:hover,.icon-button:hover,.language button:hover { background:#2a4147 }
+.button[aria-pressed=true] { background:#314d4b; border-color:#568078; color:#e4fff5 }
+.language { display:flex; background:#101b20; border:1px solid #34444b; padding:3px; border-radius:7px }
+.language button { min-width:34px; padding:5px 7px; background:transparent; border:0; border-radius:4px; color:var(--secondary); font-size:11px }
+.language button[aria-pressed=true] { background:#395551; color:#e9f5ed }
+main { max-width:1920px; margin:auto; padding:20px 29px 0 }
+.station-nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px }
+.station-tab { display:flex; gap:12px; min-width:0; align-items:center; text-align:left; border:1px solid var(--line); border-radius:8px; background:#142329; padding:10px 12px; min-height:51px; transition:background .16s,border-color .16s; overflow:hidden }
+.station-tab:hover { background:#20353a }
+.station-tab[aria-pressed=true] { border-color:#6ba38f; background:#24403f; box-shadow:inset 0 0 0 1px #426258 }
+.station-id { display:grid; place-items:center; background:#23363c; border:1px solid #3b5055; width:32px; height:28px; border-radius:5px; color:#b1c6c5; font-size:12px; font-weight:750; flex:none; letter-spacing:.065em }
+.station-tab[aria-pressed=true] .station-id { color:var(--accent-ink); background:var(--accent); border-color:transparent }
+.station-tab strong { color:#e4ece8; font-size:13px; font-weight:680; line-height:1.2 }
+.station-tab .phase-short { margin-left:auto; color:#d7c599; font-size:10px; white-space:nowrap }
+.station-head { display:flex; justify-content:space-between; align-items:flex-end; min-height:127px; padding:17px 0 19px; gap:18px }
+.head-main { flex:1; min-width:0 }
+.heading-meta { display:flex; align-items:center; flex-wrap:wrap; gap:8px; color:var(--muted); font-size:11px; letter-spacing:.045em; margin-bottom:7px }
+.phase { border:1px solid #416359; color:#aad6c6; background:#1f3835; border-radius:4px; padding:2px 6px; letter-spacing:.02em }
+.phase.is-second { color:#eedab4; border-color:#7b6747; background:#382e24 }
+h1,h2,h3,p,dl,dd { margin:0 }
+h1 { font-family:"Instrument Serif","Noto Serif TC","Noto Serif CJK TC","Microsoft JhengHei",serif; font-weight:690; font-size:clamp(24px,2.45vw,42px); letter-spacing:.013em; line-height:1.22 }
+#station-lead { margin-top:8px; font-size:12px; line-height:1.58; color:var(--secondary); max-width:780px }
+.stat-line { flex:none; display:flex; align-items:flex-start; min-width:0; gap:0; padding-bottom:2px }
+.stat { display:flex; flex-direction:column; min-width:104px; max-width:172px; padding:2px 14px 2px 14px; border-left:1px solid #3d4b4e }
+.stat:first-child { padding-left:13px }
+.stat:last-child { padding-right:3px }
+.stat dd { order:-1; color:#e7eee7; font-size:clamp(14px,1.48vw,23px); font-weight:750; line-height:1.2; letter-spacing:-.035em; white-space:nowrap; font-variant-numeric:tabular-nums }
+.stat dt { color:var(--muted); font-size:11px; line-height:1.34; margin-top:5px }
+.workspace { display:grid; grid-template-columns:minmax(215px,.98fr) minmax(360px,3.3fr) minmax(222px,.98fr); gap:11px; height:clamp(500px,calc(100dvh - 300px),850px) }
+.panel,.stage { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel) }
+.panel { display:flex; flex-direction:column }
+.panel-head { padding:12px 13px; min-height:45px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line-soft); gap:8px }
+.panel h2 { font-size:13px; font-weight:730 }
+.text-button { background:none; border:0; color:var(--accent); padding:3px 1px; font-size:11px; flex:none }
+.text-button:hover { text-decoration:underline }
+.text-button:disabled { opacity:.43; cursor:default; text-decoration:none }
+.layer-list { padding:7px; overflow:auto; scrollbar-color:#405359 #162427 }
+.layer-card { position:relative; margin-bottom:5px; border:1px solid #2d4148; border-left:2px solid var(--layer); border-radius:5px; background:#1a2a30 }
+.layer-card:last-child { margin-bottom:0 }
+.layer-card.is-active { background:#243838; border-color:#52776b; border-left-color:var(--layer) }
+.layer-card button { width:100%; text-align:left; display:flex; align-items:flex-start; gap:8px; font-size:12px; min-height:34px; font-weight:680; background:none; border:0; padding:8px 8px 4px }
+.layer-card button:hover { color:#b6e6d7 }
+.layer-idx { display:grid;place-items:center;width:19px;height:19px;border:1px solid #466166;background:#213739;color:var(--layer);font-size:10px;flex:none;border-radius:4px;font-weight:800 }
+.layer-title { flex:1; line-height:1.45 }
+.layer-count { font-size:10px; color:#a4bbb7; min-width:12px; text-align:right; line-height:19px }
+.layer-chevron { min-width:7px; font-size:15px; line-height:17px; color:var(--layer) }
+.layer-summary { color:#aebdc0; font-size:10.75px; line-height:1.56; padding:1px 9px 7px 35px; margin:0 }
+.layer-more { padding:0 10px 8px 35px; font-size:11px; color:#d0ddda; line-height:1.5 }
+.layer-price { font-size:11px; color:#c3e2d4; display:block; margin-top:4px }
+.part-list { margin:0 7px 8px; padding:2px 0 0; list-style:none; border-top:1px solid #405756 }
+.part-list li+li { border-top:1px solid #394d4b }
+.layer-card .part-list-item { min-height:28px; align-items:center; padding:5px 4px 5px 9px; font-size:11px; font-weight:560; color:#dce7e2; border-radius:4px }
+.part-list-item[aria-pressed=true] { background:#436559; color:#f3fff7; font-weight:700 }
+.part-list-item:hover { background:#355049; color:#f3fff7 }
+.part-dot { display:block; width:5px; height:5px; border-radius:50%; background:var(--layer); flex:none; margin-left:2px }
+.part-list-name { flex:1; line-height:1.38 }
+.part-moved { color:#bce3d2; flex:none; font-size:11px }
+.stage { position:relative; display:flex; flex-direction:column; background:#101c21 }
+.canvas-area { position:relative; flex:1; min-height:0; overflow:hidden; touch-action:none; cursor:grab;
+  background:radial-gradient(ellipse at 54% 53%,#233d43 0%,#162930 58%,#101b20 100%) }
+.canvas-area::before { content:""; position:absolute; inset:0; background-image:linear-gradient(90deg,#9bb7af0b 1px,transparent 1px),linear-gradient(#9bb7af0b 1px,transparent 1px);
+  background-size:31px 31px; mask-image:radial-gradient(ellipse at 51% 48%,#000 15%,#0004 70%,transparent 100%); pointer-events:none }
+.canvas-area canvas { position:absolute; width:100%; height:100%; top:0; left:0; display:block }
+.stage-hud { position:absolute; top:12px; left:12px; display:flex; align-items:center; gap:7px; padding:6px 8px; max-width:calc(100% - 205px);
+  border:1px solid #41545a; background:#15262cd9; color:#d3dedb; font-size:11px; border-radius:5px; pointer-events:none }
+#view-status { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.hud-dot { width:6px; height:6px; flex:none; border-radius:50%; background:#a8d7b6; box-shadow:0 0 9px #a8d7b67d }
+.stage-hint { position:absolute; bottom:10px; left:12px; color:#bbc9c8; font-size:10px; pointer-events:none; padding:4px 7px; border-radius:4px; background:#17282ddd }
+.camera-controls { position:absolute; top:12px; right:12px; z-index:2; display:flex; gap:4px }
+.camera-preset,.landscape-fade { min-height:29px; padding:4px 6px; font-size:11px }
+.landscape-fade { position:absolute; bottom:10px; right:12px; z-index:2 }
+.canvas-area:has(#landscape-fade:not([hidden])) .stage-hint { max-width:calc(100% - 128px) }
+.icon-button { width:30px; height:29px; display:grid;place-items:center; padding:0; font-size:16px; line-height:1 }
+.markers { position:absolute; inset:0; pointer-events:none }
+.model-pin { position:absolute; display:block; width:6px; height:6px; border-radius:50%; transform:translate(-50%,-50%); background:var(--key); box-shadow:0 0 0 2px #1c2d34b0 }
+.model-connector { position:absolute; height:1px; transform-origin:left center; background:var(--key); opacity:.58 }
+.model-label { position:absolute; border:1px solid #7189898f; border-left:2px solid var(--key); background:#112027e8; color:#eef4ef; border-radius:4px; padding:3px 6px; font-size:10.5px; line-height:1.2; white-space:nowrap; box-shadow:0 2px 5px #0b151a95; pointer-events:auto }
+.model-label:hover { background:#365453 }
+.rise-dimension { position:absolute; width:1px; background:#f8d695; pointer-events:none; box-shadow:0 0 2px #12262b }
+.rise-dimension::before,.rise-dimension::after { content:""; position:absolute; height:1px; width:13px; left:-6px; background:#f8d695 }
+.rise-dimension::before { top:0 }
+.rise-dimension::after { bottom:0 }
+.rise-dimension span { position:absolute; right:6px; top:50%; transform:translateY(-50%); padding:2px 4px; white-space:nowrap; border-radius:3px; color:#f8dfa9; background:#1d2f34; font-weight:730; font-size:10px }
+.playbar { display:flex; gap:16px; align-items:center; min-height:57px; padding:9px 11px; border-top:1px solid var(--line); background:#17272e }
+.play-buttons { display:flex; gap:5px }
+.play-primary { background:#2b4544; border-color:#52716b }
+.explode-control { display:flex; align-items:center; gap:8px; flex:1; min-width:0; font-size:11px; color:var(--secondary); white-space:nowrap }
+.explode-control input { width:100%; min-width:35px; accent-color:var(--accent); margin:0 }
+.explode-control output { color:#ddf0e7; min-width:38px; text-align:right; font-variant-numeric:tabular-nums; font-weight:750 }
+.inspector-nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); padding:5px; min-height:45px; border-bottom:1px solid var(--line-soft) }
+.inspector-nav button { border:0; background:none; font-size:12px; padding:6px 1px; border-radius:5px; color:#b4c1c1 }
+.inspector-nav button[aria-pressed=true] { background:#30494a; color:#e9f3ed; font-weight:690 }
+.inspector-nav button:hover { background:#263e42 }
+.inspector-content { padding:13px 12px; flex:1; overflow:auto; scrollbar-color:#405359 #162427 }
+.control-group { margin:0 0 15px; padding:0 }
+.control-group h3 { margin:0 0 7px; font-size:11px; color:#bcc9c8; font-weight:670 }
+.options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px }
+.options.levels { grid-template-columns:repeat(3,minmax(0,1fr)) }
+.options button { min-width:0; padding:6px 3px; line-height:1.25; font-size:11px; border-radius:5px; border:1px solid #364a52; background:#1c2e35 }
+.options button:hover { background:#2a4147 }
+.options button[aria-pressed=true] { background:#9dc7b9; border-color:#9dc7b9; color:#142b2f; font-weight:700 }
+.options small { display:block; font-size:9px; letter-spacing:-.018em; margin-top:2px }
+.component-category { padding-left:7px; border-left:2px solid var(--part-color); color:var(--muted); font-size:10px; line-height:1.4; margin-bottom:7px }
+.component-title { font-size:16px; margin:0 0 8px; font-weight:720; color:#f2f7ef; line-height:1.38 }
+.component-note { font-size:11.5px; line-height:1.65; color:#c9d5d0; margin:0 0 10px }
+.component-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; margin-bottom:12px }
+.component-actions .button { white-space:normal; min-height:31px; text-align:center; padding:4px 3px; line-height:1.35; font-size:11px }
+.component-drawing,.component-links { margin:0 0 12px; border-top:1px solid var(--line-soft); padding:8px 0 0 }
+.component-drawing h4,.component-links h4 { margin:0 0 5px; color:var(--muted); font-size:10px; font-weight:650 }
+.component-drawing small { display:block; margin-top:5px; font-size:10px; line-height:1.5; color:var(--muted) }
+.sheet-button,.component-link,.difference-link { width:100%; padding:6px 8px; font-size:11px; line-height:1.42; text-align:left; color:#c7e9dc; border:1px solid #405b5d; background:#203639; border-radius:5px }
+.sheet-button { margin-bottom:2px }
+.sheet-button:after { content:"↗"; float:right; margin-left:5px }
+.sheet-button:hover,.component-link:hover,.difference-link:hover { background:#324d4b }
+.component-link { display:flex; justify-content:space-between; align-items:center; gap:5px; margin:3px 0; color:#d7e5df; border-color:#344950; background:#213238 }
+.difference-link { background:#31484a; display:flex; justify-content:space-between; align-items:center; gap:7px; margin:2px 0 11px }
+.difference-link strong { color:#f2dbab; font-weight:740; white-space:nowrap }
+.rise-panel { display:grid; grid-template-columns:minmax(0,1.15fr) auto; gap:1px 7px; margin:0 0 10px; font-size:12px; align-items:center }
+.rise-panel dt,.rise-panel dd { border-bottom:1px solid var(--line-soft); padding:5px 0 }
+.rise-panel dt { color:var(--muted) }
+.rise-panel dd { text-align:right; font-variant-numeric:tabular-nums }
+.rise-value { color:#f2dbab; font-weight:750 }
+.rise-panel ~ .button { width:100%; margin-top:4px }
+.cost-total-label,.muted { font-size:11px; color:var(--muted); line-height:1.58 }
+.cost-total { display:flex; align-items:baseline; gap:5px; margin:4px 0 3px; color:#edf5eb; font-feature-settings:"tnum" 1 }
+.cost-total strong { font-size:27px; letter-spacing:-.04em }
+.cost-total span { color:var(--secondary); font-size:10px }
+.cost-note { font-size:11px; line-height:1.65; color:#bac9ca; margin-top:10px }
+.cost-bar { display:flex; overflow:hidden; height:7px; border-radius:3px; margin:14px 0 9px; background:#2b4146 }
+.cost-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px solid var(--line-soft); font-size:11px; line-height:1.4 }
+.cost-row span:last-child { font-weight:680; color:#e2eae3; flex:none; font-variant-numeric:tabular-nums }
+.cost-row .swatch { display:inline-block; width:7px; height:7px; border-radius:2px; margin-right:4px }
+.cost-row:first-of-type { margin-top:6px }
+.drawings-list { display:grid; gap:8px }
+.drawing-link { text-align:left; padding:0; overflow:hidden; border:1px solid #3a5057; border-radius:6px; background:#1b2c31 }
+.drawing-link:hover { border-color:#8fc7b4 }
+.drawing-link img { width:100%; height:clamp(58px,8.5vh,96px); object-fit:cover; display:block; background:#243d42 }
+.drawing-link span { display:block; padding:6px 7px; line-height:1.4; font-size:11px }
+.page-foot { display:flex; justify-content:space-between; gap:13px; color:var(--muted); padding:11px 1px; font-size:10px; line-height:1.55 }
+.page-foot span:last-child { white-space:nowrap }
+dialog { max-width:min(1000px,calc(100% - 24px)); width:fit-content; max-height:calc(100dvh - 30px); padding:0; background:#182a30; color:var(--text); border:1px solid #56716f; border-radius:10px; box-shadow:0 20px 100px #0009 }
+dialog::backdrop { background:#070e13c9 }
+.dialog-bar { display:flex; justify-content:space-between; gap:16px; align-items:center; padding:11px 14px; border-bottom:1px solid #3b535b }
+.dialog-bar h2 { font-size:15px; line-height:1.4 }
+.dialog-content { padding:12px 14px; overflow:auto; font-size:13px }
+.dialog-content figure { margin:0 }
+.dialog-content img { display:block; max-width:100%; max-height:calc(100dvh - 133px); object-fit:contain; margin:auto; border-radius:4px }
+.comparison { border-collapse:collapse; min-width:630px }
+.comparison th,.comparison td { text-align:left; padding:8px 9px; border-bottom:1px solid #354b54; line-height:1.45 }
+.comparison th { color:#adddcd; font-size:11px }
+.comparison td { font-size:12px }
+.comparison td:nth-child(2),.comparison td:nth-child(3) { white-space:nowrap }
+.compare-note { margin-top:10px }
+.translation { display:block; color:var(--muted); font-size:.79em; font-weight:500; line-height:1.32; letter-spacing:0 }
+.layer-card.is-active .translation { color:#a9c2bb }
+.model-label .translation { color:#c1d0cc; font-size:8px }
+.expand-arrow { margin-left:3px }
+@media(max-width:1150px) {
+  main { padding:14px 16px 0 }
+  .topbar { padding-inline:16px }
+  .workspace { grid-template-columns:minmax(196px,.95fr) minmax(300px,2.62fr) minmax(197px,.95fr); gap:8px }
+  .stat { min-width:86px; padding-inline:9px }
+  .playbar { gap:9px }
+  .playbar .button { font-size:11px; padding-inline:6px }
+}
+@media(max-width:900px) {
+  .workspace { grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); height:auto }
+  .stage { grid-row:1; grid-column:1/-1; height:clamp(420px,62vw,660px) }
+  .layers,.inspector { min-height:310px }
+  .inspector-content,.layer-list { overflow:visible }
+  .drawings-list { grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .station-head { align-items:flex-start }
+  .stat-line { margin-top:13px }
+}
+@media(max-width:660px) {
+  main { padding:10px 10px 0 }
+  .topbar { padding:8px 10px; min-height:59px; gap:6px }
+  .brand { gap:7px }
+  .brand-icon { width:30px; height:30px; padding:5px; gap:3px }
+  .brand-name { font-size:12px; letter-spacing:.025em }
+  .brand-context { font-size:9px }
+  .tools-top { gap:4px }
+  .compare-button { display:none }
+  .language button { min-width:29px; font-size:10px; padding:4px }
+  .station-nav { grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px }
+  .station-tab { gap:8px; min-height:42px; padding:6px 8px }
+  .station-tab .phase-short { font-size:9px }
+  .station-id { width:27px; height:23px; font-size:10px }
+  .station-tab strong { font-size:11px }
+  .station-head { display:block; min-height:0; padding:13px 0 12px }
+  #station-lead { font-size:11px; margin-top:6px }
+  .stat-line { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:11px 0 0 }
+  .stat { padding:0 7px; min-width:0; max-width:none }
+  .stat:first-child { padding-left:7px }
+  .stat dd { font-size:13px; white-space:normal }
+  .stat dt { font-size:10px }
+  .workspace { grid-template-columns:minmax(0,1fr); gap:7px }
+  .stage { grid-column:1; grid-row:1; height:400px; min-height:340px }
+  .inspector { grid-row:2; min-height:0 }
+  .layers { grid-row:3; min-height:0 }
+  .inspector-content { padding:10px }
+  .control-group { margin-bottom:10px }
+  .control-group:last-child { margin-bottom:0 }
+  .options.levels { grid-template-columns:repeat(4,minmax(0,1fr)) }
+  .playbar { gap:8px; padding:7px; min-height:49px }
+  .playbar .button { padding:5px 5px; min-height:30px; gap:2px }
+  .play-buttons { gap:3px }
+  .explode-control { gap:4px; font-size:10px }
+  .explode-control output { min-width:29px }
+  .page-foot { font-size:9px }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::after,*::before { scroll-behavior:auto!important; transition:none!important }
+}
+</style>
+  <meta name="robots" content="noindex, noarchive">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="虎頭埤纜車四站｜3D 結構拆解 V1.6">
+  <meta property="og:description" content="切換四座車站，拖曳展開模型並檢視工程圖說。">
+  <meta property="og:url" content="https://route.skytaxi.com.tw/stations/">
+  <meta property="og:image" content="https://route.skytaxi.com.tw/stations/assets/share.png">
+  <meta property="og:image:width" content="870">
+  <meta property="og:image:height" content="550">
+  <meta property="og:image:alt" content="虎頭埤纜車站體三維構件拆解">
+  <link rel="stylesheet" href="/assets/site-header.css?v=1.4">
+</head>
+<body>
+  <header class="project-header">
+    <div class="project-bar">
+      <a class="project-brand" href="/" data-project-link>
+        <span class="project-brand-mark" aria-hidden="true"></span>
+        <span><strong data-en="Hutoupi Cable Transit">虎頭埤纜車</strong></span>
+      </a>
+      <nav class="project-tabs" aria-label="拆解模組" data-en-aria="Interactive models">
+        <a class="project-tab" href="/stations/" data-project-link aria-current="page" data-en="Four-station 3D">四站構件拆解</a>
+        <a class="project-tab" href="/" data-project-link data-en="Route & Operations">路線與運行</a>
+      </nav>
+      <div class="project-actions">
+        <button class="project-tool" type="button" id="compare" data-label="compare">四站對照</button>
+        <div class="project-language" role="group" aria-label="介面語言" data-en-aria="Display language">
+          <button type="button" data-project-lang="zh" lang="zh-Hant" aria-pressed="true">中文</button>
+          <button type="button" data-project-lang="en" lang="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <nav id="station-nav" class="station-nav" aria-label="車站" data-en-aria="Stations"></nav>
+    <section class="station-head" aria-labelledby="station-title">
+      <div class="head-main">
+        <div class="heading-meta"><span id="station-phase" class="phase"></span></div>
+        <h1 id="station-title"></h1>
+        <p id="station-lead"></p>
+      </div>
+      <dl id="station-stats" class="stat-line"></dl>
+    </section>
+    <div class="workspace">
+      <aside class="layers panel" aria-labelledby="layer-title">
+        <div class="panel-head">
+          <h2 id="layer-title" data-label="layers"></h2>
+          <button class="text-button" type="button" id="all-layers" data-label="all"></button>
+        </div>
+        <div id="layer-list" class="layer-list"></div>
+      </aside>
+      <section class="stage" aria-label="3D 模型" data-en-aria="3D model">
+        <div class="canvas-area" id="canvas-area">
+          <canvas id="orbit-canvas" aria-label="可拖曳拆解的車站三維模型" data-en-aria="Draggable 3D station model"></canvas>
+          <canvas id="fallback-canvas" aria-label="可拖曳拆解的車站三維模型" data-en-aria="Draggable 3D station model" hidden></canvas>
+          <div class="stage-hud">
+            <span class="hud-dot"></span>
+            <span id="view-status"></span>
+          </div>
+          <div id="markers" class="markers"></div>
+          <div id="rise-dimension" class="rise-dimension" aria-hidden="true" hidden><span>1.25 m</span></div>
+          <div class="camera-controls" role="group" aria-label="視角與縮放" data-en-aria="View and zoom">
+            <button class="button camera-preset" type="button" data-camera-view="top" aria-pressed="false" data-en="Top" title="從正上方看" data-en-title="View from above">俯視</button>
+            <button class="button camera-preset" type="button" data-camera-view="bottom" aria-pressed="false" data-en="Bottom" title="從正下方看" data-en-title="View from below">仰視</button>
+            <button class="icon-button" type="button" data-camera="in" aria-label="放大" data-en-aria="Zoom in" title="放大" data-en-title="Zoom in">+</button>
+            <button class="icon-button" type="button" data-camera="out" aria-label="縮小" data-en-aria="Zoom out" title="縮小" data-en-title="Zoom out">−</button>
+            <button class="icon-button" type="button" data-camera="reset" aria-label="重設視角" data-en-aria="Reset view" title="重設視角" data-en-title="Reset view">↺</button>
+          </div>
+          <div class="model-drag" id="model-drag" role="group" aria-label="拖曳操作" data-en-aria="Drag action">
+              <button type="button" data-drag-mode="explode" aria-pressed="true" data-en="Drag to explode" title="向右展開，向左合攏" data-en-title="Drag right to expand, left to close">拖曳拆解</button>
+              <button type="button" data-drag-mode="rotate" aria-pressed="false" data-en="Drag to rotate">拖曳旋轉</button>
+            </div>
+          <button class="button landscape-fade" type="button" id="landscape-fade" aria-pressed="true" hidden data-en="Fade landscape" title="切換地面與景觀透明度，不改變構造" data-en-title="Toggle landscape transparency without changing the structure">地景半透明</button>
+          <div class="stage-hint">
+            <span data-drag-help="explode" data-en="Drag right to expand · Left to close">右拉展開 · 左拉合攏</span>
+            <span data-drag-help="rotate" data-en="Drag sideways to orbit · Up/down to tilt">左右旋轉 · 上下俯仰</span>
+          </div>
+        </div>
+        <div class="playbar">
+          <div class="play-buttons">
+            <button type="button" class="button play-primary" id="tour"><span aria-hidden="true">▷</span><span data-label="tour"></span></button>
+            <button type="button" class="button" id="animate"><span aria-hidden="true">⤢</span><span data-label="animate"></span></button>
+          </div>
+          <div class="explode-control">
+            <label for="explode-slider" data-label="explode"></label>
+            <input type="range" min="0" max="100" value="0" id="explode-slider">
+            <output id="explode-value" for="explode-slider">0%</output>
+          </div>
+        </div>
+      </section>
+      <aside class="inspector panel" aria-label="調整視圖及查看資料" data-en-aria="Views and reference material">
+        <nav class="inspector-nav" id="inspector-nav" aria-label="檢視工具" data-en-aria="Inspection tools">
+          <button type="button" data-mode="view" data-label="view" aria-pressed="true"></button>
+          <button type="button" data-mode="component" data-label="component" aria-pressed="false"></button>
+          <button type="button" data-mode="cost" data-label="cost" aria-pressed="false"></button>
+          <button type="button" data-mode="drawings" data-label="drawings" aria-pressed="false"></button>
+        </nav>
+        <div id="inspector-content" class="inspector-content"></div>
+      </aside>
+    </div>
+    <footer class="page-foot">
+      <span data-label="foot"></span>
+      <span data-label="release"></span>
+    </footer>
+  </main>
+  <dialog id="modal">
+    <div class="dialog-bar">
+      <h2 id="modal-title"></h2>
+      <form method="dialog"><button type="submit" class="icon-button close" aria-label="關閉" data-en-aria="Close">×</button></form>
+    </div>
+    <div class="dialog-content" id="modal-content"></div>
+  </dialog>
+  <noscript data-en="Enable JavaScript to rotate, explode and section the model.">請開啟 JavaScript，以使用三維旋轉、分層與剖切。</noscript>
+  <script type="module" src="assets/viewer.js?v=1.6"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, noarchive">
+  <meta name="description" data-en-content="Hutoupi Cable Transit. Explore the four stations, five spans, twin-line shuttle operations and simulated headways and capacity." content="虎頭埤纜車四站五跨與雙線往復。互動檢視五跨工程與列車運行，逐段回查班距及運能的試算參數。">
+  <title data-en="Hutoupi Cable Transit | Route and Operations">虎頭埤纜車｜路線與運行拆解</title>
+  <link rel="stylesheet" href="assets/style.css?v=1.5">
+  <script type="module" src="assets/app.js?v=1.6"></script>
+  <link rel="stylesheet" href="/assets/site-header.css?v=1.4">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="虎頭埤纜車｜四站與路線互動展示">
+  <meta property="og:description" content="拖曳拆解四座車站與纜車構件，觀看列車運行。提供中英文介面。">
+  <meta property="og:url" content="https://route.skytaxi.com.tw/">
+  <meta property="og:image" content="https://route.skytaxi.com.tw/stations/assets/share.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="870">
+  <meta property="og:image:height" content="550">
+  <meta property="og:image:alt" content="新化之門站立體構件拆解">
+</head>
+<body>
+  <header class="project-header">
+    <div class="project-bar">
+      <a class="project-brand" href="/" data-project-link>
+        <span class="project-brand-mark" aria-hidden="true"></span>
+        <span><strong data-en="Hutoupi Cable Transit">虎頭埤纜車</strong></span>
+      </a>
+      <nav class="project-tabs" aria-label="拆解模組" data-en-aria="Interactive models">
+        <a class="project-tab" href="/stations/" data-project-link data-en="Four-station 3D">四站構件拆解</a>
+        <a class="project-tab" href="/" data-project-link aria-current="page" data-en="Route & Operations">路線與運行</a>
+      </nav>
+      <div class="project-actions">
+        <div class="project-language" role="group" aria-label="介面語言" data-en-aria="Display language">
+          <button type="button" data-project-lang="zh" lang="zh-Hant" aria-pressed="true">中文</button>
+          <button type="button" data-project-lang="en" lang="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="shell">
+    <div class="heading">
+      <div>
+        <p class="eyebrow" data-en="Interactive route engineering">路線工程 · 互動展示</p>
+        <h1 data-en="Route and Operations">纜車路線與運行拆解</h1>
+        <p class="lede"><span data-en="Explore the five spans by chainage, follow trains on lines A and B, and inspect the first span’s supports and vehicle–rail interface.">沿里程探索五跨，追蹤 A、B 線列車，查看第一跨的支承與車軌介面。</span><a class="operation-link" href="#operations" data-en="Simulated headways and capacity ↓">班距與運能試算 ↓</a></p>
+      </div>
+      <dl class="metrics" aria-label="全線配置" data-en-aria="Route summary">
+        <div><dt data-en="Route length">全線里程</dt><dd>1,874.6 <small>m</small></dd></div>
+        <div><dt data-en="Stations / spans">車站／跨距</dt><dd>4 <span>/</span> 5</dd></div>
+        <div><dt data-en="Operations">營運方式</dt><dd>A／B <small data-en="Independent shuttles">獨立往復</small></dd></div>
+      </dl>
+    </div>
+
+    <div class="workspace">
+      <nav class="panel route" aria-labelledby="route-heading">
+        <div class="panel-heading"><h2 id="route-heading" data-en="Route sections">選擇路段</h2><span>CH</span></div>
+        <div id="route-list"></div>
+        <p class="route-key"><i></i><span data-en="Package 1">工程包一</span><i></i><span data-en="Package 2">工程包二</span></p>
+      </nav>
+
+      <section class="panel main-panel" aria-labelledby="scene-title">
+        <div class="panel-heading scene-heading">
+          <div><p class="eyebrow" id="scene-kicker">沿線展開</p><h2 id="scene-title">T1–T4 全線</h2></div>
+          <div class="views" id="views" aria-label="視角" data-en-aria="Camera views">
+            <button type="button" data-view="orbit" aria-pressed="true" data-en="Oblique">斜視</button>
+            <button type="button" data-view="side" aria-pressed="false" data-en="Side">側視</button>
+            <button type="button" data-view="plan" aria-pressed="false" data-en="Top view">俯視</button>
+            <button type="button" data-view="bottom" aria-pressed="false" data-en="Bottom view">仰視</button>
+            <button type="button" data-view="detail" aria-pressed="false" data-en="Vehicle detail">車軌近景</button>
+          </div>
+        </div>
+        <div id="animation">
+          <div class="viewport" id="viewport">
+            <canvas id="scene" role="img" aria-label="虎頭埤纜車沿線三維示意。直接拖曳畫面可拆解，點選列車或節點可查看。" data-en-aria="Hutoupi Cable Transit 3D model. Drag to explode or select a train or route point."></canvas>
+            <div id="scene-tags"></div>
+            <div class="model-drag" id="model-drag" role="group" aria-label="拖曳操作" data-en-aria="Drag action">
+              <button type="button" data-drag-mode="explode" aria-pressed="true" data-en="Drag to explode" title="向右展開，向左合攏" data-en-title="Drag right to expand, left to close">拖曳拆解</button>
+              <button type="button" data-drag-mode="rotate" aria-pressed="false" data-en="Drag to rotate">拖曳旋轉</button>
+            </div>
+            <div class="scene-note" id="scene-note">沿里程展開 · 地貌與軌道示意</div>
+            <div class="zoom" aria-label="模型縮放" data-en-aria="Model zoom">
+              <button type="button" id="zoom-in" aria-label="放大模型" data-en-aria="Zoom in">＋</button>
+              <button type="button" id="zoom-out" aria-label="縮小模型" data-en-aria="Zoom out">−</button>
+              <button type="button" id="reset-view" aria-label="重設視角" data-en-aria="Reset view" data-en="Reset">重設</button>
+            </div>
+          </div>
+          <div class="transport">
+            <button type="button" class="play" id="play">▶ 播放列車</button>
+            <button type="button" class="ghost restart" id="restart" aria-label="回到運行起點" data-en-aria="Return to cycle start">↺</button>
+            <input id="time" type="range" min="0" max="1" step="any" value="0" aria-label="運行時間軸" data-en-aria="Operations timeline">
+            <output id="clock" class="clock" aria-label="循環經過時間" data-en-aria="Elapsed cycle time">00:00.0</output>
+            <div class="play-speed">
+              <label for="speed" data-en="Speed">倍速</label>
+              <select id="speed">
+                <option value="1">1×</option><option value="4">4×</option><option value="8" selected>8×</option><option value="16">16×</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="plot-section">
+          <div class="plot-heading">
+            <div><h3 data-en="Route profile">路線縱斷</h3><small data-en="Ground control points · Click or drag to locate">地面控制點 · 拖動或點選定位</small></div>
+            <output id="chainage" class="chainage">CH360.0</output>
+          </div>
+          <canvas id="profile" role="img" aria-label="縱斷面示意與地面控制點" data-en-aria="Longitudinal profile and ground control points"></canvas>
+          <input id="profile-position" type="range" min="0" max="1874.6" step="0.1" value="360" aria-label="縱斷面里程定位" data-en-aria="Select profile chainage">
+          <div class="legend" aria-label="縱斷圖圖例" data-en-aria="Profile legend">
+            <span><i class="key rail-key"></i> <span data-en="Railhead profile">軌頂示意</span></span>
+            <span><i class="key control-key"></i> <span data-en="Ground control points">地面控制點</span></span>
+            <span><i class="key water-key"></i> <span data-en="Water crossings">水域區間</span></span>
+            <span><i class="key line-a"></i> <span data-en="Line A">A 線</span></span>
+            <span><i class="key line-b"></i> <span data-en="Line B">B 線</span></span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel inspect" aria-labelledby="inspect-heading">
+        <div class="panel-heading"><h2 id="inspect-heading" data-en="Engineering">工程檢視</h2><span id="scope-ch">全線</span></div>
+        <div id="engineering"></div>
+        <div class="inspect-cut">
+          <div class="cut-heading">
+            <label for="explode" data-en="Explode assembly">構件展開</label>
+            <output id="explode-value" for="explode">0%</output>
+          </div>
+          <input type="range" id="explode" min="0" max="100" step="1" value="0">
+          <div class="layers" id="components" aria-label="構件選擇" data-en-aria="Select a component"></div>
+          <div class="component-info" id="component-info" aria-live="polite"></div>
+          <div class="inline-actions">
+            <button id="isolate" type="button" class="ghost" disabled aria-pressed="false">單獨顯示</button>
+            <button id="assemble" type="button" class="ghost" data-en="Reset assembly">全部復位</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="panel operations" id="operations" aria-labelledby="operation-title">
+      <div class="panel-heading op-heading">
+        <div><h2 id="operation-title" data-en="Twin-line operations simulation">雙線運行模擬</h2><small id="op-version"></small></div>
+        <div class="settings">
+          <span class="route-scope" data-en="T1–T4 · All four stations open together">T1–T4 · 四站同步通車</span>
+          <label for="mode" data-en="Trains per line">每線列數</label>
+          <select id="mode">
+            <option value="paired" data-en="Two trains, paired">兩列成對</option>
+            <option value="single" data-en="One shuttle train">一列往復</option>
+          </select>
+          <label for="cars" data-en="Cars per train">每列車數</label>
+          <select id="cars">
+            <option value="1" data-en="1 car">1 車</option><option value="2" data-en="2 cars">2 車</option><option value="3" data-en="3 cars">3 車</option>
+            <option value="4" data-en="4 cars">4 車</option><option value="5" selected data-en="5 cars">5 車</option>
+          </select>
+          <a class="ghost animation-link" href="#animation" data-en="View animation ↑">查看動畫 ↑</a>
+        </div>
+      </div>
+      <div class="trains" id="trains" aria-label="當前運行列車" data-en-aria="Trains in service"></div>
+      <p class="op-note" id="op-note"></p>
+      <div class="calc-body">
+        <dl class="calc-metrics" id="calc-metrics" aria-live="polite"></dl>
+        <p class="calc-formula" id="calc-formula"></p>
+        <section class="station-schedule" aria-labelledby="pattern-title">
+          <div class="calc-heading">
+            <h3 id="pattern-title" data-en="Simulated arrival and departure gaps">到站與發車間隔試算</h3>
+            <div class="settings">
+              <label for="pattern-stop" data-en="Station">車站</label><select id="pattern-stop"></select>
+              <label for="pattern-dir" data-en="Direction">方向</label><select id="pattern-dir"></select>
+            </div>
+          </div>
+          <div class="patterns" id="patterns"></div>
+        </section>
+        <details class="op-details" open>
+          <summary data-en="Running, dwell and turnaround times">行駛、停站與折返明細</summary>
+          <div class="calc-heading event-controls">
+            <p data-en="Select a cycle time to view the matching train in the animation.">點選循環時點，跳至該列車的動畫畫面。</p>
+            <div class="settings"><label for="event-train" data-en="Train">列車</label><select id="event-train"></select></div>
+          </div>
+          <div class="op-table-wrap" id="event-detail"></div>
+          <div id="run-breakdown" aria-live="polite"></div>
+        </details>
+        <details class="op-details">
+          <summary data-en="Model inputs and speed limits by chainage">試算參數與限速里程</summary>
+          <div id="calc-inputs"></div>
+        </details>
+        <details class="op-details" id="reference-detail">
+          <summary data-en="Compare planning baseline">規劃基準對照</summary>
+          <div id="calc-reference"></div>
+        </details>
+      </div>
+    </section>
+    <footer><span data-en="The route, structures and profile are schematic and drawn by chainage.">路線、構造與縱斷面按里程示意。</span><strong>V1.6 · 2026.11.22</strong></footer>
+  </main>
+
+  <noscript><p class="no-script" data-en="Enable JavaScript to view the 3D model and operations animation.">開啟 JavaScript 即可瀏覽 3D 模型與運行示範。</p></noscript>
+</body>
+</html>
