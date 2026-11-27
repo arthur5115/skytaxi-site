@@ -11,6 +11,7 @@
 </head>
 <body data-time="day">
 <canvas id="gl" aria-label="T3 湖濱山城站 3D 站體模型"></canvas>
+<div id="rl" class="rlabels" aria-hidden="false"></div>
 <div id="pins" class="pins"></div>
 <header class="top">
   <a class="back" href="../">站體展示館</a>
@@ -27,7 +28,7 @@
     <label><input type="checkbox" id="pins-t" checked>樓層標籤</label>
     <label><input type="checkbox" id="site-t" checked>基地環境</label>
     <label><input type="checkbox" id="iso-t">只顯示聚焦樓層</label>
-    <span></span>
+    <label><input type="checkbox" id="int-t" checked>室內配置</label>
     <div class="rg"><label for="exp">樓層分離</label><input type="range" id="exp" min="0" max="1" step="0.01" value="0"></div>
     <div class="rg"><label for="vcut">縱向剖切</label><input type="range" id="vcut" min="0" max="100" step="1" value="100"></div>
   </div>

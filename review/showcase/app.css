@@ -223,3 +223,22 @@ body.shot .top,body.shot .panel,body.shot .ruler,body.shot .views,body.shot .com
 }
 @media (prefers-reduced-motion:reduce){ body{transition:none} }
 body.shot{background:#dfe6e3!important}
+
+/* interior room labels + list */
+.rlabels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.rlab{position:absolute;left:0;top:0;white-space:nowrap;font-size:11.5px;line-height:16px;color:var(--ink);background:rgba(255,255,255,.84);
+  border:1px solid rgba(28,46,48,.12);border-radius:4px;padding:0 5px;will-change:transform;font-family:inherit}
+button.rlab{pointer-events:auto;cursor:pointer}
+button.rlab:hover{border-color:var(--jade);color:var(--jade)}
+.rlab.k2{font-size:13px;font-weight:700;padding:1px 7px}
+.rlab.k1{font-size:10px;color:var(--muted);background:rgba(255,255,255,.66);border-color:transparent}
+body.walking .rlab{font-size:13px}
+.info-h b .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px;border:1px solid rgba(0,0,0,.15)}
+.room-q{width:100%;border:1px solid var(--line2);border-radius:8px;padding:6px 10px;background:#fff;font-size:13px;margin-bottom:6px}
+.rooms{list-style:none;margin:0;padding:0;display:grid;gap:1px;max-height:320px;overflow:auto}
+.rooms button{width:100%;display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;text-align:left;border:0;background:none;padding:5px 6px;border-radius:6px;font-size:13px}
+.rooms button:hover{background:rgba(23,106,99,.07)}
+.rooms li[aria-current] button{background:rgba(228,87,46,.1)}
+.rooms i{width:12px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.14)}
+.rooms em{font-style:normal;color:var(--muted);font-size:11.5px}
+.rooms small{color:var(--muted);font-variant-numeric:tabular-nums}

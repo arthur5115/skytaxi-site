@@ -51,8 +51,8 @@ renderer.localClippingEnabled = false;
 
 // ---------------------------------------------------------------- state
 window.__show = () => ({ renderer, scene, sun, camera, controls, meshes });
-const S = { focus: null, isolate: false, cutEL: null, vcut: null, explode: 0, hidden: new Set(), site: true, mode: 'orbit', time: 'day', picked: null, pins: true };
-let data, meshes = [], storeys = [], byCode = {}, groupsAll = [], bld = new THREE.Box3(), zero = 0, platform = META.platform;
+const S = { interior: true, focus: null, isolate: false, cutEL: null, vcut: null, explode: 0, hidden: new Set(), site: true, mode: 'orbit', time: 'day', picked: null, pins: true };
+let intr = null, data, meshes = [], storeys = [], byCode = {}, groupsAll = [], bld = new THREE.Box3(), zero = 0, platform = META.platform;
 
 const loadEl = $('#load');
 const loader = new GLTFLoader();
@@ -111,6 +111,90 @@ function init(d, gltf) {
   resize();
   requestAnimationFrame(tick);
   if (META.shot) setTimeout(() => document.body.dataset.ready = '1', 600);
+  loadInterior();
+}
+
+// ---------------------------------------------------------------- interior fit-out from floor DXF
+function loadInterior() {
+  Promise.all([
+    fetch('interior.json').then(r => (r.ok ? r.json() : null)).catch(() => null),
+    new Promise(res => loader.load('interior.glb', res, undefined, () => res(null))),
+  ]).then(([j, g]) => {
+    if (!j || !g) return;
+    intr = j;
+    const cnt = new Map();
+    g.scene.traverse(o => {
+      if (!o.isMesh) return;
+      const ex = o.userData || {};
+      o.userData.storey = ex.storey; o.userData.group = ex.group; o.userData.interior = ex.interior;
+      const m = o.material;
+      if (!m.userData.prepped) { m.userData.prepped = true; m.side = THREE.DoubleSide; if (m.transparent) m.depthWrite = false; }
+      o.userData.base = m;
+      o.castShadow = ex.interior !== 'floor' && !m.transparent; o.receiveShadow = true;
+      o.geometry.computeBoundingBox();
+      meshes.push(o);
+      const k = ex.storey + '|' + ex.group; cnt.set(k, (cnt.get(k) || 0) + 1);
+    });
+    scene.add(g.scene);
+    const gc = new Map();
+    for (const [k, n] of cnt) {
+      const [code, grp] = k.split('|'), s = byCode[code];
+      if (s) s.groups = (s.groups || []).concat([[grp, n]]);
+      gc.set(grp, (gc.get(grp) || 0) + n);
+    }
+    const IC = { '室內・空間地坪': '#e9d6b4', '室內・牆體': '#e6e0d6', '室內・隔間': '#f2efe8', '室內・柱': '#d6d1c7', '室內・玻璃隔間': '#9ecbd8', '室內・樓板外緣': '#5c6a69', '室內・樓梯電梯': '#736b5e', '室內・月台': '#dcb873' };
+    for (const [grp, n] of gc) groupsAll.push({ g: grp, n, c: IC[grp] || '#bbb' });
+    $('#sum').innerHTML += `<b>${fmt(intr.rooms.length)}</b> 空間`;
+    applyTime(S.time, true);
+    $('#pb').dataset.key = ''; apply();
+  });
+}
+function roomTitle(r) { return r[1] || r[3] || '未命名空間'; }
+function pickRoom(ri, frame = false) {
+  clearPick(false);
+  const r = intr.rooms[ri]; if (!r) return;
+  const parts = [];
+  for (const m of meshes) {
+    if (m.userData.interior !== 'floor' || m.userData.storey !== r[0]) continue;
+    const tri = trisOf(m, ri, '_room'); if (!tri.length) continue;
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', m.geometry.attributes.position); g.setIndex(tri);
+    const hl = new THREE.Mesh(g, pickMat); hl.renderOrder = 10; m.add(hl); parts.push(hl);
+  }
+  const box = new THREE.Box3();
+  parts.forEach(p => { p.geometry.computeBoundingBox(); const b = p.geometry.boundingBox.clone(); b.min.y += p.parent.position.y; b.max.y += p.parent.position.y + 2.5; box.union(b); });
+  S.picked = { room: ri, parts, box };
+  showRoom(ri);
+  if (frame && !box.isEmpty()) {
+    const c = box.getCenter(new THREE.Vector3()), rad = Math.max(box.getBoundingSphere(new THREE.Sphere()).radius, 4);
+    flyTo(c.clone().add(new THREE.Vector3(0.35, 1, 0.55).normalize().multiplyScalar(rad * 2.6 + 8)), c);
+  }
+  document.querySelectorAll('.rooms li[aria-current]').forEach(x => x.removeAttribute('aria-current'));
+  const li = document.querySelector(`.rooms li[data-r="${ri}"]`); if (li) li.setAttribute('aria-current', 'true');
+}
+function showRoom(ri) {
+  const r = intr.rooms[ri], st = byCode[r[0]];
+  const box = $('#info'); box.hidden = false;
+  box.innerHTML = `<div class="info-h"><b><i class="sw" style="background:${esc(r[10])}"></i>${esc(roomTitle(r))}</b><button type="button" class="x" aria-label="關閉空間資訊">×</button></div>
+  ${r[2] ? `<p class="info-d">${esc(r[2])}</p>` : ''}
+  <dl>
+    <div><dt>樓層</dt><dd>${esc(r[0])}${st ? `　EL ${elf(st.el)}` : ''}</dd></div>
+    <div><dt>面積</dt><dd>約 ${fmt(Math.round(r[5]))} m²</dd></div>
+    ${r[3] && r[1] ? `<div><dt>用途分類</dt><dd>${esc(r[3])}</dd></div>` : ''}
+    ${r[4] ? `<div><dt>編號</dt><dd>${esc(r[4])}</dd></div>` : ''}
+    <div><dt>來源平面</dt><dd>${esc(r[9])}</dd></div>
+  </dl>
+  <div class="info-a">${st && S.focus !== r[0] ? `<button type="button" data-f="${esc(r[0])}">看 ${esc(r[0])} 層</button>` : ''}<button type="button" data-z>拉近空間</button><button type="button" data-w>走進這裡</button></div>`;
+  box.querySelector('.x').onclick = () => clearPick();
+  box.querySelector('[data-z]').onclick = () => pickRoom(ri, true);
+  box.querySelector('[data-w]').onclick = () => walkTo(ri);
+  const f = box.querySelector('[data-f]'); if (f) f.onclick = () => { focusFloor(f.dataset.f); pickRoom(ri, true); };
+}
+function walkTo(ri) {
+  const r = intr.rooms[ri], s = byCode[r[0]]; if (!s) return;
+  clearPick(); S.walkInit = true; if (S.mode !== 'walk') setMode('walk');
+  camera.position.set(r[6], s.y + 1.6 + s.i * S.explode * 9, r[8]);
+  S.walkFloor = r[0]; syncWalk();
 }
 
 // ---------------------------------------------------------------- visibility, ghosting, explode, cuts
@@ -120,9 +204,10 @@ function apply() {
     let vis = !S.hidden.has(g) && (S.site || !SITE.has(g));
     let mat = m.userData.base;
     if (S.focus && s !== S.focus) {
-      if (S.isolate) vis = false;
+      if (S.isolate || m.userData.interior) vis = false;
       mat = ghostMat;
     }
+    if (m.userData.interior && !S.interior) vis = false;
     m.visible = vis; m.material = mat;
     m.userData.pickable = vis && mat !== ghostMat;
     const st = byCode[s];
@@ -194,15 +279,21 @@ canvas.addEventListener('pointerup', e => {
   ray.setFromCamera(ndc, camera);
   const hits = ray.intersectObjects(meshes.filter(m => m.userData.pickable && !SITE.has(m.userData.group)), false);
   const planes = renderer.clippingPlanes;
-  const hit = hits.find(h => planes.every(p => p.distanceToPoint(h.point) >= -0.01));
-  if (!hit) { clearPick(); return; }
-  const ei = hit.object.geometry.attributes._elem.getX(hit.face.a);
-  pick(ei, hit.object);
+  for (const h of hits) {
+    if (!planes.every(p => p.distanceToPoint(h.point) >= -0.01)) continue;
+    const o = h.object;
+    if (o.userData.interior) {
+      if (o.userData.interior === 'floor') { pickRoom(o.geometry.attributes._room.getX(h.face.a)); return; }
+      continue;
+    }
+    pick(o.geometry.attributes._elem.getX(h.face.a), o); return;
+  }
+  clearPick();
 });
-function trisOf(mesh, ei) {
-  const g = mesh.geometry, cache = g.userData.byElem || (g.userData.byElem = new Map());
+function trisOf(mesh, ei, attr = '_elem') {
+  const g = mesh.geometry, cache = g.userData['by' + attr] || (g.userData['by' + attr] = new Map());
   if (!cache.size) {
-    const idx = g.index.array, at = g.attributes._elem.array;
+    const idx = g.index.array, at = g.attributes[attr].array;
     for (let t = 0; t < idx.length; t += 3) { const k = at[idx[t]]; let a = cache.get(k); if (!a) cache.set(k, a = []); a.push(idx[t], idx[t + 1], idx[t + 2]); }
   }
   return cache.get(ei) || [];
@@ -210,10 +301,10 @@ function trisOf(mesh, ei) {
 function pick(ei, mesh, frame = false) {
   clearPick(false);
   const row = data.elements[ei];
-  if (!mesh) mesh = meshes.find(m => m.userData.storey === row[6] && m.userData.group === norm(row[2]) && trisOf(m, ei).length);
+  if (!mesh) mesh = meshes.find(m => !m.userData.interior && m.userData.storey === row[6] && m.userData.group === norm(row[2]) && trisOf(m, ei).length);
   const parts = [];
   for (const m of meshes) {
-    if (m.userData.storey !== row[6] || m.userData.group !== norm(row[2])) continue;
+    if (m.userData.interior || m.userData.storey !== row[6] || m.userData.group !== norm(row[2])) continue;
     const tri = trisOf(m, ei); if (!tri.length) continue;
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', m.geometry.attributes.position);
@@ -342,6 +433,7 @@ function applyTime(t, quiet) {
   for (const m of meshes) {
     const b = m.userData.base;
     if (GLOW.has(m.userData.group)) { b.emissive.set(0xffc46b); b.emissiveIntensity = T.glow; }
+    else if (m.userData.interior === 'floor' || m.userData.interior === 'prtn') { b.emissive.set(0xffd9a0); b.emissiveIntensity = T.glow * 0.22; }
   }
   document.body.dataset.time = t;
   document.querySelectorAll('[data-time]').forEach(b => b.setAttribute('aria-pressed', b.dataset.time === t));
@@ -401,6 +493,7 @@ function buildUI() {
   $('#pins-t').onchange = e => { S.pins = e.target.checked; pins.hidden = !S.pins; };
   $('#site-t').onchange = e => { S.site = e.target.checked; apply(); };
   $('#iso-t').onchange = e => { S.isolate = e.target.checked; apply(); };
+  $('#int-t').onchange = e => { S.interior = e.target.checked; if (!S.interior && S.picked?.room != null) clearPick(); apply(); };
   $('#exp').oninput = e => { S.explode = +e.target.value; if (S.explode) { S.cutEL = null; S.vcut = null; $('#vcut').value = 100; } apply(); };
   $('#vcut').oninput = e => { const v = +e.target.value; S.vcut = v >= 100 ? null : v / 100; if (S.vcut != null) { S.explode = 0; $('#exp').value = 0; } apply(); };
   frameBox(bld, undefined, 1.05); if (tween) { camera.position.copy(tween.p1); controls.target.copy(tween.q1); tween = null; } controls.update();
@@ -457,6 +550,7 @@ function syncPanel() {
       </div>
       <div class="stepper">${below ? `<button type="button" data-f="${esc(below.code)}">↓ ${esc(below.code)}</button>` : '<span></span>'}${above ? `<button type="button" data-f="${esc(above.code)}">${esc(above.code)} ↑</button>` : '<span></span>'}</div>
     </section>
+    ${roomList(f)}
     <section><h2>構件分類 <small>${fmt(f.n)} 件</small></h2><ul class="bars">${cats}</ul></section>`;
     if (f.meta.sheets?.length) h += `<section><h2>本層圖說</h2>${sheetCards(f.meta.sheets)}</section>`;
     if (f.code === platform && Object.keys(data.addEL || {}).length) h += `<section><h2>月台控制標高</h2><ul class="addel">${Object.entries(data.addEL).map(([k, v]) => `<li><span>${esc(k.split('｜')[0])}</span><b>EL ${elf(v)}</b><small>${esc(k.split('｜')[1] || '')}</small></li>`).join('')}</ul></section>`;
@@ -465,6 +559,8 @@ function syncPanel() {
   h += `<section><h2>${f ? '本層構件' : '全站構件'} <small class="el-n"></small></h2><input type="search" class="el-q" placeholder="搜尋編號或名稱，例如 月台門、${esc(META.id.toUpperCase())}-G" aria-label="搜尋構件"><ul class="el-list"></ul></section>`;
   body.innerHTML = h;
   body.querySelectorAll('[data-f]').forEach(b => b.onclick = () => focusFloor(b.dataset.f));
+  body.querySelectorAll('.rooms li[data-r]').forEach(li => li.onclick = () => { if (!S.interior) { S.interior = true; $('#int-t').checked = true; apply(); } pickRoom(+li.dataset.r, true); });
+  const rq = $('.room-q', body); if (rq) rq.oninput = () => { const q = rq.value.trim(); body.querySelectorAll('.rooms li[data-r]').forEach(li => li.hidden = !!q && !li.textContent.includes(q)); };
   body.querySelectorAll('[data-act]').forEach(b => b.onclick = () => {
     const a = b.dataset.act;
     if (a === 'plan') planView(S.focus); else if (a === 'walk') teleport(S.focus); else focusFloor(null);
@@ -473,6 +569,16 @@ function syncPanel() {
   q.oninput = () => listEls(q.value);
   listEls('');
   syncGroups();
+}
+function roomList(f) {
+  if (!intr) return '';
+  const rs = intr.rooms.map((r, i) => [r, i]).filter(([r]) => r[0] === f.code && (r[1] || r[3]) && r[5] >= 2);
+  if (!rs.length) return '';
+  rs.sort((a, b) => (!!b[0][1] - !!a[0][1]) || b[0][5] - a[0][5]);
+  const src = (intr.src[f.code] || []).join('、');
+  return `<section><h2>空間配置 <small>${fmt(rs.length)} 處　平面 ${esc(src)}</small></h2>
+    ${rs.length > 12 ? '<input type="search" class="room-q" placeholder="搜尋空間，例如 廁所、站務" aria-label="搜尋空間">' : ''}
+    <ul class="rooms">${rs.map(([r, i]) => `<li data-r="${i}"><button type="button"><i style="background:${esc(r[10])}"></i><span>${esc(roomTitle(r))}${r[4] ? ` <em>${esc(r[4])}</em>` : ''}</span><small>${fmt(Math.round(r[5]))} m²</small></button></li>`).join('')}</ul></section>`;
 }
 function listEls(q) {
   const ul = $('#pb .el-list'); if (!ul) return;
@@ -528,6 +634,41 @@ function readHash() {
 }
 addEventListener('hashchange', () => { if (data) readHash(); });
 
+// ---------------------------------------------------------------- room labels
+let rlCode = null, rlEls = [];
+const rlBox = $('#rl'), v4 = new THREE.Vector3();
+function syncLabels() {
+  const code = S.mode === 'walk' ? S.walkFloor : S.focus;
+  const on = intr && S.interior && S.pins && code && intr.labels[code];
+  if (!on) { if (rlCode) { rlBox.innerHTML = ''; rlCode = null; rlEls = []; } return; }
+  if (rlCode !== code) {
+    rlBox.innerHTML = '';
+    rlEls = intr.labels[code].map(([t, x, y, z, k, ri]) => {
+      const b = el(ri >= 0 ? 'button' : 'span', 'rlab k' + k, esc(t));
+      if (ri >= 0) { b.type = 'button'; b.onclick = () => pickRoom(ri, false); }
+      rlBox.append(b); return { b, p: new THREE.Vector3(x, y, z), k, w: 0, h: 0 };
+    }).sort((a, b) => ({ 2: 0, 3: 1, 1: 2 }[a.k] - { 2: 0, 3: 1, 1: 2 }[b.k]));
+    rlCode = code;
+  }
+  const s = byCode[code], dy = s.i * S.explode * 9, W = canvas.clientWidth, H = canvas.clientHeight, kept = [];
+  const walk = S.mode === 'walk';
+  for (const L of rlEls) {
+    v4.copy(L.p); v4.y += dy;
+    const d = camera.position.distanceTo(v4);
+    let vis = !(S.cutEL != null && L.p.y > S.cutEL - zero) && kept.length < 70;
+    if (vis) vis = walk ? d < 38 : (L.k === 1 ? d < 110 : L.k === 3 ? d < 320 : true);
+    if (vis) { v4.project(camera); vis = v4.z < 1 && Math.abs(v4.x) < 1.02 && Math.abs(v4.y) < 1.02; }
+    if (vis) {
+      const x = (v4.x + 1) / 2 * W, y = (1 - v4.y) / 2 * H;
+      if (!L.w) { L.b.hidden = false; L.w = L.b.offsetWidth || 60; L.h = L.b.offsetHeight || 18; }
+      const r = { x: x - L.w / 2, y: y - L.h / 2, w: L.w, h: L.h };
+      if (kept.some(k => r.x < k.x + k.w + 2 && k.x < r.x + r.w + 2 && r.y < k.y + k.h && k.y < r.y + r.h)) vis = false;
+      else { kept.push(r); L.b.style.transform = `translate(${r.x}px,${r.y}px)`; }
+    }
+    L.b.hidden = !vis;
+  }
+}
+
 // ---------------------------------------------------------------- loop
 function resize() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -551,7 +692,7 @@ function tick(now) {
     const order = storeys.slice().sort((a, b) => (b.code === S.focus) - (a.code === S.focus) || (b.code === platform) - (a.code === platform) || b.n - a.n);
     for (const s of order) {
       if (!s.pin) continue;
-      const show = !S.focus || s.code === S.focus;
+      const show = (!S.focus || s.code === S.focus) && s.code !== rlCode;
       const c = s.box3.getCenter(v3); v3.y = s.y + 1.4 + s.i * S.explode * 9;
       if (S.cutEL != null && v3.y > S.cutEL - zero + 0.2 && s.code !== S.focus) { s.pin.hidden = true; continue; }
       v3.project(camera);
@@ -564,6 +705,7 @@ function tick(now) {
       s.pin.style.transform = `translate(${x}px,${y}px) translate(-12px,-50%)`;
     }
   } else storeys.forEach(s => s.pin && (s.pin.hidden = true));
+  syncLabels();
   // compass
   const n = northDir(), f = new THREE.Vector3(); camera.getWorldDirection(f);
   const ang = Math.atan2(n.x, -n.z) - Math.atan2(f.x, -f.z);
