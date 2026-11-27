@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>整體規劃與配置圖冊｜虎頭埤纜車 審查資料｜Skytaxi</title>
+<meta name="theme-color" content="#17302a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#17302a;--forest-2:#21423a;--lake:#2f6f78;--mist:#eef2ef;--paper:#fff;--ink:#1b2622;--muted:#5d6b66;--rule:#d5ddd9;--cabin:#d9a441;
+--serif:"Noto Serif TC","Songti TC",serif;--sans:"Noto Sans TC",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--mist);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cabin);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+[hidden]{display:none!important}
+
+.hero{background:var(--forest);color:#eef4f0;padding:22px 0 40px}
+.bar{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:#b9cbc3}
+.bar a{text-decoration:none} .bar a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:48px;align-items:end;margin-top:36px}
+.kind{font-size:15px;color:var(--cabin);font-weight:700;margin:0}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,56px);line-height:1.2;margin:6px 0 14px;letter-spacing:.04em}
+.lede{color:#c9d8d1;font-size:16.5px;max-width:34em;margin:0}
+.meta{color:#9fb7ad;font-size:14.5px;margin:14px 0 0}
+.meta b{color:#fff;font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:4px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit}
+.btn.pri{background:var(--cabin);color:#1b2622}
+.btn.pri:hover{background:#e6b552}
+.btn.sec{border-color:#5f7d71;color:#eef4f0;background:transparent}
+.btn.sec:hover{border-color:#cfdcd6}
+.cover{display:block;border-radius:4px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.35);border:1px solid #2f5248}
+.cover img{display:block;width:100%;height:auto}
+
+.tools{position:sticky;top:0;z-index:20;background:rgba(238,242,239,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.tools .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-top:10px;padding-bottom:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font:500 14.5px var(--sans);padding:5px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--forest);border-color:var(--forest);color:#fff}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:0 12px;max-width:360px}
+.search input{border:0;outline:0;font:15px var(--sans);padding:8px 0;width:100%;background:transparent;color:var(--ink)}
+.search:focus-within{border-color:var(--lake)}
+.jump{font:15px var(--sans);padding:7px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink)}
+.count{font-size:14px;color:var(--muted);margin-left:auto}
+
+main{padding-bottom:30px}
+.grp{padding-top:48px}
+.grp-h{display:grid;grid-template-columns:auto auto 1fr auto;align-items:baseline;gap:6px 16px;border-bottom:2px solid var(--forest);padding-bottom:10px;margin-bottom:22px}
+.grp-h .no{font:900 30px var(--serif);color:var(--lake)}
+.grp-h h2{font:900 clamp(22px,2.4vw,28px) var(--serif);margin:0;letter-spacing:.03em}
+.grp-h p{margin:0;color:var(--muted);font-size:15px}
+.vol{font-size:14.5px;font-weight:700;color:var(--lake);text-underline-offset:4px;white-space:nowrap}
+.vol span{font-weight:400;color:var(--muted);margin-left:6px}
+.sheets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:26px 22px}
+.sheets a{display:flex;flex-direction:column;text-decoration:none}
+.th{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;background:#e2e9e5;border:1px solid var(--rule);border-radius:3px;padding:8px;overflow:hidden}
+.th img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;box-shadow:0 1px 3px rgba(23,48,42,.18)}
+.cd{font:700 13.5px var(--sans);color:var(--lake);margin-top:9px;display:flex;gap:8px;align-items:center}
+.new{font-size:12px;font-weight:700;color:#7a5410;background:#f6e6c2;padding:0 7px;border-radius:3px}
+.tt{font-size:15.5px;font-weight:500;line-height:1.5}
+.sheets a:hover .th{border-color:var(--forest)}
+.sheets a:hover .tt{text-decoration:underline;text-decoration-color:var(--cabin);text-decoration-thickness:2px;text-underline-offset:4px}
+.none{color:var(--muted);font-size:15px}
+.empty{padding:60px 0;color:var(--muted);text-align:center;font-size:16px}
+
+.dl{margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.dl h2{font:900 24px var(--serif);margin:0 0 4px}
+.dl .note{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+.dl ul{list-style:none;margin:0;padding:0}
+.dl li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:15px}
+.dl li a{text-underline-offset:3px;text-decoration-color:var(--rule)} .dl li a:hover{text-decoration-color:var(--cabin)}
+.dl li span{color:var(--muted);font-size:13.5px;white-space:nowrap}
+footer{margin-top:72px;background:var(--forest);color:#9fb7ad;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-top:24px;padding-bottom:28px}
+footer a{color:#e2ece7}
+
+/* viewer */
+.vw{position:fixed;inset:0;z-index:100;background:#0f201b;color:#e6eee9;display:grid;grid-template-rows:auto 1fr auto}
+.vw-top{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid #26443b}
+.vw-cap{min-width:0;flex:1}
+.vw-cap b{font-weight:700;color:var(--cabin);margin-right:10px}
+.vw-cap span{font-weight:500}
+.vw-cap small{display:block;color:#93aba1;font-size:13px}
+.vw-btns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.ib{font:500 14px var(--sans);color:#e6eee9;background:#1d3830;border:1px solid #2f5248;border-radius:4px;padding:6px 12px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.ib:hover{border-color:#8fa69c}
+.ib.x{background:transparent;font-size:15px}
+.stage{position:relative;overflow:hidden;touch-action:none;cursor:grab}
+.stage.drag{cursor:grabbing}
+.stage img{position:absolute;left:0;top:0;transform-origin:0 0;user-select:none;-webkit-user-drag:none;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.5);max-width:none}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:72px;border:0;border-radius:4px;background:rgba(15,32,27,.65);color:#fff;font-size:28px;cursor:pointer;z-index:2}
+.nav:hover{background:rgba(29,56,48,.95)}
+.nav.prev{left:12px} .nav.next{right:12px}
+.nav:disabled{opacity:.25;cursor:default}
+.vw-bot{display:flex;justify-content:space-between;gap:12px;padding:8px 16px;font-size:13px;color:#93aba1;border-top:1px solid #26443b}
+.zl{font-variant-numeric:tabular-nums}
+
+@media (max-width:900px){
+  .hero-in{grid-template-columns:1fr} .cover{max-width:520px}
+  .grp-h{grid-template-columns:auto 1fr} .grp-h p{grid-column:1/-1} .grp-h .vol{grid-column:1/-1}
+  .dl{grid-template-columns:1fr}
+  .count{margin-left:0}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .sheets{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
+  .tt{font-size:14.5px}
+  .vw-top{flex-wrap:wrap} .vw-btns .opt{display:none}
+  .nav{width:38px;height:56px;font-size:22px}
+  .bar .tag{display:none}
+  .tools{position:static}
+  .vw-bot span:nth-child(2){display:none}
+}
+@media (prefers-reduced-motion:no-preference){.stage img.anim{transition:transform .18s ease-out}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <div class="bar"><a href="../../">審查資料區　互動模型與網站</a><span class="tag">Skytaxi 雲天新能源，僅限受邀者瀏覽</span></div>
+    <div class="hero-in">
+      <div>
+        <p class="kind">圖冊</p>
+        <h1>虎頭埤長壽生活園區<br>整體規劃與配置</h1>
+        <p class="lede">四站一線的全區總圖、量體、動線、景觀、樓層配置與典型單元，依投資計畫書第三章的八組順序編排。</p>
+        <p class="meta"><b>103 張</b>圖，分 <b>8 組</b>，2026-11-27 修正版</p>
+        <div class="actions"><a class="btn pri" href="#s=001" data-k="001">從第一張開始翻閱</a><a class="btn sec" href="#dl">下載 PDF 分冊</a></div>
+      </div>
+      <a class="cover" href="#s=002" data-k="002" aria-label="開啟八組規劃圖索引"><img src="p/002_t.webp" alt="八組規劃圖索引" width="560" height="315"></a>
+    </div>
+  </div>
+</div>
+
+<div class="tools" role="search"><div class="wrap">
+  <div class="chips" role="group" aria-label="依站別篩選">
+    <button type="button" data-f="" aria-pressed="true">全部</button><button type="button" data-f="全區" aria-pressed="false">全區</button><button type="button" data-f="T1" aria-pressed="false">T1</button><button type="button" data-f="T2" aria-pressed="false">T2</button><button type="button" data-f="T3" aria-pressed="false">T3</button><button type="button" data-f="T4" aria-pressed="false">T4</button>
+  </div>
+  <label class="search"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="#5d6b66" stroke-width="1.6"/><path d="M11 11l4 4" stroke="#5d6b66" stroke-width="1.6"/></svg><input type="search" id="q" placeholder="搜尋圖號或圖名，例如 T3-A-05、客房" aria-label="搜尋圖號或圖名"></label>
+  <select class="jump" id="jump" aria-label="跳到圖組"><option value="">跳到圖組</option><option value="g01">01 基地環境</option><option value="g02">02 建築配置理念與構想</option><option value="g03">03 空間配置計畫</option><option value="g04">04 建築量體規劃</option><option value="g05">05 動線系統規劃</option><option value="g06">06 景觀規劃</option><option value="g07">07 建築平面計畫</option><option value="g08">08 單元規劃構想</option></select>
+  <span class="count" id="count" aria-live="polite">103 張</span>
+</div></div>
+
+<main class="wrap">
+<section class="grp" id="g01" aria-labelledby="g01h">
+  <header class="grp-h"><span class="no">01</span><h2 id="g01h">基地環境</h2><p>地籍、地形、地質、水域與保安林</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_01_基地環境.pdf" download>下載本組 PDF<span>15.8 MB</span></a></header>
+  <ul class="sheets"><li data-s="全區" data-q="g-02 公告基地地籍與使用分區"><a href="#s=003" data-k="003"><span class="th"><img src="p/003_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-02</span><span class="tt">公告基地地籍與使用分區</span></a></li><li data-s="全區" data-q="g-06 路線縱斷面與地形"><a href="#s=004" data-k="004"><span class="th"><img src="p/004_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-06</span><span class="tt">路線縱斷面與地形</span></a></li><li data-s="全區" data-q="g-07 路線與地質敏感區套繪圖"><a href="#s=005" data-k="005"><span class="th"><img src="p/005_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-07</span><span class="tt">路線與地質敏感區套繪圖</span></a></li><li data-s="全區" data-q="g-08 虎頭埤水域與跨水域段配置圖"><a href="#s=006" data-k="006"><span class="th"><img src="p/006_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-08</span><span class="tt">虎頭埤水域與跨水域段配置圖</span></a></li><li data-s="全區" data-q="g-09 第 2002 號保安林與本案使用範圍圖"><a href="#s=007" data-k="007"><span class="th"><img src="p/007_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-09</span><span class="tt">第 2002 號保安林與本案使用範圍圖</span></a></li><li data-s="全區" data-q="cs-02 全線航照套繪平面圖"><a href="#s=008" data-k="008"><span class="th"><img src="p/008_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">CS-02</span><span class="tt">全線航照套繪平面圖</span></a></li><li data-s="全區" data-q="g-20 基地環境－風花圖"><a href="#s=G20" data-k="G20"><span class="th"><img src="p/G20_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-20<span class="new">本次新增</span></span><span class="tt">基地環境－風花圖</span></a></li><li data-s="全區" data-q="g-21 基地環境－日照路徑圖"><a href="#s=G21" data-k="G21"><span class="th"><img src="p/G21_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-21<span class="new">本次新增</span></span><span class="tt">基地環境－日照路徑圖</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g02" aria-labelledby="g02h">
+  <header class="grp-h"><span class="no">02</span><h2 id="g02h">建築配置理念與構想</h2><p>四站一線總配置及四站設計說明</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_02_建築配置理念與構想.pdf" download>下載本組 PDF<span>20.9 MB</span></a></header>
+  <ul class="sheets"><li data-s="全區" data-q="pl-g01 四站一線整體配置"><a href="#s=009" data-k="009"><span class="th"><img src="p/009_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-G01</span><span class="tt">四站一線整體配置</span></a></li><li data-s="T1" data-q="t1-concept 新化之門站設計說明圖板"><a href="#s=010" data-k="010"><span class="th"><img src="p/010_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-CONCEPT</span><span class="tt">新化之門站設計說明圖板</span></a></li><li data-s="T2" data-q="t2-concept 湖濱旅館站設計說明圖板"><a href="#s=011" data-k="011"><span class="th"><img src="p/011_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-CONCEPT</span><span class="tt">湖濱旅館站設計說明圖板</span></a></li><li data-s="T3" data-q="t3-concept 湖濱山城站設計說明圖板"><a href="#s=012" data-k="012"><span class="th"><img src="p/012_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-CONCEPT</span><span class="tt">湖濱山城站設計說明圖板</span></a></li><li data-s="T4" data-q="t4-concept 新化林場站設計說明圖板"><a href="#s=013" data-k="013"><span class="th"><img src="p/013_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-CONCEPT</span><span class="tt">新化林場站設計說明圖板</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g03" aria-labelledby="g03h">
+  <header class="grp-h"><span class="no">03</span><h2 id="g03h">空間配置計畫</h2><p>各站總配置、功能分區與門禁</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_03_空間配置計畫.pdf" download>下載本組 PDF<span>3.8 MB</span></a></header>
+  <ul class="sheets"><li data-s="T1" data-q="t1-a-01 總配置圖"><a href="#s=014" data-k="014"><span class="th"><img src="p/014_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T1-A-01</span><span class="tt">總配置圖</span></a></li><li data-s="T2" data-q="t2-a-01 總配置圖"><a href="#s=015" data-k="015"><span class="th"><img src="p/015_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T2-A-01</span><span class="tt">總配置圖</span></a></li><li data-s="T3" data-q="t3-a-01 總配置圖（地盤圖）"><a href="#s=016" data-k="016"><span class="th"><img src="p/016_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T3-A-01</span><span class="tt">總配置圖（地盤圖）</span></a></li><li data-s="T4" data-q="t4-a-01 總配置圖（地盤圖）"><a href="#s=017" data-k="017"><span class="th"><img src="p/017_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T4-A-01</span><span class="tt">總配置圖（地盤圖）</span></a></li><li data-s="T2" data-q="t2-a-03 功能分區與門禁"><a href="#s=018" data-k="018"><span class="th"><img src="p/018_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T2-A-03</span><span class="tt">功能分區與門禁</span></a></li><li data-s="T3" data-q="t3-a-02 功能分區與門禁圖"><a href="#s=019" data-k="019"><span class="th"><img src="p/019_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T3-A-02</span><span class="tt">功能分區與門禁圖</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g04" aria-labelledby="g04h">
+  <header class="grp-h"><span class="no">04</span><h2 id="g04h">建築量體規劃</h2><p>四站 BIM 量體、主要立面與剖面</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_04_建築量體規劃.pdf" download>下載本組 PDF<span>6.6 MB</span></a></header>
+  <ul class="sheets"><li data-s="T1" data-q="t1-bim-01 新化之門站構件與樓層軸測"><a href="#s=020" data-k="020"><span class="th"><img src="p/020_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">T1-BIM-01</span><span class="tt">新化之門站構件與樓層軸測</span></a></li><li data-s="T1" data-q="t1-a-03 光舟縱剖面圖（沿a線弦線）"><a href="#s=021" data-k="021"><span class="th"><img src="p/021_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-A-03</span><span class="tt">光舟縱剖面圖（沿A線弦線）</span></a></li><li data-s="T1" data-q="t1-a-14 西向立面圖（道路側正面）"><a href="#s=022" data-k="022"><span class="th"><img src="p/022_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-A-14</span><span class="tt">西向立面圖（道路側正面）</span></a></li><li data-s="T2" data-q="t2-bim-01 湖濱旅館站構件與樓層軸測"><a href="#s=023" data-k="023"><span class="th"><img src="p/023_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">T2-BIM-01</span><span class="tt">湖濱旅館站構件與樓層軸測</span></a></li><li data-s="T2" data-q="t2-a-16 橫剖面圖（退台與湖岸）"><a href="#s=024" data-k="024"><span class="th"><img src="p/024_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-A-16</span><span class="tt">橫剖面圖（退台與湖岸）</span></a></li><li data-s="T2" data-q="t2-a-13 南向立面圖（湖側）"><a href="#s=025" data-k="025"><span class="th"><img src="p/025_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-A-13</span><span class="tt">南向立面圖（湖側）</span></a></li><li data-s="T3" data-q="t3-bim-01 湖濱山城站構件與樓層軸測"><a href="#s=026" data-k="026"><span class="th"><img src="p/026_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">T3-BIM-01</span><span class="tt">湖濱山城站構件與樓層軸測</span></a></li><li data-s="T3" data-q="t3-a-05 橫剖面圖（b–b：前庭－2f大廳－宴會基座－面湖平台）"><a href="#s=027" data-k="027"><span class="th"><img src="p/027_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-A-05</span><span class="tt">橫剖面圖（B–B：前庭－2F大廳－宴會基座－面湖平台）</span></a></li><li data-s="T3" data-q="t3-a-11 南向立面圖（湖側）"><a href="#s=028" data-k="028"><span class="th"><img src="p/028_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-A-11</span><span class="tt">南向立面圖（湖側）</span></a></li><li data-s="T4" data-q="t4-bim-01 新化林場站構件與樓層軸測"><a href="#s=029" data-k="029"><span class="th"><img src="p/029_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">T4-BIM-01</span><span class="tt">新化林場站構件與樓層軸測</span></a></li><li data-s="T4" data-q="t4-a-03 縱剖面圖（沿弦線，a–a）"><a href="#s=030" data-k="030"><span class="th"><img src="p/030_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-A-03</span><span class="tt">縱剖面圖（沿弦線，A–A）</span></a></li><li data-s="T4" data-q="t4-a-09 東北向立面圖（森林側）"><a href="#s=031" data-k="031"><span class="th"><img src="p/031_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-A-09</span><span class="tt">東北向立面圖（森林側）</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g05" aria-labelledby="g05h">
+  <header class="grp-h"><span class="no">05</span><h2 id="g05h">動線系統規劃</h2><p>全區動線、道路到達與各站分流</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_05_動線系統規劃.pdf" download>下載本組 PDF<span>4.6 MB</span></a></header>
+  <ul class="sheets"><li data-s="全區" data-q="pl-m01 全區動線系統總圖"><a href="#s=032" data-k="032"><span class="th"><img src="p/032_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-M01</span><span class="tt">全區動線系統總圖</span></a></li><li data-s="全區" data-q="pl-m02 四站到達、乘轉與後勤分流"><a href="#s=033" data-k="033"><span class="th"><img src="p/033_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-M02</span><span class="tt">四站到達、乘轉與後勤分流</span></a></li><li data-s="T1" data-q="t1-a-12 旅客動線及無障礙通路圖"><a href="#s=034" data-k="034"><span class="th"><img src="p/034_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T1-A-12</span><span class="tt">旅客動線及無障礙通路圖</span></a></li><li data-s="T2" data-q="t2-a-18 八類使用者動線及無障礙通路圖"><a href="#s=035" data-k="035"><span class="th"><img src="p/035_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T2-A-18</span><span class="tt">八類使用者動線及無障礙通路圖</span></a></li><li data-s="T3" data-q="t3-a-10 旅客動線及無障礙通路圖"><a href="#s=036" data-k="036"><span class="th"><img src="p/036_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T3-A-10</span><span class="tt">旅客動線及無障礙通路圖</span></a></li><li data-s="T4" data-q="t4-f-01 垂直動線及防火避難圖"><a href="#s=037" data-k="037"><span class="th"><img src="p/037_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-F-01</span><span class="tt">垂直動線及防火避難圖</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g06" aria-labelledby="g06h">
+  <header class="grp-h"><span class="no">06</span><h2 id="g06h">景觀規劃</h2><p>全區景觀、植生管理與各站開放空間</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_06_景觀規劃.pdf" download>下載本組 PDF<span>7.4 MB</span></a></header>
+  <ul class="sheets"><li data-s="全區" data-q="pl-l01 全區景觀與開放空間總圖"><a href="#s=038" data-k="038"><span class="th"><img src="p/038_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-L01</span><span class="tt">全區景觀與開放空間總圖</span></a></li><li data-s="全區" data-q="pl-l02 四站景觀空間與場地界面"><a href="#s=039" data-k="039"><span class="th"><img src="p/039_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-L02</span><span class="tt">四站景觀空間與場地界面</span></a></li><li data-s="全區" data-q="g-14 樹木保育與植生管理範圍圖"><a href="#s=040" data-k="040"><span class="th"><img src="p/040_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">G-14</span><span class="tt">樹木保育與植生管理範圍圖</span></a></li><li data-s="T1" data-q="t1-l-01 虎埤水鏡與迎賓廣場放大平面圖"><a href="#s=041" data-k="041"><span class="th"><img src="p/041_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-L-01</span><span class="tt">虎埤水鏡與迎賓廣場放大平面圖</span></a></li><li data-s="T2" data-q="t2-l-01 景觀與公共藝術點位圖"><a href="#s=042" data-k="042"><span class="th"><img src="p/042_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T2-L-01</span><span class="tt">景觀與公共藝術點位圖</span></a></li><li data-s="T3" data-q="t3-l-01 景觀、泳池平台與公共藝術配置圖"><a href="#s=043" data-k="043"><span class="th"><img src="p/043_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T3-L-01</span><span class="tt">景觀、泳池平台與公共藝術配置圖</span></a></li><li data-s="T4" data-q="t4-l-01 外部空間、停車與救災活動空間圖"><a href="#s=044" data-k="044"><span class="th"><img src="p/044_t.webp" alt="" loading="lazy" decoding="async" width="396" height="560"></span><span class="cd">T4-L-01</span><span class="tt">外部空間、停車與救災活動空間圖</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g07" aria-labelledby="g07h">
+  <header class="grp-h"><span class="no">07</span><h2 id="g07h">建築平面計畫</h2><p>28 張 V2 彩平與 33 個分視圖</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_07_建築平面計畫.pdf" download>下載本組 PDF<span>8.0 MB</span></a></header>
+  <ul class="sheets"><li data-s="全區" data-q="bd-index 四站全層彩平圖號索引"><a href="#s=045" data-k="045"><span class="th"><img src="p/045_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">BD-INDEX</span><span class="tt">四站全層彩平圖號索引</span></a></li><li data-s="T1" data-q="t1-bd-01 迎賓廣場與地面商店街"><a href="#s=046" data-k="046"><span class="th"><img src="p/046_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-01</span><span class="tt">迎賓廣場與地面商店街</span></a></li><li data-s="T1" data-q="t1-bd-02 連接台階、文創展店與交流"><a href="#s=047" data-k="047"><span class="th"><img src="p/047_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-02</span><span class="tt">連接台階、文創展店與交流</span></a></li><li data-s="T1" data-q="t1-bd-03 主題展店、體驗空間與行控中心"><a href="#s=048" data-k="048"><span class="th"><img src="p/048_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-03</span><span class="tt">主題展店、體驗空間與行控中心</span></a></li><li data-s="T1" data-q="t1-bd-04 上層休憩、輕食與文創商店"><a href="#s=049" data-k="049"><span class="th"><img src="p/049_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-04</span><span class="tt">上層休憩、輕食與文創商店</span></a></li><li data-s="T1" data-q="t1-bd-05 出站層總平面"><a href="#s=050" data-k="050"><span class="th"><img src="p/050_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-05</span><span class="tt">出站層總平面</span></a></li><li data-s="T1" data-q="t1-bd-06 光舟天空步道與階梯綠屋頂"><a href="#s=051" data-k="051"><span class="th"><img src="p/051_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-BD-06</span><span class="tt">光舟天空步道與階梯綠屋頂</span></a></li><li data-s="T2" data-q="t2-bd-01 地下停車、垂直動線與機房"><a href="#s=052" data-k="052"><span class="th"><img src="p/052_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-01</span><span class="tt">地下停車、垂直動線與機房</span></a></li><li data-s="T2" data-q="t2-bd-02 公共站廳與旅館大廳"><a href="#s=053" data-k="053"><span class="th"><img src="p/053_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-02</span><span class="tt">公共站廳與旅館大廳</span></a></li><li data-s="T2" data-q="t2-bd-03 湖側餐廳、彈性餐席與客房"><a href="#s=054" data-k="054"><span class="th"><img src="p/054_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-03</span><span class="tt">湖側餐廳、彈性餐席與客房</span></a></li><li data-s="T2" data-q="t2-bd-04 公共翼、受控站旅口及客房"><a href="#s=055" data-k="055"><span class="th"><img src="p/055_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-04</span><span class="tt">公共翼、受控站旅口及客房</span></a></li><li data-s="T2" data-q="t2-bd-05 公共翼活動與退台客房"><a href="#s=056" data-k="056"><span class="th"><img src="p/056_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-05</span><span class="tt">公共翼活動與退台客房</span></a></li><li data-s="T2" data-q="t2-bd-06 客房與公共轉乘層"><a href="#s=057" data-k="057"><span class="th"><img src="p/057_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-06</span><span class="tt">客房與公共轉乘層</span></a></li><li data-s="T2" data-q="t2-bd-07 兩側月台與售驗票界面"><a href="#s=058" data-k="058"><span class="th"><img src="p/058_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-07</span><span class="tt">兩側月台與售驗票界面</span></a></li><li data-s="T2" data-q="t2-bd-08 摺板屋面、綠屋頂及分層露台"><a href="#s=059" data-k="059"><span class="th"><img src="p/059_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T2-BD-08</span><span class="tt">摺板屋面、綠屋頂及分層露台</span></a></li><li data-s="T3" data-q="t3-bd-01 前庭下方停車層"><a href="#s=060" data-k="060"><span class="th"><img src="p/060_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-01</span><span class="tt">前庭下方停車層</span></a></li><li data-s="T3" data-q="t3-bd-02 湖景宴會廳、前廳與後場"><a href="#s=061" data-k="061"><span class="th"><img src="p/061_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-02</span><span class="tt">湖景宴會廳、前廳與後場</span></a></li><li data-s="T3" data-q="t3-bd-03 會議前廳、彈性會議及茶歇"><a href="#s=062" data-k="062"><span class="th"><img src="p/062_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-03</span><span class="tt">會議前廳、彈性會議及茶歇</span></a></li><li data-s="T3" data-q="t3-bd-04 全日餐廳、宴會前廳與新娘房"><a href="#s=063" data-k="063"><span class="th"><img src="p/063_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-04</span><span class="tt">全日餐廳、宴會前廳與新娘房</span></a></li><li data-s="T3" data-q="t3-bd-05 迎賓大廳、餐飲及婚禮堂"><a href="#s=064" data-k="064"><span class="th"><img src="p/064_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-05</span><span class="tt">迎賓大廳、餐飲及婚禮堂</span></a></li><li data-s="T3" data-q="t3-bd-06 xr 沉浸式樂園與休息區"><a href="#s=065" data-k="065"><span class="th"><img src="p/065_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-06</span><span class="tt">XR 沉浸式樂園與休息區</span></a></li><li data-s="T3" data-q="t3-bd-07 轉乘大廳與兩側月台"><a href="#s=066" data-k="066"><span class="th"><img src="p/066_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-07</span><span class="tt">轉乘大廳與兩側月台</span></a></li><li data-s="T3" data-q="t3-bd-08 雲端餐廳與跨線連通"><a href="#s=067" data-k="067"><span class="th"><img src="p/067_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-08</span><span class="tt">雲端餐廳與跨線連通</span></a></li><li data-s="T3" data-q="t3-bd-09 摺板屋面與光電屋頂"><a href="#s=068" data-k="068"><span class="th"><img src="p/068_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-BD-09</span><span class="tt">摺板屋面與光電屋頂</span></a></li><li data-s="T4" data-q="t4-bd-01 林場驛站、候車輕食與入林步道"><a href="#s=069" data-k="069"><span class="th"><img src="p/069_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-BD-01</span><span class="tt">林場驛站、候車輕食與入林步道</span></a></li><li data-s="T4" data-q="t4-bd-02 林間平台、多功能展示及生態教室"><a href="#s=070" data-k="070"><span class="th"><img src="p/070_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-BD-02</span><span class="tt">林間平台、多功能展示及生態教室</span></a></li><li data-s="T4" data-q="t4-bd-03 林冠展示、觀景平台與林冠步道"><a href="#s=071" data-k="071"><span class="th"><img src="p/071_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-BD-03</span><span class="tt">林冠展示、觀景平台與林冠步道</span></a></li><li data-s="T4" data-q="t4-bd-04 森林側月台、驗票與站務"><a href="#s=072" data-k="072"><span class="th"><img src="p/072_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-BD-04</span><span class="tt">森林側月台、驗票與站務</span></a></li><li data-s="T4" data-q="t4-bd-05 林場站屋頂植栽與設備維護"><a href="#s=073" data-k="073"><span class="th"><img src="p/073_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T4-BD-05</span><span class="tt">林場站屋頂植栽與設備維護</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section><section class="grp" id="g08" aria-labelledby="g08h">
+  <header class="grp-h"><span class="no">08</span><h2 id="g08h">單元規劃構想</h2><p>典型商舖、客房、會展及公共服務單元</p><a class="vol" href="pdf/Hutoupi_Planning_Atlas_08_單元規劃構想.pdf" download>下載本組 PDF<span>9.3 MB</span></a></header>
+  <ul class="sheets"><li data-s="T1" data-q="t1-a-17 商店街格間配置圖（展開示意）"><a href="#s=074" data-k="074"><span class="th"><img src="p/074_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T1-A-17</span><span class="tt">商店街格間配置圖（展開示意）</span></a></li><li data-s="T3" data-q="t3-a-06 客房翼標準層平面與房型圖"><a href="#s=075" data-k="075"><span class="th"><img src="p/075_t.webp" alt="" loading="lazy" decoding="async" width="560" height="396"></span><span class="cd">T3-A-06</span><span class="tt">客房翼標準層平面與房型圖</span></a></li><li data-s="T1" data-q="pl-u11 迎賓旅遊服務與停留單元"><a href="#s=076" data-k="076"><span class="th"><img src="p/076_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U11</span><span class="tt">迎賓旅遊服務與停留單元</span></a></li><li data-s="T1" data-q="pl-u12 南北商街典型店面單元"><a href="#s=077" data-k="077"><span class="th"><img src="p/077_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U12</span><span class="tt">南北商街典型店面單元</span></a></li><li data-s="T1" data-q="pl-u13 文創展店與交流單元"><a href="#s=078" data-k="078"><span class="th"><img src="p/078_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U13</span><span class="tt">文創展店與交流單元</span></a></li><li data-s="T1" data-q="pl-u14 商街輕食與休憩單元"><a href="#s=079" data-k="079"><span class="th"><img src="p/079_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U14</span><span class="tt">商街輕食與休憩單元</span></a></li><li data-s="T1" data-q="pl-u15 光舟月台與乘降服務單元"><a href="#s=080" data-k="080"><span class="th"><img src="p/080_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U15</span><span class="tt">光舟月台與乘降服務單元</span></a></li><li data-s="T2" data-q="pl-u21 公共站廳與旅館接待單元"><a href="#s=081" data-k="081"><span class="th"><img src="p/081_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U21</span><span class="tt">公共站廳與旅館接待單元</span></a></li><li data-s="T2" data-q="pl-u22 湖側餐廳與出餐單元"><a href="#s=082" data-k="082"><span class="th"><img src="p/082_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U22</span><span class="tt">湖側餐廳與出餐單元</span></a></li><li data-s="T2" data-q="pl-u23 310 湖景客房樣板單元"><a href="#s=083" data-k="083"><span class="th"><img src="p/083_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U23</span><span class="tt">310 湖景客房樣板單元</span></a></li><li data-s="T2" data-q="pl-u24 湖濱旅館三種客房單元"><a href="#s=084" data-k="084"><span class="th"><img src="p/084_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U24</span><span class="tt">湖濱旅館三種客房單元</span></a></li><li data-s="T2" data-q="pl-u25 公共翼展覽與受控轉乘單元"><a href="#s=085" data-k="085"><span class="th"><img src="p/085_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U25</span><span class="tt">公共翼展覽與受控轉乘單元</span></a></li><li data-s="T2" data-q="pl-u26 r5 公共轉乘與乘降單元"><a href="#s=086" data-k="086"><span class="th"><img src="p/086_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U26</span><span class="tt">R5 公共轉乘與乘降單元</span></a></li><li data-s="T2" data-q="pl-u27 住客訓練與療程支援單元"><a href="#s=087" data-k="087"><span class="th"><img src="p/087_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U27</span><span class="tt">住客訓練與療程支援單元</span></a></li><li data-s="T3" data-q="pl-u31 宴會前廳、桌席與後場單元"><a href="#s=088" data-k="088"><span class="th"><img src="p/088_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U31</span><span class="tt">宴會前廳、桌席與後場單元</span></a></li><li data-s="T3" data-q="pl-u32 彈性會議與茶歇單元"><a href="#s=089" data-k="089"><span class="th"><img src="p/089_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U32</span><span class="tt">彈性會議與茶歇單元</span></a></li><li data-s="T3" data-q="pl-u33 全日餐廳、新娘房與宴會前廳"><a href="#s=090" data-k="090"><span class="th"><img src="p/090_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U33</span><span class="tt">全日餐廳、新娘房與宴會前廳</span></a></li><li data-s="T3" data-q="pl-u34 旅館大廳、酒廊與婚禮堂"><a href="#s=091" data-k="091"><span class="th"><img src="p/091_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U34</span><span class="tt">旅館大廳、酒廊與婚禮堂</span></a></li><li data-s="T3" data-q="pl-u35 室內 xr 沉浸式樂園單元"><a href="#s=092" data-k="092"><span class="th"><img src="p/092_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U35</span><span class="tt">室內 XR 沉浸式樂園單元</span></a></li><li data-s="T3" data-q="pl-u36 spa 療程與接站支援單元"><a href="#s=093" data-k="093"><span class="th"><img src="p/093_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U36</span><span class="tt">SPA 療程與接站支援單元</span></a></li><li data-s="T3" data-q="pl-u37 健身及伸展單元"><a href="#s=094" data-k="094"><span class="th"><img src="p/094_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U37</span><span class="tt">健身及伸展單元</span></a></li><li data-s="T3" data-q="pl-u38 山城旅館典型客房單元"><a href="#s=095" data-k="095"><span class="th"><img src="p/095_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U38</span><span class="tt">山城旅館典型客房單元</span></a></li><li data-s="T3" data-q="pl-u39 山城轉乘大廳、閘門與坡道"><a href="#s=096" data-k="096"><span class="th"><img src="p/096_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U39</span><span class="tt">山城轉乘大廳、閘門與坡道</span></a></li><li data-s="T4" data-q="pl-u40 雲端餐廳與跨線連通單元"><a href="#s=097" data-k="097"><span class="th"><img src="p/097_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U40</span><span class="tt">雲端餐廳與跨線連通單元</span></a></li><li data-s="T4" data-q="pl-u41 林場驛站、寄物與候車單元"><a href="#s=098" data-k="098"><span class="th"><img src="p/098_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U41</span><span class="tt">林場驛站、寄物與候車單元</span></a></li><li data-s="T4" data-q="pl-u42 生態教室與多功能展示單元"><a href="#s=099" data-k="099"><span class="th"><img src="p/099_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U42</span><span class="tt">生態教室與多功能展示單元</span></a></li><li data-s="T4" data-q="pl-u43 林冠展廳、步道與觀景單元"><a href="#s=100" data-k="100"><span class="th"><img src="p/100_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U43</span><span class="tt">林冠展廳、步道與觀景單元</span></a></li><li data-s="T4" data-q="pl-u44 林場驗票與乘降服務單元"><a href="#s=101" data-k="101"><span class="th"><img src="p/101_t.webp" alt="" loading="lazy" decoding="async" width="560" height="315"></span><span class="cd">PL-U44</span><span class="tt">林場驗票與乘降服務單元</span></a></li></ul>
+  <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
+</section>
+<p class="empty" id="empty" hidden>沒有符合的圖，請換個關鍵字或改選「全部」。</p>
+
+<div class="dl" id="dl">
+  <section>
+    <h2>PDF 分冊下載</h2>
+    <p class="note">完整 PDF 為 68.6 MB，超過網站單檔上限，依八組分冊提供。第 01 冊含封面與索引。</p>
+    <ul><li><a href="pdf/Hutoupi_Planning_Atlas_01_基地環境.pdf" download>01　基地環境</a><span>8 頁，15.8 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_02_建築配置理念與構想.pdf" download>02　建築配置理念與構想</a><span>5 頁，20.9 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_03_空間配置計畫.pdf" download>03　空間配置計畫</a><span>6 頁，3.8 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_04_建築量體規劃.pdf" download>04　建築量體規劃</a><span>12 頁，6.6 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_05_動線系統規劃.pdf" download>05　動線系統規劃</a><span>6 頁，4.6 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_06_景觀規劃.pdf" download>06　景觀規劃</a><span>7 頁，7.4 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_07_建築平面計畫.pdf" download>07　建築平面計畫</a><span>29 頁，8.0 MB</span></li><li><a href="pdf/Hutoupi_Planning_Atlas_08_單元規劃構想.pdf" download>08　單元規劃構想</a><span>28 頁，9.3 MB</span></li></ul>
+  </section>
+  <section>
+    <h2>高解析圖檔</h2>
+    <p class="note">G-20、G-21 為本次新增圖，PDF 尚未收錄；PL-M01、PL-L01 另附 8K 版。</p>
+    <ul><li><a href="pdf/G-20_基地環境_風花圖.png" download>G-20　基地環境－風花圖（A3 300 dpi）</a><span>12.8 MB</span></li><li><a href="pdf/G-21_基地環境_日照路徑圖.png" download>G-21　基地環境－日照路徑圖（A3 300 dpi）</a><span>12.6 MB</span></li><li><a href="pdf/PL-M01_全區動線系統總圖_8K.png" download>PL-M01　全區動線系統總圖（8K）</a><span>2.2 MB</span></li><li><a href="pdf/PL-L01_全區景觀與開放空間總圖_8K.png" download>PL-L01　全區景觀與開放空間總圖（8K）</a><span>2.4 MB</span></li></ul>
+  </section>
+</div>
+</main>
+<footer><div class="wrap"><span>雲天新能源科技股份有限公司　Skytaxi</span><a href="../../">回審查資料區</a></div></footer>
+
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-labelledby="vwt" hidden>
+  <div class="vw-top">
+    <div class="vw-cap" id="vwt"><b id="vc"></b><span id="vn"></span><small id="vg"></small></div>
+    <div class="vw-btns">
+      <button class="ib opt" type="button" id="zo" aria-label="縮小">－</button>
+      <button class="ib" type="button" id="zf">符合畫面</button>
+      <button class="ib opt" type="button" id="zi" aria-label="放大">＋</button>
+      <a class="ib opt" id="dlp" href="#" download>下載本組 PDF</a>
+      <a class="ib opt" id="dlh" href="#" download hidden>下載高解析 PNG</a>
+      <button class="ib x" type="button" id="vx">關閉</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <img id="vi" alt="" draggable="false">
+    <button class="nav prev" type="button" id="vp" aria-label="上一張">‹</button>
+    <button class="nav next" type="button" id="vnx" aria-label="下一張">›</button>
+  </div>
+  <div class="vw-bot"><span id="vpos"></span><span>滾輪或雙指縮放，拖曳移動，雙擊放大；← → 換張，Esc 關閉</span><span class="zl" id="zl"></span></div>
+</div>
+
+<script id="atlas-data" type="application/json">{"sheets":[{"k":"001","c":"封面","t":"整體規劃與配置","g":-1,"s":"全區","w":4096,"h":2304,"p":1,"n":1},{"k":"002","c":"PL-INDEX","t":"八組規劃圖索引","g":-1,"s":"全區","w":4096,"h":2304,"p":2,"n":2},{"k":"003","c":"G-02","t":"公告基地地籍與使用分區","g":0,"s":"全區","w":4096,"h":2897,"p":3,"n":3},{"k":"004","c":"G-06","t":"路線縱斷面與地形","g":0,"s":"全區","w":4096,"h":2897,"p":4,"n":4},{"k":"005","c":"G-07","t":"路線與地質敏感區套繪圖","g":0,"s":"全區","w":4096,"h":2897,"p":5,"n":5},{"k":"006","c":"G-08","t":"虎頭埤水域與跨水域段配置圖","g":0,"s":"全區","w":4096,"h":2897,"p":6,"n":6},{"k":"007","c":"G-09","t":"第 2002 號保安林與本案使用範圍圖","g":0,"s":"全區","w":4096,"h":2897,"p":7,"n":7},{"k":"008","c":"CS-02","t":"全線航照套繪平面圖","g":0,"s":"全區","w":4096,"h":2897,"p":8,"n":8},{"k":"G20","c":"G-20","t":"基地環境－風花圖","g":0,"s":"全區","w":4096,"h":2896,"hi":"pdf/G-20_基地環境_風花圖.png","new":1,"n":9},{"k":"G21","c":"G-21","t":"基地環境－日照路徑圖","g":0,"s":"全區","w":4096,"h":2896,"hi":"pdf/G-21_基地環境_日照路徑圖.png","new":1,"n":10},{"k":"009","c":"PL-G01","t":"四站一線整體配置","g":1,"s":"全區","w":4096,"h":2304,"p":9,"n":11},{"k":"010","c":"T1-CONCEPT","t":"新化之門站設計說明圖板","g":1,"s":"T1","w":4096,"h":2896,"p":10,"n":12},{"k":"011","c":"T2-CONCEPT","t":"湖濱旅館站設計說明圖板","g":1,"s":"T2","w":4096,"h":2896,"p":11,"n":13},{"k":"012","c":"T3-CONCEPT","t":"湖濱山城站設計說明圖板","g":1,"s":"T3","w":4096,"h":2896,"p":12,"n":14},{"k":"013","c":"T4-CONCEPT","t":"新化林場站設計說明圖板","g":1,"s":"T4","w":4096,"h":2896,"p":13,"n":15},{"k":"014","c":"T1-A-01","t":"總配置圖","g":2,"s":"T1","w":2897,"h":4096,"p":14,"n":16},{"k":"015","c":"T2-A-01","t":"總配置圖","g":2,"s":"T2","w":2897,"h":4096,"p":15,"n":17},{"k":"016","c":"T3-A-01","t":"總配置圖（地盤圖）","g":2,"s":"T3","w":2897,"h":4096,"p":16,"n":18},{"k":"017","c":"T4-A-01","t":"總配置圖（地盤圖）","g":2,"s":"T4","w":2897,"h":4096,"p":17,"n":19},{"k":"018","c":"T2-A-03","t":"功能分區與門禁","g":2,"s":"T2","w":2897,"h":4096,"p":18,"n":20},{"k":"019","c":"T3-A-02","t":"功能分區與門禁圖","g":2,"s":"T3","w":2897,"h":4096,"p":19,"n":21},{"k":"020","c":"T1-BIM-01","t":"新化之門站構件與樓層軸測","g":3,"s":"T1","w":4096,"h":2304,"p":20,"n":22},{"k":"021","c":"T1-A-03","t":"光舟縱剖面圖（沿A線弦線）","g":3,"s":"T1","w":4096,"h":2897,"p":21,"n":23},{"k":"022","c":"T1-A-14","t":"西向立面圖（道路側正面）","g":3,"s":"T1","w":4096,"h":2897,"p":22,"n":24},{"k":"023","c":"T2-BIM-01","t":"湖濱旅館站構件與樓層軸測","g":3,"s":"T2","w":4096,"h":2304,"p":23,"n":25},{"k":"024","c":"T2-A-16","t":"橫剖面圖（退台與湖岸）","g":3,"s":"T2","w":4096,"h":2897,"p":24,"n":26},{"k":"025","c":"T2-A-13","t":"南向立面圖（湖側）","g":3,"s":"T2","w":4096,"h":2897,"p":25,"n":27},{"k":"026","c":"T3-BIM-01","t":"湖濱山城站構件與樓層軸測","g":3,"s":"T3","w":4096,"h":2304,"p":26,"n":28},{"k":"027","c":"T3-A-05","t":"橫剖面圖（B–B：前庭－2F大廳－宴會基座－面湖平台）","g":3,"s":"T3","w":4096,"h":2897,"p":27,"n":29},{"k":"028","c":"T3-A-11","t":"南向立面圖（湖側）","g":3,"s":"T3","w":4096,"h":2897,"p":28,"n":30},{"k":"029","c":"T4-BIM-01","t":"新化林場站構件與樓層軸測","g":3,"s":"T4","w":4096,"h":2304,"p":29,"n":31},{"k":"030","c":"T4-A-03","t":"縱剖面圖（沿弦線，A–A）","g":3,"s":"T4","w":4096,"h":2897,"p":30,"n":32},{"k":"031","c":"T4-A-09","t":"東北向立面圖（森林側）","g":3,"s":"T4","w":4096,"h":2897,"p":31,"n":33},{"k":"032","c":"PL-M01","t":"全區動線系統總圖","g":4,"s":"全區","w":4096,"h":2304,"p":32,"hi":"pdf/PL-M01_全區動線系統總圖_8K.png","n":34},{"k":"033","c":"PL-M02","t":"四站到達、乘轉與後勤分流","g":4,"s":"全區","w":4096,"h":2304,"p":33,"n":35},{"k":"034","c":"T1-A-12","t":"旅客動線及無障礙通路圖","g":4,"s":"T1","w":2897,"h":4096,"p":34,"n":36},{"k":"035","c":"T2-A-18","t":"八類使用者動線及無障礙通路圖","g":4,"s":"T2","w":2897,"h":4096,"p":35,"n":37},{"k":"036","c":"T3-A-10","t":"旅客動線及無障礙通路圖","g":4,"s":"T3","w":2897,"h":4096,"p":36,"n":38},{"k":"037","c":"T4-F-01","t":"垂直動線及防火避難圖","g":4,"s":"T4","w":4096,"h":2897,"p":37,"n":39},{"k":"038","c":"PL-L01","t":"全區景觀與開放空間總圖","g":5,"s":"全區","w":4096,"h":2304,"p":38,"hi":"pdf/PL-L01_全區景觀與開放空間總圖_8K.png","n":40},{"k":"039","c":"PL-L02","t":"四站景觀空間與場地界面","g":5,"s":"全區","w":4096,"h":2304,"p":39,"n":41},{"k":"040","c":"G-14","t":"樹木保育與植生管理範圍圖","g":5,"s":"全區","w":4096,"h":2897,"p":40,"n":42},{"k":"041","c":"T1-L-01","t":"虎埤水鏡與迎賓廣場放大平面圖","g":5,"s":"T1","w":4096,"h":2897,"p":41,"n":43},{"k":"042","c":"T2-L-01","t":"景觀與公共藝術點位圖","g":5,"s":"T2","w":2897,"h":4096,"p":42,"n":44},{"k":"043","c":"T3-L-01","t":"景觀、泳池平台與公共藝術配置圖","g":5,"s":"T3","w":2897,"h":4096,"p":43,"n":45},{"k":"044","c":"T4-L-01","t":"外部空間、停車與救災活動空間圖","g":5,"s":"T4","w":2897,"h":4096,"p":44,"n":46},{"k":"045","c":"BD-INDEX","t":"四站全層彩平圖號索引","g":6,"s":"全區","w":4096,"h":2897,"p":45,"n":47},{"k":"046","c":"T1-BD-01","t":"迎賓廣場與地面商店街","g":6,"s":"T1","w":4096,"h":2897,"p":46,"n":48},{"k":"047","c":"T1-BD-02","t":"連接台階、文創展店與交流","g":6,"s":"T1","w":4096,"h":2897,"p":47,"n":49},{"k":"048","c":"T1-BD-03","t":"主題展店、體驗空間與行控中心","g":6,"s":"T1","w":4096,"h":2897,"p":48,"n":50},{"k":"049","c":"T1-BD-04","t":"上層休憩、輕食與文創商店","g":6,"s":"T1","w":4096,"h":2897,"p":49,"n":51},{"k":"050","c":"T1-BD-05","t":"出站層總平面","g":6,"s":"T1","w":4096,"h":2897,"p":50,"n":52},{"k":"051","c":"T1-BD-06","t":"光舟天空步道與階梯綠屋頂","g":6,"s":"T1","w":4096,"h":2897,"p":51,"n":53},{"k":"052","c":"T2-BD-01","t":"地下停車、垂直動線與機房","g":6,"s":"T2","w":4096,"h":2897,"p":52,"n":54},{"k":"053","c":"T2-BD-02","t":"公共站廳與旅館大廳","g":6,"s":"T2","w":4096,"h":2897,"p":53,"n":55},{"k":"054","c":"T2-BD-03","t":"湖側餐廳、彈性餐席與客房","g":6,"s":"T2","w":4096,"h":2897,"p":54,"n":56},{"k":"055","c":"T2-BD-04","t":"公共翼、受控站旅口及客房","g":6,"s":"T2","w":4096,"h":2897,"p":55,"n":57},{"k":"056","c":"T2-BD-05","t":"公共翼活動與退台客房","g":6,"s":"T2","w":4096,"h":2897,"p":56,"n":58},{"k":"057","c":"T2-BD-06","t":"客房與公共轉乘層","g":6,"s":"T2","w":4096,"h":2897,"p":57,"n":59},{"k":"058","c":"T2-BD-07","t":"兩側月台與售驗票界面","g":6,"s":"T2","w":4096,"h":2897,"p":58,"n":60},{"k":"059","c":"T2-BD-08","t":"摺板屋面、綠屋頂及分層露台","g":6,"s":"T2","w":4096,"h":2897,"p":59,"n":61},{"k":"060","c":"T3-BD-01","t":"前庭下方停車層","g":6,"s":"T3","w":4096,"h":2897,"p":60,"n":62},{"k":"061","c":"T3-BD-02","t":"湖景宴會廳、前廳與後場","g":6,"s":"T3","w":4096,"h":2897,"p":61,"n":63},{"k":"062","c":"T3-BD-03","t":"會議前廳、彈性會議及茶歇","g":6,"s":"T3","w":4096,"h":2897,"p":62,"n":64},{"k":"063","c":"T3-BD-04","t":"全日餐廳、宴會前廳與新娘房","g":6,"s":"T3","w":4096,"h":2897,"p":63,"n":65},{"k":"064","c":"T3-BD-05","t":"迎賓大廳、餐飲及婚禮堂","g":6,"s":"T3","w":4096,"h":2897,"p":64,"n":66},{"k":"065","c":"T3-BD-06","t":"XR 沉浸式樂園與休息區","g":6,"s":"T3","w":4096,"h":2897,"p":65,"n":67},{"k":"066","c":"T3-BD-07","t":"轉乘大廳與兩側月台","g":6,"s":"T3","w":4096,"h":2897,"p":66,"n":68},{"k":"067","c":"T3-BD-08","t":"雲端餐廳與跨線連通","g":6,"s":"T3","w":4096,"h":2897,"p":67,"n":69},{"k":"068","c":"T3-BD-09","t":"摺板屋面與光電屋頂","g":6,"s":"T3","w":4096,"h":2897,"p":68,"n":70},{"k":"069","c":"T4-BD-01","t":"林場驛站、候車輕食與入林步道","g":6,"s":"T4","w":4096,"h":2897,"p":69,"n":71},{"k":"070","c":"T4-BD-02","t":"林間平台、多功能展示及生態教室","g":6,"s":"T4","w":4096,"h":2897,"p":70,"n":72},{"k":"071","c":"T4-BD-03","t":"林冠展示、觀景平台與林冠步道","g":6,"s":"T4","w":4096,"h":2897,"p":71,"n":73},{"k":"072","c":"T4-BD-04","t":"森林側月台、驗票與站務","g":6,"s":"T4","w":4096,"h":2897,"p":72,"n":74},{"k":"073","c":"T4-BD-05","t":"林場站屋頂植栽與設備維護","g":6,"s":"T4","w":4096,"h":2897,"p":73,"n":75},{"k":"074","c":"T1-A-17","t":"商店街格間配置圖（展開示意）","g":7,"s":"T1","w":4096,"h":2897,"p":74,"n":76},{"k":"075","c":"T3-A-06","t":"客房翼標準層平面與房型圖","g":7,"s":"T3","w":4096,"h":2897,"p":75,"n":77},{"k":"076","c":"PL-U11","t":"迎賓旅遊服務與停留單元","g":7,"s":"T1","w":4096,"h":2304,"p":76,"n":78},{"k":"077","c":"PL-U12","t":"南北商街典型店面單元","g":7,"s":"T1","w":4096,"h":2304,"p":77,"n":79},{"k":"078","c":"PL-U13","t":"文創展店與交流單元","g":7,"s":"T1","w":4096,"h":2304,"p":78,"n":80},{"k":"079","c":"PL-U14","t":"商街輕食與休憩單元","g":7,"s":"T1","w":4096,"h":2304,"p":79,"n":81},{"k":"080","c":"PL-U15","t":"光舟月台與乘降服務單元","g":7,"s":"T1","w":4096,"h":2304,"p":80,"n":82},{"k":"081","c":"PL-U21","t":"公共站廳與旅館接待單元","g":7,"s":"T2","w":4096,"h":2304,"p":81,"n":83},{"k":"082","c":"PL-U22","t":"湖側餐廳與出餐單元","g":7,"s":"T2","w":4096,"h":2304,"p":82,"n":84},{"k":"083","c":"PL-U23","t":"310 湖景客房樣板單元","g":7,"s":"T2","w":4096,"h":2304,"p":83,"n":85},{"k":"084","c":"PL-U24","t":"湖濱旅館三種客房單元","g":7,"s":"T2","w":4096,"h":2304,"p":84,"n":86},{"k":"085","c":"PL-U25","t":"公共翼展覽與受控轉乘單元","g":7,"s":"T2","w":4096,"h":2304,"p":85,"n":87},{"k":"086","c":"PL-U26","t":"R5 公共轉乘與乘降單元","g":7,"s":"T2","w":4096,"h":2304,"p":86,"n":88},{"k":"087","c":"PL-U27","t":"住客訓練與療程支援單元","g":7,"s":"T2","w":4096,"h":2304,"p":87,"n":89},{"k":"088","c":"PL-U31","t":"宴會前廳、桌席與後場單元","g":7,"s":"T3","w":4096,"h":2304,"p":88,"n":90},{"k":"089","c":"PL-U32","t":"彈性會議與茶歇單元","g":7,"s":"T3","w":4096,"h":2304,"p":89,"n":91},{"k":"090","c":"PL-U33","t":"全日餐廳、新娘房與宴會前廳","g":7,"s":"T3","w":4096,"h":2304,"p":90,"n":92},{"k":"091","c":"PL-U34","t":"旅館大廳、酒廊與婚禮堂","g":7,"s":"T3","w":4096,"h":2304,"p":91,"n":93},{"k":"092","c":"PL-U35","t":"室內 XR 沉浸式樂園單元","g":7,"s":"T3","w":4096,"h":2304,"p":92,"n":94},{"k":"093","c":"PL-U36","t":"SPA 療程與接站支援單元","g":7,"s":"T3","w":4096,"h":2304,"p":93,"n":95},{"k":"094","c":"PL-U37","t":"健身及伸展單元","g":7,"s":"T3","w":4096,"h":2304,"p":94,"n":96},{"k":"095","c":"PL-U38","t":"山城旅館典型客房單元","g":7,"s":"T3","w":4096,"h":2304,"p":95,"n":97},{"k":"096","c":"PL-U39","t":"山城轉乘大廳、閘門與坡道","g":7,"s":"T3","w":4096,"h":2304,"p":96,"n":98},{"k":"097","c":"PL-U40","t":"雲端餐廳與跨線連通單元","g":7,"s":"T4","w":4096,"h":2304,"p":97,"n":99},{"k":"098","c":"PL-U41","t":"林場驛站、寄物與候車單元","g":7,"s":"T4","w":4096,"h":2304,"p":98,"n":100},{"k":"099","c":"PL-U42","t":"生態教室與多功能展示單元","g":7,"s":"T4","w":4096,"h":2304,"p":99,"n":101},{"k":"100","c":"PL-U43","t":"林冠展廳、步道與觀景單元","g":7,"s":"T4","w":4096,"h":2304,"p":100,"n":102},{"k":"101","c":"PL-U44","t":"林場驗票與乘降服務單元","g":7,"s":"T4","w":4096,"h":2304,"p":101,"n":103}],"groups":[{"no":"01","name":"基地環境","pdf":"pdf/Hutoupi_Planning_Atlas_01_基地環境.pdf","mb":15.8},{"no":"02","name":"建築配置理念與構想","pdf":"pdf/Hutoupi_Planning_Atlas_02_建築配置理念與構想.pdf","mb":20.9},{"no":"03","name":"空間配置計畫","pdf":"pdf/Hutoupi_Planning_Atlas_03_空間配置計畫.pdf","mb":3.8},{"no":"04","name":"建築量體規劃","pdf":"pdf/Hutoupi_Planning_Atlas_04_建築量體規劃.pdf","mb":6.6},{"no":"05","name":"動線系統規劃","pdf":"pdf/Hutoupi_Planning_Atlas_05_動線系統規劃.pdf","mb":4.6},{"no":"06","name":"景觀規劃","pdf":"pdf/Hutoupi_Planning_Atlas_06_景觀規劃.pdf","mb":7.4},{"no":"07","name":"建築平面計畫","pdf":"pdf/Hutoupi_Planning_Atlas_07_建築平面計畫.pdf","mb":8.0},{"no":"08","name":"單元規劃構想","pdf":"pdf/Hutoupi_Planning_Atlas_08_單元規劃構想.pdf","mb":9.3}]}</script>
+<script>
+(function(){
+var D=JSON.parse(document.getElementById('atlas-data').textContent),S=D.sheets,G=D.groups,byK={};
+S.forEach(function(s,i){s.i=i;byK[s.k]=s;});
+var $=function(id){return document.getElementById(id);};
+
+/* ---------- filter + search ---------- */
+var filt='',q='';
+function apply(){
+  var n=0;
+  document.querySelectorAll('.grp').forEach(function(g){
+    var m=0;
+    g.querySelectorAll('li').forEach(function(li){
+      var ok=(!filt||li.dataset.s===filt)&&(!q||li.dataset.q.indexOf(q)>-1);
+      li.hidden=!ok; if(ok)m++;
+    });
+    g.hidden=!m&&!!(filt||q); g.querySelector('.none').hidden=true; n+=m;
+  });
+  $('count').textContent=(filt||q)?('符合 '+n+' 張，共 '+S.length+' 張'):(S.length+' 張');
+  $('empty').hidden=n>0;
+}
+document.querySelectorAll('.chips button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.chips button').forEach(function(x){x.setAttribute('aria-pressed','false');});
+    b.setAttribute('aria-pressed','true'); filt=b.dataset.f; apply();
+  });
+});
+$('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();apply();});
+$('jump').addEventListener('change',function(e){if(e.target.value){var el=$(e.target.value);if(el){el.hidden=false;el.scrollIntoView();}e.target.value='';}});
+
+/* ---------- viewer ---------- */
+var vw=$('vw'),st=$('stage'),im=$('vi'),cur=null,sc=1,fit=1,tx=0,ty=0,lastFocus=null;
+function visibleList(){
+  if(!filt&&!q) return S;
+  return S.filter(function(s){var t=(s.c+' '+s.t).toLowerCase();return (!filt||s.s===filt)&&(!q||t.indexOf(q)>-1);});
+}
+function clamp(){
+  var W=st.clientWidth,H=st.clientHeight,iw=cur.w*sc,ih=cur.h*sc;
+  tx=iw<=W?(W-iw)/2:Math.min(0,Math.max(W-iw,tx));
+  ty=ih<=H?(H-ih)/2:Math.min(0,Math.max(H-ih,ty));
+}
+function draw(anim){
+  clamp(); im.classList.toggle('anim',!!anim);
+  im.style.width=cur.w+'px'; im.style.height=cur.h+'px';
+  im.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')';
+  $('zl').textContent=Math.round(sc/fit*100)+'%';
+}
+function fitView(anim){
+  var W=st.clientWidth-24,H=st.clientHeight-24;
+  fit=Math.min(W/cur.w,H/cur.h); sc=fit; tx=0; ty=0; draw(anim);
+}
+function zoomAt(f,cx,cy,anim){
+  var ns=Math.max(fit*0.5,Math.min(Math.max(1.5,fit*4),sc*f));
+  var r=st.getBoundingClientRect(),x=cx-r.left,y=cy-r.top;
+  tx=x-(x-tx)*ns/sc; ty=y-(y-ty)*ns/sc; sc=ns; draw(anim);
+}
+function open(k,push){
+  var s=byK[k]; if(!s)return;
+  if(vw.hidden){lastFocus=document.activeElement;vw.hidden=false;document.body.style.overflow='hidden';}
+  cur=s;
+  im.src='p/'+s.k+'_t.webp';
+  var big=new Image(); big.onload=function(){if(cur===s)im.src=big.src;}; big.src='p/'+s.k+'.webp';
+  $('vc').textContent=s.c; $('vn').textContent=s.t;
+  var g=G[s.g]; $('vg').textContent=g?(g.no+'　'+g.name):'封面與索引';
+  $('dlp').href=g?g.pdf:G[0].pdf;
+  $('dlh').hidden=!s.hi; if(s.hi)$('dlh').href=s.hi;
+  var L=visibleList(),i=L.indexOf(s);
+  $('vp').disabled=i<=0; $('vnx').disabled=i<0||i>=L.length-1;
+  $('vpos').textContent='第 '+(s.i+1)+' 張，共 '+S.length+' 張'+(s.p?'（PDF 第 '+s.p+' 頁）':'（PDF 未收錄，另附 PNG）');
+  requestAnimationFrame(function(){fitView(false);});
+  var h='#s='+s.k; if(location.hash!==h){ if(push)history.pushState(null,'',h); else history.replaceState(null,'',h); }
+  $('vx').focus({preventScroll:true});
+}
+function step(d){var L=visibleList(),i=L.indexOf(cur);if(i<0)i=0;var n=L[i+d];if(n)open(n.k,false);}
+function close(){
+  vw.hidden=true; document.body.style.overflow=''; im.removeAttribute('src');
+  if(location.hash.indexOf('#s=')===0)history.replaceState(null,'',location.pathname+location.search);
+  if(lastFocus)lastFocus.focus({preventScroll:true});
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[data-k]'); if(!a)return; e.preventDefault(); open(a.dataset.k,true);
+});
+$('vx').onclick=close; $('vp').onclick=function(){step(-1);}; $('vnx').onclick=function(){step(1);};
+$('zf').onclick=function(){fitView(true);};
+$('zi').onclick=function(){var r=st.getBoundingClientRect();zoomAt(1.5,r.left+r.width/2,r.top+r.height/2,true);};
+$('zo').onclick=function(){var r=st.getBoundingClientRect();zoomAt(1/1.5,r.left+r.width/2,r.top+r.height/2,true);};
+document.addEventListener('keydown',function(e){
+  if(vw.hidden)return;
+  if(e.key==='Escape')close(); else if(e.key==='ArrowRight')step(1); else if(e.key==='ArrowLeft')step(-1);
+  else if(e.key==='+'||e.key==='=')$('zi').click(); else if(e.key==='-')$('zo').click(); else if(e.key==='0')fitView(true);
+  else if(e.key==='Tab'){var f=[].slice.call(vw.querySelectorAll('button:not([disabled]),a[href]:not([hidden])'));var a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}
+});
+st.addEventListener('wheel',function(e){e.preventDefault();zoomAt(Math.exp(-e.deltaY*0.0018),e.clientX,e.clientY,false);},{passive:false});
+st.addEventListener('dblclick',function(e){if(e.target.closest('.nav'))return; if(sc>fit*1.05)fitView(true); else zoomAt(3,e.clientX,e.clientY,true);});
+var P={},pd=null;
+st.addEventListener('pointerdown',function(e){if(e.target.closest('.nav'))return;st.setPointerCapture(e.pointerId);P[e.pointerId]={x:e.clientX,y:e.clientY};
+  var ks=Object.keys(P); if(ks.length===2){var a=P[ks[0]],b=P[ks[1]];pd=Math.hypot(a.x-b.x,a.y-b.y);} st.classList.add('drag');});
+st.addEventListener('pointermove',function(e){var p=P[e.pointerId];if(!p)return;var ks=Object.keys(P);
+  if(ks.length===2){p.x=e.clientX;p.y=e.clientY;var a=P[ks[0]],b=P[ks[1]],d=Math.hypot(a.x-b.x,a.y-b.y);if(pd){zoomAt(d/pd,(a.x+b.x)/2,(a.y+b.y)/2,false);}pd=d;return;}
+  tx+=e.clientX-p.x;ty+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;draw(false);});
+function up(e){delete P[e.pointerId];if(Object.keys(P).length<2)pd=null;if(!Object.keys(P).length)st.classList.remove('drag');}
+st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
+window.addEventListener('resize',function(){if(!vw.hidden)fitView(false);});
+function fromHash(){var m=location.hash.match(/^#s=([\w]+)/);if(m&&byK[m[1]])open(m[1],false);else if(!vw.hidden)close();}
+window.addEventListener('popstate',fromHash); fromHash();
+})();
+</script>
+</body>
+</html>
