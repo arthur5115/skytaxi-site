@@ -188,13 +188,17 @@ a{{color:inherit}}
 
 /* start here */
 .start{{background:var(--paper);border-bottom:1px solid var(--rule)}}
-.start a{{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:center;text-decoration:none;padding:26px 0}}
+.start > .wrap > a{{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:center;text-decoration:none;padding:26px 0}}
 .start .k{{font-size:14px;color:var(--lake);font-weight:700}}
 .start .t{{font-family:var(--serif);font-weight:900;font-size:26px;line-height:1.35;display:block;margin:2px 0 6px}}
 .start .d{{color:var(--muted);font-size:15px;max-width:40em;display:block}}
 .start img{{width:100%;height:auto;display:block;border-radius:4px;border:1px solid var(--rule)}}
 .start a:hover .t{{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;text-decoration-color:var(--cabin)}}
 
+.quick{{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 0 24px}}
+.quick a{{display:flex;flex-direction:column;gap:2px;text-decoration:none;padding:14px 18px;border:1px solid var(--rule);border-left:4px solid var(--lake);border-radius:4px;background:var(--mist)}}
+.quick b{{font-size:16.5px}} .quick span{{font-size:14px;color:var(--muted)}}
+.quick a:hover{{border-left-color:var(--cabin)}} .quick a:hover b{{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--cabin)}}
 /* line nav */
 .line{{position:sticky;top:0;z-index:10;background:rgba(238,242,239,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}}
 .line ol{{list-style:none;margin:0 auto;padding:0 28px;max-width:1200px;display:flex;overflow-x:auto;position:relative}}
@@ -268,14 +272,14 @@ footer a{{color:#e2ece7}}
   .tiles{{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .lead .hit{{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);column-gap:24px}}
   .lower{{grid-template-columns:1fr}}
-  .start a{{grid-template-columns:1fr 200px}}
+  .start > .wrap > a{{grid-template-columns:1fr 200px}}
 }}
 @media (max-width:600px){{
   .wrap{{padding:0 18px}}
   .tiles{{grid-template-columns:1fr;gap:30px}}
   .lead .hit{{display:flex}} .lead .fmt,.lead .dsc{{align-self:auto}} .lead .fmt{{margin-top:12px}} .lead .more{{margin-left:0}}
   .cat-h{{grid-template-columns:1fr auto}} .cat-h p{{grid-column:1/-1;grid-row:2}}
-  .start a{{grid-template-columns:1fr}} .start img{{display:none}}
+  .start > .wrap > a{{grid-template-columns:1fr}} .start img{{display:none}} .quick{{grid-template-columns:1fr}}
   .profile .st .nm,.profile .tw text{{display:none}}
   .profile .st .code{{font-size:26px}}
   .bar .tag{{display:none}}
@@ -308,6 +312,10 @@ footer a{{color:#e2ece7}}
       <span><span class="k">從這裡開始</span><span class="t">虎頭埤纜車 BOT 案　最終資料總覽</span><span class="d">投資計畫書、工程圖說與圖冊、動態模擬、簡報與融資文件的總索引，附全案現行控制值。</span></span>
       <img src="thumbs/overview.jpg" alt="" width="720" height="450" loading="lazy">
     </a>
+    <div class="quick">
+      <a href="#arch-h"><b>歷史版本與原始頁</b><span>{n_archive} 項舊版與方案比選，供追溯</span></a>
+      <a href="#dl-h"><b>原始檔下載</b><span>IFC4、KML、PDF 圖冊、8K 圖、STEP</span></a>
+    </div>
   </div>
 </div>
 
@@ -320,7 +328,7 @@ footer a{{color:#e2ece7}}
   <section aria-labelledby="arch-h">
     <h2 id="arch-h">歷史版本與原始頁</h2>
     <p class="note">已被現行版取代或屬方案比選的頁面，保留供追溯，內容不再更新。</p>
-    <details><summary>{n_archive} 項，依取代關係分組</summary>{''.join(arch)}</details>
+    <details open><summary>{n_archive} 項，依取代關係分組</summary>{''.join(arch)}</details>
   </section>
   <section aria-labelledby="dl-h">
     <h2 id="dl-h">原始檔下載</h2>
