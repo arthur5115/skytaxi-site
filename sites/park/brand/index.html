@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero.webp">
-<style>
-:root{--bg:#121614;--bg2:#181e1b;--fg:#e8ebe6;--mut:#a3aba5;--dim:#7d8680;--line:rgba(232,235,230,.18);--amber:#d9a441;
+<style>:root{--bg:#121614;--bg2:#181e1b;--bg3:#1e2522;--fg:#e8ebe6;--mut:#a3aba5;--dim:#7d8680;--line:rgba(232,235,230,.18);--amber:#d9a441;
 --serif:"Noto Serif TC","Songti TC","PMingLiU",serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -21,10 +20,12 @@ a{color:inherit}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--amber);outline-offset:4px}
 .tcy{text-combine-upright:all}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
+.narrow{max-width:820px;margin:0 auto}
 
-/* top bar */
+/* top bar, menu, side tab */
 .top{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;transition:background .4s}
-.top.solid{background:rgba(18,22,20,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.top.solid{background:rgba(18,22,20,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .brand{text-decoration:none;font-weight:500;font-size:17px;letter-spacing:.14em}
 .brand small{display:block;font-size:11px;letter-spacing:.3em;color:var(--mut);font-weight:300;line-height:1.4}
 .top-r{display:flex;align-items:center;gap:22px}
@@ -33,26 +34,27 @@ img{display:block;max-width:100%;height:auto}
 .switch span{background:var(--fg);color:var(--bg);font-weight:500}
 .switch a:hover{background:rgba(232,235,230,.1)}
 .burger{width:40px;height:40px;border:0;background:none;cursor:pointer;position:relative;padding:0}
-.burger i{position:absolute;left:6px;right:6px;height:1px;background:var(--fg);transition:transform .3s,top .3s}
+.burger i{position:absolute;left:6px;right:6px;height:1px;background:var(--fg);transition:transform .3s,top .3s,opacity .3s}
 .burger i:nth-child(1){top:14px}.burger i:nth-child(2){top:20px}.burger i:nth-child(3){top:26px}
 .menu-open .burger i:nth-child(1){top:20px;transform:rotate(45deg)}.menu-open .burger i:nth-child(2){opacity:0}.menu-open .burger i:nth-child(3){top:20px;transform:rotate(-45deg)}
-.menu{position:fixed;inset:0;z-index:25;background:rgba(14,17,15,.97);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.menu{position:fixed;inset:0;z-index:25;background:rgba(14,17,15,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;overflow:auto;padding:90px 20px 40px}
 .menu-open .menu{opacity:1;visibility:visible}
-.menu ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:row-reverse;gap:clamp(22px,4vw,56px);writing-mode:horizontal-tb}
-.menu li a{writing-mode:vertical-rl;text-decoration:none;font-size:clamp(18px,2vw,24px);letter-spacing:.32em;font-weight:400;display:block;padding:10px 0;border-top:1px solid var(--line)}
+.menu ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:row-reverse;flex-wrap:wrap;justify-content:center;gap:clamp(18px,3vw,44px)}
+.menu li a{writing-mode:vertical-rl;text-decoration:none;font-size:clamp(17px,1.8vw,22px);letter-spacing:.32em;font-weight:400;display:block;padding:10px 0;border-top:1px solid var(--line)}
 .menu li a:hover{color:var(--amber)}
 .menu li small{display:block;writing-mode:horizontal-tb;font-size:11px;color:var(--dim);letter-spacing:.1em;margin-bottom:8px}
-
-/* side CTA */
-.side{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:20;writing-mode:vertical-rl;text-decoration:none;font-size:14px;letter-spacing:.4em;padding:18px 14px;background:rgba(18,22,20,.55);border-left:1px solid var(--line)}
+.menu .addr{font-size:13px;color:var(--mut);text-align:center;letter-spacing:.12em;line-height:1.9;margin:0}
+.side{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:20;writing-mode:vertical-rl;text-decoration:none;font-size:14px;letter-spacing:.4em;padding:18px 14px;background:rgba(18,22,20,.6);border-left:1px solid var(--line)}
 .side::before,.side::after{content:"";display:block;width:1px;height:22px;background:var(--fg);margin:0 auto 10px}
 .side::after{margin:10px auto 0}
 .side:hover{color:var(--amber)}
 
 /* hero */
 .hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;display:grid;place-items:center;text-align:center}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,20,.35) 0%,rgba(18,22,20,.15) 40%,rgba(18,22,20,.55) 78%,var(--bg) 100%)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:kb 18s ease-out forwards}
+@keyframes kb{to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.hero img{animation:none;transform:none}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,20,.35) 0%,rgba(18,22,20,.12) 40%,rgba(18,22,20,.55) 78%,var(--bg) 100%)}
 .hero-t{position:relative;z-index:1;padding:0 24px;text-shadow:0 2px 24px rgba(0,0,0,.35)}
 .hero-t .k{font-size:14px;letter-spacing:.5em;margin:0 0 18px;color:#f1f3ef}
 .hero-t h1{font-weight:500;font-size:clamp(34px,5.6vw,76px);line-height:1.35;letter-spacing:.16em;margin:0}
@@ -60,78 +62,168 @@ img{display:block;max-width:100%;height:auto}
 .scroll{position:absolute;z-index:1;left:50%;bottom:26px;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;writing-mode:vertical-rl;color:#dfe3de;text-decoration:none}
 .scroll::after{content:"";display:block;width:1px;height:70px;background:linear-gradient(var(--fg),transparent);margin:10px auto 0}
 
-/* sections */
-.sec{padding:clamp(110px,14vw,190px) 0 0}
-.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
-.vt{writing-mode:vertical-rl}
-.ttl{font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:.3em;line-height:1.6;margin:0}
-.ttl small{display:block;font-size:12px;letter-spacing:.32em;color:var(--amber);font-weight:400;margin-left:10px}
-.lede{font-size:17px;line-height:2.3;color:#d5dad4}
-.lede.vt{max-height:27em;letter-spacing:.18em}
-.mut{color:var(--mut)}
-.rule{border:0;border-top:1px solid var(--line);margin:0}
+/* section scaffolding */
+.sec{padding:clamp(120px,15vw,210px) 0 0}
+.sec.alt{background:var(--bg2);padding-bottom:clamp(110px,14vw,190px);margin-top:clamp(120px,15vw,210px)}
+.eyebrow{display:block;font-size:13px;letter-spacing:.42em;color:var(--amber);margin:0 0 12px}
+.h2{font-weight:500;font-size:clamp(26px,3vw,40px);letter-spacing:.22em;line-height:1.55;margin:0}
+.lead{font-size:clamp(16px,1.4vw,19px);letter-spacing:.2em;color:#d5dad4;margin:18px 0 0;line-height:2.1}
+.head{margin-bottom:clamp(48px,6vw,80px)}
+.head.c{text-align:center}
+.prose p{font-size:16px;line-height:2.4;color:#d0d6cf;margin:0 0 1.4em;letter-spacing:.12em}
+.prose p:last-child{margin-bottom:0}
+.note{font-size:12.5px;color:var(--dim);letter-spacing:.1em;line-height:1.9}
+.credit{font-size:11px;color:var(--dim);letter-spacing:.06em;margin:8px 0 0;line-height:1.6}
 
-.intro{display:flex;flex-direction:row-reverse;justify-content:center;gap:clamp(36px,6vw,96px);align-items:flex-start}
-.intro .lede{margin:0}
+/* subhead with hairline */
+.subh{display:flex;align-items:center;gap:26px;font-weight:400;font-size:clamp(20px,2.2vw,28px);letter-spacing:.16em;color:#d9ddd8;margin:clamp(90px,11vw,150px) 0 46px;line-height:1.6}
+.subh::before{content:"";flex:1;max-width:220px;border-top:1px solid var(--line)}
+.subh.r{flex-direction:row-reverse;text-align:right}
+.subh small{display:block;font-size:12px;letter-spacing:.3em;color:var(--amber)}
 
-.feat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(32px,6vw,96px);align-items:center;margin-top:clamp(80px,10vw,150px)}
-.feat.rev{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+/* about row */
+.about-row{display:grid;grid-template-columns:1.1fr .9fr 1fr;gap:clamp(14px,2vw,28px);align-items:end;margin:clamp(50px,6vw,80px) 0}
+.about-row figure:nth-child(2){margin-bottom:60px}
+.about-row img{width:100%;object-fit:cover}
+.about-row figure:nth-child(1) img{aspect-ratio:4/5}
+.about-row figure:nth-child(2) img{aspect-ratio:1/1}
+.about-row figure:nth-child(3) img{aspect-ratio:3/4}
+figure{margin:0}
+figcaption{font-size:12px;color:var(--dim);letter-spacing:.12em;margin-top:8px}
+
+/* vertical poem beside image */
+.poem{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(32px,6vw,90px);align-items:center}
+.poem.rev{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+.poem.rev .ph{order:2}
+.poem .ph img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.poem .vtx{display:flex;flex-direction:row-reverse;gap:clamp(26px,3vw,46px);justify-content:center;max-height:560px}
+.poem .vtx h3{writing-mode:vertical-rl;font-weight:500;font-size:clamp(22px,2.2vw,28px);letter-spacing:.32em;margin:0;line-height:1.5}
+.poem .vtx p{writing-mode:vertical-rl;margin:0;font-size:15.5px;line-height:2.3;letter-spacing:.24em;color:#cdd3cd;max-height:520px}
+
+/* media + text */
+.feat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,90px);align-items:center;margin-top:clamp(80px,10vw,140px)}
+.feat.rev{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
 .feat.rev .ph{order:2}
-.feat .ph{position:relative}
 .feat .ph img{width:100%;aspect-ratio:3/2;object-fit:cover}
-.feat .ph .cap{position:absolute;left:0;bottom:-30px;font-size:12px;color:var(--dim);letter-spacing:.12em}
-.feat .tx{display:flex;flex-direction:row-reverse;gap:30px;align-items:flex-start}
-.feat .tx .body{flex:1;min-width:0}
 .feat .no{font-size:13px;letter-spacing:.3em;color:var(--amber);margin:0 0 4px}
-.feat h3{font-weight:500;font-size:22px;letter-spacing:.24em;margin:0 0 14px;line-height:1.6}
+.feat h3{font-weight:500;font-size:22px;letter-spacing:.22em;margin:0 0 14px;line-height:1.6}
 .feat p{margin:0 0 12px;font-size:15.5px;color:#cdd3cd}
 .more{display:inline-flex;align-items:center;gap:14px;margin-top:10px;font-size:14px;letter-spacing:.2em;text-decoration:none;color:var(--fg)}
 .more::after{content:"";width:46px;height:1px;background:currentColor;transition:width .3s}
 .more:hover{color:var(--amber)} .more:hover::after{width:70px}
 
-.band{position:relative;margin-top:clamp(110px,14vw,190px);height:min(78vh,760px);overflow:hidden}
-.band img{width:100%;height:100%;object-fit:cover}
-.band .bt{position:absolute;right:clamp(22px,8vw,120px);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:clamp(22px,2.6vw,34px);letter-spacing:.4em;font-weight:500;text-shadow:0 2px 20px rgba(0,0,0,.5)}
-.band .bt small{display:block;font-size:14px;letter-spacing:.3em;font-weight:300;margin-left:16px;color:#e6eae5}
-.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(18,22,20,.45))}
-.band .bt{z-index:1}
+/* key figures */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:64px}
+.facts div{padding:26px 20px;border-left:1px solid var(--line)}
+.facts div:first-child{border-left:0}
+.facts b{display:block;font-weight:500;font-size:clamp(20px,2vw,26px);letter-spacing:.08em;line-height:1.5}
+.facts span{font-size:13px;color:var(--mut);letter-spacing:.14em}
 
-.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,3vw,44px);margin-top:70px}
+/* galleries */
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px clamp(10px,1.4vw,18px)}
+.gal.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gal figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.gal figure.w2{grid-column:span 2;grid-row:span 2}
+.gal figure.w2 img{aspect-ratio:auto;height:calc(100% - 40px)}
+.gal figcaption{font-size:13px;color:#c7cdc6;letter-spacing:.14em}
+.gal figcaption small{display:block;color:var(--dim);font-size:11.5px;letter-spacing:.06em;line-height:1.7}
+
+/* band */
+.band{position:relative;margin-top:clamp(120px,15vw,210px);height:min(80vh,780px);overflow:hidden}
+.band img{width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(18,22,20,.5))}
+.band .bt{position:absolute;z-index:1;right:clamp(22px,8vw,120px);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:clamp(22px,2.6vw,34px);letter-spacing:.4em;font-weight:500;text-shadow:0 2px 20px rgba(0,0,0,.5);margin:0}
+.band .bt small{display:block;font-size:14px;letter-spacing:.3em;font-weight:300;margin-left:16px;color:#e6eae5}
+
+/* station deep block */
+.st{margin-top:clamp(110px,13vw,180px)}
+.st-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:start}
+.st-code{writing-mode:vertical-rl;font-weight:500;font-size:clamp(26px,3vw,40px);letter-spacing:.3em;line-height:1.3;margin:0}
+.st-code small{display:block;font-size:14px;color:var(--amber);letter-spacing:.3em;margin-left:12px}
+.st-main img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.st-lead{font-size:17px;line-height:2.3;color:#d5dad4;letter-spacing:.14em;margin:30px 0 0;max-width:40em}
+.st-body{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);margin-top:50px}
+.fac{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.fac li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px}
+.fac b{font-weight:500;font-size:16.5px;letter-spacing:.16em}
+.fac i{font-style:normal;font-size:12.5px;color:var(--amber);letter-spacing:.12em;white-space:nowrap}
+.fac span{grid-column:1/-1;font-size:14.5px;color:var(--mut);line-height:2}
+.st-pics{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+.st-pics figure:first-child{grid-column:1/-1}
+.st-pics img{width:100%;aspect-ratio:3/2;object-fit:cover}
+
+/* trio / tiles */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,3vw,44px)}
 .trio article:nth-child(2){margin-top:90px}
 .trio article:nth-child(3){margin-top:30px}
 .trio img{aspect-ratio:4/5;object-fit:cover;width:100%}
 .trio h3{font-weight:500;font-size:21px;letter-spacing:.3em;margin:22px 0 2px}
 .trio .sub{font-size:13px;color:var(--amber);letter-spacing:.2em;margin:0 0 8px}
 .trio p{font-size:15px;color:#cdd3cd;margin:0}
-
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(22px,3vw,40px);margin-top:70px}
-.tiles a{text-decoration:none;display:block}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(22px,3vw,40px)}
+.tiles.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tiles a,.tiles article{text-decoration:none;display:block}
 .tiles .im{overflow:hidden}
 .tiles img{aspect-ratio:3/2;object-fit:cover;width:100%;transition:transform 1.2s ease}
 .tiles a:hover img{transform:scale(1.04)}
-.tiles h3{font-weight:500;font-size:19px;letter-spacing:.22em;margin:18px 0 4px}
+.tiles h3{font-weight:500;font-size:19px;letter-spacing:.2em;margin:18px 0 4px}
 .tiles p{font-size:14.5px;color:var(--mut);margin:0;line-height:1.95}
 .tiles .tag{font-size:12.5px;color:var(--amber);letter-spacing:.18em;margin:0 0 2px}
+.tiles ul{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--line)}
+.tiles ul li{font-size:13.5px;color:#c4cac3;padding:7px 0;border-bottom:1px solid var(--line);line-height:1.8}
 .tiles a:hover h3{color:var(--amber)}
 
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);margin-top:70px}
-.pair article:nth-child(2){margin-top:120px}
-.pair img{aspect-ratio:4/3;object-fit:cover;width:100%}
-.pair h3{font-weight:500;font-size:22px;letter-spacing:.24em;margin:24px 0 6px}
-.pair p{font-size:15px;color:#cdd3cd;margin:0 0 8px}
-.price{font-size:14px;color:var(--amber);letter-spacing:.12em}
+/* rooms */
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(20px,2.6vw,36px)}
+.room img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.room .rs{font-size:12.5px;color:var(--amber);letter-spacing:.2em;margin:18px 0 0}
+.room h3{font-weight:500;font-size:20px;letter-spacing:.2em;margin:2px 0 4px}
+.room .bed{font-size:13px;color:var(--mut);letter-spacing:.12em;margin:0 0 8px}
+.room p{font-size:14.5px;color:#c9cfc8;margin:0 0 12px;line-height:2}
+.room dl{display:grid;grid-template-columns:auto 1fr;gap:2px 16px;margin:0;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
+.room dt{color:var(--mut)} .room dd{margin:0;letter-spacing:.08em}
 
-.list{margin-top:60px;border-top:1px solid var(--line)}
+/* featured plan */
+.plan{border:1px solid var(--line);padding:clamp(28px,5vw,70px);background:var(--bg3)}
+.plan .pt{font-size:13px;letter-spacing:.24em;color:var(--amber);margin:0}
+.plan h3{font-weight:500;font-size:clamp(22px,2.4vw,30px);letter-spacing:.18em;margin:8px 0 10px;line-height:1.6}
+.plan .ps{color:#cfd5ce;font-size:15.5px;margin:0 0 34px;max-width:46em}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin:0 0 36px}
+.days article img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.days h4{font-weight:500;font-size:17px;letter-spacing:.14em;margin:14px 0 4px;line-height:1.7}
+.days h4 small{display:block;font-size:12px;color:var(--amber);letter-spacing:.22em}
+.days p{font-size:14.5px;color:var(--mut);margin:0;line-height:2}
+.pcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,40px);border-top:1px solid var(--line);padding-top:26px;margin-bottom:20px}
+.pcols h4{font-weight:500;font-size:15px;letter-spacing:.24em;margin:0 0 10px}
+.pcols ul{margin:0;padding:0 0 0 1.1em;font-size:14px;color:#c9cfc8;line-height:2.1}
+.pcols p{font-size:14px;color:#c9cfc8;margin:0;line-height:2.1}
+
+/* list rows */
+.list{border-top:1px solid var(--line)}
 .list a,.list div.row{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) auto;gap:20px;align-items:baseline;padding:24px 4px;border-bottom:1px solid var(--line);text-decoration:none}
-.list .k{font-size:17px;letter-spacing:.2em;font-weight:500}
-.list .v{font-size:14.5px;color:var(--mut)}
+.list .k{font-size:17px;letter-spacing:.18em;font-weight:500}
+.list .v{font-size:14.5px;color:var(--mut);line-height:2}
 .list .go{font-size:13px;letter-spacing:.2em;color:var(--dim)}
-.list a:hover .k{color:var(--amber)} .list a:hover .go{color:var(--amber)}
+.list a:hover .k,.list a:hover .go{color:var(--amber)}
 
-.split{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(36px,6vw,100px);align-items:start}
+/* nearby spots */
+.spot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,70px);align-items:center;margin-top:clamp(60px,8vw,100px)}
+.spot.rev .ph{order:2}
+.spot img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.spot h3{font-weight:500;font-size:21px;letter-spacing:.2em;margin:0 0 4px}
+.spot .tip{font-size:12.5px;color:var(--amber);letter-spacing:.2em;margin:0 0 14px}
+.spot p{font-size:15px;color:#cdd3cd;margin:0}
+
+/* access */
+.acc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(30px,5vw,80px);align-items:start}
+.acc .addr{font-size:18px;letter-spacing:.16em;margin:0 0 6px}
+.acc img{margin-top:24px;width:100%;aspect-ratio:3/2;object-fit:cover}
+.acc dl{margin:0;border-top:1px solid var(--line)}
+.acc dt{font-weight:500;letter-spacing:.2em;padding-top:18px;font-size:15.5px}
+.acc dd{margin:0;padding:4px 0 18px;border-bottom:1px solid var(--line);color:var(--mut);font-size:14.5px;line-height:2}
 
 .foot{margin-top:clamp(120px,14vw,200px);border-top:1px solid var(--line);padding:70px 0 50px}
-.foot .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:40px}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:40px}
 .foot h4{font-weight:500;font-size:15px;letter-spacing:.3em;margin:0 0 14px}
 .foot p,.foot li{font-size:13.5px;color:var(--mut);line-height:2.1;margin:0}
 .foot ul{list-style:none;margin:0;padding:0}
@@ -142,23 +234,30 @@ img{display:block;max-width:100%;height:auto}
 .rv.in{opacity:1}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transition:none}.tiles img{transition:none}}
 
-@media (max-width:820px){
+@media (max-width:900px){
   .top{padding:14px 18px}
-  .top .switch{font-size:12px} .switch a,.switch span{padding:3px 10px} .brand{font-size:15px;letter-spacing:.08em} .brand small{display:none} .top-r{gap:10px}
-  .intro{flex-direction:column;align-items:stretch}
-  .ttl.vt,.lede.vt,.feat .ttl.vt{writing-mode:horizontal-tb;max-height:none}
-  .ttl small{margin:0 0 6px}
-  .feat,.feat.rev{grid-template-columns:1fr}
-  .feat.rev .ph{order:0}
-  .feat .tx{flex-direction:column;gap:14px}
-  .trio,.tiles{grid-template-columns:1fr} .trio article{margin-top:0!important}
-  .pair{grid-template-columns:1fr} .pair article:nth-child(2){margin-top:0}
+  .top .switch{font-size:12px} .switch a,.switch span{padding:3px 10px}
+  .brand{font-size:15px;letter-spacing:.08em} .brand small{display:none} .top-r{gap:10px}
+  .poem,.poem.rev{grid-template-columns:1fr} .poem.rev .ph{order:0}
+  .poem .vtx{max-height:none;flex-direction:column;align-items:stretch;gap:12px}
+  .poem .vtx h3,.poem .vtx p{writing-mode:horizontal-tb;max-height:none}
+  .feat,.feat.rev,.spot{grid-template-columns:1fr} .feat.rev .ph,.spot.rev .ph{order:0}
+  .about-row{grid-template-columns:1fr 1fr} .about-row figure:nth-child(3){display:none} .about-row figure:nth-child(2){margin-bottom:0}
+  .facts{grid-template-columns:1fr 1fr} .facts div:nth-child(3){border-left:0} .facts div:nth-child(n+3){border-top:1px solid var(--line)}
+  .gal,.gal.g3{grid-template-columns:1fr 1fr} .gal figure.w2{grid-column:1/-1;grid-row:auto} .gal figure.w2 img{height:auto;aspect-ratio:16/9}
+  .st-head{grid-template-columns:1fr} .st-code{writing-mode:horizontal-tb} .st-code small{margin:0 0 6px}
+  .st-body{grid-template-columns:1fr}
+  .trio,.tiles,.tiles.c4,.rooms,.days,.pcols{grid-template-columns:1fr} .trio article{margin-top:0!important}
   .list a,.list div.row{grid-template-columns:1fr;gap:4px}
-  .split{grid-template-columns:1fr}
-  .foot .wrap{grid-template-columns:1fr}
+  .acc{grid-template-columns:1fr}
+  .foot .wrap{grid-template-columns:1fr 1fr}
   .band{height:62vh}
+  .subh{gap:14px}
   .side{font-size:12px;padding:12px 9px;letter-spacing:.3em}
-  .menu ol{flex-direction:column;gap:6px} .menu li a{writing-mode:horizontal-tb;border-top:0;border-bottom:1px solid var(--line);padding:12px 0;font-size:20px}
+  .menu{justify-content:flex-start}
+  .menu ol{flex-direction:column;flex-wrap:nowrap;gap:0;width:100%;max-width:360px}
+  .menu li a{writing-mode:horizontal-tb;border-top:0;border-bottom:1px solid var(--line);padding:11px 0;font-size:18px}
+  .menu li small{display:inline;margin:0 12px 0 0}
 }
 </style>
 </head>
@@ -170,32 +269,140 @@ img{display:block;max-width:100%;height:auto}
     <button class="burger" type="button" aria-label="選單" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
   </div>
 </header>
-<nav class="menu" id="menu" aria-label="頁面目錄"><ol><li><a href="#concept"><small>01</small>理念</a></li><li><a href="#three"><small>02</small>三種日常</a></li><li><a href="#stations"><small>03</small>四座車站</a></li><li><a href="#stay"><small>04</small>住宿</a></li><li><a href="#eco"><small>05</small>六大生態</a></li><li><a href="#journeys"><small>06</small>旅程</a></li><li><a href="#cabin"><small>07</small>座艙</a></li></ol></nav>
+<nav class="menu" id="menu" aria-label="頁面目錄"><ol><li><a href="#about"><small>01</small>園區簡介</a></li><li><a href="#cableway"><small>02</small>園區纜車</a></li><li><a href="#stations"><small>03</small>四座車站</a></li><li><a href="#habits"><small>04</small>三種日常</a></li><li><a href="#dining"><small>05</small>餐飲</a></li><li><a href="#stay"><small>06</small>住宿</a></li><li><a href="#xr"><small>07</small>室內樂園</a></li><li><a href="#eco"><small>08</small>六大生態</a></li><li><a href="#sights"><small>09</small>周邊風景</a></li><li><a href="#plans"><small>10</small>旅程方案</a></li><li><a href="#groups"><small>11</small>團體研習</a></li><li><a href="#access"><small>12</small>交通須知</a></li></ol><p class="addr">虎頭埤長壽生活園區<br>臺南市新化區中興路 42 巷 36 號（虎頭埤風景區）</p></nav>
 <a class="side" href="/plan/">排我的行程</a>
 
 <section class="hero" id="top">
-  <img class="" src="img/hero.webp" alt="虎頭埤晨光湖景示意" width="2560" height="1440" decoding="async">
+  <img class="" src="img/hero.webp" alt="虎頭埤晨光湖景示意" width="2400" height="1350" decoding="async">
   <div class="hero-t"><p class="k">HUTOUPI HEALTHSPAN</p><h1>湖岸與山城</h1><p>練習健康的日常</p></div>
-  <a class="scroll" href="#concept">scroll</a>
+  <a class="scroll" href="#about">scroll</a>
 </section>
 
 <main>
-<section class="sec" id="concept"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>CONCEPT</small>練習健康的日常</h2><p class="lede vt">搭纜車遊湖，<br>在山城練習肌力與平衡，<br>到湖岸舒展休息，<br>帶一道新化食材做的料理回家。</p></div></div></section><section class="sec" id="three"><div class="wrap"><div class="split"><h2 class="ttl vt"><small>THREE HABITS</small>一次旅居<br>三種日常</h2><div><div class="trio"><article><img class="rv" src="img/visit-small-class.webp" alt="小班肌力課程示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>訓練</h3><p class="sub"><span class="tcy">T3</span> 活力學院</p><p>從熱身、肌力與平衡入門，選幾個回家也能練的動作。</p></article><article><img class="rv" src="img/visit-lakeside-movement.webp" alt="湖岸舒展示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>恢復</h3><p class="sub"><span class="tcy">T2</span> 湖岸旅居</p><p>上課後回到湖岸舒展、休息，練習安排晚間作息。</p></article><article><img class="rv" src="img/visit-nutrition.webp" alt="營養餐食示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>營養</h3><p class="sub"><span class="tcy">T1</span> 共享廚房</p><p>認識新化食材與料理，帶回一道能在家重做的餐食。</p></article></div></div></div></div></section><div class="band"><img class="rv" src="img/route-lake-view.webp" alt="纜車跨越虎頭埤示意" width="2560" height="1440" loading="lazy" decoding="async"><p class="bt"><small>SKYWAY</small>跨湖的纜車</p></div><section class="sec" id="stations"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>FOUR STATIONS</small>走進四座車站</h2><p class="lede vt">從新化之門出發，<br>沿湖到旅館與山城，<br>一路走進森林。</p></div><div class="feat"><div class="ph"><img class="rv" src="img/t1-gate-aerial.webp" alt="新化之門站鳥瞰示意" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T1</span>　新化之門</p><h3>健康旅程的入口</h3><p>光舟與階梯商店街構成入口。從新化食材、風土餐桌與共享廚房開始，認識可以帶回日常的用餐做法。</p><a class="more" href="/stations/t1/">看 T1 新化之門</a></div></div></div><div class="feat rev"><div class="ph"><img class="rv" src="img/t2-station-concept.webp" alt="湖濱旅館站示意" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T2</span>　湖濱旅館</p><h3>湖岸恢復與旅居</h3><p>到 T3 上完課後，可回 T2 舒展、休息、練習作息並用餐。日間旅客也能依時段安排停留。</p><a class="more" href="/stations/t2/">看 T2 湖濱旅館</a></div></div></div><div class="feat"><div class="ph"><img class="rv" src="img/t3-station-concept.webp" alt="湖濱山城站示意" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T3</span>　湖濱山城</p><h3>活力學院與山城共食</h3><p>肌力、平衡與小班教學。課後在山城共食，親子可安排站廳館三樓的「虎埤傳說」室內 XR 樂園。</p><a class="more" href="/stations/t3/">看 T3 湖濱山城</a></div></div></div><div class="feat rev"><div class="ph"><img class="rv" src="img/t4-station-concept.webp" alt="新化林場站示意" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T4</span>　新化林場</p><h3>森林療癒的終點</h3><p>沿開放林徑慢行、觀察林相與靜休，把湖岸恢復的體驗接到林間。</p><a class="more" href="/stations/t4/">看 T4 新化林場</a></div></div></div></div></section><section class="sec" id="stay"><div class="wrap"><div class="split"><h2 class="ttl vt"><small>STAY</small>住進湖岸<br>或山城</h2><div><div class="pair"><article><img class="rv" src="img/room-t2-lake.webp" alt="湖濱旅館湖景房示意" width="1600" height="1200" loading="lazy" decoding="async"><h3>在湖岸住幾晚</h3><p>從 T3 上課回來，在湖岸安排舒展、用餐與休息。三天兩夜方案在這裡連住兩晚。</p><p class="price">平日每房晚 NT$6,500 起　規劃參考</p><a class="more" href="/stays/">看 T2 房型</a></article><article><img class="rv" src="img/room-t3-course.webp" alt="湖濱山城課程長住房示意" width="1600" height="1200" loading="lazy" decoding="async"><h3>住在山城上課</h3><p>在活力學院上課，與同行者共食。可選團旅、課程長住與彈性友善房。</p><p class="price">平日每房晚 NT$4,700 起　規劃參考</p><a class="more" href="/stays/">看 T3 房型</a></article></div></div></div></div></section><section class="sec" id="eco"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>ECOSYSTEM</small>四站<br>六大生態</h2><p class="lede vt">醫療、運動、飲食、保養與選品，<br>分布在四座車站，<br>搭一段纜車就能接上。</p></div><div class="tiles"><a href="/ecosystems/wellness-centre/"><div class="im"><img class="rv" src="img/ecosystem-wellness.webp" alt="健康中心示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T3</span>・<span class="tcy">T2</span></p><h3>健康中心</h3><p>以活力學院的肌力與平衡訓練為核心，課後在湖岸舒展與休息。</p></a><a href="/ecosystems/healthy-dining/"><div class="im"><img class="rv" src="img/ecosystem-dining.webp" alt="健康餐飲示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>・<span class="tcy">T2</span>・<span class="tcy">T3</span></p><h3>健康餐飲</h3><p>從食材與料理練習出發，在湖岸旅居和課後共食體驗餐食安排。</p></a><a href="/ecosystems/longevity-clinic/"><div class="im"><img class="rv" src="img/ecosystem-clinic.webp" alt="長壽診所示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span></p><h3>長壽診所</h3><p>由進駐院所提供預防門診、健康檢查與後續追蹤。</p></a><a href="/ecosystems/medical-allied/"><div class="im"><img class="rv" src="img/ecosystem-medical.webp" alt="醫事專業服務示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span></p><h3>醫療與醫事專業</h3><p>門診、復健、物理治療與個別營養服務，依核准範圍承作。</p></a><a href="/ecosystems/beauty-care/"><div class="im"><img class="rv" src="img/ecosystem-beauty.webp" alt="身體保養示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T2</span></p><h3>美容與身體保養</h3><p>非侵入式日常保養與放鬆，可按日間停留或住宿時段選擇。</p></a><a href="/ecosystems/curated-retail/"><div class="im"><img class="rv" src="img/ecosystem-retail.webp" alt="精選零售示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>・<span class="tcy">T2</span></p><h3>精選零售</h3><p>選購新化在地食材與生活用品，了解日常保養選品的使用方式。</p></a></div></div></section><div class="band"><img class="rv" src="img/route-forest-view.webp" alt="新化林場林相示意" width="2560" height="1440" loading="lazy" decoding="async"><p class="bt"><small>FOREST</small>走進森林</p></div><section class="sec" id="journeys"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>JOURNEYS</small>選一趟<br>湖山旅程</h2><p class="lede vt">九十分鐘到三天兩夜，<br>依時間與同行者挑選。</p></div><div class="tiles"><a href="/journeys/lakeside-retreat/"><div class="im"><img class="rv" src="img/room-t2-lake.webp" alt="湖岸旅居示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">三天兩夜</p><h3>湖岸健康旅居</h3><p>住在 T2，串聯 T1 食農、T3 肌力與平衡，整理一份帶回家的練習計畫。</p></a><a href="/journeys/family-half-day/"><div class="im"><img class="rv" src="img/t3-xr-flying-theater.webp" alt="室內 XR 樂園示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">親子半日</p><h3>食農與室內樂園</h3><p>先在 T1 共享廚房認識食材，再到 T3 體驗「虎埤傳說」室內 XR 樂園。</p></a><a href="/journeys/lakeside-90/"><div class="im"><img class="rv" src="img/visit-tea.webp" alt="湖畔喝茶示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">九十分鐘</p><h3>湖畔初體驗</h3><p>從新化食材與市集選品出發，搭纜車到湖濱旅館站散步、喝茶。</p></a><a href="/journeys/full-park-day/"><div class="im"><img class="rv" src="img/route-aerial-hutoupi.webp" alt="四站全線鳥瞰示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">一日</p><h3>四站纜車一日遊</h3><p>湖岸用餐、山城活動、林場步行，最後由 T4 直返 T1。</p></a><a href="/journeys/forest-half-day/"><div class="im"><img class="rv" src="img/visit-forest-walk.webp" alt="森林慢行示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">半日</p><h3>森林慢行</h3><p>搭纜車直達 T4，參加小團森林步行、自然觀察與林間靜休。</p></a><a href="/plan/"><div class="im"><img class="rv" src="img/hero.webp" alt="虎頭埤晨光示意" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">自己安排</p><h3>排我的行程</h3><p>選擇起訖站與時段，組合一份自己的湖山行程。</p></a></div></div></section><section class="sec" id="cabin"><div class="wrap"><div class="feat"><div class="ph"><img class="rv" src="img/unicar-cabin-passengers.webp" alt="座艙內乘客示意" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no">uSky Unicar U4‑430</p><h3>從月台走進座艙</h3><p>電動弦軌車輛由車頂走行裝置沿上方弦軌行走。透過車門看座椅與走道，再按路段查看跨湖、山城與林地的景觀。</p><a class="more" href="/cableway/vehicle/">看車型展示</a></div></div></div></div></section>
+<section class="sec" id="about"><div class="wrap">
+<header class="head c"><span class="eyebrow">ABOUT</span><h2 class="h2">纜車串起湖岸、山城與森林的<br>長壽生活園區</h2><p class="lead">在虎頭埤練習健康生活，回家後也能繼續。</p></header>
+<div class="about-row"><figure><img class="rv" src="img/route-aerial-hutoupi.webp" alt="虎頭埤四站全線鳥瞰示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>四站全線　規劃鳥瞰</figcaption></figure><figure><img class="rv" src="img/visit-lakeside-movement.webp" alt="湖岸舒展示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖岸舒展</figcaption></figure><figure><img class="rv" src="img/visit-kitchen.webp" alt="共享廚房示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>共享廚房</figcaption></figure></div>
+<h3 class="subh"><span><small>OUR IDEA</small>在旅程裡，練習日常</span></h3>
+<div class="prose narrow"><p>用新化食材練習配餐，到山城練肌力與平衡，回到湖岸舒展與休息。</p><p>虎頭埤把訓練、恢復與營養排進同一趟旅程。這不是一次性的療程，而是讓每一位旅客，帶回一套適合自己的日常練習。</p><p>住在湖岸的旅客可搭纜車往返各站；同行者也能各選適合的活動，再回到湖岸休息，或一起用餐。</p><p>離園時帶走三件事：一項活動練習、一項晚間作息調整，以及一份日常餐食做法。回家後記下一週的練習次數與作息；再訪時，用這些紀錄挑下一堂課。</p></div>
+<h3 class="subh r"><span><small>FOR WHOM</small>依自己的步調</span></h3>
+<div class="trio"><article><img class="rv" src="img/visit-training.webp" alt="熟齡旅客練習示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>熟齡旅客</h3><p class="sub">SENIORS</p><p>依體力安排肌力與平衡入門課，活動之間留時間在湖岸休息。</p></article><article><img class="rv" src="img/visit-sleep-routine.webp" alt="作息練習示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>想調整日常的成人</h3><p class="sub">ADULTS</p><p>以湖濱旅館為據點，試著安排活動、用餐與睡前作息，找出平日也做得到的做法。</p></article><article><img class="rv" src="img/t3-xr-flying-theater.webp" alt="飛行劇場規劃示意" width="1200" height="1500" loading="lazy" decoding="async"><h3>親子家庭</h3><p class="sub">FAMILIES</p><p>在 T1 共享廚房一起做料理，到 T3「虎埤傳說」室內 XR 樂園探索湖岸與山林的故事，再在山城共食。</p></article></div>
+</div></section>
+<section class="sec alt" id="cableway"><div class="wrap">
+<header class="head c"><span class="eyebrow">SKYWAY</span><h2 class="h2">沿湖而行的園區纜車</h2><p class="lead">市集、湖岸、山城與森林，一條線串起。</p></header>
+<div class="poem"><div class="ph"><img class="rv" src="img/route-lake-view.webp" alt="纜車跨越虎頭埤示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>跨湖而行</h3><p>電動弦軌車輛，<br>車頂走行裝置沿上方弦軌行走，<br>座艙懸在軌道之下。<br>掠過虎頭埤的水面，<br>穿過山城，<br>一路走進新化林場。<br>經過湖濱旅館與湖濱山城，<br>可以下車，<br>也可以留在車上，<br>續往森林。</p></div></div>
+<div class="facts"><div><b>1,874.6 公尺</b><span>展示模型全線名目站距</span></div><div><b>四站</b><span>T1 至 T4 規劃一次通車</span></div><div><b>單車 6 席</b><span>封閉式座艙與側窗</span></div><div><b>原車續乘</b><span>T2、T3 停靠後可直達 T4</span></div></div>
+<h3 class="subh"><span><small>THE CABIN</small>uSky Unicar U4‑430</span></h3>
+<div class="feat"><div class="ph"><img class="rv" src="img/unicar-cabin-passengers.webp" alt="座艙內乘客示意" width="1500" height="1000" loading="lazy" decoding="async"></div><div class="tx"><p class="no">上方雙軌與車頂走行</p><h3>從月台走進座艙</h3><p>車廂配置在上方兩條軌道之間的下方，車頂整合走行裝置，形成連接月台的固定行走路徑。</p><p>白色封閉車體設有深色連續窗帶，跨站途中看湖岸、山城與林地。在 T2、T3 下車，可進入旅館公共區、活動教室與團體旅居；要繼續到林場，留在車內即可。</p><a class="more" href="/cableway/vehicle/">看車型展示</a></div></div>
+<h3 class="subh r"><span><small>ALONG THE LINE</small>沿線與座艙</span></h3>
+<div class="gal"><figure class=w2><img class="rv" src="img/route-lake-view.webp" alt="跨湖段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>跨湖段<small>虎頭埤水面</small></figcaption></figure><figure><img class="rv" src="img/route-mountain-view.webp" alt="山城段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>山城段</figcaption></figure><figure><img class="rv" src="img/route-forest-view.webp" alt="林地段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林地段</figcaption></figure><figure><img class="rv" src="img/t3-station-span-3-4.webp" alt="跨3至跨4側視示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>弦軌銜接湖濱山城站</figcaption></figure><figure><img class="rv" src="img/t4-station-platform.webp" alt="T4 森林側月台示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>森林側月台</figcaption></figure><figure><img class="rv" src="img/u4-430-expo.webp" alt="U4-430 實車展示" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>U4‑430 實車<small>2024 雅加達 ITS 亞太論壇展示車</small></figcaption></figure><figure><img class="rv" src="img/u4-430-cabin-door.webp" alt="座艙車門" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>座艙車門</figcaption></figure><figure><img class="rv" src="img/u4-430-srti-windows.webp" alt="座艙側窗" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>座艙側窗<small>SRTI Park 展示，2022｜影像來源 uSky Transport</small></figcaption></figure><figure><img class="rv" src="img/u4-430-test-track.webp" alt="試驗線" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>試驗線上的車軌關係<small>EcoTechnoPark 試驗線，2018｜SkyWay，CC BY 3.0</small></figcaption></figure></div>
+</div></section>
+<section class="sec" id="stations"><div class="wrap">
+<header class="head c"><span class="eyebrow">FOUR STATIONS</span><h2 class="h2">走進四座車站</h2><p class="lead">每一站，都是一段可以停留的旅程。</p></header>
+<article class="st"><div class="st-head"><h3 class="st-code"><small>虎頭埤站</small><span class="tcy">T1</span>　新化之門</h3><div><div class="st-main"><img class="rv" src="img/t1-gate-aerial.webp" alt="新化之門站鳥瞰示意" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">光舟與階梯商店街構成健康旅程的入口。出閘即入街，沿階梯商店街走下迎賓廣場；光舟下方的虎埤水鏡保留地面公共穿越。從新化食材、風土餐桌與共享廚房開始，認識可以帶回日常的用餐做法。</p><a class="more" href="/stations/t1/">看 T1 新化之門</a></div></div><div class="st-body"><ul class="fac"><li><b>健康生活市集與風土餐桌</b><i>建議 45 分鐘</i><span>展售新化地方食材、日常用品與保養選品；在風土餐桌安排地方餐食，認識食材如何從產地走到餐桌。</span></li><li><b>共享廚房與共學教室</b><i>建議 60 分鐘</i><span>食材辨識、食農示範與共食；共學教室安排家庭活動、居民課、公開衛教與團體教學。</span></li><li><b>天空步道與綠屋頂</b><i></i><span>連接上下層的階梯與平台，從高處看迎賓廣場與湖的方向。</span></li><li><b>長壽診所與醫事專業服務</b><i>依預約</i><span>預防門診、健康檢查與追蹤；醫事空間依進駐機構核准範圍辦理門診、復健、物理治療或個別營養，由道路側獨立入口進入。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t1-market-plaza.webp" alt="T1 市集廣場示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>健康生活市集</figcaption></figure><figure><img class="rv" src="img/t1-skywalk.webp" alt="天空步道示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>天空步道</figcaption></figure><figure><img class="rv" src="img/t1-south-street.webp" alt="南側商店街示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>南側商店街</figcaption></figure></div></div></article>
+<article class="st"><div class="st-head"><h3 class="st-code"><small>湖濱旅館站</small><span class="tcy">T2</span>　湖濱旅館</h3><div><div class="st-main"><img class="rv" src="img/t2-station-concept.webp" alt="湖濱旅館站示意" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">湖岸恢復與旅居的主場。北側乘降，南側面湖；旅館與站廳共構，客房逐層退台向湖。到 T3 上完課後，回到這裡舒展、休息、練習作息並用餐；日間旅客也能依時段安排停留。</p><a class="more" href="/stations/t2/">看 T2 湖濱旅館</a></div></div><div class="st-body"><ul class="fac"><li><b>疊岸露台與湖岸景觀</b><i>建議 35 分鐘</i><span>循日訪動線到南向湖岸公共區，看水面與林地交界，可與茶席排在同一次停留。</span></li><li><b>藝術茶庭與湖岸餐桌</b><i>建議 65 分鐘</i><span>面湖用餐、輕食或茶席；住客可把用餐與入住、次日課程一併安排。</span></li><li><b>閱讀庭、文史湖廊與休憩</b><i>建議 30 分鐘</i><span>看湖、閱讀或稍坐；文史湖廊規劃湖區文化解說，遇雨可改排室內。</span></li><li><b>湖岸舒展與睡眠教育</b><i>建議 45 分鐘</i><span>輕量伸展、呼吸練習與一般睡眠教育，選一個容易延續的晚間作息帶回家。</span></li><li><b>美容保養與選品試用</b><i>建議 60 分鐘</i><span>非侵入式日常保養與放鬆，預約服務有獨立接待與私密動線。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t2-pool-court.webp" alt="T2 湖側住客池庭示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖側住客池庭</figcaption></figure><figure><img class="rv" src="img/t2-public-lobby.webp" alt="T2 一樓公共站廳示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>公共站廳</figcaption></figure><figure><img class="rv" src="img/visit-reading.webp" alt="閱讀庭示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>閱讀庭</figcaption></figure></div></div></article>
+<article class="st"><div class="st-head"><h3 class="st-code"><small>湖濱山城站</small><span class="tcy">T3</span>　湖濱山城</h3><div><div class="st-main"><img class="rv" src="img/t3-station-concept.webp" alt="湖濱山城站示意" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">活力學院提供肌力、平衡與小班教學。課後在山城共食，或回 T2 湖岸恢復。站廳館 3 樓規劃「虎埤傳說」室內 XR 樂園；團體可把研習、共食、分組與住宿排在同一站。</p><a class="more" href="/stations/t3/">看 T3 湖濱山城</a></div></div><div class="st-body"><ul class="fac"><li><b>活力學院肌力與平衡訓練</b><i>建議 55 分鐘</i><span>練習起身、移動、平衡與肌力，適合希望循序安排日常活動的初學者。</span></li><li><b>動作教學與小班共練</b><i>建議 50 分鐘</i><span>示範、分組練習與休息交替進行，可搭配公開衛教或連續數日的主題課。</span></li><li><b>可分隔研習廳與共學教室</b><i>建議 75 分鐘</i><span>企業研習、公開衛教及工作坊，依人數切換共同講堂與分組討論。</span></li><li><b>山城共食與公共休憩</b><i>建議 55 分鐘</i><span>共享桌安排課間餐食與交流，配合抵達與退場分批用餐。</span></li><li><b>「虎埤傳說」室內 XR 樂園</b><i>建議 35 分鐘</i><span>站廳館 3 樓的奇幻微型主題樂園，飛行劇場、體感遊戲與組隊任務。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t3-station-arrival.webp" alt="T3 前庭落客示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>前庭與公共入口</figcaption></figure><figure><img class="rv" src="img/visit-small-class.webp" alt="小班課示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>小班共練</figcaption></figure><figure><img class="rv" src="img/visit-group-dining.webp" alt="山城共食示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>山城共食</figcaption></figure></div></div></article>
+<article class="st"><div class="st-head"><h3 class="st-code"><small>新化林場站</small><span class="tcy">T4</span>　新化林場</h3><div><div class="st-main"><img class="rv" src="img/t4-station-concept.webp" alt="新化林場站示意" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">四站全線的森林療癒終點。下車後在站區點名、分團與行前說明，跟著導覽員沿核准使用、當日開放的既有林徑慢行，把湖岸的恢復體驗接到林間。</p><a class="more" href="/stations/t4/">看 T4 新化林場</a></div></div><div class="st-body"><ul class="fac"><li><b>森林站區報到與休息</b><i></i><span>站區集中站務、休息、廁所及緊急聯絡支援；確認路徑、休息點與回站時間。</span></li><li><b>既有林徑小團慢行</b><i>建議 70 分鐘</i><span>依步速與路況安排停留、回程與分時入林。</span></li><li><b>林相與聲景觀察</b><i>建議 50 分鐘</i><span>觀察樹冠、葉形與林下植被，聽鳥聲與蟲鳴，認識林地如何涵養水源、提供棲地。</span></li><li><b>林間靜休與回站</b><i>建議 25 分鐘</i><span>在可停留的節點短暫休息、安靜聆聽，再與同團回到站區。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t4-station-forest.webp" alt="T4 林場側休憩空間示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林場側休憩平台</figcaption></figure><figure><img class="rv" src="img/visit-forest-nature.webp" alt="自然觀察示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>自然觀察</figcaption></figure><figure><img class="rv" src="img/visit-forest-rest.webp" alt="林間靜休示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林間靜休</figcaption></figure></div></div></article>
+</div></section>
+<div class="band"><img class="rv" src="img/route-forest-view.webp" alt="新化林場林相示意" width="2400" height="1350" loading="lazy" decoding="async"><p class="bt"><small>FOREST</small>走進森林</p></div>
+<section class="sec" id="habits"><div class="wrap">
+<header class="head c"><span class="eyebrow">THREE HABITS</span><h2 class="h2">一次旅居，練習三種日常</h2><p class="lead">訓練、恢復與營養，排進同一趟旅程。</p></header>
+<div class="poem"><div class="ph"><img class="rv" src="img/visit-small-class.webp" alt="小班肌力課程示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>訓練</h3><p>T3 活力學院。<br>從熱身開始，<br>練習起身、移動、<br>平衡與肌力，<br>最後挑選幾個<br>回家也能練的動作。</p></div></div>
+<div style="height:clamp(70px,9vw,120px)"></div>
+<div class="poem rev"><div class="ph"><img class="rv" src="img/visit-lakeside-movement.webp" alt="湖岸舒展示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>恢復</h3><p>T2 湖岸旅居。<br>上課之後回到湖岸，<br>舒展、休息，<br>練習安排晚間作息。<br>想走進森林時，<br>也可另排 T4 慢行。</p></div></div>
+<div style="height:clamp(70px,9vw,120px)"></div>
+<div class="poem"><div class="ph"><img class="rv" src="img/visit-nutrition.webp" alt="營養餐食示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>營養</h3><p>T1 共享廚房，<br>T2、T3 的餐桌。<br>認識新化食材與料理，<br>在旅居餐食與課後共食裡練習，<br>帶回一道<br>能在家重做的餐食。</p></div></div>
+</div></section>
+<section class="sec alt" id="dining"><div class="wrap">
+<header class="head c"><span class="eyebrow">DINING</span><h2 class="h2">從新化食材開始的餐桌</h2><p class="lead">用餐，也是一堂可以帶回家的課。</p></header>
+<div class="about-row"><figure><img class="rv" src="img/visit-local-produce.webp" alt="新化在地食材示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>新化物產</figcaption></figure><figure><img class="rv" src="img/ecosystem-dining.webp" alt="健康餐食示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>健康餐食</figcaption></figure><figure><img class="rv" src="img/visit-individual-nutrition.webp" alt="個別營養示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>個別營養</figcaption></figure></div>
+<div class="prose narrow"><p>T1 把風土餐桌、共享廚房與新化物產放在同一站，讓用餐與食農課各有入口。先在市集認識當季食材，再看一份地方餐食如何搭配，最後在共享廚房帶走一項回家能做的料理。</p><p>T2 的湖岸餐桌安排面湖用餐、輕食與茶席；住客可把餐食時間與湖岸舒展、休息、作息練習排在一起。T3 以團體餐與共享桌，接續企業研習、動作課程及團體住宿。</p><p>實際菜單、供應時段與預約方式由餐飲方公布；過敏原、團體餐及其他飲食需求，可在訂餐時詢問。</p></div>
+<h3 class="subh"><span><small>TABLES</small>三站三種餐桌</span></h3>
+<div class="tiles"><a href="/ecosystems/healthy-dining/shared-kitchen/"><div class="im"><img class="rv" src="img/visit-kitchen.webp" alt="共享廚房示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>　新化之門</p><h3>風土餐桌與共享廚房</h3><p>新化食材、地方餐食與食農課，用餐與上課各有入口。</p></a><a href="/ecosystems/healthy-dining/lakeside-meals/"><div class="im"><img class="rv" src="img/visit-terrace.webp" alt="湖岸露台示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T2</span>　湖濱旅館</p><h3>湖岸餐桌與茶席</h3><p>面湖用餐、輕食或茶席，串接休憩與舒展。</p></a><a href="/ecosystems/healthy-dining/group-dining/"><div class="im"><img class="rv" src="img/visit-group-dining.webp" alt="山城共食示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T3</span>　湖濱山城</p><h3>山城團體共食</h3><p>團體餐與共享桌，配合課表與抵達、退場分批用餐。</p></a></div>
+</div></section>
+<section class="sec" id="stay"><div class="wrap">
+<header class="head c"><span class="eyebrow">STAY</span><h2 class="h2">住進湖岸，或住進山城</h2><p class="lead">兩站共 184 房，六款房型。</p></header>
+<div class="feat"><div class="ph"><img class="rv" src="img/room-t2-lake.webp" alt="湖景房示意" width="1500" height="1000" loading="lazy" decoding="async"></div><div class="tx"><p class="no"><span class="tcy">T2</span>　湖濱旅館　64 房</p><h3>面湖而居</h3><p>以看湖、用餐、休憩和兩晚湖岸旅居為主。由北側抵站後，依旅館接待動線入住；湖側另有住客池庭。</p><p>三天兩夜健康旅居的兩晚，都住在這裡。</p><a class="more" href="/stations/t2/stay/">看 T2 房型</a></div></div>
+<div class="feat rev"><div class="ph"><img class="rv" src="img/room-t3-course.webp" alt="課程長住房示意" width="1500" height="1000" loading="lazy" decoding="async"></div><div class="tx"><p class="no"><span class="tcy">T3</span>　湖濱山城　120 房</p><h3>課程與團體的據點</h3><p>以團體研習、肌力課程與共食為主，從住宿區步行到站內指定活動點。</p><p>同行者也可住在 T2，再搭車到 T3 會合。</p><a class="more" href="/stations/t3/group-stays/">看 T3 房型</a></div></div>
+<h3 class="subh"><span><small>ROOMS</small>六款房型</span></h3>
+<div class="rooms"><article class="room"><img class="rv" src="img/room-t2-lake.webp" alt="T2 湖景房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T2</span>　湖濱旅館</p><h3>湖景房</h3><p class="bed">2 人・一大床</p><p>以面湖窗景為主，規劃雙人休息與靠窗閱讀空間。</p><dl><dt>平日</dt><dd>NT$7,300</dd><dt>假日</dt><dd>NT$9,300</dd><dt>房數</dt><dd>48 房</dd></dl></article><article class="room"><img class="rv" src="img/room-t2-flex.webp" alt="T2 彈性友善房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T2</span>　湖濱旅館</p><h3>彈性友善房</h3><p class="bed">2 人・兩小床</p><p>雙床與較寬的通行空間，適合同住、陪同照護或需要較充裕活動空間的住客。</p><dl><dt>平日</dt><dd>NT$7,300</dd><dt>假日</dt><dd>NT$9,300</dd><dt>房數</dt><dd>8 房</dd></dl></article><article class="room"><img class="rv" src="img/room-t2-long.webp" alt="T2 長住房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T2</span>　湖濱旅館</p><h3>長住房</h3><p class="bed">2 人・一大床</p><p>一大床、桌面、閱讀座位及衣物收納，適合連住數日。</p><dl><dt>平日</dt><dd>NT$6,500</dd><dt>假日</dt><dd>NT$8,300</dd><dt>房數</dt><dd>8 房</dd></dl></article><article class="room"><img class="rv" src="img/room-t3-group.webp" alt="T3 團旅房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T3</span>　湖濱山城</p><h3>團旅房</h3><p class="bed">2 人・兩小床</p><p>雙床配置適合同行者分房共住，可搭配團體研習、課程與共食。</p><dl><dt>平日</dt><dd>NT$5,200</dd><dt>假日</dt><dd>NT$6,900</dd><dt>房數</dt><dd>84 房</dd></dl></article><article class="room"><img class="rv" src="img/room-t3-course.webp" alt="T3 課程長住房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T3</span>　湖濱山城</p><h3>課程長住房</h3><p class="bed">2 人・一大床</p><p>一大床、工作桌與收納，供多日學員整理課程資料、閱讀和休息。</p><dl><dt>平日</dt><dd>NT$4,700</dd><dt>假日</dt><dd>NT$6,300</dd><dt>房數</dt><dd>24 房</dd></dl></article><article class="room"><img class="rv" src="img/room-t3-flex.webp" alt="T3 彈性友善房示意" width="1500" height="1000" loading="lazy" decoding="async"><p class="rs"><span class="tcy">T3</span>　湖濱山城</p><h3>彈性友善房</h3><p class="bed">2 人・兩小床</p><p>兩張獨立床、清楚的床側通道與友善衛浴方向。</p><dl><dt>平日</dt><dd>NT$5,200</dd><dt>假日</dt><dd>NT$6,900</dd><dt>房數</dt><dd>12 房</dd></dl></article></div>
+<p class="note" style="margin-top:34px">房數屬健康旅居概念配置。每房每晚為規劃參考價，未稅、純房費；實際房量、房價及入住條件依營運公告。</p>
+<h3 class="subh r"><span><small>INSIDE</small>房內與旅館</span></h3>
+<div class="gal"><figure><img class="rv" src="img/visit-lake-room-detail.webp" alt="湖景座位示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖景座位與茶桌</figcaption></figure><figure><img class="rv" src="img/visit-mountain-room-detail.webp" alt="山景書桌示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>山景書桌與行李座</figcaption></figure><figure><img class="rv" src="img/t2-pool-court.webp" alt="湖側住客池庭示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖側住客池庭</figcaption></figure><figure><img class="rv" src="img/t2-arrival-court.webp" alt="旅館落客前庭示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>旅館落客前庭</figcaption></figure></div>
+</div></section>
+<section class="sec alt" id="xr"><div class="wrap">
+<header class="head c"><span class="eyebrow">INDOOR PARK</span><h2 class="h2">「虎埤傳說」室內 XR 樂園</h2><p class="lead">T3 站廳館 3 樓，約 1,000 平方公尺，主題可模組化更新。</p></header>
+<div class="poem"><div class="ph"><img class="rv" src="img/t3-xr-flying-theater.webp" alt="飛行劇場規劃示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>飛越虎頭埤</h3><p>弧形銀幕、動感座椅，<br>風、霧與氣味，<br>帶旅客掠過虎頭埤湖面，<br>穿越新化山林，<br>再俯瞰臺南夜景。<br>搭完纜車進劇場，<br>用另一個視角，<br>看旅途中經過的地景。</p></div></div>
+<h3 class="subh"><span><small>ATTRACTIONS</small>和家人、同伴一起解任務</span></h3>
+<div class="gal"><figure><img class="rv" src="img/t3-xr-forest-quest.webp" alt="森林守護任務示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>森林守護任務<small>3D 影像、動感座椅與互動道具</small></figcaption></figure><figure><img class="rv" src="img/t3-xr-interactive-floor.webp" alt="森林能量互動場示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>森林能量互動場<small>以手勢和腳步觸發光影</small></figcaption></figure><figure><img class="rv" src="img/t3-xr-bumper-cars.webp" alt="湖怪追逐戰示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖怪追逐戰<small>實體碰碰車結合 VR／MR</small></figcaption></figure><figure><img class="rv" src="img/t3-xr-arena.webp" alt="異世界探險示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>異世界探險<small>Arena VR 組隊闖關</small></figcaption></figure><figure><img class="rv" src="img/t3-xr-ancient-trail.webp" alt="古道迷蹤示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>古道迷蹤<small>室內軌道串接布景、機械偶與投影</small></figcaption></figure><figure><img class="rv" src="img/t3-xr-discovery-band.webp" alt="探索徽章示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>虎頭埤探索徽章<small>NFC 手環串聯站點、湖岸與林地</small></figcaption></figure><figure><img class="rv" src="img/t3-outdoor-play.webp" alt="戶外遊戲區示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>戶外遊戲區<small>好天氣的親子選擇</small></figcaption></figure><figure><img class="rv" src="img/visit-workshop.webp" alt="工作坊示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>親子工作坊<small>依場次安排</small></figcaption></figure></div>
+<p class="note" style="margin-top:28px">場次、年齡與身高條件、親子陪同規範以園區公告為準。</p>
+</div></section>
+<section class="sec" id="eco"><div class="wrap">
+<header class="head c"><span class="eyebrow">ECOSYSTEM</span><h2 class="h2">四站，六大生態</h2><p class="lead">醫療、運動、飲食、保養與選品，搭一段纜車就能接上。</p></header>
+<div class="tiles"><a href="/ecosystems/wellness-centre/"><div class="im"><img class="rv" src="img/ecosystem-wellness.webp" alt="健康中心示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T3</span>・<span class="tcy">T2</span></p><h3>健康中心</h3><p>以活力學院的肌力與平衡訓練為核心，課後在湖岸舒展與休息。</p><ul><li>肌力與平衡</li><li>小班團體課</li><li>恢復與作息</li><li>湖岸與森林</li></ul></a><a href="/ecosystems/healthy-dining/"><div class="im"><img class="rv" src="img/ecosystem-dining.webp" alt="健康餐飲示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>・<span class="tcy">T2</span>・<span class="tcy">T3</span></p><h3>健康餐飲</h3><p>從食材與料理練習出發，在湖岸旅居與課後共食體驗餐食安排。</p><ul><li>共享廚房與食農</li><li>湖岸旅居餐食</li><li>山城團體共食</li><li>日常營養餐</li></ul></a><a href="/ecosystems/longevity-clinic/"><div class="im"><img class="rv" src="img/ecosystem-clinic.webp" alt="長壽診所示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span></p><h3>長壽診所</h3><p>由進駐院所提供預防門診、健康檢查與後續追蹤。</p><ul><li>預防門診</li><li>健康檢查</li><li>追蹤安排</li></ul></a><a href="/ecosystems/medical-allied/"><div class="im"><img class="rv" src="img/ecosystem-medical.webp" alt="醫事專業服務示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span></p><h3>醫療與醫事專業</h3><p>門診、復健、物理治療與個別營養服務，依核准範圍承作。</p><ul><li>門診</li><li>復健與物理治療</li><li>個別營養</li></ul></a><a href="/ecosystems/beauty-care/"><div class="im"><img class="rv" src="img/ecosystem-beauty.webp" alt="身體保養示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T2</span></p><h3>美容與身體保養</h3><p>非侵入式日常保養與放鬆，可按日間停留或住宿時段選擇。</p><ul><li>肌膚保養</li><li>身體放鬆</li><li>日間停留</li></ul></a><a href="/ecosystems/curated-retail/"><div class="im"><img class="rv" src="img/ecosystem-retail.webp" alt="精選零售示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>・<span class="tcy">T2</span></p><h3>精選零售</h3><p>選購新化在地食材與生活用品，了解日常保養選品的使用方式。</p><ul><li>新化在地食材</li><li>日常用品</li><li>旅居試用選品</li></ul></a></div>
+</div></section>
+<section class="sec alt" id="sights"><div class="wrap">
+<header class="head c"><span class="eyebrow">AROUND HUTOUPI</span><h2 class="h2">虎頭埤的既有風景</h2><p class="lead">纜車沿線，原本就值得停留的地方。</p></header>
+<div class="spot"><div class="ph"><img class="rv" src="img/visit-plaza.webp" alt="迎賓廣場實景" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">迎賓廣場實景，2022｜影像來源：臺南市政府觀光旅遊局</p></div><div><h3>迎賓廣場與虎型雕像</h3><p class="tip">T1 周邊　建議 20 分鐘</p><p>以老虎意象為集合與拍照地標。廣場地面標示周邊景點方向，可先認識虎頭埤的歷史，再安排市集、舊參拜道或乘車。</p></div></div><div class="spot rev"><div class="ph"><img class="rv" src="img/visit-cricket.webp" alt="虎頭埤蟋蟀館外觀" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">蟋蟀館外觀實景，2025｜影像來源：臺南市政府新聞及國際關係處</p></div><div><h3>虎頭埤蟋蟀館</h3><p class="tip">T1 周邊　建議 40 分鐘</p><p>整修後以親子環教生態館呈現，透過黃斑黑蟋蟀觀察箱、聲音與影像互動，認識蟋蟀生活史及新化鬥賞文化。</p></div></div><div class="spot"><div class="ph"><img class="rv" src="img/visit-torii.webp" alt="新化神社大鳥居" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">新化神社大鳥居實景，2022｜Mrmarkertw，CC BY-SA 4.0</p></div><div><h3>新化神社文化路徑</h3><p class="tip">T1 周邊　建議 40 分鐘</p><p>從迎賓廣場依現地導覽指標認識舊參拜道，沿途可辨識鳥居、御神橋及原新化神社齋館周邊遺構。</p></div></div><div class="spot rev"><div class="ph"><img class="rv" src="img/visit-bridge.webp" alt="虎月吊橋" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">虎月吊橋實景，2015｜lienyuan lee，CC BY 3.0</p></div><div><h3>環湖步道與虎月吊橋</h3><p class="tip">T2 周邊　建議 45 分鐘</p><p>沿環湖步道看水庫景致，虎月吊橋通往湖心小島的賞景涼亭。排入行程前，依風景區導覽圖確認入園與步行路線。</p></div></div><div class="spot"><div class="ph"><img class="rv" src="img/visit-forest-school.webp" alt="林場學生實習館" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">林場學生實習館實景，2019｜許可雋，CC BY-SA 4.0</p></div><div><h3>國立中興大學新化林場</h3><p class="tip">T4 周邊</p><p>虎頭埤東側的中興大學實驗林場，有桃花心木林相、林間步道與生態教學資源。入口、票務與步道開放依林場管理單位公告。</p></div></div>
+</div></section>
+<section class="sec" id="plans"><div class="wrap">
+<header class="head c"><span class="eyebrow">JOURNEYS</span><h2 class="h2">旅程方案</h2><p class="lead">從九十分鐘到三天兩夜。</p></header>
+<div class="plan">
+  <p class="pt">精選方案　<span class="tcy">T1</span> 食農・<span class="tcy">T2</span> 湖岸恢復與旅居・<span class="tcy">T3</span> 活力學院</p>
+  <h3>三天兩夜湖岸健康旅居</h3>
+  <p class="ps">給想建立規律活動、飲食與作息的熟齡或一般初學旅客。兩晚均住 T2 湖濱旅館站，串聯 T1 食農、T3 肌力與平衡，再回到湖岸恢復，整理一份可帶回家的練習計畫。</p>
+  <div class="days">
+    <article><img class="rv" src="img/visit-kitchen.webp" alt="共享廚房示意" width="1500" height="1000" loading="lazy" decoding="async"><h4><small>第 1 天</small>T1 食農入門，T2 湖岸入住</h4><p>在新化之門選一個想養成的日常習慣，認識地方食材並參與共享廚房。到 T2 用湖岸餐、做簡易舒展，辦理入住。</p></article>
+    <article><img class="rv" src="img/visit-small-class.webp" alt="小班課示意" width="1500" height="1000" loading="lazy" decoding="async"><h4><small>第 2 天</small>T3 訓練與共食，回到 T2 恢復</h4><p>在活力學院參加肌力與平衡入門課，選一個能帶回家的動作。課後在山城共食，返回 T2 做湖岸舒展、休息與作息整理。</p></article>
+    <article><img class="rv" src="img/visit-lake-room-detail.webp" alt="湖景座位示意" width="1500" height="1000" loading="lazy" decoding="async"><h4><small>第 3 天</small>整理返家練習，返回 T1</h4><p>在 T2 回顧活動、餐食與作息。回到 T1 時，整理一項可以重做的料理，以及下次想參加的課程。</p></article>
+  </div>
+  <div class="pcols">
+    <div><h4>住宿參考</h4><p>T2 湖景房，2 人一大床<br>平日每房晚 NT$7,300<br>假日每房晚 NT$9,300</p><p class="note">規劃參考價，未稅、純房費</p></div>
+    <div><h4>行程內容</h4><ul><li>T1 食農與共享廚房</li><li>T3 肌力與平衡入門課</li><li>T2 湖岸舒展與睡眠教育</li><li>湖岸餐與山城共食</li><li>四站纜車往返</li></ul></div>
+    <div><h4>出發前</h4><ul><li>先對好兩晚房型、課程強度、餐食與食農場次</li><li>有健檢、門診或個別營養需求，依進駐院所公告另行預約</li><li>遇雨保留 T2 室內體驗</li></ul></div>
+  </div>
+  <a class="more" href="/journeys/lakeside-retreat/">看完整行程</a>
+</div>
+<h3 class="subh"><span><small>MORE JOURNEYS</small>更多行程</span></h3>
+<div class="tiles"><a href="/journeys/full-park-day/"><div class="im"><img class="rv" src="img/route-aerial-hutoupi.webp" alt="四站全線鳥瞰示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">一日　T1 → T2 → T3 → T4 → T1</p><h3>四站纜車一日遊</h3><p>上午 T1 市集與食農，中午 T2 湖岸餐食，午後 T3 山城活動，依導覽場次到 T4 小團步行，最後由 T4 直返 T1。</p></a><a href="/journeys/forest-half-day/"><div class="im"><img class="rv" src="img/visit-forest-walk.webp" alt="森林慢行示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">半日　T1 直達 T4</p><h3>半日森林慢行</h3><p>經 T2、T3 中途停靠直達 T4，參加小團森林步行、自然觀察與林間靜休。</p></a><a href="/journeys/family-half-day/"><div class="im"><img class="rv" src="img/t3-xr-forest-quest.webp" alt="森林守護任務示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">親子半日　T1 → T3</p><h3>食農與室內樂園</h3><p>上午 T1 共享廚房，近午到 T3「虎埤傳說」，中午山城共食後返回 T1。</p></a><a href="/journeys/lakeside-90/"><div class="im"><img class="rv" src="img/visit-tea.webp" alt="湖畔茶席示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">九十分鐘　T1 → T2</p><h3>湖畔初體驗</h3><p>前 30 分鐘在 T1 食農與選品，搭纜車到 T2，最後 45 分鐘湖岸散步與茶席。</p></a><a href="/plan/"><div class="im"><img class="rv" src="img/hero.webp" alt="虎頭埤晨光示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">自己安排</p><h3>排我的行程</h3><p>選擇起訖站、到站時間與候車情境，試算各站抵達、下車遊園、活動報到及回程。</p></a><a href="/cableway/planner/"><div class="im"><img class="rv" src="img/t2-arrival-court.webp" alt="到達庭示意" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag">試算</p><h3>智慧行程與預計抵達</h3><p>以 1,874.6 公尺全線名目站距，按區間行駛、中途停站、步行與候車分別加總。</p></a></div>
+</div></section>
+<section class="sec alt" id="groups"><div class="wrap">
+<header class="head c"><span class="eyebrow">GROUPS &amp; COMPANIES</span><h2 class="h2">團體研習與企業旅居</h2><p class="lead">研習、共食、分組與住宿，排在同一站。</p></header>
+<div class="feat"><div class="ph"><img class="rv" src="img/visit-workshop.webp" alt="研習工作坊示意" width="1500" height="1000" loading="lazy" decoding="async"></div><div class="tx"><p class="no"><span class="tcy">T3</span>　湖濱山城</p><h3>可分隔研習廳與共學教室</h3><p>企業研習、公開衛教與工作坊，可按人數切換共同講堂與分組討論；活動轉場銜接教室、休息與供餐。</p><p>T3 共 120 房：團旅房 84 房、課程長住房 24 房、彈性友善房 12 房。同行者也可住 T2，搭車到 T3 會合。</p><a class="more" href="/stations/t3/group-stays/">看團體旅居與房價</a></div></div>
+<div style="height:clamp(70px,9vw,120px)"></div>
+<div class="list"><div class="row"><span class="k">依人數與課表</span><span class="v">依人數、課表與共學方式安排可分隔研習廳或教室；供餐、活動報到與休息時間排入同一份團體行程。</span><span></span></div><div class="row"><span class="k">住宿與分房</span><span class="v">依團旅、課程長住及彈性友善房型確認需求，先編列分房、分組與入住人數。</span><span></span></div><div class="row"><span class="k">抵達與集合</span><span class="v">行前確認接送、行李、陪同與無障礙需求；到站後依活動或住宿指引前往集合點，預留與月台人流銜接的時間。</span><span></span></div><div class="row"><span class="k">團體搭乘</span><span class="v">查詢預約容量與到站時窗，依站務指引分批候車。</span><span></span></div></div>
+</div></section>
+<section class="sec" id="access"><div class="wrap">
+<header class="head c"><span class="eyebrow">ACCESS</span><h2 class="h2">交通方式與搭乘須知</h2></header>
+<div class="acc">
+  <div><p class="addr">虎頭埤風景區</p><p class="note" style="font-size:14px;margin:0">臺南市新化區中興路 42 巷 36 號<br>纜車主要入口：T1 新化之門</p><img class="rv" src="img/visit-plaza.webp" alt="迎賓廣場實景" width="1500" height="1000" loading="lazy" decoding="async"><p class="credit">迎賓廣場實景，2022｜影像來源：臺南市政府觀光旅遊局</p></div>
+  <dl>
+    <dt>自行開車</dt><dd>依官方指引由新化交流道前往。從道路側下客點或停車場步行入園，經迎賓廣場到 T1 乘車入口。</dd>
+    <dt>大眾運輸</dt><dd>可查詢新化站轉乘，或新市車站接駁路線。</dd>
+    <dt>專程看診</dt><dd>由 T1 道路側地面公共步行通道分流：A 入口為長壽診所，B 入口為醫事專業服務。</dd>
+    <dt>搭纜車到各站</dt><dd>T2 日間旅客由到站區前往公共體驗空間，住客由站旅通道進入住宿區；T3 課程與團體旅居依集合點分流；T4 從站區報到後沿當日開放林徑行走。</dd>
+  </dl>
+</div>
+<h3 class="subh"><span><small>HOW TO RIDE</small>從驗票到再進站</span></h3>
+<div class="gal"><figure><img class="rv" src="img/t1-gate-bridge.webp" alt="出站通廊示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>一　進站驗票<small>認清目的站與方向，依票券與站務指引進站</small></figcaption></figure><figure><img class="rv" src="img/t3-station-platform.webp" alt="月台示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>二　候車上車<small>有輔具、嬰兒車或陪同需求，先向站務確認</small></figcaption></figure><figure><img class="rv" src="img/t2-public-lobby.webp" alt="公共站廳示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>三　下車遊園<small>前往活動、旅館或用餐，也可留在車上續乘</small></figcaption></figure><figure><img class="rv" src="img/t4-station-platform.webp" alt="森林側月台示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>四　再進站續程<small>核對票券乘次、再進站條件與回程班次</small></figcaption></figure></div>
+<h3 class="subh r"><span><small>NOTES</small>出發前請留意</span></h3>
+<div class="list"><a href="/cableway/operations/tickets/"><span class="k">開放與票務</span><span class="v">纜車班表、票種、價格與使用權益由園區統一公告。</span><span class="go">開啟</span></a><a href="/cableway/boarding/"><span class="k">無障礙與同行者</span><span class="v">行前查詢出發站與到達站的無障礙入口、垂直動線、車廂輪椅位置及現場協助方式。</span><span class="go">開啟</span></a><a href="/visit/weather/"><span class="k">天候與替代安排</span><span class="v">湖岸活動遇雨可改為 T1 食農或 T2 室內茶席與閱讀；林徑關閉時改排室內活動。</span><span class="go">開啟</span></a><a href="/stations/t1/medical-access/"><span class="k">醫事服務</span><span class="v">長壽診所與醫事專業服務的範圍、開業與預約，由各進駐機構依許可公布。</span><span class="go">開啟</span></a></div>
+</div></section>
 </main>
 
-<footer class="foot"><div class="wrap"><div><h4>虎頭埤長壽生活園區</h4><p>四站纜車串起湖岸、山城與森林，在旅程中練習訓練、恢復與營養三種日常。</p></div>
-<div><h4>園區</h4><ul><li><a href="/stations/">四座車站</a></li><li><a href="/ecosystems/">六大生態</a></li><li><a href="/stays/">住宿與房價</a></li><li><a href="/journeys/">行程</a></li></ul></div>
-<div><h4>纜車與行前</h4><ul><li><a href="/cableway/">園區纜車</a></li><li><a href="/cableway/boarding/">搭乘與無障礙</a></li><li><a href="/plan/">排我的行程</a></li><li><a href="/">切換資料版</a></li></ul></div><div class="copy"><span>© 2026 虎頭埤長壽生活園區　雲天新能源科技股份有限公司</span><span>圖片為規劃示意，非現況。</span></div></div></footer>
-<script>
-(function(){
+<footer class="foot"><div class="wrap"><div><h4>虎頭埤長壽生活園區</h4><p>四站纜車串起湖岸、山城與森林，在旅程中練習訓練、恢復與營養三種日常。</p><p style="margin-top:12px">臺南市新化區　虎頭埤風景區</p></div>
+<div><h4>園區</h4><ul><li><a href="/stations/">四座車站</a></li><li><a href="/ecosystems/">六大生態</a></li><li><a href="/stays/">住宿與房價</a></li><li><a href="/journeys/">行程</a></li><li><a href="/vision/">園區理念</a></li></ul></div>
+<div><h4>纜車</h4><ul><li><a href="/cableway/">園區纜車</a></li><li><a href="/cableway/vehicle/">U4‑430 車型</a></li><li><a href="/cableway/network/">四站串聯</a></li><li><a href="/cableway/boarding/">搭乘與無障礙</a></li></ul></div>
+<div><h4>到訪</h4><ul><li><a href="/visit/access/">到達方式</a></li><li><a href="/visit/weather/">天候與替代</a></li><li><a href="/plan/">排我的行程</a></li><li><a href="/">切換資料版</a></li></ul></div><div class="copy"><span>© 2026 虎頭埤長壽生活園區　雲天新能源科技股份有限公司</span><span>圖片為規劃示意，非現況；價格、場次與開放時間依正式營運公告。</span></div></div></footer>
+<script>(function(){
   var top=document.querySelector('.top'),b=document.querySelector('.burger');
   function onS(){top.classList.toggle('solid',window.scrollY>window.innerHeight*0.6);}
   window.addEventListener('scroll',onS,{passive:true});onS();
+  function shut(){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');}
   b.addEventListener('click',function(){var o=document.body.classList.toggle('menu-open');b.setAttribute('aria-expanded',o);});
-  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');});});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('menu-open')){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');b.focus();}});
+  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',shut);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('menu-open')){shut();b.focus();}});
   if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.rv').forEach(function(x){x.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -10% 0px'});
   document.querySelectorAll('.rv').forEach(function(x){io.observe(x);});
 })();
 </script>

@@ -10,8 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero-1123.webp">
-<style>
-:root{--bg:#121614;--bg2:#181e1b;--fg:#e8ebe6;--mut:#a3aba5;--dim:#7d8680;--line:rgba(232,235,230,.18);--amber:#d9a441;
+<style>:root{--bg:#121614;--bg2:#181e1b;--bg3:#1e2522;--fg:#e8ebe6;--mut:#a3aba5;--dim:#7d8680;--line:rgba(232,235,230,.18);--amber:#d9a441;
 --serif:"Noto Serif TC","Songti TC","PMingLiU",serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -21,10 +20,12 @@ a{color:inherit}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--amber);outline-offset:4px}
 .tcy{text-combine-upright:all}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
+.narrow{max-width:820px;margin:0 auto}
 
-/* top bar */
+/* top bar, menu, side tab */
 .top{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;transition:background .4s}
-.top.solid{background:rgba(18,22,20,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.top.solid{background:rgba(18,22,20,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .brand{text-decoration:none;font-weight:500;font-size:17px;letter-spacing:.14em}
 .brand small{display:block;font-size:11px;letter-spacing:.3em;color:var(--mut);font-weight:300;line-height:1.4}
 .top-r{display:flex;align-items:center;gap:22px}
@@ -33,26 +34,27 @@ img{display:block;max-width:100%;height:auto}
 .switch span{background:var(--fg);color:var(--bg);font-weight:500}
 .switch a:hover{background:rgba(232,235,230,.1)}
 .burger{width:40px;height:40px;border:0;background:none;cursor:pointer;position:relative;padding:0}
-.burger i{position:absolute;left:6px;right:6px;height:1px;background:var(--fg);transition:transform .3s,top .3s}
+.burger i{position:absolute;left:6px;right:6px;height:1px;background:var(--fg);transition:transform .3s,top .3s,opacity .3s}
 .burger i:nth-child(1){top:14px}.burger i:nth-child(2){top:20px}.burger i:nth-child(3){top:26px}
 .menu-open .burger i:nth-child(1){top:20px;transform:rotate(45deg)}.menu-open .burger i:nth-child(2){opacity:0}.menu-open .burger i:nth-child(3){top:20px;transform:rotate(-45deg)}
-.menu{position:fixed;inset:0;z-index:25;background:rgba(14,17,15,.97);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.menu{position:fixed;inset:0;z-index:25;background:rgba(14,17,15,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;overflow:auto;padding:90px 20px 40px}
 .menu-open .menu{opacity:1;visibility:visible}
-.menu ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:row-reverse;gap:clamp(22px,4vw,56px);writing-mode:horizontal-tb}
-.menu li a{writing-mode:vertical-rl;text-decoration:none;font-size:clamp(18px,2vw,24px);letter-spacing:.32em;font-weight:400;display:block;padding:10px 0;border-top:1px solid var(--line)}
+.menu ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:row-reverse;flex-wrap:wrap;justify-content:center;gap:clamp(18px,3vw,44px)}
+.menu li a{writing-mode:vertical-rl;text-decoration:none;font-size:clamp(17px,1.8vw,22px);letter-spacing:.32em;font-weight:400;display:block;padding:10px 0;border-top:1px solid var(--line)}
 .menu li a:hover{color:var(--amber)}
 .menu li small{display:block;writing-mode:horizontal-tb;font-size:11px;color:var(--dim);letter-spacing:.1em;margin-bottom:8px}
-
-/* side CTA */
-.side{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:20;writing-mode:vertical-rl;text-decoration:none;font-size:14px;letter-spacing:.4em;padding:18px 14px;background:rgba(18,22,20,.55);border-left:1px solid var(--line)}
+.menu .addr{font-size:13px;color:var(--mut);text-align:center;letter-spacing:.12em;line-height:1.9;margin:0}
+.side{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:20;writing-mode:vertical-rl;text-decoration:none;font-size:14px;letter-spacing:.4em;padding:18px 14px;background:rgba(18,22,20,.6);border-left:1px solid var(--line)}
 .side::before,.side::after{content:"";display:block;width:1px;height:22px;background:var(--fg);margin:0 auto 10px}
 .side::after{margin:10px auto 0}
 .side:hover{color:var(--amber)}
 
 /* hero */
 .hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;display:grid;place-items:center;text-align:center}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,20,.35) 0%,rgba(18,22,20,.15) 40%,rgba(18,22,20,.55) 78%,var(--bg) 100%)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:kb 18s ease-out forwards}
+@keyframes kb{to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.hero img{animation:none;transform:none}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,20,.35) 0%,rgba(18,22,20,.12) 40%,rgba(18,22,20,.55) 78%,var(--bg) 100%)}
 .hero-t{position:relative;z-index:1;padding:0 24px;text-shadow:0 2px 24px rgba(0,0,0,.35)}
 .hero-t .k{font-size:14px;letter-spacing:.5em;margin:0 0 18px;color:#f1f3ef}
 .hero-t h1{font-weight:500;font-size:clamp(34px,5.6vw,76px);line-height:1.35;letter-spacing:.16em;margin:0}
@@ -60,78 +62,168 @@ img{display:block;max-width:100%;height:auto}
 .scroll{position:absolute;z-index:1;left:50%;bottom:26px;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;writing-mode:vertical-rl;color:#dfe3de;text-decoration:none}
 .scroll::after{content:"";display:block;width:1px;height:70px;background:linear-gradient(var(--fg),transparent);margin:10px auto 0}
 
-/* sections */
-.sec{padding:clamp(110px,14vw,190px) 0 0}
-.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
-.vt{writing-mode:vertical-rl}
-.ttl{font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:.3em;line-height:1.6;margin:0}
-.ttl small{display:block;font-size:12px;letter-spacing:.32em;color:var(--amber);font-weight:400;margin-left:10px}
-.lede{font-size:17px;line-height:2.3;color:#d5dad4}
-.lede.vt{max-height:27em;letter-spacing:.18em}
-.mut{color:var(--mut)}
-.rule{border:0;border-top:1px solid var(--line);margin:0}
+/* section scaffolding */
+.sec{padding:clamp(120px,15vw,210px) 0 0}
+.sec.alt{background:var(--bg2);padding-bottom:clamp(110px,14vw,190px);margin-top:clamp(120px,15vw,210px)}
+.eyebrow{display:block;font-size:13px;letter-spacing:.42em;color:var(--amber);margin:0 0 12px}
+.h2{font-weight:500;font-size:clamp(26px,3vw,40px);letter-spacing:.22em;line-height:1.55;margin:0}
+.lead{font-size:clamp(16px,1.4vw,19px);letter-spacing:.2em;color:#d5dad4;margin:18px 0 0;line-height:2.1}
+.head{margin-bottom:clamp(48px,6vw,80px)}
+.head.c{text-align:center}
+.prose p{font-size:16px;line-height:2.4;color:#d0d6cf;margin:0 0 1.4em;letter-spacing:.12em}
+.prose p:last-child{margin-bottom:0}
+.note{font-size:12.5px;color:var(--dim);letter-spacing:.1em;line-height:1.9}
+.credit{font-size:11px;color:var(--dim);letter-spacing:.06em;margin:8px 0 0;line-height:1.6}
 
-.intro{display:flex;flex-direction:row-reverse;justify-content:center;gap:clamp(36px,6vw,96px);align-items:flex-start}
-.intro .lede{margin:0}
+/* subhead with hairline */
+.subh{display:flex;align-items:center;gap:26px;font-weight:400;font-size:clamp(20px,2.2vw,28px);letter-spacing:.16em;color:#d9ddd8;margin:clamp(90px,11vw,150px) 0 46px;line-height:1.6}
+.subh::before{content:"";flex:1;max-width:220px;border-top:1px solid var(--line)}
+.subh.r{flex-direction:row-reverse;text-align:right}
+.subh small{display:block;font-size:12px;letter-spacing:.3em;color:var(--amber)}
 
-.feat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(32px,6vw,96px);align-items:center;margin-top:clamp(80px,10vw,150px)}
-.feat.rev{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+/* about row */
+.about-row{display:grid;grid-template-columns:1.1fr .9fr 1fr;gap:clamp(14px,2vw,28px);align-items:end;margin:clamp(50px,6vw,80px) 0}
+.about-row figure:nth-child(2){margin-bottom:60px}
+.about-row img{width:100%;object-fit:cover}
+.about-row figure:nth-child(1) img{aspect-ratio:4/5}
+.about-row figure:nth-child(2) img{aspect-ratio:1/1}
+.about-row figure:nth-child(3) img{aspect-ratio:3/4}
+figure{margin:0}
+figcaption{font-size:12px;color:var(--dim);letter-spacing:.12em;margin-top:8px}
+
+/* vertical poem beside image */
+.poem{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(32px,6vw,90px);align-items:center}
+.poem.rev{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+.poem.rev .ph{order:2}
+.poem .ph img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.poem .vtx{display:flex;flex-direction:row-reverse;gap:clamp(26px,3vw,46px);justify-content:center;max-height:560px}
+.poem .vtx h3{writing-mode:vertical-rl;font-weight:500;font-size:clamp(22px,2.2vw,28px);letter-spacing:.32em;margin:0;line-height:1.5}
+.poem .vtx p{writing-mode:vertical-rl;margin:0;font-size:15.5px;line-height:2.3;letter-spacing:.24em;color:#cdd3cd;max-height:520px}
+
+/* media + text */
+.feat{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,90px);align-items:center;margin-top:clamp(80px,10vw,140px)}
+.feat.rev{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
 .feat.rev .ph{order:2}
-.feat .ph{position:relative}
 .feat .ph img{width:100%;aspect-ratio:3/2;object-fit:cover}
-.feat .ph .cap{position:absolute;left:0;bottom:-30px;font-size:12px;color:var(--dim);letter-spacing:.12em}
-.feat .tx{display:flex;flex-direction:row-reverse;gap:30px;align-items:flex-start}
-.feat .tx .body{flex:1;min-width:0}
 .feat .no{font-size:13px;letter-spacing:.3em;color:var(--amber);margin:0 0 4px}
-.feat h3{font-weight:500;font-size:22px;letter-spacing:.24em;margin:0 0 14px;line-height:1.6}
+.feat h3{font-weight:500;font-size:22px;letter-spacing:.22em;margin:0 0 14px;line-height:1.6}
 .feat p{margin:0 0 12px;font-size:15.5px;color:#cdd3cd}
 .more{display:inline-flex;align-items:center;gap:14px;margin-top:10px;font-size:14px;letter-spacing:.2em;text-decoration:none;color:var(--fg)}
 .more::after{content:"";width:46px;height:1px;background:currentColor;transition:width .3s}
 .more:hover{color:var(--amber)} .more:hover::after{width:70px}
 
-.band{position:relative;margin-top:clamp(110px,14vw,190px);height:min(78vh,760px);overflow:hidden}
-.band img{width:100%;height:100%;object-fit:cover}
-.band .bt{position:absolute;right:clamp(22px,8vw,120px);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:clamp(22px,2.6vw,34px);letter-spacing:.4em;font-weight:500;text-shadow:0 2px 20px rgba(0,0,0,.5)}
-.band .bt small{display:block;font-size:14px;letter-spacing:.3em;font-weight:300;margin-left:16px;color:#e6eae5}
-.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(18,22,20,.45))}
-.band .bt{z-index:1}
+/* key figures */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:64px}
+.facts div{padding:26px 20px;border-left:1px solid var(--line)}
+.facts div:first-child{border-left:0}
+.facts b{display:block;font-weight:500;font-size:clamp(20px,2vw,26px);letter-spacing:.08em;line-height:1.5}
+.facts span{font-size:13px;color:var(--mut);letter-spacing:.14em}
 
-.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,3vw,44px);margin-top:70px}
+/* galleries */
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px clamp(10px,1.4vw,18px)}
+.gal.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gal figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.gal figure.w2{grid-column:span 2;grid-row:span 2}
+.gal figure.w2 img{aspect-ratio:auto;height:calc(100% - 40px)}
+.gal figcaption{font-size:13px;color:#c7cdc6;letter-spacing:.14em}
+.gal figcaption small{display:block;color:var(--dim);font-size:11.5px;letter-spacing:.06em;line-height:1.7}
+
+/* band */
+.band{position:relative;margin-top:clamp(120px,15vw,210px);height:min(80vh,780px);overflow:hidden}
+.band img{width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,rgba(18,22,20,.5))}
+.band .bt{position:absolute;z-index:1;right:clamp(22px,8vw,120px);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:clamp(22px,2.6vw,34px);letter-spacing:.4em;font-weight:500;text-shadow:0 2px 20px rgba(0,0,0,.5);margin:0}
+.band .bt small{display:block;font-size:14px;letter-spacing:.3em;font-weight:300;margin-left:16px;color:#e6eae5}
+
+/* station deep block */
+.st{margin-top:clamp(110px,13vw,180px)}
+.st-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:start}
+.st-code{writing-mode:vertical-rl;font-weight:500;font-size:clamp(26px,3vw,40px);letter-spacing:.3em;line-height:1.3;margin:0}
+.st-code small{display:block;font-size:14px;color:var(--amber);letter-spacing:.3em;margin-left:12px}
+.st-main img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.st-lead{font-size:17px;line-height:2.3;color:#d5dad4;letter-spacing:.14em;margin:30px 0 0;max-width:40em}
+.st-body{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);margin-top:50px}
+.fac{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.fac li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px}
+.fac b{font-weight:500;font-size:16.5px;letter-spacing:.16em}
+.fac i{font-style:normal;font-size:12.5px;color:var(--amber);letter-spacing:.12em;white-space:nowrap}
+.fac span{grid-column:1/-1;font-size:14.5px;color:var(--mut);line-height:2}
+.st-pics{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+.st-pics figure:first-child{grid-column:1/-1}
+.st-pics img{width:100%;aspect-ratio:3/2;object-fit:cover}
+
+/* trio / tiles */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,3vw,44px)}
 .trio article:nth-child(2){margin-top:90px}
 .trio article:nth-child(3){margin-top:30px}
 .trio img{aspect-ratio:4/5;object-fit:cover;width:100%}
 .trio h3{font-weight:500;font-size:21px;letter-spacing:.3em;margin:22px 0 2px}
 .trio .sub{font-size:13px;color:var(--amber);letter-spacing:.2em;margin:0 0 8px}
 .trio p{font-size:15px;color:#cdd3cd;margin:0}
-
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(22px,3vw,40px);margin-top:70px}
-.tiles a{text-decoration:none;display:block}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(22px,3vw,40px)}
+.tiles.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tiles a,.tiles article{text-decoration:none;display:block}
 .tiles .im{overflow:hidden}
 .tiles img{aspect-ratio:3/2;object-fit:cover;width:100%;transition:transform 1.2s ease}
 .tiles a:hover img{transform:scale(1.04)}
-.tiles h3{font-weight:500;font-size:19px;letter-spacing:.22em;margin:18px 0 4px}
+.tiles h3{font-weight:500;font-size:19px;letter-spacing:.2em;margin:18px 0 4px}
 .tiles p{font-size:14.5px;color:var(--mut);margin:0;line-height:1.95}
 .tiles .tag{font-size:12.5px;color:var(--amber);letter-spacing:.18em;margin:0 0 2px}
+.tiles ul{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--line)}
+.tiles ul li{font-size:13.5px;color:#c4cac3;padding:7px 0;border-bottom:1px solid var(--line);line-height:1.8}
 .tiles a:hover h3{color:var(--amber)}
 
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);margin-top:70px}
-.pair article:nth-child(2){margin-top:120px}
-.pair img{aspect-ratio:4/3;object-fit:cover;width:100%}
-.pair h3{font-weight:500;font-size:22px;letter-spacing:.24em;margin:24px 0 6px}
-.pair p{font-size:15px;color:#cdd3cd;margin:0 0 8px}
-.price{font-size:14px;color:var(--amber);letter-spacing:.12em}
+/* rooms */
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px clamp(20px,2.6vw,36px)}
+.room img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.room .rs{font-size:12.5px;color:var(--amber);letter-spacing:.2em;margin:18px 0 0}
+.room h3{font-weight:500;font-size:20px;letter-spacing:.2em;margin:2px 0 4px}
+.room .bed{font-size:13px;color:var(--mut);letter-spacing:.12em;margin:0 0 8px}
+.room p{font-size:14.5px;color:#c9cfc8;margin:0 0 12px;line-height:2}
+.room dl{display:grid;grid-template-columns:auto 1fr;gap:2px 16px;margin:0;border-top:1px solid var(--line);padding-top:10px;font-size:14px}
+.room dt{color:var(--mut)} .room dd{margin:0;letter-spacing:.08em}
 
-.list{margin-top:60px;border-top:1px solid var(--line)}
+/* featured plan */
+.plan{border:1px solid var(--line);padding:clamp(28px,5vw,70px);background:var(--bg3)}
+.plan .pt{font-size:13px;letter-spacing:.24em;color:var(--amber);margin:0}
+.plan h3{font-weight:500;font-size:clamp(22px,2.4vw,30px);letter-spacing:.18em;margin:8px 0 10px;line-height:1.6}
+.plan .ps{color:#cfd5ce;font-size:15.5px;margin:0 0 34px;max-width:46em}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin:0 0 36px}
+.days article img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.days h4{font-weight:500;font-size:17px;letter-spacing:.14em;margin:14px 0 4px;line-height:1.7}
+.days h4 small{display:block;font-size:12px;color:var(--amber);letter-spacing:.22em}
+.days p{font-size:14.5px;color:var(--mut);margin:0;line-height:2}
+.pcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,40px);border-top:1px solid var(--line);padding-top:26px;margin-bottom:20px}
+.pcols h4{font-weight:500;font-size:15px;letter-spacing:.24em;margin:0 0 10px}
+.pcols ul{margin:0;padding:0 0 0 1.1em;font-size:14px;color:#c9cfc8;line-height:2.1}
+.pcols p{font-size:14px;color:#c9cfc8;margin:0;line-height:2.1}
+
+/* list rows */
+.list{border-top:1px solid var(--line)}
 .list a,.list div.row{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) auto;gap:20px;align-items:baseline;padding:24px 4px;border-bottom:1px solid var(--line);text-decoration:none}
-.list .k{font-size:17px;letter-spacing:.2em;font-weight:500}
-.list .v{font-size:14.5px;color:var(--mut)}
+.list .k{font-size:17px;letter-spacing:.18em;font-weight:500}
+.list .v{font-size:14.5px;color:var(--mut);line-height:2}
 .list .go{font-size:13px;letter-spacing:.2em;color:var(--dim)}
-.list a:hover .k{color:var(--amber)} .list a:hover .go{color:var(--amber)}
+.list a:hover .k,.list a:hover .go{color:var(--amber)}
 
-.split{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(36px,6vw,100px);align-items:start}
+/* nearby spots */
+.spot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,70px);align-items:center;margin-top:clamp(60px,8vw,100px)}
+.spot.rev .ph{order:2}
+.spot img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.spot h3{font-weight:500;font-size:21px;letter-spacing:.2em;margin:0 0 4px}
+.spot .tip{font-size:12.5px;color:var(--amber);letter-spacing:.2em;margin:0 0 14px}
+.spot p{font-size:15px;color:#cdd3cd;margin:0}
+
+/* access */
+.acc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(30px,5vw,80px);align-items:start}
+.acc .addr{font-size:18px;letter-spacing:.16em;margin:0 0 6px}
+.acc img{margin-top:24px;width:100%;aspect-ratio:3/2;object-fit:cover}
+.acc dl{margin:0;border-top:1px solid var(--line)}
+.acc dt{font-weight:500;letter-spacing:.2em;padding-top:18px;font-size:15.5px}
+.acc dd{margin:0;padding:4px 0 18px;border-bottom:1px solid var(--line);color:var(--mut);font-size:14.5px;line-height:2}
 
 .foot{margin-top:clamp(120px,14vw,200px);border-top:1px solid var(--line);padding:70px 0 50px}
-.foot .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:40px}
+.foot .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:40px}
 .foot h4{font-weight:500;font-size:15px;letter-spacing:.3em;margin:0 0 14px}
 .foot p,.foot li{font-size:13.5px;color:var(--mut);line-height:2.1;margin:0}
 .foot ul{list-style:none;margin:0;padding:0}
@@ -142,23 +234,30 @@ img{display:block;max-width:100%;height:auto}
 .rv.in{opacity:1}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transition:none}.tiles img{transition:none}}
 
-@media (max-width:820px){
+@media (max-width:900px){
   .top{padding:14px 18px}
-  .top .switch{font-size:12px} .switch a,.switch span{padding:3px 10px} .brand{font-size:15px;letter-spacing:.08em} .brand small{display:none} .top-r{gap:10px}
-  .intro{flex-direction:column;align-items:stretch}
-  .ttl.vt,.lede.vt,.feat .ttl.vt{writing-mode:horizontal-tb;max-height:none}
-  .ttl small{margin:0 0 6px}
-  .feat,.feat.rev{grid-template-columns:1fr}
-  .feat.rev .ph{order:0}
-  .feat .tx{flex-direction:column;gap:14px}
-  .trio,.tiles{grid-template-columns:1fr} .trio article{margin-top:0!important}
-  .pair{grid-template-columns:1fr} .pair article:nth-child(2){margin-top:0}
+  .top .switch{font-size:12px} .switch a,.switch span{padding:3px 10px}
+  .brand{font-size:15px;letter-spacing:.08em} .brand small{display:none} .top-r{gap:10px}
+  .poem,.poem.rev{grid-template-columns:1fr} .poem.rev .ph{order:0}
+  .poem .vtx{max-height:none;flex-direction:column;align-items:stretch;gap:12px}
+  .poem .vtx h3,.poem .vtx p{writing-mode:horizontal-tb;max-height:none}
+  .feat,.feat.rev,.spot{grid-template-columns:1fr} .feat.rev .ph,.spot.rev .ph{order:0}
+  .about-row{grid-template-columns:1fr 1fr} .about-row figure:nth-child(3){display:none} .about-row figure:nth-child(2){margin-bottom:0}
+  .facts{grid-template-columns:1fr 1fr} .facts div:nth-child(3){border-left:0} .facts div:nth-child(n+3){border-top:1px solid var(--line)}
+  .gal,.gal.g3{grid-template-columns:1fr 1fr} .gal figure.w2{grid-column:1/-1;grid-row:auto} .gal figure.w2 img{height:auto;aspect-ratio:16/9}
+  .st-head{grid-template-columns:1fr} .st-code{writing-mode:horizontal-tb} .st-code small{margin:0 0 6px}
+  .st-body{grid-template-columns:1fr}
+  .trio,.tiles,.tiles.c4,.rooms,.days,.pcols{grid-template-columns:1fr} .trio article{margin-top:0!important}
   .list a,.list div.row{grid-template-columns:1fr;gap:4px}
-  .split{grid-template-columns:1fr}
-  .foot .wrap{grid-template-columns:1fr}
+  .acc{grid-template-columns:1fr}
+  .foot .wrap{grid-template-columns:1fr 1fr}
   .band{height:62vh}
+  .subh{gap:14px}
   .side{font-size:12px;padding:12px 9px;letter-spacing:.3em}
-  .menu ol{flex-direction:column;gap:6px} .menu li a{writing-mode:horizontal-tb;border-top:0;border-bottom:1px solid var(--line);padding:12px 0;font-size:20px}
+  .menu{justify-content:flex-start}
+  .menu ol{flex-direction:column;flex-wrap:nowrap;gap:0;width:100%;max-width:360px}
+  .menu li a{writing-mode:horizontal-tb;border-top:0;border-bottom:1px solid var(--line);padding:11px 0;font-size:18px}
+  .menu li small{display:inline;margin:0 12px 0 0}
 }
 </style>
 </head>
@@ -170,32 +269,58 @@ img{display:block;max-width:100%;height:auto}
     <button class="burger" type="button" aria-label="選單" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
   </div>
 </header>
-<nav class="menu" id="menu" aria-label="頁面目錄"><ol><li><a href="#start"><small>01</small>從哪一站開始</a></li><li><a href="#stations"><small>02</small>四站</a></li><li><a href="#trips"><small>03</small>行程構想</a></li><li><a href="#visit"><small>04</small>出發前</a></li></ol></nav>
-<a class="side" href="../#guide">分站導覽</a>
+<nav class="menu" id="menu" aria-label="頁面目錄"><ol><li><a href="#start"><small>01</small>虎頭埤纜車</a></li><li><a href="#ride"><small>02</small>沿線風景</a></li><li><a href="#stations"><small>03</small>四座車站</a></li><li><a href="#trips"><small>04</small>行程構想</a></li><li><a href="#visit"><small>05</small>出發前</a></li></ol><p class="addr">纜車尚未開放搭乘<br>開放資訊以營運方正式公告為準</p></nav>
+<a class="side" href="#stations">分站導覽</a>
 
 <section class="hero" id="top">
-  <img class="" src="img/hero-1123.webp" alt="虎頭埤鳥瞰實景模擬" width="2560" height="1440" decoding="async">
+  <img class="" src="img/hero-1123.webp" alt="虎頭埤鳥瞰實景模擬" width="2400" height="1350" decoding="async">
   <div class="hero-t"><p class="k">HUTOUPI CABLE CAR</p><h1>虎頭埤纜車</h1><p>沿湖穿過山城，一路走進森林</p></div>
   <a class="scroll" href="#start">scroll</a>
 </section>
 
 <main>
-<section class="sec" id="start"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>FOUR STATIONS</small>從哪一站開始</h2><p class="lede vt">從入口轉乘、湖畔住宿，<br>到山城聚會與森林散步。<br>選一站，看看有哪些體驗。</p></div></div></section><section class="sec" id="stations"><div class="wrap"><div class="feat"><div class="ph"><img class="rv" src="img/t1-render-1123.webp" alt="新化之門站實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T1</span>　新化之門站</p><h3>小鎮的入口</h3><p>主要入口與轉乘站。先逛新化老街、嚐在地小吃，再到迎賓廣場與商店街停留。</p><a class="more" href="../#guide">看分站導覽</a></div></div></div><div class="feat rev"><div class="ph"><img class="rv" src="img/t2-render-1123.webp" alt="湖濱旅館站實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T2</span>　湖濱旅館站</p><h3>在湖邊留一晚</h3><p>預留一段湖畔散步，把湖景、住宿與悠閒的隔日串成一趟小旅行。</p><a class="more" href="../#guide">看分站導覽</a></div></div></div><div class="feat"><div class="ph"><img class="rv" src="img/t3-render-1123.webp" alt="湖濱山城站實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T3</span>　湖濱山城站</p><h3>到山城團聚</h3><p>想找聚餐、宴會或會議場地，可以先認識山城的旅宿與會展機能。</p><a class="more" href="../#guide">看分站導覽</a></div></div></div><div class="feat rev"><div class="ph"><img class="rv" src="img/t4-render-1123.webp" alt="新化林場站實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><div class="tx"><div class="body"><p class="no"><span class="tcy">T4</span>　新化林場站</p><h3>走進森林</h3><p>由新化之門認識在地特色，再到新化林場安排林間漫步與自然觀察。</p><a class="more" href="../#guide">看分站導覽</a></div></div></div></div></section><div class="band"><img class="rv" src="img/route-lake-view.webp" alt="纜車跨越虎頭埤示意" width="2560" height="1440" loading="lazy" decoding="async"><p class="bt"><small>RIDE</small>先搭一趟</p></div><section class="sec" id="trips"><div class="wrap"><div class="intro"><h2 class="ttl vt"><small>TRIPS</small>想怎麼玩<br>虎頭埤</h2><p class="lede vt">先按興趣挑選，<br>以下是開放後的行程構想。</p></div><div class="tiles"><a href="../#trips"><div class="im"><img class="rv" src="img/t1-welcome-plaza.webp" alt="迎賓廣場實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">老街</p><h3>從新化出發</h3><p>逛新化老街、嚐在地小吃，再到迎賓廣場與商店街停留。</p></a><a href="../#trips"><div class="im"><img class="rv" src="img/t2-arrival-court.webp" alt="湖濱旅館到達庭實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">湖畔</p><h3>在湖邊留一個晚上</h3><p>湖景、住宿與悠閒的隔日，串成一趟小旅行。</p></a><a href="../#trips"><div class="im"><img class="rv" src="img/t3-lakeside-outlook.webp" alt="山城湖景平台實景模擬" width="1800" height="1200" loading="lazy" decoding="async"></div><p class="tag">團聚</p><h3>到山城安排團聚</h3><p>聚餐、宴會或會議，先認識山城的旅宿與會展機能。</p></a></div></div></section><div class="band"><img class="rv" src="img/route-forest-view.webp" alt="新化林場林相示意" width="2560" height="1440" loading="lazy" decoding="async"><p class="bt"><small>FOREST</small>林間漫步</p></div><section class="sec" id="visit"><div class="wrap"><div class="split"><h2 class="ttl vt"><small>BEFORE YOU GO</small>出發前<br>先確認</h2><div class="list"><div class="row"><span class="k">現在可以搭嗎</span><span class="v">還不行。開放日期、票價、售票方式與服務時間，以營運方正式公告為準。</span><span></span></div><div class="row"><span class="k">從哪裡上車</span><span class="v">新化之門站是主要入口與轉乘站，搭乘動線、上下客位置及停車資訊開放前另行公布。</span><span></span></div><div class="row"><span class="k">無障礙與同行者</span><span class="v">開放後請先確認各站無障礙進出、上下車協助、輪椅或嬰兒車搭乘規則。</span><span></span></div><div class="row"><span class="k">預約與訂房</span><span class="v">本站不接受預訂；開放資訊與服務內容，由各服務業者公告。</span><span></span></div><div class="row"><span class="k">現在去虎頭埤</span><span class="v">門票、開園時間與園區交通，請以風景區官方資訊為準。</span><span></span></div></div></div></div></section>
+<section class="sec" id="start"><div class="wrap">
+<header class="head c"><span class="eyebrow">HUTOUPI CABLE CAR</span><h2 class="h2">從新化之門出發，<br>沿湖穿過山城，一路走進森林</h2><p class="lead">從入口轉乘、湖畔住宿，到山城聚會與森林散步。</p></header>
+<div class="about-row"><figure><img class="rv" src="img/t1-water-mirror.webp" alt="虎埤水鏡實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>新化之門　虎埤水鏡</figcaption></figure><figure><img class="rv" src="img/t2-public-lobby.webp" alt="湖濱旅館公共站廳實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖濱旅館　公共站廳</figcaption></figure><figure><img class="rv" src="img/t4-canopy.webp" alt="林冠實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>新化林場　林冠</figcaption></figure></div>
+<div class="prose narrow"><p>虎頭埤纜車以四座車站串起老街、湖岸、山城與林場。每一站都有不同的玩法：在入口逛街、在湖邊住一晚、到山城團聚，或走進森林。</p><p>纜車尚未開放搭乘。這一頁先把每一站可以做什麼、到站後怎麼走、適合怎麼安排，整理成開放後的行程構想；開放日期、票價與服務時間，以營運方正式公告為準。</p></div>
+</div></section>
+<section class="sec alt" id="ride"><div class="wrap">
+<header class="head c"><span class="eyebrow">THE RIDE</span><h2 class="h2">跨湖、過山城、入林</h2><p class="lead">一條線，四段風景。</p></header>
+<div class="poem"><div class="ph"><img class="rv" src="img/route-lake-view.webp" alt="纜車跨越虎頭埤示意" width="1200" height="1500" loading="lazy" decoding="async"></div><div class="vtx"><h3>沿線的風景</h3><p>從新化之門的光舟月台出發，<br>先掠過虎頭埤的水面，<br>停靠湖濱旅館，<br>再爬升到湖濱山城，<br>最後穿過林地，<br>抵達新化林場。<br>途中停靠的兩站，<br>可以下車，<br>也可以留在車上。</p></div></div>
+<h3 class="subh"><span><small>ALONG THE LINE</small>四段風景</span></h3>
+<div class="gal"><figure class=w2><img class="rv" src="img/route-lake-view.webp" alt="跨湖段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>跨湖段</figcaption></figure><figure><img class="rv" src="img/route-mountain-view.webp" alt="山城段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>山城段</figcaption></figure><figure><img class="rv" src="img/route-forest-view.webp" alt="林地段示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林地段</figcaption></figure><figure><img class="rv" src="img/unicar-cabin-passengers.webp" alt="座艙示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>座艙</figcaption></figure><figure><img class="rv" src="img/t3-station-span-3-4.webp" alt="弦軌側視示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>弦軌銜接山城站</figcaption></figure></div>
+</div></section>
+<section class="sec" id="stations"><div class="wrap">
+<header class="head c"><span class="eyebrow">FOUR STATIONS</span><h2 class="h2">從哪一站開始</h2><p class="lead">選一站，看看有哪些體驗。</p></header>
+<article class="st"><div class="st-head"><h3 class="st-code"><small>主要入口與轉乘站</small><span class="tcy">T1</span>　新化之門站</h3><div><div class="st-main"><img class="rv" src="img/t1-render-1123.webp" alt="新化之門站實景模擬" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">把新化老街、在地展售與纜車行程接在一起。沒有要搭車，也可以把迎賓廣場與商店街當作停留點；從地面到空中通廊，門戶站本身就值得留一段時間。</p></div></div><div class="st-body"><ul class="fac"><li><b>迎賓廣場</b><i></i><span>在地面安排集合、等候同行者或拍照；不必為了逛廣場而搭車。</span></li><li><b>階梯商店街</b><i></i><span>沿南北兩段商店街看地方展售，再分段走回地面。攤商與營業時間以公告為準。</span></li><li><b>虎埤水鏡</b><i></i><span>站體下方的水鏡是看倒影的景點；遇活動時，廣場用途可能隨活動調整。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t1-welcome-plaza.webp" alt="迎賓廣場實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>迎賓廣場</figcaption></figure><figure><img class="rv" src="img/t1-skywalk.webp" alt="空中通廊實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>空中通廊</figcaption></figure><figure><img class="rv" src="img/t1-experience.webp" alt="商店街實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>階梯商店街</figcaption></figure></div></div></article><div class="st-body" style="margin-top:40px"><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>WALK</small>到站後怎麼走</span></h3><div class="list"><div class="row"><span class="k">進站搭車</span><span class="v">由地面迎賓廣場進入，先找旅客服務、票務及候乘指引，再往月台。</span><span></span></div><div class="row"><span class="k">下車逛街</span><span class="v">從月台出閘，經空中通廊接到階梯商店街，再步行至地面。</span><span></span></div><div class="row"><span class="k">只逛不搭</span><span class="v">由地面開始和返回，廣場是方便集合的起點，不需進入候乘區。</span><span></span></div></div></div><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>CHECK</small>出發前確認</span></h3><div class="list"><div class="row"><span class="k">集合與轉乘</span><span class="v">開放後留意旅客服務中心的候乘、停車和接駁資訊；勿把現有園區交通當成纜車接駁。</span><span></span></div><div class="row"><span class="k">長輩與嬰兒車</span><span class="v">出發前先確認無障礙入口、電梯及嬰兒車搭乘規則。</span><span></span></div><div class="row"><span class="k">活動日安排</span><span class="v">參加市集或團體活動，先確認集合點和廣場使用公告。</span><span></span></div></div></div></div><article class="st"><div class="st-head"><h3 class="st-code"><small>在湖畔多留一晚</small><span class="tcy">T2</span>　湖濱旅館站</h3><div><div class="st-main"><img class="rv" src="img/t2-render-1123.webp" alt="湖濱旅館站實景模擬" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">面湖旅宿與公共湖岸空間是兩種不同的玩法。不入住，可以安排湖岸散步；住宿另循住客動線。先分清楚公共體驗與住客設施，再決定是來看湖，還是住一晚。</p></div></div><div class="st-body"><ul class="fac"><li><b>公共湖岸空間</b><i></i><span>湖岸步道串起藝術茶庭與閱讀庭，適合不住宿的旅客短暫休息。</span></li><li><b>站廳與湖景餐飲</b><i></i><span>公共站廳、文史湖廊與湖側餐廳組成一段湖景停留；餐期另行公告。</span></li><li><b>住客與婚禮</b><i></i><span>旅館面向水庫；泳池、健身為住客設施。湖畔婚禮及團體服務待業者公布後洽詢。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t2-arrival-court.webp" alt="到達庭實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>到達庭</figcaption></figure><figure><img class="rv" src="img/t2-public-lobby.webp" alt="公共站廳實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>公共站廳</figcaption></figure><figure><img class="rv" src="img/t2-experience.webp" alt="湖岸實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖岸空間</figcaption></figure></div></div></article><div class="st-body" style="margin-top:40px"><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>WALK</small>到站後怎麼走</span></h3><div class="list"><div class="row"><span class="k">搭車入住</span><span class="v">由月台走室內連通路徑，依旅館指引進入住客通道。</span><span></span></div><div class="row"><span class="k">不住宿看湖</span><span class="v">由公共站廳往湖側空間和公共步道，不到客房或住客設施。</span><span></span></div><div class="row"><span class="k">自駕到訪</span><span class="v">由東側車道進入到達庭落客；停車名額未公布。</span><span></span></div></div></div><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>CHECK</small>出發前確認</span></h3><div class="list"><div class="row"><span class="k">想住宿或辦婚禮</span><span class="v">待業者公布房型、入住與活動聯絡方式，再核對訂金、取消辦法及停車。</span><span></span></div><div class="row"><span class="k">要帶行李或輪椅</span><span class="v">開放前先確認站內電梯、月台到大廳的無障礙動線，以及大件行李上車規則。</span><span></span></div><div class="row"><span class="k">只想吃飯或散步</span><span class="v">公共步道與餐廳開放時間可能不同；確認是否接受非住客用餐、是否需訂位。</span><span></span></div></div></div></div><article class="st"><div class="st-head"><h3 class="st-code"><small>旅宿與聚會在同一站</small><span class="tcy">T3</span>　湖濱山城站</h3><div><div class="st-main"><img class="rv" src="img/t3-render-1123.webp" alt="湖濱山城站實景模擬" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">適合家庭度假、山城聚餐、婚宴或會議。站廳通往公共餐飲和湖景平台，不住宿也有停留選擇；不同活動安排在不同區域，按同行者的目的選擇。</p></div></div><div class="st-body"><ul class="fac"><li><b>餐飲與湖景平台</b><i></i><span>不住宿也可從站廳安排公共餐飲及面湖平台，不需進入客房區。</span></li><li><b>親子與雨天</b><i></i><span>規劃室內 XR 體驗及戶外遊戲區；遇雨可優先考慮室內活動。</span></li><li><b>婚宴與會議</b><i></i><span>婚禮堂、宴會與會議空間可依活動分開使用；容量與費用待業者公告。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t3-lakeside-outlook.webp" alt="湖景平台實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>湖景平台</figcaption></figure><figure><img class="rv" src="img/t3-experience.webp" alt="山城實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>山城</figcaption></figure><figure><img class="rv" src="img/t3-xr-flying-theater.webp" alt="飛行劇場規劃示意" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>室內 XR 飛行劇場</figcaption></figure></div></div></article><div class="st-body" style="margin-top:40px"><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>WALK</small>到站後怎麼走</span></h3><div class="list"><div class="row"><span class="k">搭車入住</span><span class="v">由月台經轉乘大廳，依旅館指引前往客房翼。</span><span></span></div><div class="row"><span class="k">只用餐或看湖</span><span class="v">從站廳往公共餐飲或湖景平台，不用經過客房。</span><span></span></div><div class="row"><span class="k">參加婚宴會議</span><span class="v">自駕或接送來賓由前庭落客，依活動通知走獨立動線進入宴會區。</span><span></span></div></div></div><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>CHECK</small>出發前確認</span></h3><div class="list"><div class="row"><span class="k">活動主辦人</span><span class="v">核對場地進出、落客與大客車安排、無障礙席位、雨天替代空間與撤場方式。</span><span></span></div><div class="row"><span class="k">家庭與親子</span><span class="v">確認室內體驗的預約、適用年齡與陪同規則。</span><span></span></div><div class="row"><span class="k">住宿和餐飲</span><span class="v">確認入住、團體用餐、行李及特殊飲食需求。</span><span></span></div></div></div></div><article class="st"><div class="st-head"><h3 class="st-code"><small>由纜車走進林間</small><span class="tcy">T4</span>　新化林場站</h3><div><div class="st-main"><img class="rv" src="img/t4-render-1123.webp" alt="新化林場站實景模擬" width="2000" height="1125" loading="lazy" decoding="async"></div><p class="st-lead">全線的森林端。以林場驛站作起點，依腳程選擇觀景、自然解說或一段森林步行。這一站以自然觀察與慢行為主，不把它當作大型遊樂區。</p></div></div><div class="st-body"><ul class="fac"><li><b>林場驛站</b><i></i><span>候車、林場資訊、輕食和寄物；各項服務有不同的開放條件。</span></li><li><b>林冠觀景</b><i></i><span>由觀景平台看林相，透過展示認識林場生態與林業歷史。</span></li><li><b>林間活動</b><i></i><span>林間平台規劃展演與自然教育；森林療癒以體驗為主，不是醫療服務。</span></li></ul><div class="st-pics"><figure><img class="rv" src="img/t4-canopy.webp" alt="林冠實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林冠平台</figcaption></figure><figure><img class="rv" src="img/t4-forest-waiting.webp" alt="森林候車實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林間候車</figcaption></figure><figure><img class="rv" src="img/t4-experience.webp" alt="林間實景模擬" width="1500" height="1000" loading="lazy" decoding="async"><figcaption>林間步道</figcaption></figure></div></div></article><div class="st-body" style="margin-top:40px"><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>WALK</small>到站後怎麼走</span></h3><div class="list"><div class="row"><span class="k">先在驛站集合</span><span class="v">看當天開放和步道指引，再決定同行者適合走多遠。</span><span></span></div><div class="row"><span class="k">林緣與植物園步道</span><span class="v">依標示走林緣段，體力允許再接植物園步道。</span><span></span></div><div class="row"><span class="k">循環線回站</span><span class="v">以驛站為返回點，保留候車時間；封閉或雨天依現場指示折返。</span><span></span></div></div></div><div><h3 class="subh" style="margin:0 0 20px;font-size:19px"><span><small>CHECK</small>出發前確認</span></h3><div class="list"><div class="row"><span class="k">開放與天候</span><span class="v">出發前查看步道開放、雨後路況和回程搭乘公告；林間穿止滑鞋。</span><span></span></div><div class="row"><span class="k">長輩與行動需求</span><span class="v">先核對坡度、地面與無障礙路段，不把景觀步道一概當作輪椅可通行。</span><span></span></div><div class="row"><span class="k">小團體與寄物</span><span class="v">森林體驗規劃採小團體預約；寄物、輕食與活動時間待正式公布。</span><span></span></div></div></div></div>
+</div></section>
+<div class="band"><img class="rv" src="img/route-forest-view.webp" alt="新化林場林相示意" width="2400" height="1350" loading="lazy" decoding="async"><p class="bt"><small>FOREST</small>走進森林</p></div>
+<section class="sec alt" id="trips"><div class="wrap">
+<header class="head c"><span class="eyebrow">TRIPS</span><h2 class="h2">想怎麼玩虎頭埤</h2><p class="lead">先按興趣挑選，以下是開放後的行程構想。</p></header>
+<div class="tiles c4"><article><div class="im"><img class="rv" src="img/t1-welcome-plaza.webp" alt="老街＋門戶散策" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>　新化之門</p><h3>老街＋門戶散策</h3><p>先在新化老街逛街、用餐，再留時間看迎賓廣場、水鏡和地方展售。</p></article><article><div class="im"><img class="rv" src="img/t1-experience.webp" alt="門戶＋森林親子行" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T1</span>　新化之門</p><h3>門戶＋森林親子行</h3><p>在新化之門集合，搭車往林場端，安排一段適合同行者腳程的散步。</p></article><article><div class="im"><img class="rv" src="img/t2-experience.webp" alt="半日湖岸散步" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T2</span>　湖濱旅館</p><h3>半日湖岸散步</h3><p>從公共站廳到湖廊與步道，挑一處庭園坐一坐，再視開放的餐飲安排停留。</p></article><article><div class="im"><img class="rv" src="img/t2-arrival-court.webp" alt="湖邊住一晚" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T2</span>　湖濱旅館</p><h3>湖邊住一晚</h3><p>到站先入住，下午走湖邊，隔天再視腳程到山城或林場。</p></article><article><div class="im"><img class="rv" src="img/t3-outdoor-play.webp" alt="家庭度假" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T3</span>　湖濱山城</p><h3>家庭度假</h3><p>先留用餐時間。好天氣安排面湖平台或戶外遊戲；下雨先查室內體驗。</p></article><article><div class="im"><img class="rv" src="img/visit-group-dining.webp" alt="婚宴或會議來賓" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T3</span>　湖濱山城</p><h3>婚宴或會議來賓</h3><p>先確認宴會集合點，再安排住宿、接送與散場，不與散客候車時間重疊。</p></article><article><div class="im"><img class="rv" src="img/visit-forest-nature.webp" alt="親子自然觀察" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T4</span>　新化林場</p><h3>親子自然觀察</h3><p>從驛站走到可及的觀景點，沿途觀察樹冠和季節變化，再回驛站集合。</p></article><article><div class="im"><img class="rv" src="img/visit-forest-walk.webp" alt="步行加小團體體驗" width="1500" height="1000" loading="lazy" decoding="async"></div><p class="tag"><span class="tcy">T4</span>　新化林場</p><h3>步行加小團體體驗</h3><p>日後開放預約時，可搭配自然解說或小團體森林活動，另留回程候車時間。</p></article></div>
+</div></section>
+<section class="sec" id="visit"><div class="wrap">
+<header class="head c"><span class="eyebrow">BEFORE YOU GO</span><h2 class="h2">出發前先確認</h2></header>
+<div class="list"><div class="row"><span class="k">現在可以搭嗎</span><span class="v">還不行。開放日期、票價、售票方式與服務時間，以營運方正式公告為準。</span><span></span></div><div class="row"><span class="k">從哪裡上車</span><span class="v">新化之門站是主要入口與轉乘站，搭乘動線、上下客位置及停車資訊於開放前另行公布。</span><span></span></div><div class="row"><span class="k">無障礙與同行者</span><span class="v">開放後請先確認各站無障礙進出、上下車協助、輪椅或嬰兒車搭乘規則。</span><span></span></div><div class="row"><span class="k">預約與訂房</span><span class="v">本站不接受預訂；開放資訊與服務內容，由各服務業者公告。</span><span></span></div><div class="row"><span class="k">現在去虎頭埤</span><span class="v">門票、開園時間與園區交通，請以虎頭埤風景區官方資訊為準。</span><span></span></div></div>
+<h3 class="subh r"><span><small>MORE</small>也可以看看</span></h3>
+<div class="list"><a href="../#guide"><span class="k">分站深度導覽</span><span class="v">資料版的四站導覽與沿線動畫。</span><span class="go">開啟</span></a><a href="https://park.skytaxi.com.tw/brand/"><span class="k">長壽生活園區</span><span class="v">纜車沿線的健康旅居：訓練、恢復與營養。</span><span class="go">開啟</span></a><a href="https://www.skytaxi.com.tw/brand/"><span class="k">Skytaxi 雲天新能源</span><span class="v">虎頭埤纜車的興建與營運團隊。</span><span class="go">開啟</span></a></div>
+</div></section>
 </main>
 
-<footer class="foot"><div class="wrap"><div><h4>虎頭埤纜車</h4><p>從新化之門出發，沿湖穿過山城，一路走進森林。纜車尚未開放搭乘。</p></div>
+<footer class="foot"><div class="wrap"><div><h4>虎頭埤纜車</h4><p>從新化之門出發，沿湖穿過山城，一路走進森林。</p><p style="margin-top:12px">纜車尚未開放搭乘。</p></div>
+<div><h4>四站</h4><ul><li><a href="#stations">新化之門站</a></li><li><a href="#stations">湖濱旅館站</a></li><li><a href="#stations">湖濱山城站</a></li><li><a href="#stations">新化林場站</a></li></ul></div>
 <div><h4>導覽</h4><ul><li><a href="../#route">從哪一站開始</a></li><li><a href="../#ride">沿線動畫</a></li><li><a href="../#guide">分站深度導覽</a></li><li><a href="../#trips">行程構想</a></li></ul></div>
-<div><h4>更多</h4><ul><li><a href="https://park.skytaxi.com.tw/brand/">長壽生活園區</a></li><li><a href="https://www.skytaxi.com.tw/brand/">Skytaxi 雲天新能源</a></li><li><a href="../">切換資料版</a></li></ul></div><div class="copy"><span>© 2026 雲天新能源科技股份有限公司　纜車尚未開放搭乘</span><span>圖片為規劃示意，非現況。</span></div></div></footer>
-<script>
-(function(){
+<div><h4>更多</h4><ul><li><a href="https://park.skytaxi.com.tw/brand/">長壽生活園區</a></li><li><a href="https://www.skytaxi.com.tw/brand/">Skytaxi 雲天新能源</a></li><li><a href="../">切換資料版</a></li></ul></div><div class="copy"><span>© 2026 雲天新能源科技股份有限公司</span><span>圖片為實景模擬與規劃示意，非現況；纜車尚未開放搭乘。</span></div></div></footer>
+<script>(function(){
   var top=document.querySelector('.top'),b=document.querySelector('.burger');
   function onS(){top.classList.toggle('solid',window.scrollY>window.innerHeight*0.6);}
   window.addEventListener('scroll',onS,{passive:true});onS();
+  function shut(){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');}
   b.addEventListener('click',function(){var o=document.body.classList.toggle('menu-open');b.setAttribute('aria-expanded',o);});
-  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');});});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('menu-open')){document.body.classList.remove('menu-open');b.setAttribute('aria-expanded','false');b.focus();}});
+  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',shut);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.body.classList.contains('menu-open')){shut();b.focus();}});
   if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('.rv').forEach(function(x){x.classList.add('in');});return;}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -10% 0px'});
   document.querySelectorAll('.rv').forEach(function(x){io.observe(x);});
 })();
 </script>
