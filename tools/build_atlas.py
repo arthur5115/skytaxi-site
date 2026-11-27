@@ -92,19 +92,21 @@ for g in groups:
         grp_desc[g['no']] = ''
 
 sections = []
-for gi, g in enumerate(groups):
+front = {'no': '00', 'name': '封面與索引', 'pdf': groups[0]['pdf'], 'pdf_mb': groups[0]['pdf_mb']}
+grp_desc['00'] = '圖冊封面與八組規劃圖索引，收於第 01 冊 PDF'
+for gi, g in [(-1, front)] + list(enumerate(groups)):
     items = [s for s in sheets if s['g'] == gi]
     tiles = []
     for s in items:
         badge = '<span class="new">本次新增</span>' if s.get('new') else ''
         tiles.append(f'''<li data-s="{s['s']}" data-q="{E((s['c'] + ' ' + s['t']).lower())}"><a href="#s={s['k']}" data-k="{s['k']}"><span class="th"><img src="p/{s['k']}_t.webp" alt="" loading="lazy" decoding="async" width="{560 if s['w']>=s['h'] else round(560*s['w']/s['h'])}" height="{round(560*s['h']/s['w']) if s['w']>=s['h'] else 560}"></span><span class="cd">{E(s['c'])}{badge}</span><span class="tt">{E(s['t'])}</span></a></li>''')
     sections.append(f'''<section class="grp" id="g{g['no']}" aria-labelledby="g{g['no']}h">
-  <header class="grp-h"><span class="no">{g['no']}</span><h2 id="g{g['no']}h">{E(g['name'])}</h2><p>{E(grp_desc.get(g['no'], ''))}</p><a class="vol" href="{E(g['pdf'])}" download>下載本組 PDF<span>{g['pdf_mb']:.1f} MB</span></a></header>
+  <header class="grp-h"><span class="no">{'' if g['no']=='00' else g['no']}</span><h2 id="g{g['no']}h">{E(g['name'])}</h2><p>{E(grp_desc.get(g['no'], ''))}</p><a class="vol" href="{E(g['pdf'])}" download>下載本組 PDF<span>{g['pdf_mb']:.1f} MB</span></a></header>
   <ul class="sheets">{''.join(tiles)}</ul>
   <p class="none" hidden>這一組沒有符合篩選條件的圖。</p>
 </section>''')
 
-grp_opts = ''.join(f'<option value="g{g["no"]}">{g["no"]} {E(g["name"])}</option>' for g in groups)
+grp_opts = '<option value="g00">封面與索引</option>' + ''.join(f'<option value="g{g["no"]}">{g["no"]} {E(g["name"])}</option>' for g in groups)
 dl_vols = ''.join(f'<li><a href="{E(g["pdf"])}" download>{g["no"]}　{E(g["name"])}</a><span>{g["last"] - (1 if g["no"]=="01" else g["first"]) + 1} 頁，{g["pdf_mb"]:.1f} MB</span></li>' for g in groups)
 dl_png = ''.join(f'<li><a href="{E(h)}" download>{E(lbl)}</a><span>{os.path.getsize(os.path.join(ROOT, h))/1e6:.1f} MB</span></li>' for lbl, h in [
     ('G-20　基地環境－風花圖（A3 300 dpi）', CFG['extra'][0]['png']),
@@ -167,7 +169,7 @@ h1{{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,56px);li
 main{{padding-bottom:30px}}
 .grp{{padding-top:48px}}
 .grp-h{{display:grid;grid-template-columns:auto auto 1fr auto;align-items:baseline;gap:6px 16px;border-bottom:2px solid var(--forest);padding-bottom:10px;margin-bottom:22px}}
-.grp-h .no{{font:900 30px var(--serif);color:var(--lake)}}
+.grp-h .no{{font:900 30px var(--serif);color:var(--lake)}} .grp-h .no:empty{{display:none}} #g00 .grp-h{{grid-template-columns:auto 1fr auto}}
 .grp-h h2{{font:900 clamp(22px,2.4vw,28px) var(--serif);margin:0;letter-spacing:.03em}}
 .grp-h p{{margin:0;color:var(--muted);font-size:15px}}
 .vol{{font-size:14.5px;font-weight:700;color:var(--lake);text-underline-offset:4px;white-space:nowrap}}
