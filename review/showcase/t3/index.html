@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>T3 湖濱山城站｜站體展示館</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23176a63'/%3E%3Cpath d='M3 11h10M5 8h6M7 5h2' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../app.css">
+<script type="importmap">{"imports":{"three":"../vendor/three.module.min.js"}}</script>
+</head>
+<body data-time="day">
+<canvas id="gl" aria-label="T3 湖濱山城站 3D 站體模型"></canvas>
+<div id="pins" class="pins"></div>
+<header class="top">
+  <a class="back" href="../">站體展示館</a>
+  <div class="ttl"><span class="code">T3</span><h1>湖濱山城站</h1></div>
+  <nav class="stn" aria-label="切換車站"><a href="../t1/">T1<span> 新化之門站</span></a><a href="../t2/">T2<span> 湖濱旅館站</span></a><a href="../t3/" aria-current=page>T3<span> 湖濱山城站</span></a><a href="../t4/">T4<span> 新化林場站</span></a></nav>
+  <div class="ctrls">
+    <div class="seg" role="group" aria-label="瀏覽模式"><button type="button" id="m-orbit" aria-pressed="true">環視</button><button type="button" id="m-walk" aria-pressed="false">漫遊</button></div>
+    <div class="seg" role="group" aria-label="時段"><button type="button" data-time="day" aria-pressed="true">日</button><button type="button" data-time="dusk" aria-pressed="false">昏</button><button type="button" data-time="night" aria-pressed="false">夜</button></div>
+  </div>
+</header>
+<aside id="panel" class="panel" aria-label="樓層與構件">
+  <button type="button" id="ph" class="ph" aria-expanded="false" aria-controls="pb"><span id="sum"></span><span class="tog">樓層與構件</span></button>
+  <div class="opts">
+    <label><input type="checkbox" id="pins-t" checked>樓層標籤</label>
+    <label><input type="checkbox" id="site-t" checked>基地環境</label>
+    <label><input type="checkbox" id="iso-t">只顯示聚焦樓層</label>
+    <span></span>
+    <div class="rg"><label for="exp">樓層分離</label><input type="range" id="exp" min="0" max="1" step="0.01" value="0"></div>
+    <div class="rg"><label for="vcut">縱向剖切</label><input type="range" id="vcut" min="0" max="100" step="1" value="100"></div>
+  </div>
+  <div id="pb" class="pb"></div>
+</aside>
+<div id="ruler" class="ruler" aria-label="標高尺：點樓層聚焦，拖曳左側刻度剖切">
+  <div class="r-head">標高 EL m</div>
+  <div class="r-track"><div class="r-grab" title="拖曳設定水平剖切高度"></div></div>
+  <button type="button" id="cut-off" hidden>取消剖切</button>
+</div>
+<div id="compass" class="compass" aria-hidden="true"><i>N</i></div>
+<nav id="views" class="views" aria-label="預設視角"></nav>
+<section id="info" class="info" hidden aria-live="polite"></section>
+<div class="walk">
+  <div class="joy" id="joy" aria-label="移動搖桿"><b id="knob"></b></div>
+  <div class="tp-wrap"><span>傳送到樓層</span><div id="tp" class="tp"></div><p class="hint">WASD 或方向鍵移動，拖曳畫面轉向，Shift 加速，Q／E 升降</p></div>
+</div>
+<div id="load" class="load" role="status">載入站體模型…</div>
+<div id="fail" class="fail" hidden><p>這個瀏覽器無法啟動 3D 繪圖（WebGL）。請改用新版 Chrome、Safari 或 Edge 開啟。</p></div>
+<script type="application/json" id="meta">{"id": "t3", "name": "湖濱山城站", "platform": "PL", "blurb": "旅宿與聚會在同一站。宴會、會議、餐飲與 XR 樂園分層配置，月台在 4F 與 5F 之間，上方是轉乘大廳與雲端餐廳。", "sheets": [["012", "T3-CONCEPT", "湖濱山城站設計說明圖板"], ["016", "T3-A-01", "總配置圖（地盤圖）"], ["019", "T3-A-02", "功能分區與門禁圖"], ["026", "T3-BIM-01", "湖濱山城站構件與樓層軸測"], ["027", "T3-A-05", "橫剖面圖（B–B：前庭－2F大廳－宴會基座－面湖平台）"], ["028", "T3-A-11", "南向立面圖（湖側）"], ["036", "T3-A-10", "旅客動線及無障礙通路圖"], ["043", "T3-L-01", "景觀、泳池平台與公共藝術配置圖"], ["060", "T3-BD-01", "前庭下方停車層"], ["075", "T3-A-06", "客房翼標準層平面與房型圖"], ["095", "PL-U38", "山城旅館典型客房單元"]], "floors": {"B2": {"short": "湖景宴會・面湖平台", "sheets": [["061", "T3-BD-02", "湖景宴會廳、前廳與後場"], ["088", "PL-U31", "宴會前廳、桌席與後場單元"]]}, "B1": {"short": "會議層", "sheets": [["062", "T3-BD-03", "會議前廳、彈性會議及茶歇"], ["089", "PL-U32", "彈性會議與茶歇單元"]]}, "1F": {"short": "全日餐廳・宴會前廳", "sheets": [["063", "T3-BD-04", "全日餐廳、宴會前廳與新娘房"], ["090", "PL-U33", "全日餐廳、新娘房與宴會前廳"]]}, "2F": {"short": "大廳・前庭落客", "sheets": [["064", "T3-BD-05", "迎賓大廳、餐飲及婚禮堂"], ["091", "PL-U34", "旅館大廳、酒廊與婚禮堂"]]}, "3F": {"short": "XR 樂園・SPA", "sheets": [["065", "T3-BD-06", "XR 沉浸式樂園與休息區"], ["092", "PL-U35", "室內 XR 沉浸式樂園單元"], ["093", "PL-U36", "SPA 療程與接站支援單元"]]}, "4F": {"short": "健身・XR 挑空", "sheets": [["094", "PL-U37", "健身及伸展單元"], ["065", "T3-BD-06", "XR 沉浸式樂園與休息區"]]}, "PL": {"short": "A／B 線月台", "note": "A／B 兩線雙側式月台，旅客上下車後經 5F 轉乘大廳分流到旅館、餐飲與宴會。", "sheets": [["066", "T3-BD-07", "轉乘大廳與兩側月台"], ["096", "PL-U39", "山城轉乘大廳、閘門與坡道"]]}, "5F": {"short": "轉乘大廳・候車廊", "sheets": [["066", "T3-BD-07", "轉乘大廳與兩側月台"], ["096", "PL-U39", "山城轉乘大廳、閘門與坡道"]]}, "6F": {"short": "跨線連通・雲端餐廳", "sheets": [["067", "T3-BD-08", "雲端餐廳與跨線連通"], ["097", "PL-U40", "雲端餐廳與跨線連通單元"]]}, "RF": {"short": "摺板屋面", "sheets": [["068", "T3-BD-09", "摺板屋面與光電屋頂"]]}}}</script>
+<script>if(/[?&]shot=1/.test(location.search)){document.body.classList.add('shot');var m=document.getElementById('meta'),o=JSON.parse(m.textContent);o.shot=1;m.textContent=JSON.stringify(o);}</script>
+<script type="module" src="../app.js"></script>
+</body>
+</html>

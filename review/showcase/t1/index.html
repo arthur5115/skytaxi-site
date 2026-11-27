@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>T1 新化之門站｜站體展示館</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23176a63'/%3E%3Cpath d='M3 11h10M5 8h6M7 5h2' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../app.css">
+<script type="importmap">{"imports":{"three":"../vendor/three.module.min.js"}}</script>
+</head>
+<body data-time="day">
+<canvas id="gl" aria-label="T1 新化之門站 3D 站體模型"></canvas>
+<div id="pins" class="pins"></div>
+<header class="top">
+  <a class="back" href="../">站體展示館</a>
+  <div class="ttl"><span class="code">T1</span><h1>新化之門站</h1></div>
+  <nav class="stn" aria-label="切換車站"><a href="../t1/" aria-current=page>T1<span> 新化之門站</span></a><a href="../t2/">T2<span> 湖濱旅館站</span></a><a href="../t3/">T3<span> 湖濱山城站</span></a><a href="../t4/">T4<span> 新化林場站</span></a></nav>
+  <div class="ctrls">
+    <div class="seg" role="group" aria-label="瀏覽模式"><button type="button" id="m-orbit" aria-pressed="true">環視</button><button type="button" id="m-walk" aria-pressed="false">漫遊</button></div>
+    <div class="seg" role="group" aria-label="時段"><button type="button" data-time="day" aria-pressed="true">日</button><button type="button" data-time="dusk" aria-pressed="false">昏</button><button type="button" data-time="night" aria-pressed="false">夜</button></div>
+  </div>
+</header>
+<aside id="panel" class="panel" aria-label="樓層與構件">
+  <button type="button" id="ph" class="ph" aria-expanded="false" aria-controls="pb"><span id="sum"></span><span class="tog">樓層與構件</span></button>
+  <div class="opts">
+    <label><input type="checkbox" id="pins-t" checked>樓層標籤</label>
+    <label><input type="checkbox" id="site-t" checked>基地環境</label>
+    <label><input type="checkbox" id="iso-t">只顯示聚焦樓層</label>
+    <span></span>
+    <div class="rg"><label for="exp">樓層分離</label><input type="range" id="exp" min="0" max="1" step="0.01" value="0"></div>
+    <div class="rg"><label for="vcut">縱向剖切</label><input type="range" id="vcut" min="0" max="100" step="1" value="100"></div>
+  </div>
+  <div id="pb" class="pb"></div>
+</aside>
+<div id="ruler" class="ruler" aria-label="標高尺：點樓層聚焦，拖曳左側刻度剖切">
+  <div class="r-head">標高 EL m</div>
+  <div class="r-track"><div class="r-grab" title="拖曳設定水平剖切高度"></div></div>
+  <button type="button" id="cut-off" hidden>取消剖切</button>
+</div>
+<div id="compass" class="compass" aria-hidden="true"><i>N</i></div>
+<nav id="views" class="views" aria-label="預設視角"></nav>
+<section id="info" class="info" hidden aria-live="polite"></section>
+<div class="walk">
+  <div class="joy" id="joy" aria-label="移動搖桿"><b id="knob"></b></div>
+  <div class="tp-wrap"><span>傳送到樓層</span><div id="tp" class="tp"></div><p class="hint">WASD 或方向鍵移動，拖曳畫面轉向，Shift 加速，Q／E 升降</p></div>
+</div>
+<div id="load" class="load" role="status">載入站體模型…</div>
+<div id="fail" class="fail" hidden><p>這個瀏覽器無法啟動 3D 繪圖（WebGL）。請改用新版 Chrome、Safari 或 Edge 開啟。</p></div>
+<script type="application/json" id="meta">{"id": "t1", "name": "新化之門站", "platform": "PL", "blurb": "新化端的起站。迎賓廣場與水鏡在地面層，階梯店街一路爬升四層到光舟月台，屋頂是可走的天空步道。", "sheets": [["010", "T1-CONCEPT", "新化之門站設計說明圖板"], ["014", "T1-A-01", "總配置圖"], ["020", "T1-BIM-01", "新化之門站構件與樓層軸測"], ["021", "T1-A-03", "光舟縱剖面圖（沿A線弦線）"], ["022", "T1-A-14", "西向立面圖（道路側正面）"], ["034", "T1-A-12", "旅客動線及無障礙通路圖"], ["074", "T1-A-17", "商店街格間配置圖（展開示意）"]], "floors": {"G": {"short": "迎賓廣場・水鏡", "sheets": [["046", "T1-BD-01", "迎賓廣場與地面商店街"], ["041", "T1-L-01", "虎埤水鏡與迎賓廣場放大平面圖"], ["076", "PL-U11", "迎賓旅遊服務與停留單元"], ["077", "PL-U12", "南北商街典型店面單元"]]}, "L2": {"short": "店街・旅遊服務", "sheets": [["047", "T1-BD-02", "連接台階、文創展店與交流"], ["078", "PL-U13", "文創展店與交流單元"]]}, "L3": {"short": "店街・站務後勤", "sheets": [["048", "T1-BD-03", "主題展店、體驗空間與行控中心"]]}, "L4": {"short": "店街上段", "sheets": [["049", "T1-BD-04", "上層休憩、輕食與文創商店"], ["079", "PL-U14", "商街輕食與休憩單元"]]}, "PL": {"short": "光舟月台・出站", "note": "旅客由此上下車廂。月台門沿弦線一字排開，出站後經階梯店街下行到迎賓廣場。", "sheets": [["050", "T1-BD-05", "出站層總平面"], ["080", "PL-U15", "光舟月台與乘降服務單元"]]}, "RF": {"short": "天空步道", "sheets": [["051", "T1-BD-06", "光舟天空步道與階梯綠屋頂"]]}}}</script>
+<script>if(/[?&]shot=1/.test(location.search)){document.body.classList.add('shot');var m=document.getElementById('meta'),o=JSON.parse(m.textContent);o.shot=1;m.textContent=JSON.stringify(o);}</script>
+<script type="module" src="../app.js"></script>
+</body>
+</html>
