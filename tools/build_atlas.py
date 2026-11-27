@@ -14,12 +14,21 @@ CFG = {
   'sub': '四站一線的全區總圖、量體、動線、景觀、樓層配置與典型單元，依投資計畫書第三章的八組順序編排。',
   'date': '2026-11-27 修正版',
   # extra sheets not in the PDF: inserted after page `after`
+  # extra sheets not in the PDF: inserted after page `after`, in this order
   'extra': [
-    {'key': 'G20', 'code': 'G-20', 'title': '基地環境－風花圖', 'after': 8,
-     'png': 'pdf/G-20_基地環境_風花圖.png'},
-    {'key': 'G21', 'code': 'G-21', 'title': '基地環境－日照路徑圖', 'after': 8,
-     'png': 'pdf/G-21_基地環境_日照路徑圖.png'},
+    {'key': 'G20', 'code': 'G-20', 'title': '基地環境－風花圖', 'after': 8, 'png': 'pdf/G-20_基地環境_風花圖.png'},
+    {'key': 'G20A', 'code': 'G-20A', 'title': '基地環境－冬季風花圖（12–2 月）', 'after': 8, 'png': 'pdf/G-20A_基地環境_冬季風花圖.pdf'},
+    {'key': 'G20B', 'code': 'G-20B', 'title': '基地環境－春季風花圖（3–5 月）', 'after': 8, 'png': 'pdf/G-20B_基地環境_春季風花圖.pdf'},
+    {'key': 'G20C', 'code': 'G-20C', 'title': '基地環境－夏季風花圖（6–8 月）', 'after': 8, 'png': 'pdf/G-20C_基地環境_夏季風花圖.pdf'},
+    {'key': 'G20D', 'code': 'G-20D', 'title': '基地環境－秋季風花圖（9–11 月）', 'after': 8, 'png': 'pdf/G-20D_基地環境_秋季風花圖.pdf'},
+    {'key': 'G21', 'code': 'G-21', 'title': '基地環境－日照路徑圖', 'after': 8, 'png': 'pdf/G-21_基地環境_日照路徑圖.png'},
+    {'key': 'G21A', 'code': 'G-21A', 'title': '基地環境－日照路徑圖（夏至）', 'after': 8, 'png': 'pdf/G-21A_基地環境_日照路徑圖_夏至.pdf'},
+    {'key': 'G21B', 'code': 'G-21B', 'title': '基地環境－日照路徑圖（春分）', 'after': 8, 'png': 'pdf/G-21B_基地環境_日照路徑圖_春分.pdf'},
+    {'key': 'G21C', 'code': 'G-21C', 'title': '基地環境－日照路徑圖（冬至）', 'after': 8, 'png': 'pdf/G-21C_基地環境_日照路徑圖_冬至.pdf'},
+    {'key': 'G27', 'code': 'G-27', 'title': '基地環境－水系與集水區圖', 'after': 8, 'png': 'pdf/G-27_基地環境_水系與集水區圖.pdf'},
+    {'key': 'G28', 'code': 'G-28', 'title': '基地環境－地質與地質敏感區圖', 'after': 8, 'png': 'pdf/G-28_基地環境_地質與地質敏感區圖.pdf'},
   ],
+  'bundle': 'pdf/G-20A至G-28_基地環境補充圖_9張合訂.pdf',
   'hires': {32: 'pdf/PL-M01_全區動線系統總圖_8K.png', 38: 'pdf/PL-L01_全區景觀與開放空間總圖_8K.png'},
 }
 
@@ -98,7 +107,7 @@ for gi, g in [(-1, front)] + list(enumerate(groups)):
     items = [s for s in sheets if s['g'] == gi]
     tiles = []
     for s in items:
-        badge = '<span class="new">本次新增</span>' if s.get('new') else ''
+        badge = '<span class="new">新增</span>' if s.get('new') else ''
         tiles.append(f'''<li data-s="{s['s']}" data-q="{E((s['c'] + ' ' + s['t']).lower())}"><a href="#s={s['k']}" data-k="{s['k']}"><span class="th"><img src="p/{s['k']}_t.webp" alt="" loading="lazy" decoding="async" width="{560 if s['w']>=s['h'] else round(560*s['w']/s['h'])}" height="{round(560*s['h']/s['w']) if s['w']>=s['h'] else 560}"></span><span class="cd">{E(s['c'])}{badge}</span><span class="tt">{E(s['t'])}</span></a></li>''')
     sections.append(f'''<section class="grp" id="g{g['no']}" aria-labelledby="g{g['no']}h">
   <header class="grp-h"><span class="no">{'' if g['no']=='00' else g['no']}</span><h2 id="g{g['no']}h">{E(g['name'])}</h2><p>{E(grp_desc.get(g['no'], ''))}</p><a class="vol" href="{E(g['pdf'])}" download>下載本組 PDF<span>{g['pdf_mb']:.1f} MB</span></a></header>
@@ -108,12 +117,10 @@ for gi, g in [(-1, front)] + list(enumerate(groups)):
 
 grp_opts = '<option value="g00">封面與索引</option>' + ''.join(f'<option value="g{g["no"]}">{g["no"]} {E(g["name"])}</option>' for g in groups)
 dl_vols = ''.join(f'<li><a href="{E(g["pdf"])}" download>{g["no"]}　{E(g["name"])}</a><span>{g["last"] - (1 if g["no"]=="01" else g["first"]) + 1} 頁，{g["pdf_mb"]:.1f} MB</span></li>' for g in groups)
-dl_png = ''.join(f'<li><a href="{E(h)}" download>{E(lbl)}</a><span>{os.path.getsize(os.path.join(ROOT, h))/1e6:.1f} MB</span></li>' for lbl, h in [
-    ('G-20　基地環境－風花圖（A3 300 dpi）', CFG['extra'][0]['png']),
-    ('G-21　基地環境－日照路徑圖（A3 300 dpi）', CFG['extra'][1]['png']),
-    ('PL-M01　全區動線系統總圖（8K）', CFG['hires'][32]),
-    ('PL-L01　全區景觀與開放空間總圖（8K）', CFG['hires'][38]),
-])
+DL = [(f"{x['code']}　{x['title'].replace('基地環境－', '')}{'（A3 300 dpi PNG）' if x['png'].endswith('.png') else '（PDF）'}", x['png']) for x in CFG['extra']]
+DL.insert(1, ('G-20A 至 G-28　9 張合訂（PDF）', CFG['bundle']))
+DL += [('PL-M01　全區動線系統總圖（8K PNG）', CFG['hires'][32]), ('PL-L01　全區景觀與開放空間總圖（8K PNG）', CFG['hires'][38])]
+dl_png = ''.join(f'<li><a href="{E(h)}" download>{E(lbl)}</a><span>{os.path.getsize(os.path.join(ROOT, h))/1e6:.1f} MB</span></li>' for lbl, h in DL)
 
 page = f'''<!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -274,8 +281,8 @@ footer a{{color:#e2ece7}}
     <ul>{dl_vols}</ul>
   </section>
   <section>
-    <h2>高解析圖檔</h2>
-    <p class="note">G-20、G-21 為本次新增圖，PDF 尚未收錄；PL-M01、PL-L01 另附 8K 版。</p>
+    <h2>新增圖與高解析圖檔</h2>
+    <p class="note">基地環境新增 11 張（G-20 至 G-28），PDF 分冊尚未收錄，可在此單張下載或下載合訂本；PL-M01、PL-L01 另附 8K 版。</p>
     <ul>{dl_png}</ul>
   </section>
 </div>
@@ -290,7 +297,7 @@ footer a{{color:#e2ece7}}
       <button class="ib" type="button" id="zf">符合畫面</button>
       <button class="ib opt" type="button" id="zi" aria-label="放大">＋</button>
       <a class="ib opt" id="dlp" href="#" download>下載本組 PDF</a>
-      <a class="ib opt" id="dlh" href="#" download hidden>下載高解析 PNG</a>
+      <a class="ib opt" id="dlh" href="#" download hidden>下載本張原檔</a>
       <button class="ib x" type="button" id="vx">關閉</button>
     </div>
   </div>
@@ -371,7 +378,7 @@ function open(k,push){{
   $('dlh').hidden=!s.hi; if(s.hi)$('dlh').href=s.hi;
   var L=visibleList(),i=L.indexOf(s);
   $('vp').disabled=i<=0; $('vnx').disabled=i<0||i>=L.length-1;
-  $('vpos').textContent='第 '+(s.i+1)+' 張，共 '+S.length+' 張'+(s.p?'（PDF 第 '+s.p+' 頁）':'（PDF 未收錄，另附 PNG）');
+  $('vpos').textContent='第 '+(s.i+1)+' 張，共 '+S.length+' 張'+(s.p?'（PDF 第 '+s.p+' 頁）':'（分冊 PDF 未收錄，可單張下載原檔）');
   requestAnimationFrame(function(){{fitView(false);}});
   var h='#s='+s.k; if(location.hash!==h){{ if(push)history.pushState(null,'',h); else history.replaceState(null,'',h); }}
   $('vx').focus({{preventScroll:true}});

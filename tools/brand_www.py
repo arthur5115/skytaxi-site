@@ -71,7 +71,7 @@ def build():
         ('../sim/how/', A('t3-station-span-3-4'), '弦軌側視示意', '原理說明', '纜車如何運行', '以側立面動態圖解，說明車廂進出站與往返方式。'),
         ('../sim/classic/', A('route-aerial-hutoupi'), '全線鳥瞰示意', '平面模擬', '全天候隨需發車', '以路線圖呈現 24 小時的發車節奏與載客情形。'),
         ('https://review.skytaxi.com.tw/bim/', A('t3-station-concept'), '湖濱山城站示意', 'BIM 模型', '四站 BIM 互動檢視', 'T1 至 T4 四站 IFC4 模型，可旋轉檢視並查詢構件屬性。'),
-        ('https://review.skytaxi.com.tw/atlas/planning/', A('t1-market-plaza'), '市集廣場示意', '圖冊', '整體規劃與配置圖冊', '103 張規劃圖逐張翻閱、放大，並可下載分冊 PDF。'),
+        ('https://review.skytaxi.com.tw/atlas/planning/', A('t1-market-plaza'), '市集廣場示意', '圖冊', '整體規劃與配置圖冊', '112 張規劃圖逐張翻閱、放大，並可下載分冊 PDF。'),
         ('https://review.skytaxi.com.tw/', A('t2-public-lobby'), '公共站廳示意', '全部資料', '審查資料區', '全案互動模型、圖說圖冊、舊版與原始檔。')])}
 </div></section>''')
 
