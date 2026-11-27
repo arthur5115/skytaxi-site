@@ -204,5 +204,11 @@ const h=document.getElementById('top');
 const f=()=>h.classList.toggle('solid',window.scrollY>40);
 addEventListener('scroll',f,{passive:true});f();
 </script>
+
+<!-- skytaxi version switch -->
+<style>.sk-ver{position:fixed;left:16px;bottom:16px;z-index:2147483000;display:inline-flex;border-radius:999px;overflow:hidden;font:500 13px/1 "Noto Sans TC",system-ui,sans-serif;letter-spacing:.08em;box-shadow:0 4px 18px rgba(0,0,0,.22);border:1px solid rgba(0,0,0,.12);background:#fff}
+.sk-ver span,.sk-ver a{padding:9px 14px;text-decoration:none}.sk-ver span{background:#17302a;color:#fff}.sk-ver a{color:#17302a}.sk-ver a:hover{background:#eef2ef}
+@media print{.sk-ver{display:none}}</style>
+<nav class="sk-ver" aria-label="版本切換"><span aria-current="page">資料版</span><a href="brand/">形象版</a></nav>
 </body>
 </html>
