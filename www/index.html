@@ -61,7 +61,8 @@ section{padding:96px 0}
 .stations{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;font-size:15px;margin-bottom:28px}
 .stations li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:10px;vertical-align:middle}
 .btn.dark{background:var(--ink);color:#fff}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+@media (max-width:1100px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:box-shadow .2s,transform .2s}
 .card:hover{box-shadow:0 12px 30px rgba(15,30,43,.12);transform:translateY(-3px)}
 .card .th{aspect-ratio:16/10;background:#dde4e9 center/cover}
@@ -70,16 +71,13 @@ section{padding:96px 0}
 .card h3{font-size:17px;line-height:1.45}
 .card p{font-size:14px;color:var(--muted);flex:1}
 .card .go{font-size:14px;font-weight:700;margin-top:6px}
-.card.all{grid-column:1/-1;flex-direction:row}
-.card.all .th{aspect-ratio:auto;flex:0 0 38%;min-height:180px}
-.card.all .bd{justify-content:center;padding:28px 32px}
 .company{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .company dl{display:grid;grid-template-columns:7.5em 1fr;row-gap:12px;font-size:15.5px}
 .company dt{color:var(--muted)}
 footer{background:var(--ink);color:#c9d3da;padding:40px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-@media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}.flag-grid,.company{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
-@media (max-width:640px){.card.all{flex-direction:column}.card.all .th{aspect-ratio:16/10;flex:none;min-height:0}.card.all .bd{padding:18px 18px 20px}.nav ul{display:none}.cards{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.stations{grid-template-columns:1fr}section{padding:72px 0}}
+@media (max-width:960px){.flag-grid,.company{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
+@media (max-width:640px){.nav ul{display:none}.cards{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.stations{grid-template-columns:1fr}section{padding:72px 0}}
 </style>
 </head>
 <body>
@@ -148,7 +146,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   <div class="wrap">
     <div class="sec-head">
       <div><div class="kicker">Interactive</div><h2>互動展示</h2></div>
-      <p>以動態模擬與 BIM 模型呈現纜車的營運方式與四站設計，可在瀏覽器中直接操作觀看。</p>
+      <p>以動態模擬、BIM 模型、站體展示館與圖冊呈現纜車的營運方式與四站設計，可在瀏覽器中直接操作觀看。</p>
     </div>
     <div class="cards">
       <a class="card" href="hutoupi/">
@@ -175,7 +173,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         <div class="th" style="background-image:url('img/showcase-thumb.jpg')"></div>
         <div class="bd"><span class="tag">站體展示館</span><h3>四站樓層與室內空間</h3><p>逐站、逐層走進車站，平面切視、月台視角與第一人稱漫遊，點選空間即可查看用途與面積。</p><span class="go">走進車站 →</span></div>
       </a>
-      <a class="card all" href="https://review.skytaxi.com.tw/">
+      <a class="card" href="https://review.skytaxi.com.tw/atlas/planning/">
+        <div class="th" style="background-image:url('brand/img/t1-market-plaza-1280.webp')"></div>
+        <div class="bd"><span class="tag">圖冊</span><h3>整體規劃與配置圖冊</h3><p>112 張規劃圖逐張翻閱、放大，並可下載分冊 PDF。</p><span class="go">翻閱圖冊 →</span></div>
+      </a>
+      <a class="card" href="https://review.skytaxi.com.tw/">
         <div class="th" style="background-image:url('hutoupi/img/t3-r1.jpg')"></div>
         <div class="bd"><span class="tag">現行版 19 項</span><h3>全部互動模型與網站</h3><p>依全案路線、車站建築、結構工程、圖說圖冊、體驗園區五類整理，舊版與原始檔一併收錄。</p><span class="go">查看全部 →</span></div>
       </a>
