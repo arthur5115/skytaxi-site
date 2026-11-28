@@ -538,6 +538,7 @@ function syncPanel() {
       <section><h2>樓層</h2><ol class="floors">${storeys.slice().reverse().map(s => `<li><button type="button" data-f="${esc(s.code)}" class="${s.code === platform ? 'is-pl' : ''}"><b>${esc(s.code)}</b><span>${esc(s.use)}</span><em>EL ${elf(s.el)}</em><small>${fmt(s.n)} 件</small></button></li>`).join('')}</ol></section>`;
     if (META.renders?.length) h += `<section><h2>整站外觀與拆解 <small><a href="../../atlas/stations/#g0${META.id[1]}" target="_blank" rel="noopener">看本站全部圖檔</a></small></h2>${sheetCards(META.renders)}</section>`;
     if (META.design?.length) h += `<section><h2>設計圖冊 <small><a href="../../atlas/design/#g0${+META.id[1] + 1}" target="_blank" rel="noopener">看本站全冊</a></small></h2>${sheetCards(META.design)}</section>`;
+    if (META.checks?.length) h += `<section><h2>模型與定案圖套疊</h2>${sheetCards(META.checks)}</section>`;
     if (META.dims?.length) h += `<section><h2>尺寸圖冊 <small>剖面與專區平面</small></h2>${sheetCards(META.dims)}</section>`;
     if (META.sheets?.length) h += `<section><h2>規劃圖冊</h2>${sheetCards(META.sheets)}</section>`;
   } else {

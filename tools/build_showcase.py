@@ -18,7 +18,7 @@ FLOOR_DB = {'t1': {'G': ['A-07'], 'L2': ['A-08'], 'L3': ['A-09'], 'L4': ['A-10']
             't3': {'B2': ['A-14'], 'B1': ['A-15'], '1F': ['A-16'], '2F': ['A-08'], '3F': ['A-17'], '4F': ['A-17'], 'PL': ['A-07', 'F-01'], '5F': ['A-07'], '6F': ['A-18'], 'RF': ['A-19']},
             't4': {'GF': ['A-06'], 'ML': ['A-07'], 'CL': ['A-08'], 'PL': ['A-05', 'F-01'], 'RF': ['A-11']}}
 BK = lambda b: json.load(open(os.path.join(ROOT, 'tools', 'books', b + '.json'), encoding='utf-8'))['sheets']
-RS = BK('stations'); DM = BK('dims')
+RS = BK('stations'); DM = BK('dims'); CP = BK('compare')
 PD_FLOOR = {'t1': {'PL': ['PD-01', 'PD-06'], 'G': ['PD-02'], 'L2': ['PD-03'], 'L3': ['PD-04'], 'L4': ['PD-05'], 'RF': ['PD-07']},
             't2': {'B1': ['PD-01'], '1F': ['PD-02', 'PD-09'], '2F': ['PD-03'], '3F': ['PD-04', 'PD-10'], '4F': ['PD-05'], '5F': ['PD-05'], '6F': ['PD-06'], 'R5': ['PD-07'], 'RF-H': ['PD-08'], 'RF-S': ['PD-08']},
             't3': {'PL': ['PD-02'], '5F': ['PD-02'], '2F': ['PD-03'], 'B2': ['PD-05'], 'B1': ['PD-06'], '1F': ['PD-07'], '3F': ['PD-08'], '4F': ['PD-08'], '6F': ['PD-09'], 'RF': ['PD-10']},
@@ -102,7 +102,7 @@ def station_page(sid):
     used = {x[0] for v in rf.values() for x in v}
     ext = [[r['k'], r['c'], r['t'], 'stations'] for r in RS if r['s'] == code and r['k'] not in used]
     meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid),
-                dims=dims_station(sid), renders=ext, floors=floors)
+                dims=dims_station(sid), renders=ext, checks=[[c['k'], c['c'], c['t'].split('　')[-1], 'compare'] for c in CP if c['s'] == code], floors=floors)
     nav = ''.join(f'<a href="../{t}/"{" aria-current=page" if t == sid else ""}>{t.upper()}<span> {E(ST[t]["name"])}</span></a>' for t in ORDER)
     return f'''<!doctype html>
 <html lang="zh-Hant">
