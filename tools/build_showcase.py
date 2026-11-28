@@ -17,6 +17,28 @@ FLOOR_DB = {'t1': {'G': ['A-07'], 'L2': ['A-08'], 'L3': ['A-09'], 'L4': ['A-10']
             't2': {'B1': ['A-04'], '1F': ['A-05'], '2F': ['A-06'], '3F': ['A-07'], '4F': ['A-08'], '5F': ['A-08'], '6F': ['A-09'], 'R5': ['A-10', 'F-01'], 'RF-H': ['A-11'], 'RF-S': ['A-11']},
             't3': {'B2': ['A-14'], 'B1': ['A-15'], '1F': ['A-16'], '2F': ['A-08'], '3F': ['A-17'], '4F': ['A-17'], 'PL': ['A-07', 'F-01'], '5F': ['A-07'], '6F': ['A-18'], 'RF': ['A-19']},
             't4': {'GF': ['A-06'], 'ML': ['A-07'], 'CL': ['A-08'], 'PL': ['A-05', 'F-01'], 'RF': ['A-11']}}
+BK = lambda b: json.load(open(os.path.join(ROOT, 'tools', 'books', b + '.json'), encoding='utf-8'))['sheets']
+RS = BK('stations'); DM = BK('dims')
+PD_FLOOR = {'t1': {'PL': ['PD-01', 'PD-06'], 'G': ['PD-02'], 'L2': ['PD-03'], 'L3': ['PD-04'], 'L4': ['PD-05'], 'RF': ['PD-07']},
+            't2': {'B1': ['PD-01'], '1F': ['PD-02', 'PD-09'], '2F': ['PD-03'], '3F': ['PD-04', 'PD-10'], '4F': ['PD-05'], '5F': ['PD-05'], '6F': ['PD-06'], 'R5': ['PD-07'], 'RF-H': ['PD-08'], 'RF-S': ['PD-08']},
+            't3': {'PL': ['PD-02'], '5F': ['PD-02'], '2F': ['PD-03'], 'B2': ['PD-05'], 'B1': ['PD-06'], '1F': ['PD-07'], '3F': ['PD-08'], '4F': ['PD-08'], '6F': ['PD-09'], 'RF': ['PD-10']},
+            't4': {'PL': ['PD-01'], 'GF': ['PD-02'], 'ML': ['PD-03'], 'CL': ['PD-04'], 'RF': ['PD-05']}}
+def dims_for(T, codes):
+    return [[s['k'], s['c'], s['t'], 'dims'] for s in DM if s['c'] in [f'{T}-{c}' for c in codes]]
+def dims_station(sid):
+    T = sid.upper(); used = {c for v in PD_FLOOR[sid].values() for c in v}
+    return [[s['k'], s['c'], s['t'], 'dims'] for s in DM if s['s'] == T and (s['c'].split('-')[1] == 'SD' or s['c'][3:] not in used)]
+def renders_for(sid, data_storeys):
+    T = sid.upper(); out = {}
+    els = {s['code']: s['el'] for s in data_storeys}
+    for r in RS:
+        if r['s'] != T or r['el'] is None: continue
+        cands = [c for c, codes in FLOOR_DB[sid].items() if r['ref'] in [f'{T}-{x}' for x in codes] and c in els]
+        if not cands: continue
+        c = min(cands, key=lambda c: abs(els[c] - r['el']))
+        out.setdefault(c, []).append([r['k'], r['c'], r['t'], 'stations'])
+    for v in out.values(): v.sort(key=lambda x: (x[1][3] != 'L', x[1]))
+    return out
 def station_db(T):
     T = T.upper()
     return D(*[r[1] for r in DB.values() if r[0].startswith(T) and (r[1] in (T + '-M02', T + '-CONCEPT', T + '-A-01') or
@@ -73,8 +95,14 @@ E = html.escape
 
 def station_page(sid):
     st = ST[sid]; code = sid.upper()
-    floors = {c: dict(f, design=D(*[f'{code}-{x}' for x in FLOOR_DB[sid].get(c, [])])) for c, f in st['floors'].items()}
-    meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid), floors=floors)
+    dstore = json.load(open(os.path.join(SC, sid, 'data.json'), encoding='utf-8'))['storeys']
+    rf = renders_for(sid, dstore)
+    floors = {c: dict(f, design=D(*[f'{code}-{x}' for x in FLOOR_DB[sid].get(c, [])]) + dims_for(code, PD_FLOOR[sid].get(c, [])),
+                      renders=rf.get(c, [])) for c, f in st['floors'].items()}
+    used = {x[0] for v in rf.values() for x in v}
+    ext = [[r['k'], r['c'], r['t'], 'stations'] for r in RS if r['s'] == code and r['k'] not in used]
+    meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid),
+                dims=dims_station(sid), renders=ext, floors=floors)
     nav = ''.join(f'<a href="../{t}/"{" aria-current=page" if t == sid else ""}>{t.upper()}<span> {E(ST[t]["name"])}</span></a>' for t in ORDER)
     return f'''<!doctype html>
 <html lang="zh-Hant">
