@@ -70,13 +70,16 @@ section{padding:96px 0}
 .card h3{font-size:17px;line-height:1.45}
 .card p{font-size:14px;color:var(--muted);flex:1}
 .card .go{font-size:14px;font-weight:700;margin-top:6px}
+.card.all{grid-column:1/-1;flex-direction:row}
+.card.all .th{aspect-ratio:auto;flex:0 0 38%;min-height:180px}
+.card.all .bd{justify-content:center;padding:28px 32px}
 .company{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .company dl{display:grid;grid-template-columns:7.5em 1fr;row-gap:12px;font-size:15.5px}
 .company dt{color:var(--muted)}
 footer{background:var(--ink);color:#c9d3da;padding:40px 0;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}.flag-grid,.company{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
-@media (max-width:640px){.nav ul{display:none}.cards{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.stations{grid-template-columns:1fr}section{padding:72px 0}}
+@media (max-width:640px){.card.all{flex-direction:column}.card.all .th{aspect-ratio:16/10;flex:none;min-height:0}.card.all .bd{padding:18px 18px 20px}.nav ul{display:none}.cards{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.stations{grid-template-columns:1fr}section{padding:72px 0}}
 </style>
 </head>
 <body>
@@ -168,9 +171,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         <div class="th" style="background-image:url('img/bim-thumb.jpg')"></div>
         <div class="bd"><span class="tag">BIM 模型</span><h3>虎頭埤四站 BIM 互動檢視</h3><p>T1–T4 四站 IFC4 模型，可旋轉檢視並查詢構件屬性。</p><span class="go">開啟檢視器 →</span></div>
       </a>
-      <a class="card" href="https://review.skytaxi.com.tw/">
+      <a class="card" href="https://review.skytaxi.com.tw/showcase/">
+        <div class="th" style="background-image:url('img/showcase-thumb.jpg')"></div>
+        <div class="bd"><span class="tag">站體展示館</span><h3>四站樓層與室內空間</h3><p>逐站、逐層走進車站，平面切視、月台視角與第一人稱漫遊，點選空間即可查看用途與面積。</p><span class="go">走進車站 →</span></div>
+      </a>
+      <a class="card all" href="https://review.skytaxi.com.tw/">
         <div class="th" style="background-image:url('hutoupi/img/t3-r1.jpg')"></div>
-        <div class="bd"><span class="tag">現行版 18 項</span><h3>全部互動模型與網站</h3><p>依全案路線、車站建築、結構工程、圖說圖冊、體驗園區五類整理，舊版與原始檔一併收錄。</p><span class="go">查看全部 →</span></div>
+        <div class="bd"><span class="tag">現行版 19 項</span><h3>全部互動模型與網站</h3><p>依全案路線、車站建築、結構工程、圖說圖冊、體驗園區五類整理，舊版與原始檔一併收錄。</p><span class="go">查看全部 →</span></div>
       </a>
     </div>
   </div>
