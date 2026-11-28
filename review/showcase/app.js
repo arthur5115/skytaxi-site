@@ -514,10 +514,10 @@ function syncRuler() {
 }
 function syncWalk() { document.querySelectorAll('#tp button').forEach(b => b.setAttribute('aria-pressed', b.dataset.code === S.walkFloor)); }
 
-const sheet = k => `../../atlas/planning/#s=${k}`;
-const thumb = k => `../../atlas/planning/p/${k}_t.webp`;
+const sheet = (k, a) => `../../atlas/${a || 'planning'}/#s=${k}`;
+const thumb = (k, a) => `../../atlas/${a || 'planning'}/p/${k}_t.webp`;
 function sheetCards(list) {
-  return `<ul class="sheets">${list.map(([k, code, t]) => `<li><a href="${sheet(k)}" target="_blank" rel="noopener"><img src="${thumb(k)}" alt="" loading="lazy" width="160" height="113"><span><b>${esc(code)}</b>${esc(t)}</span></a></li>`).join('')}</ul>`;
+  return `<ul class="sheets">${list.map(([k, code, t, a]) => `<li><a href="${sheet(k, a)}" target="_blank" rel="noopener"><img src="${thumb(k, a)}" alt="" loading="lazy" width="160" height="113"><span><b>${esc(code)}</b>${esc(t)}</span></a></li>`).join('')}</ul>`;
 }
 function syncPanel() {
   const body = $('#pb');
@@ -536,7 +536,8 @@ function syncPanel() {
         <div><dt>月台層</dt><dd>${esc(platform)}<small>EL ${pl ? elf(pl.el) : '—'}</small></dd></div>
       </dl></section>
       <section><h2>樓層</h2><ol class="floors">${storeys.slice().reverse().map(s => `<li><button type="button" data-f="${esc(s.code)}" class="${s.code === platform ? 'is-pl' : ''}"><b>${esc(s.code)}</b><span>${esc(s.use)}</span><em>EL ${elf(s.el)}</em><small>${fmt(s.n)} 件</small></button></li>`).join('')}</ol></section>`;
-    if (META.sheets?.length) h += `<section><h2>全站圖說</h2>${sheetCards(META.sheets)}</section>`;
+    if (META.design?.length) h += `<section><h2>設計圖冊 <small><a href="../../atlas/design/#g0${+META.id[1] + 1}" target="_blank" rel="noopener">看本站全冊</a></small></h2>${sheetCards(META.design)}</section>`;
+    if (META.sheets?.length) h += `<section><h2>規劃圖冊</h2>${sheetCards(META.sheets)}</section>`;
   } else {
     const idx = storeys.indexOf(f), below = storeys[idx - 1], above = storeys[idx + 1];
     const cats = f.cats.map(([c, n]) => `<li><span>${esc(c || '未分類')}</span><b style="--w:${Math.round(n / f.n * 100)}%">${fmt(n)}</b></li>`).join('');
@@ -552,7 +553,8 @@ function syncPanel() {
     </section>
     ${roomList(f)}
     <section><h2>構件分類 <small>${fmt(f.n)} 件</small></h2><ul class="bars">${cats}</ul></section>`;
-    if (f.meta.sheets?.length) h += `<section><h2>本層圖說</h2>${sheetCards(f.meta.sheets)}</section>`;
+    if (f.meta.design?.length) h += `<section><h2>本層平面圖 <small>設計圖冊</small></h2>${sheetCards(f.meta.design)}</section>`;
+    if (f.meta.sheets?.length) h += `<section><h2>本層規劃圖 <small>規劃圖冊</small></h2>${sheetCards(f.meta.sheets)}</section>`;
     if (f.code === platform && Object.keys(data.addEL || {}).length) h += `<section><h2>月台控制標高</h2><ul class="addel">${Object.entries(data.addEL).map(([k, v]) => `<li><span>${esc(k.split('｜')[0])}</span><b>EL ${elf(v)}</b><small>${esc(k.split('｜')[1] || '')}</small></li>`).join('')}</ul></section>`;
   }
   h += `<section><h2>材料群組 <small>點選開關</small></h2><ul class="groups"></ul></section>`;

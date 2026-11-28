@@ -11,6 +11,16 @@ items = {}
 for m in re.finditer(r'\{"k":"[^{}]*\}', open(ATLAS, encoding='utf-8').read()):
     it = json.loads(m.group(0)); items[it['k']] = (it['k'], it['c'], it['t'])
 S = lambda *ks: [list(items[k]) for k in ks if k in items]
+DB = {r[1]: r for r in json.load(open(os.path.join(ROOT, 'review', 'atlas', 'design', 'sheets.json'), encoding='utf-8'))}
+D = lambda *cs: [[DB[c][0], c, DB[c][2], 'design'] for c in cs if c in DB]
+FLOOR_DB = {'t1': {'G': ['A-07'], 'L2': ['A-08'], 'L3': ['A-09'], 'L4': ['A-10'], 'PL': ['A-11', 'A-05', 'F-01'], 'RF': ['A-13']},
+            't2': {'B1': ['A-04'], '1F': ['A-05'], '2F': ['A-06'], '3F': ['A-07'], '4F': ['A-08'], '5F': ['A-08'], '6F': ['A-09'], 'R5': ['A-10', 'F-01'], 'RF-H': ['A-11'], 'RF-S': ['A-11']},
+            't3': {'B2': ['A-14'], 'B1': ['A-15'], '1F': ['A-16'], '2F': ['A-08'], '3F': ['A-17'], '4F': ['A-17'], 'PL': ['A-07', 'F-01'], '5F': ['A-07'], '6F': ['A-18'], 'RF': ['A-19']},
+            't4': {'GF': ['A-06'], 'ML': ['A-07'], 'CL': ['A-08'], 'PL': ['A-05', 'F-01'], 'RF': ['A-11']}}
+def station_db(T):
+    T = T.upper()
+    return D(*[r[1] for r in DB.values() if r[0].startswith(T) and (r[1] in (T + '-M02', T + '-CONCEPT', T + '-A-01') or
+              (r[3] in ('剖面與構造詳圖', '各向立面') and r[1].split('-')[1] in ('A', 'S')))])
 
 ST = {
  't1': dict(name='新化之門站', role='起站・商店街與光舟月台', platform='PL',
@@ -63,7 +73,8 @@ E = html.escape
 
 def station_page(sid):
     st = ST[sid]; code = sid.upper()
-    meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], floors=st['floors'])
+    floors = {c: dict(f, design=D(*[f'{code}-{x}' for x in FLOOR_DB[sid].get(c, [])])) for c, f in st['floors'].items()}
+    meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid), floors=floors)
     nav = ''.join(f'<a href="../{t}/"{" aria-current=page" if t == sid else ""}>{t.upper()}<span> {E(ST[t]["name"])}</span></a>' for t in ORDER)
     return f'''<!doctype html>
 <html lang="zh-Hant">
