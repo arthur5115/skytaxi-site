@@ -101,7 +101,8 @@ def station_page(sid):
                       renders=rf.get(c, [])) for c, f in st['floors'].items()}
     used = {x[0] for v in rf.values() for x in v}
     ext = [[r['k'], r['c'], r['t'], 'stations'] for r in RS if r['s'] == code and r['k'] not in used]
-    meta = dict(id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid),
+    import time
+    meta = dict(v=time.strftime('%y%m%d%H%M'), id=sid, name=st['name'], platform=st['platform'], blurb=st['blurb'], sheets=st['sheets'], design=station_db(sid),
                 dims=dims_station(sid), renders=ext, checks=[[c['k'], c['c'], c['t'].split('　')[-1], 'compare'] for c in CP if c['s'] == code], floors=floors)
     nav = ''.join(f'<a href="../{t}/"{" aria-current=page" if t == sid else ""}>{t.upper()}<span> {E(ST[t]["name"])}</span></a>' for t in ORDER)
     return f'''<!doctype html>

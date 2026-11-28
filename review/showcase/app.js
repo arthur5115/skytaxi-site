@@ -515,7 +515,7 @@ function syncRuler() {
 function syncWalk() { document.querySelectorAll('#tp button').forEach(b => b.setAttribute('aria-pressed', b.dataset.code === S.walkFloor)); }
 
 const sheet = (k, a) => `../../atlas/${a || 'planning'}/#s=${k}`;
-const thumb = (k, a) => `../../atlas/${a || 'planning'}/p/${k}_t.webp`;
+const thumb = (k, a) => `../../atlas/${a || 'planning'}/p/${k}_t.webp?v=${META.v || ''}`;
 function sheetCards(list) {
   return `<ul class="sheets">${list.map(([k, code, t, a]) => `<li><a href="${sheet(k, a)}" target="_blank" rel="noopener"><img src="${thumb(k, a)}" alt="" loading="lazy" width="160" height="113"><span><b>${esc(code)}</b>${esc(t)}</span></a></li>`).join('')}</ul>`;
 }

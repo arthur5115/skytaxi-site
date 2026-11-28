@@ -11,6 +11,8 @@ sheets = C['sheets']
 for n, s in enumerate(sheets):
     s['n'] = n + 1
     s['w'], s['h'] = Image.open(f"{ROOT}/p/{s['k']}.webp").size
+    import hashlib
+    s['v'] = hashlib.md5(open(f"{ROOT}/p/{s['k']}.webp", 'rb').read()).hexdigest()[:8]
 total = len(sheets)
 groups = [{'no': f'{i+1:02d}', 'name': g['name'], 'id': g['id']} for i, g in enumerate(C['groups'])]
 data = json.dumps({'sheets': sheets, 'groups': groups}, ensure_ascii=False, separators=(',', ':'))
@@ -26,7 +28,7 @@ for gi, g in enumerate(groups):
     tiles = []
     for s in items:
         tw, th = (560, round(560 * s['h'] / s['w'])) if s['w'] >= s['h'] else (round(560 * s['w'] / s['h']), 560)
-        tiles.append(f'''<li data-s="{s['s']}" data-c="{E(s['cat'])}" data-q="{E((s['c'] + ' ' + s['t'] + ' ' + s['cat']).lower())}"><a href="#s={s['k']}" data-k="{s['k']}"><span class="th"><img src="p/{s['k']}_t.webp" alt="" loading="lazy" decoding="async" width="{tw}" height="{th}"></span><span class="cd">{E(s['c'])}<span class="ct">{E(s['cat'])}</span></span><span class="tt">{E(s['t'])}</span></a></li>''')
+        tiles.append(f'''<li data-s="{s['s']}" data-c="{E(s['cat'])}" data-q="{E((s['c'] + ' ' + s['t'] + ' ' + s['cat']).lower())}"><a href="#s={s['k']}" data-k="{s['k']}"><span class="th"><img src="p/{s['k']}_t.webp?v={s['v']}" alt="" loading="lazy" decoding="async" width="{tw}" height="{th}"></span><span class="cd">{E(s['c'])}<span class="ct">{E(s['cat'])}</span></span><span class="tt">{E(s['t'])}</span></a></li>''')
     vol = f'<a class="vol" href="{E(gc["pdf"])}" download>下載本冊 PDF<span>{mb(gc["pdf"]):.1f} MB</span></a>' if gc.get('pdf') else f'<span class="vol">{len(items)} 張</span>'
     sections.append(f'''<section class="grp" id="g{g['no']}" aria-labelledby="g{g['no']}h">
   <header class="grp-h"><span class="no">{g['no']}</span><h2 id="g{g['no']}h">{E(g['name'])}</h2><p>{E(gc.get('desc', ''))}</p>{vol}</header>
@@ -181,7 +183,7 @@ footer a{{color:#e2ece7}}
         <p class="meta"><b>{total} 張</b>圖，分 <b>{len(groups)} {units}</b>、{len(cats)} 種圖類，{E(CFG['date'])}</p>
         <div class="actions"><a class="btn pri" href="#s={sheets[0]['k']}" data-k="{sheets[0]['k']}">從第一張開始翻閱</a>{'<a class="btn sec" href="#dl">下載 PDF</a>' if dls else ''}</div>
       </div>
-      <a class="cover" href="#s={cover}" data-k="{cover}" aria-label="開啟 {E(cs['c'])}"><img src="p/{cover}_t.webp" alt="{E(cs['t'])}" width="560" height="{cover_h}"></a>
+      <a class="cover" href="#s={cover}" data-k="{cover}" aria-label="開啟 {E(cs['c'])}"><img src="p/{cover}_t.webp?v={cs['v']}" alt="{E(cs['t'])}" width="560" height="{cover_h}"></a>
     </div>
   </div>
 </div>
@@ -285,8 +287,8 @@ function open(k,push){{
   var s=byK[k]; if(!s)return;
   if(vw.hidden){{lastFocus=document.activeElement;vw.hidden=false;document.body.style.overflow='hidden';}}
   cur=s;
-  im.src='p/'+s.k+'_t.webp';
-  var big=new Image(); big.onload=function(){{if(cur===s)im.src=big.src;}}; big.src='p/'+s.k+'.webp';
+  im.src='p/'+s.k+'_t.webp?v='+s.v;
+  var big=new Image(); big.onload=function(){{if(cur===s)im.src=big.src;}}; big.src='p/'+s.k+'.webp?v='+s.v;
   $('vc').textContent=s.c; $('vn').textContent=s.t;
   var g=G[s.g]; $('vg').textContent=g.no+'　'+g.name+'　'+s.cat+'　來源：'+s.src;
   var L=visibleList(),i=L.indexOf(s);
@@ -310,7 +312,7 @@ $('dlh').onclick=function(){{
   img.onload=function(){{var c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);
     c.toBlob(function(bl){{var a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=s.png;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){{URL.revokeObjectURL(a.href);}},4000);b.disabled=false;b.textContent='下載本張 PNG';}},'image/png');}};
   img.onerror=function(){{b.disabled=false;b.textContent='下載本張 PNG';}};
-  img.src='p/'+s.k+'.webp';
+  img.src='p/'+s.k+'.webp?v='+s.v;
 }};
 $('vx').onclick=close; $('vp').onclick=function(){{step(-1);}}; $('vnx').onclick=function(){{step(1);}};
 $('zf').onclick=function(){{fitView(true);}};
